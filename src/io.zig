@@ -1,0 +1,7 @@
+// Namespace: io
+
+const std = @import("std");
+const root = @import("root.zig");
+
+pub const k8s = @import("io/k8s.zig");
+
