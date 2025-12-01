@@ -2,7 +2,7 @@
     .name = .client,
     .version = "0.1.0",
     .minimum_zig_version = "0.15.2",
-    .fingerprint = 0xc74404550bfb7f71,
+    .fingerprint = 0xc74404555b615448,
     .dependencies = .{
     },
     .paths = .{

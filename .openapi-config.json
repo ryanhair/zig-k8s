@@ -1,0 +1,5 @@
+{
+    "spec_url": "https://raw.githubusercontent.com/kubernetes/kubernetes/master/api/openapi-spec/swagger.json",
+    "output_dir": "src",
+    "package_name": "client"
+}
