@@ -3,7 +3,6 @@
 const std = @import("std");
 const root = @import("../../../../root.zig");
 
-
 pub const Eviction = struct {
     apiVersion: ?[]const u8 = null,
     deleteOptions: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.DeleteOptions = null,
@@ -66,4 +65,3 @@ pub const PodDisruptionBudgetStatus = struct {
         if (self.conditions) |arr| for (arr) |item| try item.validate();
     }
 };
-

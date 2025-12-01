@@ -3,7 +3,6 @@
 const std = @import("std");
 const root = @import("../../../../root.zig");
 
-
 pub const LeaseCandidate = struct {
     apiVersion: ?[]const u8 = null,
     kind: ?[]const u8 = null,
@@ -40,4 +39,3 @@ pub const LeaseCandidateSpec = struct {
         _ = self;
     }
 };
-

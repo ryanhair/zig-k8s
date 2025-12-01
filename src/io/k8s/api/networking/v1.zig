@@ -3,7 +3,6 @@
 const std = @import("std");
 const root = @import("../../../../root.zig");
 
-
 pub const HTTPIngressPath = struct {
     backend: root.io.k8s.api.networking.v1.IngressBackend,
     path: ?[]const u8 = null,
@@ -360,4 +359,3 @@ pub const ServiceCIDRStatus = struct {
         if (self.conditions) |arr| for (arr) |item| try item.validate();
     }
 };
-

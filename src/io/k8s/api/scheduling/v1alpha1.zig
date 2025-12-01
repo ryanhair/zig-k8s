@@ -3,9 +3,7 @@
 const std = @import("std");
 const root = @import("../../../../root.zig");
 
-
 pub const BasicSchedulingPolicy = struct {
-
     pub fn validate(self: @This()) !void {
         _ = self;
     }
@@ -80,4 +78,3 @@ pub const WorkloadSpec = struct {
         for (self.podGroups) |item| try item.validate();
     }
 };
-

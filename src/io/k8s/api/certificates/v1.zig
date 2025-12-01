@@ -3,7 +3,6 @@
 const std = @import("std");
 const root = @import("../../../../root.zig");
 
-
 pub const CertificateSigningRequest = struct {
     apiVersion: ?[]const u8 = null,
     kind: ?[]const u8 = null,
@@ -24,7 +23,7 @@ pub const CertificateSigningRequestCondition = struct {
     message: ?[]const u8 = null,
     reason: ?[]const u8 = null,
     status: []const u8,
-    @"type": []const u8,
+    type: []const u8,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -66,4 +65,3 @@ pub const CertificateSigningRequestStatus = struct {
         if (self.conditions) |arr| for (arr) |item| try item.validate();
     }
 };
-

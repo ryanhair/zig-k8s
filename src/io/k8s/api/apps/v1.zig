@@ -3,7 +3,6 @@
 const std = @import("std");
 const root = @import("../../../../root.zig");
 
-
 pub const ControllerRevision = struct {
     apiVersion: ?[]const u8 = null,
     data: ?root.io.k8s.apimachinery.pkg.runtime.RawExtension = null,
@@ -47,7 +46,7 @@ pub const DaemonSetCondition = struct {
     message: ?[]const u8 = null,
     reason: ?[]const u8 = null,
     status: []const u8,
-    @"type": []const u8,
+    type: []const u8,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -99,7 +98,7 @@ pub const DaemonSetStatus = struct {
 
 pub const DaemonSetUpdateStrategy = struct {
     rollingUpdate: ?root.io.k8s.api.apps.v1.RollingUpdateDaemonSet = null,
-    @"type": ?[]const u8 = null,
+    type: ?[]const u8 = null,
 
     pub fn validate(self: @This()) !void {
         if (self.rollingUpdate) |v| try v.validate();
@@ -126,7 +125,7 @@ pub const DeploymentCondition = struct {
     message: ?[]const u8 = null,
     reason: ?[]const u8 = null,
     status: []const u8,
-    @"type": []const u8,
+    type: []const u8,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -180,7 +179,7 @@ pub const DeploymentStatus = struct {
 
 pub const DeploymentStrategy = struct {
     rollingUpdate: ?root.io.k8s.api.apps.v1.RollingUpdateDeployment = null,
-    @"type": ?[]const u8 = null,
+    type: ?[]const u8 = null,
 
     pub fn validate(self: @This()) !void {
         if (self.rollingUpdate) |v| try v.validate();
@@ -206,7 +205,7 @@ pub const ReplicaSetCondition = struct {
     message: ?[]const u8 = null,
     reason: ?[]const u8 = null,
     status: []const u8,
-    @"type": []const u8,
+    type: []const u8,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -297,7 +296,7 @@ pub const StatefulSetCondition = struct {
     message: ?[]const u8 = null,
     reason: ?[]const u8 = null,
     status: []const u8,
-    @"type": []const u8,
+    type: []const u8,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -375,10 +374,9 @@ pub const StatefulSetStatus = struct {
 
 pub const StatefulSetUpdateStrategy = struct {
     rollingUpdate: ?root.io.k8s.api.apps.v1.RollingUpdateStatefulSetStrategy = null,
-    @"type": ?[]const u8 = null,
+    type: ?[]const u8 = null,
 
     pub fn validate(self: @This()) !void {
         if (self.rollingUpdate) |v| try v.validate();
     }
 };
-

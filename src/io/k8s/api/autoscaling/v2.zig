@@ -3,7 +3,6 @@
 const std = @import("std");
 const root = @import("../../../../root.zig");
 
-
 pub const ContainerResourceMetricSource = struct {
     container: []const u8,
     name: []const u8,
@@ -56,7 +55,7 @@ pub const ExternalMetricStatus = struct {
 
 pub const HPAScalingPolicy = struct {
     periodSeconds: i64,
-    @"type": []const u8,
+    type: []const u8,
     value: i64,
 
     pub fn validate(self: @This()) !void {
@@ -104,7 +103,7 @@ pub const HorizontalPodAutoscalerCondition = struct {
     message: ?[]const u8 = null,
     reason: ?[]const u8 = null,
     status: []const u8,
-    @"type": []const u8,
+    type: []const u8,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -166,7 +165,7 @@ pub const MetricSpec = struct {
     object: ?root.io.k8s.api.autoscaling.v2.ObjectMetricSource = null,
     pods: ?root.io.k8s.api.autoscaling.v2.PodsMetricSource = null,
     resource: ?root.io.k8s.api.autoscaling.v2.ResourceMetricSource = null,
-    @"type": []const u8,
+    type: []const u8,
 
     pub fn validate(self: @This()) !void {
         if (self.containerResource) |v| try v.validate();
@@ -183,7 +182,7 @@ pub const MetricStatus = struct {
     object: ?root.io.k8s.api.autoscaling.v2.ObjectMetricStatus = null,
     pods: ?root.io.k8s.api.autoscaling.v2.PodsMetricStatus = null,
     resource: ?root.io.k8s.api.autoscaling.v2.ResourceMetricStatus = null,
-    @"type": []const u8,
+    type: []const u8,
 
     pub fn validate(self: @This()) !void {
         if (self.containerResource) |v| try v.validate();
@@ -197,7 +196,7 @@ pub const MetricStatus = struct {
 pub const MetricTarget = struct {
     averageUtilization: ?i64 = null,
     averageValue: ?root.io.k8s.apimachinery.pkg.api.resource.Quantity = null,
-    @"type": []const u8,
+    type: []const u8,
     value: ?root.io.k8s.apimachinery.pkg.api.resource.Quantity = null,
 
     pub fn validate(self: @This()) !void {
@@ -276,4 +275,3 @@ pub const ResourceMetricStatus = struct {
         try self.current.validate();
     }
 };
-

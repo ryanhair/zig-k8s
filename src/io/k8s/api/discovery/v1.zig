@@ -3,7 +3,6 @@
 const std = @import("std");
 const root = @import("../../../../root.zig");
 
-
 pub const Endpoint = struct {
     addresses: []const []const u8,
     conditions: ?root.io.k8s.api.discovery.v1.EndpointConditions = null,
@@ -94,4 +93,3 @@ pub const ForZone = struct {
         _ = self;
     }
 };
-

@@ -3,7 +3,6 @@
 const std = @import("std");
 const root = @import("../../../../root.zig");
 
-
 pub const AggregationRule = struct {
     clusterRoleSelectors: ?[]const root.io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelector = null,
 
@@ -146,4 +145,3 @@ pub const Subject = struct {
         _ = self;
     }
 };
-

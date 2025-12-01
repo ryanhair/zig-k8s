@@ -3,7 +3,6 @@
 const std = @import("std");
 const root = @import("../../../../root.zig");
 
-
 pub const ServerStorageVersion = struct {
     apiServerID: ?[]const u8 = null,
     decodableVersions: ?[]const []const u8 = null,
@@ -34,7 +33,7 @@ pub const StorageVersionCondition = struct {
     observedGeneration: ?i64 = null,
     reason: []const u8,
     status: []const u8,
-    @"type": []const u8,
+    type: []const u8,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -54,7 +53,6 @@ pub const StorageVersionList = struct {
 };
 
 pub const StorageVersionSpec = struct {
-
     pub fn validate(self: @This()) !void {
         _ = self;
     }
@@ -70,4 +68,3 @@ pub const StorageVersionStatus = struct {
         if (self.storageVersions) |arr| for (arr) |item| try item.validate();
     }
 };
-

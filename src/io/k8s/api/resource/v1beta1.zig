@@ -3,7 +3,6 @@
 const std = @import("std");
 const root = @import("../../../../root.zig");
 
-
 pub const AllocatedDeviceStatus = struct {
     conditions: ?[]const root.io.k8s.apimachinery.pkg.apis.meta.v1.Condition = null,
     data: ?root.io.k8s.apimachinery.pkg.runtime.RawExtension = null,
@@ -133,7 +132,7 @@ pub const DeviceAllocationResult = struct {
 };
 
 pub const DeviceAttribute = struct {
-    @"bool": ?bool = null,
+    bool: ?bool = null,
     int: ?i64 = null,
     string: ?[]const u8 = null,
     version: ?[]const u8 = null,
@@ -479,4 +478,3 @@ pub const ResourceSliceSpec = struct {
         if (self.sharedCounters) |arr| for (arr) |item| try item.validate();
     }
 };
-

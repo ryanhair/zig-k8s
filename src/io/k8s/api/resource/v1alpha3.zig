@@ -3,7 +3,6 @@
 const std = @import("std");
 const root = @import("../../../../root.zig");
 
-
 pub const DeviceTaint = struct {
     effect: []const u8,
     key: []const u8,
@@ -68,4 +67,3 @@ pub const DeviceTaintSelector = struct {
         _ = self;
     }
 };
-

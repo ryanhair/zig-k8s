@@ -3,7 +3,6 @@
 const std = @import("std");
 const root = @import("../../../../root.zig");
 
-
 pub const Event = struct {
     action: ?[]const u8 = null,
     apiVersion: ?[]const u8 = null,
@@ -21,7 +20,7 @@ pub const Event = struct {
     reportingController: ?[]const u8 = null,
     reportingInstance: ?[]const u8 = null,
     series: ?root.io.k8s.api.events.v1.EventSeries = null,
-    @"type": ?[]const u8 = null,
+    type: ?[]const u8 = null,
 
     pub fn validate(self: @This()) !void {
         if (self.deprecatedSource) |v| try v.validate();
@@ -52,4 +51,3 @@ pub const EventSeries = struct {
         _ = self;
     }
 };
-

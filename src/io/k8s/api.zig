@@ -24,4 +24,3 @@ pub const batch = @import("api/batch.zig");
 pub const authorization = @import("api/authorization.zig");
 pub const certificates = @import("api/certificates.zig");
 pub const rbac = @import("api/rbac.zig");
-

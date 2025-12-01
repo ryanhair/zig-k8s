@@ -3,7 +3,6 @@
 const std = @import("std");
 const root = @import("../../../../root.zig");
 
-
 pub const AuditAnnotation = struct {
     key: []const u8,
     valueExpression: []const u8,
@@ -324,4 +323,3 @@ pub const WebhookClientConfig = struct {
         if (self.service) |v| try v.validate();
     }
 };
-

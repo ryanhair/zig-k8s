@@ -3,7 +3,6 @@
 const std = @import("std");
 const root = @import("../../../../root.zig");
 
-
 pub const ApplyConfiguration = struct {
     expression: ?[]const u8 = null,
 
@@ -173,4 +172,3 @@ pub const Variable = struct {
         _ = self;
     }
 };
-

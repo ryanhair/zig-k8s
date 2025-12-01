@@ -3,7 +3,6 @@
 const std = @import("std");
 const root = @import("../../../../root.zig");
 
-
 pub const BoundObjectReference = struct {
     apiVersion: ?[]const u8 = null,
     kind: ?[]const u8 = null,
@@ -112,4 +111,3 @@ pub const UserInfo = struct {
         _ = self;
     }
 };
-

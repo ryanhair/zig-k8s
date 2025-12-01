@@ -3,7 +3,6 @@
 const std = @import("std");
 const root = @import("../../../../root.zig");
 
-
 pub const AWSElasticBlockStoreVolumeSource = struct {
     fsType: ?[]const u8 = null,
     partition: ?i64 = null,
@@ -29,7 +28,7 @@ pub const Affinity = struct {
 
 pub const AppArmorProfile = struct {
     localhostProfile: ?[]const u8 = null,
-    @"type": []const u8,
+    type: []const u8,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -205,7 +204,7 @@ pub const ComponentCondition = struct {
     @"error": ?[]const u8 = null,
     message: ?[]const u8 = null,
     status: []const u8,
-    @"type": []const u8,
+    type: []const u8,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -704,7 +703,7 @@ pub const Event = struct {
     reportingInstance: ?[]const u8 = null,
     series: ?root.io.k8s.api.core.v1.EventSeries = null,
     source: ?root.io.k8s.api.core.v1.EventSource = null,
-    @"type": ?[]const u8 = null,
+    type: ?[]const u8 = null,
 
     pub fn validate(self: @This()) !void {
         try self.involvedObject.validate();
@@ -900,7 +899,7 @@ pub const HostIP = struct {
 
 pub const HostPathVolumeSource = struct {
     path: []const u8,
-    @"type": ?[]const u8 = null,
+    type: ?[]const u8 = null,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -1005,7 +1004,7 @@ pub const LimitRangeItem = struct {
     max: ?std.json.Value = null,
     maxLimitRequestRatio: ?std.json.Value = null,
     min: ?std.json.Value = null,
-    @"type": []const u8,
+    type: []const u8,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -1116,7 +1115,7 @@ pub const NamespaceCondition = struct {
     message: ?[]const u8 = null,
     reason: ?[]const u8 = null,
     status: []const u8,
-    @"type": []const u8,
+    type: []const u8,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -1168,7 +1167,7 @@ pub const Node = struct {
 
 pub const NodeAddress = struct {
     address: []const u8,
-    @"type": []const u8,
+    type: []const u8,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -1191,7 +1190,7 @@ pub const NodeCondition = struct {
     message: ?[]const u8 = null,
     reason: ?[]const u8 = null,
     status: []const u8,
-    @"type": []const u8,
+    type: []const u8,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -1420,7 +1419,7 @@ pub const PersistentVolumeClaimCondition = struct {
     message: ?[]const u8 = null,
     reason: ?[]const u8 = null,
     status: []const u8,
-    @"type": []const u8,
+    type: []const u8,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -1655,7 +1654,7 @@ pub const PodCondition = struct {
     observedGeneration: ?i64 = null,
     reason: ?[]const u8 = null,
     status: []const u8,
-    @"type": []const u8,
+    type: []const u8,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -2031,7 +2030,7 @@ pub const ReplicationControllerCondition = struct {
     message: ?[]const u8 = null,
     reason: ?[]const u8 = null,
     status: []const u8,
-    @"type": []const u8,
+    type: []const u8,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -2169,7 +2168,7 @@ pub const ResourceStatus = struct {
 pub const SELinuxOptions = struct {
     level: ?[]const u8 = null,
     role: ?[]const u8 = null,
-    @"type": ?[]const u8 = null,
+    type: ?[]const u8 = null,
     user: ?[]const u8 = null,
 
     pub fn validate(self: @This()) !void {
@@ -2231,7 +2230,7 @@ pub const ScopedResourceSelectorRequirement = struct {
 
 pub const SeccompProfile = struct {
     localhostProfile: ?[]const u8 = null,
-    @"type": []const u8,
+    type: []const u8,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -2245,7 +2244,7 @@ pub const Secret = struct {
     kind: ?[]const u8 = null,
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
     stringData: ?std.json.Value = null,
-    @"type": ?[]const u8 = null,
+    type: ?[]const u8 = null,
 
     pub fn validate(self: @This()) !void {
         if (self.metadata) |v| try v.validate();
@@ -2432,7 +2431,7 @@ pub const ServiceSpec = struct {
     sessionAffinity: ?[]const u8 = null,
     sessionAffinityConfig: ?root.io.k8s.api.core.v1.SessionAffinityConfig = null,
     trafficDistribution: ?[]const u8 = null,
-    @"type": ?[]const u8 = null,
+    type: ?[]const u8 = null,
 
     pub fn validate(self: @This()) !void {
         if (self.ports) |arr| for (arr) |item| try item.validate();
@@ -2760,4 +2759,3 @@ pub const WorkloadReference = struct {
         _ = self;
     }
 };
-

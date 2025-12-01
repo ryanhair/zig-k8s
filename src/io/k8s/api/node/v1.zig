@@ -3,7 +3,6 @@
 const std = @import("std");
 const root = @import("../../../../root.zig");
 
-
 pub const Overhead = struct {
     podFixed: ?std.json.Value = null,
 
@@ -47,4 +46,3 @@ pub const Scheduling = struct {
         if (self.tolerations) |arr| for (arr) |item| try item.validate();
     }
 };
-

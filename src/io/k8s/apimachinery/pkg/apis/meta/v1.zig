@@ -3,7 +3,6 @@
 const std = @import("std");
 const root = @import("../../../../../../root.zig");
 
-
 pub const APIGroup = struct {
     apiVersion: ?[]const u8 = null,
     kind: ?[]const u8 = null,
@@ -74,7 +73,7 @@ pub const Condition = struct {
     observedGeneration: ?i64 = null,
     reason: []const u8,
     status: []const u8,
-    @"type": []const u8,
+    type: []const u8,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -107,7 +106,6 @@ pub const FieldSelectorRequirement = struct {
 };
 
 pub const FieldsV1 = struct {
-
     pub fn validate(self: @This()) !void {
         _ = self;
     }
@@ -214,7 +212,6 @@ pub const OwnerReference = struct {
 };
 
 pub const Patch = struct {
-
     pub fn validate(self: @This()) !void {
         _ = self;
     }
@@ -281,10 +278,9 @@ pub const Time = []const u8;
 
 pub const WatchEvent = struct {
     object: root.io.k8s.apimachinery.pkg.runtime.RawExtension,
-    @"type": []const u8,
+    type: []const u8,
 
     pub fn validate(self: @This()) !void {
         _ = self;
     }
 };
-

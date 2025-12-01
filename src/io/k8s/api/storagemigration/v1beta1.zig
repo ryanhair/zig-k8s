@@ -3,7 +3,6 @@
 const std = @import("std");
 const root = @import("../../../../root.zig");
 
-
 pub const StorageVersionMigration = struct {
     apiVersion: ?[]const u8 = null,
     kind: ?[]const u8 = null,
@@ -46,4 +45,3 @@ pub const StorageVersionMigrationStatus = struct {
         if (self.conditions) |arr| for (arr) |item| try item.validate();
     }
 };
-

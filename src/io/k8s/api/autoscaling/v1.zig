@@ -3,7 +3,6 @@
 const std = @import("std");
 const root = @import("../../../../root.zig");
 
-
 pub const CrossVersionObjectReference = struct {
     apiVersion: ?[]const u8 = null,
     kind: []const u8,
@@ -93,4 +92,3 @@ pub const ScaleStatus = struct {
         _ = self;
     }
 };
-

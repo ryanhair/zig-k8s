@@ -3,7 +3,6 @@
 const std = @import("std");
 const root = @import("../../../../root.zig");
 
-
 pub const CSIDriver = struct {
     apiVersion: ?[]const u8 = null,
     kind: ?[]const u8 = null,
@@ -252,4 +251,3 @@ pub const VolumeNodeResources = struct {
         _ = self;
     }
 };
-

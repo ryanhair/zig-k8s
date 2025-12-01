@@ -3,7 +3,6 @@
 const std = @import("std");
 const root = @import("../../../../root.zig");
 
-
 pub const FieldSelectorAttributes = struct {
     rawSelector: ?[]const u8 = null,
     requirements: ?[]const root.io.k8s.apimachinery.pkg.apis.meta.v1.FieldSelectorRequirement = null,
@@ -178,4 +177,3 @@ pub const SubjectRulesReviewStatus = struct {
         for (self.resourceRules) |item| try item.validate();
     }
 };
-

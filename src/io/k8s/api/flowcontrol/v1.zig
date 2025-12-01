@@ -3,7 +3,6 @@
 const std = @import("std");
 const root = @import("../../../../root.zig");
 
-
 pub const ExemptPriorityLevelConfiguration = struct {
     lendablePercent: ?i64 = null,
     nominalConcurrencyShares: ?i64 = null,
@@ -14,7 +13,7 @@ pub const ExemptPriorityLevelConfiguration = struct {
 };
 
 pub const FlowDistinguisherMethod = struct {
-    @"type": []const u8,
+    type: []const u8,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -40,7 +39,7 @@ pub const FlowSchemaCondition = struct {
     message: ?[]const u8 = null,
     reason: ?[]const u8 = null,
     status: ?[]const u8 = null,
-    @"type": ?[]const u8 = null,
+    type: ?[]const u8 = null,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -90,7 +89,7 @@ pub const GroupSubject = struct {
 
 pub const LimitResponse = struct {
     queuing: ?root.io.k8s.api.flowcontrol.v1.QueuingConfiguration = null,
-    @"type": []const u8,
+    type: []const u8,
 
     pub fn validate(self: @This()) !void {
         if (self.queuing) |v| try v.validate();
@@ -148,7 +147,7 @@ pub const PriorityLevelConfigurationCondition = struct {
     message: ?[]const u8 = null,
     reason: ?[]const u8 = null,
     status: ?[]const u8 = null,
-    @"type": ?[]const u8 = null,
+    type: ?[]const u8 = null,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -178,7 +177,7 @@ pub const PriorityLevelConfigurationReference = struct {
 pub const PriorityLevelConfigurationSpec = struct {
     exempt: ?root.io.k8s.api.flowcontrol.v1.ExemptPriorityLevelConfiguration = null,
     limited: ?root.io.k8s.api.flowcontrol.v1.LimitedPriorityLevelConfiguration = null,
-    @"type": []const u8,
+    type: []const u8,
 
     pub fn validate(self: @This()) !void {
         if (self.exempt) |v| try v.validate();
@@ -245,4 +244,3 @@ pub const UserSubject = struct {
         _ = self;
     }
 };
-

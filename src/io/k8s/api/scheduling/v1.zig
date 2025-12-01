@@ -3,7 +3,6 @@
 const std = @import("std");
 const root = @import("../../../../root.zig");
 
-
 pub const PriorityClass = struct {
     apiVersion: ?[]const u8 = null,
     description: ?[]const u8 = null,
@@ -29,4 +28,3 @@ pub const PriorityClassList = struct {
         if (self.metadata) |v| try v.validate();
     }
 };
-

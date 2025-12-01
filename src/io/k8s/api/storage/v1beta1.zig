@@ -3,7 +3,6 @@
 const std = @import("std");
 const root = @import("../../../../root.zig");
 
-
 pub const VolumeAttributesClass = struct {
     apiVersion: ?[]const u8 = null,
     driverName: []const u8,
@@ -27,4 +26,3 @@ pub const VolumeAttributesClassList = struct {
         if (self.metadata) |v| try v.validate();
     }
 };
-

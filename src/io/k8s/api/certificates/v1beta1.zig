@@ -3,7 +3,6 @@
 const std = @import("std");
 const root = @import("../../../../root.zig");
 
-
 pub const ClusterTrustBundle = struct {
     apiVersion: ?[]const u8 = null,
     kind: ?[]const u8 = null,
@@ -92,4 +91,3 @@ pub const PodCertificateRequestStatus = struct {
         if (self.conditions) |arr| for (arr) |item| try item.validate();
     }
 };
-

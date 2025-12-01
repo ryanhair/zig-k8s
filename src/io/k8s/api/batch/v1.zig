@@ -3,7 +3,6 @@
 const std = @import("std");
 const root = @import("../../../../root.zig");
 
-
 pub const CronJob = struct {
     apiVersion: ?[]const u8 = null,
     kind: ?[]const u8 = null,
@@ -75,7 +74,7 @@ pub const JobCondition = struct {
     message: ?[]const u8 = null,
     reason: ?[]const u8 = null,
     status: []const u8,
-    @"type": []const u8,
+    type: []const u8,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -169,7 +168,7 @@ pub const PodFailurePolicyOnExitCodesRequirement = struct {
 
 pub const PodFailurePolicyOnPodConditionsPattern = struct {
     status: ?[]const u8 = null,
-    @"type": []const u8,
+    type: []const u8,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -212,4 +211,3 @@ pub const UncountedTerminatedPods = struct {
         _ = self;
     }
 };
-

@@ -3,7 +3,6 @@
 const std = @import("std");
 const root = @import("../../../../root.zig");
 
-
 pub const Info = struct {
     buildDate: []const u8,
     compiler: []const u8,
@@ -23,4 +22,3 @@ pub const Info = struct {
         _ = self;
     }
 };
-

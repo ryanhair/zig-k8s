@@ -3,14 +3,13 @@
 const std = @import("std");
 const root = @import("../../../../../../root.zig");
 
-
 pub const CustomResourceColumnDefinition = struct {
     description: ?[]const u8 = null,
     format: ?[]const u8 = null,
     jsonPath: []const u8,
     name: []const u8,
     priority: ?i64 = null,
-    @"type": []const u8,
+    type: []const u8,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -46,7 +45,7 @@ pub const CustomResourceDefinitionCondition = struct {
     observedGeneration: ?i64 = null,
     reason: ?[]const u8 = null,
     status: []const u8,
-    @"type": []const u8,
+    type: []const u8,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -135,7 +134,6 @@ pub const CustomResourceSubresourceScale = struct {
 };
 
 pub const CustomResourceSubresourceStatus = struct {
-
     pub fn validate(self: @This()) !void {
         _ = self;
     }
@@ -205,7 +203,7 @@ pub const JSONSchemaProps = struct {
     properties: ?std.json.Value = null,
     required: ?[]const []const u8 = null,
     title: ?[]const u8 = null,
-    @"type": ?[]const u8 = null,
+    type: ?[]const u8 = null,
     uniqueItems: ?bool = null,
     xKubernetesEmbeddedResource: ?bool = null,
     xKubernetesIntOrString: ?bool = null,
@@ -281,4 +279,3 @@ pub const WebhookConversion = struct {
         if (self.clientConfig) |v| try v.validate();
     }
 };
-

@@ -3,7 +3,6 @@
 const std = @import("std");
 const root = @import("../../../../root.zig");
 
-
 pub const ClusterTrustBundle = struct {
     apiVersion: ?[]const u8 = null,
     kind: ?[]const u8 = null,
@@ -36,4 +35,3 @@ pub const ClusterTrustBundleSpec = struct {
         _ = self;
     }
 };
-
