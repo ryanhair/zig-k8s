@@ -38,3 +38,10 @@ jobs:
         git add .
         git commit -m "chore: update client from upstream spec"
         git push
+
+    - name: Create Release Tag
+      if: steps.git-check.outputs.changes == 'true'
+      run: |
+        VERSION=$(grep '.version = "' build.zig.zon | sed 's/.*"\(.*\)".*/\1/')
+        git tag "v$VERSION"
+        git push origin "v$VERSION"
