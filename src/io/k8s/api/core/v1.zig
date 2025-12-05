@@ -833,15 +833,15 @@ pub const EndpointPort = struct {
 
 /// EndpointSubset is a group of addresses with a common set of ports. The expanded set of endpoints is the Cartesian product of Addresses x Ports. For example, given:
 /// 
-///     {
-///       Addresses: [{"ip": "10.10.1.1"}, {"ip": "10.10.2.2"}],
-///       Ports:     [{"name": "a", "port": 8675}, {"name": "b", "port": 309}]
-///     }
+/// 	{
+/// 	  Addresses: [{"ip": "10.10.1.1"}, {"ip": "10.10.2.2"}],
+/// 	  Ports:     [{"name": "a", "port": 8675}, {"name": "b", "port": 309}]
+/// 	}
 /// 
 /// The resulting set of endpoints can be viewed as:
 /// 
-///     a: [ 10.10.1.1:8675, 10.10.2.2:8675 ],
-///     b: [ 10.10.1.1:309, 10.10.2.2:309 ]
+/// 	a: [ 10.10.1.1:8675, 10.10.2.2:8675 ],
+/// 	b: [ 10.10.1.1:309, 10.10.2.2:309 ]
 /// 
 /// Deprecated: This API is deprecated in v1.33+.
 pub const EndpointSubset = struct {
@@ -861,17 +861,17 @@ pub const EndpointSubset = struct {
 
 /// Endpoints is a collection of endpoints that implement the actual service. Example:
 /// 
-///      Name: "mysvc",
-///      Subsets: [
-///        {
-///          Addresses: [{"ip": "10.10.1.1"}, {"ip": "10.10.2.2"}],
-///          Ports: [{"name": "a", "port": 8675}, {"name": "b", "port": 309}]
-///        },
-///        {
-///          Addresses: [{"ip": "10.10.3.3"}],
-///          Ports: [{"name": "a", "port": 93}, {"name": "b", "port": 76}]
-///        },
-///     ]
+/// 	 Name: "mysvc",
+/// 	 Subsets: [
+/// 	   {
+/// 	     Addresses: [{"ip": "10.10.1.1"}, {"ip": "10.10.2.2"}],
+/// 	     Ports: [{"name": "a", "port": 8675}, {"name": "b", "port": 309}]
+/// 	   },
+/// 	   {
+/// 	     Addresses: [{"ip": "10.10.3.3"}],
+/// 	     Ports: [{"name": "a", "port": 93}, {"name": "b", "port": 76}]
+/// 	   },
+/// 	]
 /// 
 /// Endpoints is a legacy API and does not contain information about all Service features. Use discoveryv1.EndpointSlice for complete information about Service endpoints.
 /// 
@@ -1631,7 +1631,7 @@ pub const ModifyVolumeStatus = struct {
     ///    InProgress indicates that the volume is being modified.
     ///  - Infeasible
     ///   Infeasible indicates that the request has been rejected as invalid by the CSI driver. To
-    ///       resolve the error, a valid VolumeAttributesClass needs to be specified.
+    /// 	  resolve the error, a valid VolumeAttributesClass needs to be specified.
     /// Note: New statuses can be added in the future. Consumers should check for unknown statuses and fail appropriately.
     status: []const u8,
     /// targetVolumeAttributesClassName is the name of the VolumeAttributesClass the PVC currently being reconciled
@@ -2183,26 +2183,26 @@ pub const PersistentVolumeClaimStatus = struct {
     /// accessModes contains the actual access modes the volume backing the PVC has. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access-modes-1
     accessModes: ?[]const []const u8 = null,
     /// allocatedResourceStatuses stores status of resource being resized for the given PVC. Key names follow standard Kubernetes label syntax. Valid values are either:
-    ///     * Un-prefixed keys:
-    ///         - storage - the capacity of the volume.
-    ///     * Custom resources must use implementation-defined prefixed names such as "example.com/my-custom-resource"
+    /// 	* Un-prefixed keys:
+    /// 		- storage - the capacity of the volume.
+    /// 	* Custom resources must use implementation-defined prefixed names such as "example.com/my-custom-resource"
     /// Apart from above values - keys that are unprefixed or have kubernetes.io prefix are considered reserved and hence may not be used.
     /// 
     /// ClaimResourceStatus can be in any of following states:
-    ///     - ControllerResizeInProgress:
-    ///         State set when resize controller starts resizing the volume in control-plane.
-    ///     - ControllerResizeFailed:
-    ///         State set when resize has failed in resize controller with a terminal error.
-    ///     - NodeResizePending:
-    ///         State set when resize controller has finished resizing the volume but further resizing of
-    ///         volume is needed on the node.
-    ///     - NodeResizeInProgress:
-    ///         State set when kubelet starts resizing the volume.
-    ///     - NodeResizeFailed:
-    ///         State set when resizing has failed in kubelet with a terminal error. Transient errors don't set
-    ///         NodeResizeFailed.
+    /// 	- ControllerResizeInProgress:
+    /// 		State set when resize controller starts resizing the volume in control-plane.
+    /// 	- ControllerResizeFailed:
+    /// 		State set when resize has failed in resize controller with a terminal error.
+    /// 	- NodeResizePending:
+    /// 		State set when resize controller has finished resizing the volume but further resizing of
+    /// 		volume is needed on the node.
+    /// 	- NodeResizeInProgress:
+    /// 		State set when kubelet starts resizing the volume.
+    /// 	- NodeResizeFailed:
+    /// 		State set when resizing has failed in kubelet with a terminal error. Transient errors don't set
+    /// 		NodeResizeFailed.
     /// For example: if expanding a PVC for more capacity - this field can be one of the following states:
-    ///     - pvc.status.allocatedResourceStatus['storage'] = "ControllerResizeInProgress"
+    /// 	- pvc.status.allocatedResourceStatus['storage'] = "ControllerResizeInProgress"
     ///      - pvc.status.allocatedResourceStatus['storage'] = "ControllerResizeFailed"
     ///      - pvc.status.allocatedResourceStatus['storage'] = "NodeResizePending"
     ///      - pvc.status.allocatedResourceStatus['storage'] = "NodeResizeInProgress"
@@ -2212,9 +2212,9 @@ pub const PersistentVolumeClaimStatus = struct {
     /// A controller that receives PVC update with previously unknown resourceName or ClaimResourceStatus should ignore the update for the purpose it was designed. For example - a controller that only is responsible for resizing capacity of the volume, should ignore PVC updates that change other valid resources associated with PVC.
     allocatedResourceStatuses: ?std.json.Value = null,
     /// allocatedResources tracks the resources allocated to a PVC including its capacity. Key names follow standard Kubernetes label syntax. Valid values are either:
-    ///     * Un-prefixed keys:
-    ///         - storage - the capacity of the volume.
-    ///     * Custom resources must use implementation-defined prefixed names such as "example.com/my-custom-resource"
+    /// 	* Un-prefixed keys:
+    /// 		- storage - the capacity of the volume.
+    /// 	* Custom resources must use implementation-defined prefixed names such as "example.com/my-custom-resource"
     /// Apart from above values - keys that are unprefixed or have kubernetes.io prefix are considered reserved and hence may not be used.
     /// 
     /// Capacity reported here may be larger than the actual capacity when a volume expansion operation is requested. For storage quota, the larger value from allocatedResources and PVC.spec.resources is used. If allocatedResources is not set, PVC.spec.resources alone is used for quota calculation. If a volume expansion capacity request is lowered, allocatedResources is only lowered if there are no expansion operations in progress and if the actual volume capacity is equal or lower than the requested capacity.
