@@ -1447,6 +1447,16 @@ pub const ImageVolumeSource = struct {
     }
 };
 
+/// ImageVolumeStatus represents the image-based volume status.
+pub const ImageVolumeStatus = struct {
+    /// ImageRef is the digest of the image used for this volume. It should have a value that's similar to the pod's status.containerStatuses[i].imageID. The ImageRef length should not exceed 256 characters.
+    imageRef: []const u8,
+
+    pub fn validate(self: @This()) !void {
+        _ = self;
+    }
+};
+
 /// Maps a string key to a path within a volume.
 pub const KeyToPath = struct {
     /// key is the key to project.
@@ -4147,9 +4157,11 @@ pub const VolumeMountStatus = struct {
     readOnly: ?bool = null,
     /// RecursiveReadOnly must be set to Disabled, Enabled, or unspecified (for non-readonly mounts). An IfPossible value in the original VolumeMount must be translated to Disabled or Enabled, depending on the mount result.
     recursiveReadOnly: ?[]const u8 = null,
+    /// volumeStatus represents volume-type-specific status about the mounted volume.
+    volumeStatus: ?root.io.k8s.api.core.v1.VolumeStatus = null,
 
     pub fn validate(self: @This()) !void {
-        _ = self;
+        if (self.volumeStatus) |v| try v.validate();
     }
 };
 
@@ -4215,6 +4227,16 @@ pub const VolumeResourceRequirements = struct {
 
     pub fn validate(self: @This()) !void {
         _ = self;
+    }
+};
+
+/// VolumeStatus represents the status of a mounted volume. At most one of its members must be specified.
+pub const VolumeStatus = struct {
+    /// image represents an OCI object (a container image or artifact) pulled and mounted on the kubelet's host machine.
+    image: ?root.io.k8s.api.core.v1.ImageVolumeStatus = null,
+
+    pub fn validate(self: @This()) !void {
+        if (self.image) |v| try v.validate();
     }
 };
 
