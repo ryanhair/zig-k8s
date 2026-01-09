@@ -88,7 +88,7 @@ pub const EndpointSlice = struct {
     /// APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
     apiVersion: ?[]const u8 = null,
     /// endpoints is a list of unique endpoints in this slice. Each slice may include a maximum of 1000 endpoints.
-    endpoints: []const root.io.k8s.api.discovery.v1.Endpoint,
+    endpoints: ?[]const root.io.k8s.api.discovery.v1.Endpoint = null,
     /// Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     kind: ?[]const u8 = null,
     /// Standard object's metadata.
@@ -97,7 +97,7 @@ pub const EndpointSlice = struct {
     ports: ?[]const root.io.k8s.api.discovery.v1.EndpointPort = null,
 
     pub fn validate(self: @This()) !void {
-        for (self.endpoints) |item| try item.validate();
+        if (self.endpoints) |arr| for (arr) |item| try item.validate();
         if (self.metadata) |v| try v.validate();
         if (self.ports) |arr| for (arr) |item| try item.validate();
     }
