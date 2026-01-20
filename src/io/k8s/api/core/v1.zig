@@ -2336,7 +2336,7 @@ pub const PersistentVolumeSpec = struct {
     persistentVolumeReclaimPolicy: ?[]const u8 = null,
     /// photonPersistentDisk represents a PhotonController persistent disk attached and mounted on kubelets host machine. Deprecated: PhotonPersistentDisk is deprecated and the in-tree photonPersistentDisk type is no longer supported.
     photonPersistentDisk: ?root.io.k8s.api.core.v1.PhotonPersistentDiskVolumeSource = null,
-    /// portworxVolume represents a portworx volume attached and mounted on kubelets host machine. Deprecated: PortworxVolume is deprecated. All operations for the in-tree portworxVolume type are redirected to the pxd.portworx.com CSI driver when the CSIMigrationPortworx feature-gate is on.
+    /// portworxVolume represents a portworx volume attached and mounted on kubelets host machine. Deprecated: PortworxVolume is deprecated. All operations for the in-tree portworxVolume type are redirected to the pxd.portworx.com CSI driver.
     portworxVolume: ?root.io.k8s.api.core.v1.PortworxVolumeSource = null,
     /// quobyte represents a Quobyte mount on the host that shares a pod's lifetime. Deprecated: Quobyte is deprecated and the in-tree quobyte type is no longer supported.
     quobyte: ?root.io.k8s.api.core.v1.QuobyteVolumeSource = null,
@@ -4054,7 +4054,7 @@ pub const Volume = struct {
     persistentVolumeClaim: ?root.io.k8s.api.core.v1.PersistentVolumeClaimVolumeSource = null,
     /// photonPersistentDisk represents a PhotonController persistent disk attached and mounted on kubelets host machine. Deprecated: PhotonPersistentDisk is deprecated and the in-tree photonPersistentDisk type is no longer supported.
     photonPersistentDisk: ?root.io.k8s.api.core.v1.PhotonPersistentDiskVolumeSource = null,
-    /// portworxVolume represents a portworx volume attached and mounted on kubelets host machine. Deprecated: PortworxVolume is deprecated. All operations for the in-tree portworxVolume type are redirected to the pxd.portworx.com CSI driver when the CSIMigrationPortworx feature-gate is on.
+    /// portworxVolume represents a portworx volume attached and mounted on kubelets host machine. Deprecated: PortworxVolume is deprecated. All operations for the in-tree portworxVolume type are redirected to the pxd.portworx.com CSI driver.
     portworxVolume: ?root.io.k8s.api.core.v1.PortworxVolumeSource = null,
     /// projected items for all in one resources secrets, configmaps, and downward API
     projected: ?root.io.k8s.api.core.v1.ProjectedVolumeSource = null,
