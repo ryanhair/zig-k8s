@@ -443,7 +443,7 @@ pub const ValidatingAdmissionPolicyBindingSpec = struct {
     /// "Deny" and "Warn" may not be used together since this combination needlessly duplicates the validation failure both in the API response body and the HTTP warning headers.
     /// 
     /// Required.
-    validationActions: ?[]const []const u8 = null,
+    validationActions: []const []const u8,
 
     pub fn validate(self: @This()) !void {
         if (self.matchResources) |v| try v.validate();
