@@ -362,8 +362,6 @@ pub const DeviceClaimConfiguration = struct {
 };
 
 /// DeviceClass is a vendor- or admin-provided resource that contains device configuration and selectors. It can be referenced in the device requests of a claim to apply these presets. Cluster scoped.
-///
-/// This is an alpha type and requires enabling the DynamicResourceAllocation feature gate.
 pub const DeviceClass = struct {
     /// APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
     apiVersion: ?[]const u8 = null,
@@ -497,7 +495,7 @@ pub const DeviceRequest = struct {
 pub const DeviceRequestAllocationResult = struct {
     /// AdminAccess indicates that this device was allocated for administrative access. See the corresponding request field for a definition of mode.
     ///
-    /// This is an alpha field and requires enabling the DRAAdminAccess feature gate. Admin access is disabled if this field is unset or set to false, otherwise it is enabled.
+    /// This is an beta field and requires enabling the DRAAdminAccess feature gate. Admin access is disabled if this field is unset or set to false, otherwise it is enabled.
     adminAccess: ?bool = null,
     /// BindingConditions contains a copy of the BindingConditions from the corresponding ResourceSlice at the time of allocation.
     ///
@@ -647,7 +645,7 @@ pub const DeviceToleration = struct {
 pub const ExactDeviceRequest = struct {
     /// AdminAccess indicates that this is a claim for administrative access to the device(s). Claims with AdminAccess are expected to be used for monitoring or other management services for a device.  They ignore all ordinary claims to the device with respect to access modes and any resource allocations.
     ///
-    /// This is an alpha field and requires enabling the DRAAdminAccess feature gate. Admin access is disabled if this field is unset or set to false, otherwise it is enabled.
+    /// This is an beta field and requires enabling the DRAAdminAccess feature gate. Admin access is disabled if this field is unset or set to false, otherwise it is enabled.
     adminAccess: ?bool = null,
     /// AllocationMode and its related fields define how devices are allocated to satisfy this request. Supported values are:
     ///
@@ -735,8 +733,6 @@ pub const OpaqueDeviceConfiguration = struct {
 };
 
 /// ResourceClaim describes a request for access to resources in the cluster, for use by workloads. For example, if a workload needs an accelerator device with specific properties, this is how that request is expressed. The status stanza tracks whether this claim has been satisfied and what specific resources have been allocated.
-///
-/// This is an alpha type and requires enabling the DynamicResourceAllocation feature gate.
 pub const ResourceClaim = struct {
     /// APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
     apiVersion: ?[]const u8 = null,
@@ -822,8 +818,6 @@ pub const ResourceClaimStatus = struct {
 };
 
 /// ResourceClaimTemplate is used to produce ResourceClaim objects.
-///
-/// This is an alpha type and requires enabling the DynamicResourceAllocation feature gate.
 pub const ResourceClaimTemplate = struct {
     /// APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
     apiVersion: ?[]const u8 = null,
@@ -901,8 +895,6 @@ pub const ResourcePool = struct {
 /// When allocating all resources in a pool matching certain criteria or when looking for the best solution among several different alternatives, a consumer should check the number of ResourceSlices in a pool (included in each ResourceSlice) to determine whether its view of a pool is complete and if not, should wait until the driver has completed updating the pool.
 ///
 /// For resources that are not local to a node, the node name is not set. Instead, the driver may use a node selector to specify where the devices are available.
-///
-/// This is an alpha type and requires enabling the DynamicResourceAllocation feature gate.
 pub const ResourceSlice = struct {
     /// APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
     apiVersion: ?[]const u8 = null,
