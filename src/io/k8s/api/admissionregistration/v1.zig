@@ -28,9 +28,9 @@ pub const AuditAnnotation = struct {
 
 /// ExpressionWarning is a warning information that targets a specific expression.
 pub const ExpressionWarning = struct {
-    /// The path to the field that refers the expression. For example, the reference to the expression of the first item of validations is "spec.validations[0].expression"
+    /// fieldRef is the path to the field that refers to the expression. For example, the reference to the expression of the first item of validations is "spec.validations[0].expression"
     fieldRef: []const u8,
-    /// The content of type checking information in a human-readable form. Each line of the warning contains the type that the expression is checked against, followed by the type check error from the compiler.
+    /// warning contains the content of type checking information in a human-readable form. Each line of the warning contains the type that the expression is checked against, followed by the type check error from the compiler.
     warning: []const u8,
 
     pub fn validate(self: @This()) !void {
@@ -40,7 +40,7 @@ pub const ExpressionWarning = struct {
 
 /// MatchCondition represents a condition which must by fulfilled for a request to be sent to a webhook.
 pub const MatchCondition = struct {
-    /// Expression represents the expression which will be evaluated by CEL. Must evaluate to bool. CEL expressions have access to the contents of the AdmissionRequest and Authorizer, organized into CEL variables:
+    /// expression represents the expression which will be evaluated by CEL. Must evaluate to bool. CEL expressions have access to the contents of the AdmissionRequest and Authorizer, organized into CEL variables:
     /// 
     /// 'object' - The object from the incoming request. The value is null for DELETE requests. 'oldObject' - The existing object. The value is null for CREATE requests. 'request' - Attributes of the admission request(/pkg/apis/admission/types.go#AdmissionRequest). 'authorizer' - A CEL Authorizer. May be used to perform authorization checks for the principal (user or service account) of the request.
     ///   See https://pkg.go.dev/k8s.io/apiserver/pkg/cel/library#Authz
@@ -50,7 +50,7 @@ pub const MatchCondition = struct {
     /// 
     /// Required.
     expression: []const u8,
-    /// Name is an identifier for this match condition, used for strategic merging of MatchConditions, as well as providing an identifier for logging purposes. A good name should be descriptive of the associated expression. Name must be a qualified name consisting of alphanumeric characters, '-', '_' or '.', and must start and end with an alphanumeric character (e.g. 'MyName',  or 'my.name',  or '123-abc', regex used for validation is '([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9]') with an optional DNS subdomain prefix and '/' (e.g. 'example.com/MyName')
+    /// name is an identifier for this match condition, used for strategic merging of MatchConditions, as well as providing an identifier for logging purposes. A good name should be descriptive of the associated expression. Name must be a qualified name consisting of alphanumeric characters, '-', '_' or '.', and must start and end with an alphanumeric character (e.g. 'MyName',  or 'my.name',  or '123-abc', regex used for validation is '([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9]') with an optional DNS subdomain prefix and '/' (e.g. 'example.com/MyName')
     /// 
     /// Required.
     name: []const u8,
@@ -62,7 +62,7 @@ pub const MatchCondition = struct {
 
 /// MatchResources decides whether to run the admission control policy on an object based on whether it meets the match criteria. The exclude rules take precedence over include rules (if a resource matches both, it is excluded)
 pub const MatchResources = struct {
-    /// ExcludeResourceRules describes what operations on what resources/subresources the ValidatingAdmissionPolicy should not care about. The exclude rules take precedence over include rules (if a resource matches both, it is excluded)
+    /// excludeResourceRules describes what operations on what resources/subresources the ValidatingAdmissionPolicy should not care about. The exclude rules take precedence over include rules (if a resource matches both, it is excluded)
     excludeResourceRules: ?[]const root.io.k8s.api.admissionregistration.v1.NamedRuleWithOperations = null,
     /// matchPolicy defines how the "MatchResources" list is used to match incoming requests. Allowed values are "Exact" or "Equivalent".
     /// 
@@ -72,7 +72,7 @@ pub const MatchResources = struct {
     /// 
     /// Defaults to "Equivalent"
     matchPolicy: ?[]const u8 = null,
-    /// NamespaceSelector decides whether to run the admission control policy on an object based on whether the namespace for that object matches the selector. If the object itself is a namespace, the matching is performed on object.metadata.labels. If the object is another cluster scoped resource, it never skips the policy.
+    /// namespaceSelector decides whether to run the admission control policy on an object based on whether the namespace for that object matches the selector. If the object itself is a namespace, the matching is performed on object.metadata.labels. If the object is another cluster scoped resource, it never skips the policy.
     /// 
     /// For example, to run the webhook on any objects whose namespace is not associated with "runlevel" of "0" or "1";  you will set the selector as follows: "namespaceSelector": {
     ///   "matchExpressions": [
@@ -104,9 +104,9 @@ pub const MatchResources = struct {
     /// 
     /// Default to the empty LabelSelector, which matches everything.
     namespaceSelector: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelector = null,
-    /// ObjectSelector decides whether to run the validation based on if the object has matching labels. objectSelector is evaluated against both the oldObject and newObject that would be sent to the cel validation, and is considered to match if either object matches the selector. A null object (oldObject in the case of create, or newObject in the case of delete) or an object that cannot have labels (like a DeploymentRollback or a PodProxyOptions object) is not considered to match. Use the object selector only if the webhook is opt-in, because end users may skip the admission webhook by setting the labels. Default to the empty LabelSelector, which matches everything.
+    /// objectSelector decides whether to run the validation based on if the object has matching labels. objectSelector is evaluated against both the oldObject and newObject that would be sent to the cel validation, and is considered to match if either object matches the selector. A null object (oldObject in the case of create, or newObject in the case of delete) or an object that cannot have labels (like a DeploymentRollback or a PodProxyOptions object) is not considered to match. Use the object selector only if the webhook is opt-in, because end users may skip the admission webhook by setting the labels. Default to the empty LabelSelector, which matches everything.
     objectSelector: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelector = null,
-    /// ResourceRules describes what operations on what resources/subresources the ValidatingAdmissionPolicy matches. The policy cares about an operation if it matches _any_ Rule.
+    /// resourceRules describes what operations on what resources/subresources the ValidatingAdmissionPolicy matches. The policy cares about an operation if it matches _any_ Rule.
     resourceRules: ?[]const root.io.k8s.api.admissionregistration.v1.NamedRuleWithOperations = null,
 
     pub fn validate(self: @This()) !void {
@@ -119,13 +119,13 @@ pub const MatchResources = struct {
 
 /// MutatingWebhook describes an admission webhook and the resources and operations it applies to.
 pub const MutatingWebhook = struct {
-    /// AdmissionReviewVersions is an ordered list of preferred `AdmissionReview` versions the Webhook expects. API server will try to use first version in the list which it supports. If none of the versions specified in this list supported by API server, validation will fail for this object. If a persisted webhook configuration specifies allowed versions and does not include any versions known to the API Server, calls to the webhook will fail and be subject to the failure policy.
+    /// admissionReviewVersions is an ordered list of preferred `AdmissionReview` versions the Webhook expects. API server will try to use first version in the list which it supports. If none of the versions specified in this list supported by API server, validation will fail for this object. If a persisted webhook configuration specifies allowed versions and does not include any versions known to the API Server, calls to the webhook will fail and be subject to the failure policy.
     admissionReviewVersions: []const []const u8,
-    /// ClientConfig defines how to communicate with the hook. Required
+    /// clientConfig defines how to communicate with the hook. Required
     clientConfig: root.io.k8s.api.admissionregistration.v1.WebhookClientConfig,
-    /// FailurePolicy defines how unrecognized errors from the admission endpoint are handled - allowed values are Ignore or Fail. Defaults to Fail.
+    /// failurePolicy defines how unrecognized errors from the admission endpoint are handled - allowed values are Ignore or Fail. Defaults to Fail.
     failurePolicy: ?[]const u8 = null,
-    /// MatchConditions is a list of conditions that must be met for a request to be sent to this webhook. Match conditions filter requests that have already been matched by the rules, namespaceSelector, and objectSelector. An empty list of matchConditions matches all requests. There are a maximum of 64 match conditions allowed.
+    /// matchConditions is a list of conditions that must be met for a request to be sent to this webhook. Match conditions filter requests that have already been matched by the rules, namespaceSelector, and objectSelector. An empty list of matchConditions matches all requests. There are a maximum of 64 match conditions allowed.
     /// 
     /// The exact matching logic is (in order):
     ///   1. If ANY matchCondition evaluates to FALSE, the webhook is skipped.
@@ -142,9 +142,9 @@ pub const MutatingWebhook = struct {
     /// 
     /// Defaults to "Equivalent"
     matchPolicy: ?[]const u8 = null,
-    /// The name of the admission webhook. Name should be fully qualified, e.g., imagepolicy.kubernetes.io, where "imagepolicy" is the name of the webhook, and kubernetes.io is the name of the organization. Required.
+    /// name is the name of the admission webhook. Name should be fully qualified, e.g., imagepolicy.kubernetes.io, where "imagepolicy" is the name of the webhook, and kubernetes.io is the name of the organization. Required.
     name: []const u8,
-    /// NamespaceSelector decides whether to run the webhook on an object based on whether the namespace for that object matches the selector. If the object itself is a namespace, the matching is performed on object.metadata.labels. If the object is another cluster scoped resource, it never skips the webhook.
+    /// namespaceSelector decides whether to run the webhook on an object based on whether the namespace for that object matches the selector. If the object itself is a namespace, the matching is performed on object.metadata.labels. If the object is another cluster scoped resource, it never skips the webhook.
     /// 
     /// For example, to run the webhook on any objects whose namespace is not associated with "runlevel" of "0" or "1";  you will set the selector as follows: "namespaceSelector": {
     ///   "matchExpressions": [
@@ -176,7 +176,7 @@ pub const MutatingWebhook = struct {
     /// 
     /// Default to the empty LabelSelector, which matches everything.
     namespaceSelector: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelector = null,
-    /// ObjectSelector decides whether to run the webhook based on if the object has matching labels. objectSelector is evaluated against both the oldObject and newObject that would be sent to the webhook, and is considered to match if either object matches the selector. A null object (oldObject in the case of create, or newObject in the case of delete) or an object that cannot have labels (like a DeploymentRollback or a PodProxyOptions object) is not considered to match. Use the object selector only if the webhook is opt-in, because end users may skip the admission webhook by setting the labels. Default to the empty LabelSelector, which matches everything.
+    /// objectSelector decides whether to run the webhook based on if the object has matching labels. objectSelector is evaluated against both the oldObject and newObject that would be sent to the webhook, and is considered to match if either object matches the selector. A null object (oldObject in the case of create, or newObject in the case of delete) or an object that cannot have labels (like a DeploymentRollback or a PodProxyOptions object) is not considered to match. Use the object selector only if the webhook is opt-in, because end users may skip the admission webhook by setting the labels. Default to the empty LabelSelector, which matches everything.
     objectSelector: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelector = null,
     /// reinvocationPolicy indicates whether this webhook should be called multiple times as part of a single admission evaluation. Allowed values are "Never" and "IfNeeded".
     /// 
@@ -186,11 +186,11 @@ pub const MutatingWebhook = struct {
     /// 
     /// Defaults to "Never".
     reinvocationPolicy: ?[]const u8 = null,
-    /// Rules describes what operations on what resources/subresources the webhook cares about. The webhook cares about an operation if it matches _any_ Rule. However, in order to prevent ValidatingAdmissionWebhooks and MutatingAdmissionWebhooks from putting the cluster in a state which cannot be recovered from without completely disabling the plugin, ValidatingAdmissionWebhooks and MutatingAdmissionWebhooks are never called on admission requests for ValidatingWebhookConfiguration and MutatingWebhookConfiguration objects.
+    /// rules describes what operations on what resources/subresources the webhook cares about. The webhook cares about an operation if it matches _any_ Rule. However, in order to prevent ValidatingAdmissionWebhooks and MutatingAdmissionWebhooks from putting the cluster in a state which cannot be recovered from without completely disabling the plugin, ValidatingAdmissionWebhooks and MutatingAdmissionWebhooks are never called on admission requests for ValidatingWebhookConfiguration and MutatingWebhookConfiguration objects.
     rules: ?[]const root.io.k8s.api.admissionregistration.v1.RuleWithOperations = null,
-    /// SideEffects states whether this webhook has side effects. Acceptable values are: None, NoneOnDryRun (webhooks created via v1beta1 may also specify Some or Unknown). Webhooks with side effects MUST implement a reconciliation system, since a request may be rejected by a future step in the admission chain and the side effects therefore need to be undone. Requests with the dryRun attribute will be auto-rejected if they match a webhook with sideEffects == Unknown or Some.
+    /// sideEffects states whether this webhook has side effects. Acceptable values are: None, NoneOnDryRun (webhooks created via v1beta1 may also specify Some or Unknown). Webhooks with side effects MUST implement a reconciliation system, since a request may be rejected by a future step in the admission chain and the side effects therefore need to be undone. Requests with the dryRun attribute will be auto-rejected if they match a webhook with sideEffects == Unknown or Some.
     sideEffects: []const u8,
-    /// TimeoutSeconds specifies the timeout for this webhook. After the timeout passes, the webhook call will be ignored or the API call will fail based on the failure policy. The timeout value must be between 1 and 30 seconds. Default to 10 seconds.
+    /// timeoutSeconds specifies the timeout for this webhook. After the timeout passes, the webhook call will be ignored or the API call will fail based on the failure policy. The timeout value must be between 1 and 30 seconds. Default to 10 seconds.
     timeoutSeconds: ?i64 = null,
 
     pub fn validate(self: @This()) !void {
@@ -208,9 +208,9 @@ pub const MutatingWebhookConfiguration = struct {
     apiVersion: ?[]const u8 = null,
     /// Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     kind: ?[]const u8 = null,
-    /// Standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata.
+    /// metadata is the standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata.
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
-    /// Webhooks is a list of webhooks and the affected resources and operations.
+    /// webhooks is a list of webhooks and the affected resources and operations.
     webhooks: ?[]const root.io.k8s.api.admissionregistration.v1.MutatingWebhook = null,
 
     pub fn validate(self: @This()) !void {
@@ -227,7 +227,7 @@ pub const MutatingWebhookConfigurationList = struct {
     items: []const root.io.k8s.api.admissionregistration.v1.MutatingWebhookConfiguration,
     /// Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     kind: ?[]const u8 = null,
-    /// Standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+    /// metadata is the standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ListMeta = null,
 
     pub fn validate(self: @This()) !void {
@@ -238,15 +238,15 @@ pub const MutatingWebhookConfigurationList = struct {
 
 /// NamedRuleWithOperations is a tuple of Operations and Resources with ResourceNames.
 pub const NamedRuleWithOperations = struct {
-    /// APIGroups is the API groups the resources belong to. '*' is all groups. If '*' is present, the length of the slice must be one. Required.
+    /// apiGroups is the API groups the resources belong to. '*' is all groups. If '*' is present, the length of the slice must be one. Required.
     apiGroups: ?[]const []const u8 = null,
-    /// APIVersions is the API versions the resources belong to. '*' is all versions. If '*' is present, the length of the slice must be one. Required.
+    /// apiVersions is the API versions the resources belong to. '*' is all versions. If '*' is present, the length of the slice must be one. Required.
     apiVersions: ?[]const []const u8 = null,
-    /// Operations is the operations the admission hook cares about - CREATE, UPDATE, DELETE, CONNECT or * for all of those operations and any future admission operations that are added. If '*' is present, the length of the slice must be one. Required.
+    /// operations is the operations the admission hook cares about - CREATE, UPDATE, DELETE, CONNECT or * for all of those operations and any future admission operations that are added. If '*' is present, the length of the slice must be one. Required.
     operations: ?[]const []const u8 = null,
-    /// ResourceNames is an optional white list of names that the rule applies to.  An empty set means that everything is allowed.
+    /// resourceNames is an optional white list of names that the rule applies to.  An empty set means that everything is allowed.
     resourceNames: ?[]const []const u8 = null,
-    /// Resources is a list of resources this rule applies to.
+    /// resources is a list of resources this rule applies to.
     /// 
     /// For example: 'pods' means pods. 'pods/log' means the log subresource of pods. '*' means all resources, but not subresources. 'pods/*' means all subresources of pods. '*/scale' means all scale subresources. '*/*' means all resources and their subresources.
     /// 
@@ -264,9 +264,9 @@ pub const NamedRuleWithOperations = struct {
 
 /// ParamKind is a tuple of Group Kind and Version.
 pub const ParamKind = struct {
-    /// APIVersion is the API group version the resources belong to. In format of "group/version". Required.
+    /// apiVersion is the API group version the resources belong to. In format of "group/version". Required.
     apiVersion: ?[]const u8 = null,
-    /// Kind is the API kind the resources belong to. Required.
+    /// kind is the API kind the resources belong to. Required.
     kind: ?[]const u8 = null,
 
     pub fn validate(self: @This()) !void {
@@ -290,7 +290,7 @@ pub const ParamRef = struct {
     /// 
     /// - If `paramKind` is namespace-scoped, the namespace of the object being evaluated for admission will be used when this field is left unset. Take care that if this is left empty the binding must not match any cluster-scoped resources, which will result in an error.
     namespace: ?[]const u8 = null,
-    /// `parameterNotFoundAction` controls the behavior of the binding when the resource exists, and name or selector is valid, but there are no parameters matched by the binding. If the value is set to `Allow`, then no matched parameters will be treated as successful validation by the binding. If set to `Deny`, then no matched parameters will be subject to the `failurePolicy` of the policy.
+    /// parameterNotFoundAction controls the behavior of the binding when the resource exists, and name or selector is valid, but there are no parameters matched by the binding. If the value is set to `Allow`, then no matched parameters will be treated as successful validation by the binding. If set to `Deny`, then no matched parameters will be subject to the `failurePolicy` of the policy.
     /// 
     /// Allowed values are `Allow` or `Deny`
     /// 
@@ -310,13 +310,13 @@ pub const ParamRef = struct {
 
 /// RuleWithOperations is a tuple of Operations and Resources. It is recommended to make sure that all the tuple expansions are valid.
 pub const RuleWithOperations = struct {
-    /// APIGroups is the API groups the resources belong to. '*' is all groups. If '*' is present, the length of the slice must be one. Required.
+    /// apiGroups is the API groups the resources belong to. '*' is all groups. If '*' is present, the length of the slice must be one. Required.
     apiGroups: ?[]const []const u8 = null,
-    /// APIVersions is the API versions the resources belong to. '*' is all versions. If '*' is present, the length of the slice must be one. Required.
+    /// apiVersions is the API versions the resources belong to. '*' is all versions. If '*' is present, the length of the slice must be one. Required.
     apiVersions: ?[]const []const u8 = null,
-    /// Operations is the operations the admission hook cares about - CREATE, UPDATE, DELETE, CONNECT or * for all of those operations and any future admission operations that are added. If '*' is present, the length of the slice must be one. Required.
+    /// operations is the operations the admission hook cares about - CREATE, UPDATE, DELETE, CONNECT or * for all of those operations and any future admission operations that are added. If '*' is present, the length of the slice must be one. Required.
     operations: ?[]const []const u8 = null,
-    /// Resources is a list of resources this rule applies to.
+    /// resources is a list of resources this rule applies to.
     /// 
     /// For example: 'pods' means pods. 'pods/log' means the log subresource of pods. '*' means all resources, but not subresources. 'pods/*' means all subresources of pods. '*/scale' means all scale subresources. '*/*' means all resources and their subresources.
     /// 
@@ -334,13 +334,13 @@ pub const RuleWithOperations = struct {
 
 /// ServiceReference holds a reference to Service.legacy.k8s.io
 pub const ServiceReference = struct {
-    /// `name` is the name of the service. Required
+    /// name is the name of the service. Required
     name: []const u8,
-    /// `namespace` is the namespace of the service. Required
+    /// namespace is the namespace of the service. Required
     namespace: []const u8,
-    /// `path` is an optional URL path which will be sent in any request to this service.
+    /// path is an optional URL path which will be sent in any request to this service.
     path: ?[]const u8 = null,
-    /// If specified, the port on the service that hosting webhook. Default to 443 for backward compatibility. `port` should be a valid port number (1-65535, inclusive).
+    /// port is the port on the service that hosts the webhook. Default to 443 for backward compatibility. `port` should be a valid port number (1-65535, inclusive).
     port: ?i64 = null,
 
     pub fn validate(self: @This()) !void {
@@ -350,7 +350,7 @@ pub const ServiceReference = struct {
 
 /// TypeChecking contains results of type checking the expressions in the ValidatingAdmissionPolicy
 pub const TypeChecking = struct {
-    /// The type checking warnings for each expression.
+    /// expressionWarnings contains the type checking warnings for each expression.
     expressionWarnings: ?[]const root.io.k8s.api.admissionregistration.v1.ExpressionWarning = null,
 
     pub fn validate(self: @This()) !void {
@@ -364,11 +364,11 @@ pub const ValidatingAdmissionPolicy = struct {
     apiVersion: ?[]const u8 = null,
     /// Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     kind: ?[]const u8 = null,
-    /// Standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata.
+    /// metadata is the standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata.
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
-    /// Specification of the desired behavior of the ValidatingAdmissionPolicy.
+    /// spec defines the desired behavior of the ValidatingAdmissionPolicy.
     spec: ?root.io.k8s.api.admissionregistration.v1.ValidatingAdmissionPolicySpec = null,
-    /// The status of the ValidatingAdmissionPolicy, including warnings that are useful to determine if the policy behaves in the expected way. Populated by the system. Read-only.
+    /// status represents the current status of the ValidatingAdmissionPolicy, including warnings that are useful to determine if the policy behaves in the expected way. Populated by the system. Read-only.
     status: ?root.io.k8s.api.admissionregistration.v1.ValidatingAdmissionPolicyStatus = null,
 
     pub fn validate(self: @This()) !void {
@@ -388,9 +388,9 @@ pub const ValidatingAdmissionPolicyBinding = struct {
     apiVersion: ?[]const u8 = null,
     /// Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     kind: ?[]const u8 = null,
-    /// Standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata.
+    /// metadata is the standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata.
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
-    /// Specification of the desired behavior of the ValidatingAdmissionPolicyBinding.
+    /// spec defines the desired behavior of the ValidatingAdmissionPolicyBinding.
     spec: ?root.io.k8s.api.admissionregistration.v1.ValidatingAdmissionPolicyBindingSpec = null,
 
     pub fn validate(self: @This()) !void {
@@ -407,7 +407,7 @@ pub const ValidatingAdmissionPolicyBindingList = struct {
     items: []const root.io.k8s.api.admissionregistration.v1.ValidatingAdmissionPolicyBinding,
     /// Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     kind: ?[]const u8 = null,
-    /// Standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+    /// metadata is the standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ListMeta = null,
 
     pub fn validate(self: @This()) !void {
@@ -418,11 +418,11 @@ pub const ValidatingAdmissionPolicyBindingList = struct {
 
 /// ValidatingAdmissionPolicyBindingSpec is the specification of the ValidatingAdmissionPolicyBinding.
 pub const ValidatingAdmissionPolicyBindingSpec = struct {
-    /// MatchResources declares what resources match this binding and will be validated by it. Note that this is intersected with the policy's matchConstraints, so only requests that are matched by the policy can be selected by this. If this is unset, all resources matched by the policy are validated by this binding When resourceRules is unset, it does not constrain resource matching. If a resource is matched by the other fields of this object, it will be validated. Note that this is differs from ValidatingAdmissionPolicy matchConstraints, where resourceRules are required.
+    /// matchResources declares what resources match this binding and will be validated by it. Note that this is intersected with the policy's matchConstraints, so only requests that are matched by the policy can be selected by this. If this is unset, all resources matched by the policy are validated by this binding When resourceRules is unset, it does not constrain resource matching. If a resource is matched by the other fields of this object, it will be validated. Note that this is differs from ValidatingAdmissionPolicy matchConstraints, where resourceRules are required.
     matchResources: ?root.io.k8s.api.admissionregistration.v1.MatchResources = null,
     /// paramRef specifies the parameter resource used to configure the admission control policy. It should point to a resource of the type specified in ParamKind of the bound ValidatingAdmissionPolicy. If the policy specifies a ParamKind and the resource referred to by ParamRef does not exist, this binding is considered mis-configured and the FailurePolicy of the ValidatingAdmissionPolicy applied. If the policy does not specify a ParamKind then this field is ignored, and the rules are evaluated without a param.
     paramRef: ?root.io.k8s.api.admissionregistration.v1.ParamRef = null,
-    /// PolicyName references a ValidatingAdmissionPolicy name which the ValidatingAdmissionPolicyBinding binds to. If the referenced resource does not exist, this binding is considered invalid and will be ignored Required.
+    /// policyName references a ValidatingAdmissionPolicy name which the ValidatingAdmissionPolicyBinding binds to. If the referenced resource does not exist, this binding is considered invalid and will be ignored Required.
     policyName: []const u8,
     /// validationActions declares how Validations of the referenced ValidatingAdmissionPolicy are enforced. If a validation evaluates to false it is always enforced according to these actions.
     /// 
@@ -459,7 +459,7 @@ pub const ValidatingAdmissionPolicyList = struct {
     items: []const root.io.k8s.api.admissionregistration.v1.ValidatingAdmissionPolicy,
     /// Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     kind: ?[]const u8 = null,
-    /// Standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+    /// metadata is the standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ListMeta = null,
 
     pub fn validate(self: @This()) !void {
@@ -482,7 +482,7 @@ pub const ValidatingAdmissionPolicySpec = struct {
     /// 
     /// Allowed values are Ignore or Fail. Defaults to Fail.
     failurePolicy: ?[]const u8 = null,
-    /// MatchConditions is a list of conditions that must be met for a request to be validated. Match conditions filter requests that have already been matched by the rules, namespaceSelector, and objectSelector. An empty list of matchConditions matches all requests. There are a maximum of 64 match conditions allowed.
+    /// matchConditions is a list of conditions that must be met for a request to be validated. Match conditions filter requests that have already been matched by the rules, namespaceSelector, and objectSelector. An empty list of matchConditions matches all requests. There are a maximum of 64 match conditions allowed.
     /// 
     /// If a parameter object is provided, it can be accessed via the `params` handle in the same manner as validation expressions.
     /// 
@@ -493,13 +493,13 @@ pub const ValidatingAdmissionPolicySpec = struct {
     ///      - If failurePolicy=Fail, reject the request
     ///      - If failurePolicy=Ignore, the policy is skipped
     matchConditions: ?[]const root.io.k8s.api.admissionregistration.v1.MatchCondition = null,
-    /// MatchConstraints specifies what resources this policy is designed to validate. The AdmissionPolicy cares about a request if it matches _all_ Constraints. However, in order to prevent clusters from being put into an unstable state that cannot be recovered from via the API ValidatingAdmissionPolicy cannot match ValidatingAdmissionPolicy and ValidatingAdmissionPolicyBinding. Required.
+    /// matchConstraints specifies what resources this policy is designed to validate. The AdmissionPolicy cares about a request if it matches _all_ Constraints. However, in order to prevent clusters from being put into an unstable state that cannot be recovered from via the API ValidatingAdmissionPolicy cannot match ValidatingAdmissionPolicy and ValidatingAdmissionPolicyBinding. Required.
     matchConstraints: ?root.io.k8s.api.admissionregistration.v1.MatchResources = null,
-    /// ParamKind specifies the kind of resources used to parameterize this policy. If absent, there are no parameters for this policy and the param CEL variable will not be provided to validation expressions. If ParamKind refers to a non-existent kind, this policy definition is mis-configured and the FailurePolicy is applied. If paramKind is specified but paramRef is unset in ValidatingAdmissionPolicyBinding, the params variable will be null.
+    /// paramKind specifies the kind of resources used to parameterize this policy. If absent, there are no parameters for this policy and the param CEL variable will not be provided to validation expressions. If ParamKind refers to a non-existent kind, this policy definition is mis-configured and the FailurePolicy is applied. If paramKind is specified but paramRef is unset in ValidatingAdmissionPolicyBinding, the params variable will be null.
     paramKind: ?root.io.k8s.api.admissionregistration.v1.ParamKind = null,
-    /// Validations contain CEL expressions which is used to apply the validation. Validations and AuditAnnotations may not both be empty; a minimum of one Validations or AuditAnnotations is required.
+    /// validations contain CEL expressions which is used to apply the validation. Validations and AuditAnnotations may not both be empty; a minimum of one Validations or AuditAnnotations is required.
     validations: ?[]const root.io.k8s.api.admissionregistration.v1.Validation = null,
-    /// Variables contain definitions of variables that can be used in composition of other expressions. Each variable is defined as a named CEL expression. The variables defined here will be available under `variables` in other expressions of the policy except MatchConditions because MatchConditions are evaluated before the rest of the policy.
+    /// variables contain definitions of variables that can be used in composition of other expressions. Each variable is defined as a named CEL expression. The variables defined here will be available under `variables` in other expressions of the policy except MatchConditions because MatchConditions are evaluated before the rest of the policy.
     /// 
     /// The expression of a variable can refer to other variables defined earlier in the list but not those after. Thus, Variables must be sorted by the order of first appearance and acyclic.
     variables: ?[]const root.io.k8s.api.admissionregistration.v1.Variable = null,
@@ -516,11 +516,11 @@ pub const ValidatingAdmissionPolicySpec = struct {
 
 /// ValidatingAdmissionPolicyStatus represents the status of an admission validation policy.
 pub const ValidatingAdmissionPolicyStatus = struct {
-    /// The conditions represent the latest available observations of a policy's current state.
+    /// conditions represent the latest available observations of a policy's current state.
     conditions: ?[]const root.io.k8s.apimachinery.pkg.apis.meta.v1.Condition = null,
-    /// The generation observed by the controller.
+    /// observedGeneration is the generation observed by the controller.
     observedGeneration: ?i64 = null,
-    /// The results of type checking for each expression. Presence of this field indicates the completion of the type checking.
+    /// typeChecking contains the results of type checking for each expression. Presence of this field indicates the completion of the type checking.
     typeChecking: ?root.io.k8s.api.admissionregistration.v1.TypeChecking = null,
 
     pub fn validate(self: @This()) !void {
@@ -531,13 +531,13 @@ pub const ValidatingAdmissionPolicyStatus = struct {
 
 /// ValidatingWebhook describes an admission webhook and the resources and operations it applies to.
 pub const ValidatingWebhook = struct {
-    /// AdmissionReviewVersions is an ordered list of preferred `AdmissionReview` versions the Webhook expects. API server will try to use first version in the list which it supports. If none of the versions specified in this list supported by API server, validation will fail for this object. If a persisted webhook configuration specifies allowed versions and does not include any versions known to the API Server, calls to the webhook will fail and be subject to the failure policy.
+    /// admissionReviewVersions is an ordered list of preferred `AdmissionReview` versions the Webhook expects. API server will try to use first version in the list which it supports. If none of the versions specified in this list supported by API server, validation will fail for this object. If a persisted webhook configuration specifies allowed versions and does not include any versions known to the API Server, calls to the webhook will fail and be subject to the failure policy.
     admissionReviewVersions: []const []const u8,
-    /// ClientConfig defines how to communicate with the hook. Required
+    /// clientConfig defines how to communicate with the hook. Required
     clientConfig: root.io.k8s.api.admissionregistration.v1.WebhookClientConfig,
-    /// FailurePolicy defines how unrecognized errors from the admission endpoint are handled - allowed values are Ignore or Fail. Defaults to Fail.
+    /// failurePolicy defines how unrecognized errors from the admission endpoint are handled - allowed values are Ignore or Fail. Defaults to Fail.
     failurePolicy: ?[]const u8 = null,
-    /// MatchConditions is a list of conditions that must be met for a request to be sent to this webhook. Match conditions filter requests that have already been matched by the rules, namespaceSelector, and objectSelector. An empty list of matchConditions matches all requests. There are a maximum of 64 match conditions allowed.
+    /// matchConditions is a list of conditions that must be met for a request to be sent to this webhook. Match conditions filter requests that have already been matched by the rules, namespaceSelector, and objectSelector. An empty list of matchConditions matches all requests. There are a maximum of 64 match conditions allowed.
     /// 
     /// The exact matching logic is (in order):
     ///   1. If ANY matchCondition evaluates to FALSE, the webhook is skipped.
@@ -554,9 +554,9 @@ pub const ValidatingWebhook = struct {
     /// 
     /// Defaults to "Equivalent"
     matchPolicy: ?[]const u8 = null,
-    /// The name of the admission webhook. Name should be fully qualified, e.g., imagepolicy.kubernetes.io, where "imagepolicy" is the name of the webhook, and kubernetes.io is the name of the organization. Required.
+    /// name is the name of the admission webhook. Name should be fully qualified, e.g., imagepolicy.kubernetes.io, where "imagepolicy" is the name of the webhook, and kubernetes.io is the name of the organization. Required.
     name: []const u8,
-    /// NamespaceSelector decides whether to run the webhook on an object based on whether the namespace for that object matches the selector. If the object itself is a namespace, the matching is performed on object.metadata.labels. If the object is another cluster scoped resource, it never skips the webhook.
+    /// namespaceSelector decides whether to run the webhook on an object based on whether the namespace for that object matches the selector. If the object itself is a namespace, the matching is performed on object.metadata.labels. If the object is another cluster scoped resource, it never skips the webhook.
     /// 
     /// For example, to run the webhook on any objects whose namespace is not associated with "runlevel" of "0" or "1";  you will set the selector as follows: "namespaceSelector": {
     ///   "matchExpressions": [
@@ -588,13 +588,13 @@ pub const ValidatingWebhook = struct {
     /// 
     /// Default to the empty LabelSelector, which matches everything.
     namespaceSelector: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelector = null,
-    /// ObjectSelector decides whether to run the webhook based on if the object has matching labels. objectSelector is evaluated against both the oldObject and newObject that would be sent to the webhook, and is considered to match if either object matches the selector. A null object (oldObject in the case of create, or newObject in the case of delete) or an object that cannot have labels (like a DeploymentRollback or a PodProxyOptions object) is not considered to match. Use the object selector only if the webhook is opt-in, because end users may skip the admission webhook by setting the labels. Default to the empty LabelSelector, which matches everything.
+    /// objectSelector decides whether to run the webhook based on if the object has matching labels. objectSelector is evaluated against both the oldObject and newObject that would be sent to the webhook, and is considered to match if either object matches the selector. A null object (oldObject in the case of create, or newObject in the case of delete) or an object that cannot have labels (like a DeploymentRollback or a PodProxyOptions object) is not considered to match. Use the object selector only if the webhook is opt-in, because end users may skip the admission webhook by setting the labels. Default to the empty LabelSelector, which matches everything.
     objectSelector: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelector = null,
-    /// Rules describes what operations on what resources/subresources the webhook cares about. The webhook cares about an operation if it matches _any_ Rule. However, in order to prevent ValidatingAdmissionWebhooks and MutatingAdmissionWebhooks from putting the cluster in a state which cannot be recovered from without completely disabling the plugin, ValidatingAdmissionWebhooks and MutatingAdmissionWebhooks are never called on admission requests for ValidatingWebhookConfiguration and MutatingWebhookConfiguration objects.
+    /// rules describes what operations on what resources/subresources the webhook cares about. The webhook cares about an operation if it matches _any_ Rule. However, in order to prevent ValidatingAdmissionWebhooks and MutatingAdmissionWebhooks from putting the cluster in a state which cannot be recovered from without completely disabling the plugin, ValidatingAdmissionWebhooks and MutatingAdmissionWebhooks are never called on admission requests for ValidatingWebhookConfiguration and MutatingWebhookConfiguration objects.
     rules: ?[]const root.io.k8s.api.admissionregistration.v1.RuleWithOperations = null,
-    /// SideEffects states whether this webhook has side effects. Acceptable values are: None, NoneOnDryRun (webhooks created via v1beta1 may also specify Some or Unknown). Webhooks with side effects MUST implement a reconciliation system, since a request may be rejected by a future step in the admission chain and the side effects therefore need to be undone. Requests with the dryRun attribute will be auto-rejected if they match a webhook with sideEffects == Unknown or Some.
+    /// sideEffects states whether this webhook has side effects. Acceptable values are: None, NoneOnDryRun (webhooks created via v1beta1 may also specify Some or Unknown). Webhooks with side effects MUST implement a reconciliation system, since a request may be rejected by a future step in the admission chain and the side effects therefore need to be undone. Requests with the dryRun attribute will be auto-rejected if they match a webhook with sideEffects == Unknown or Some.
     sideEffects: []const u8,
-    /// TimeoutSeconds specifies the timeout for this webhook. After the timeout passes, the webhook call will be ignored or the API call will fail based on the failure policy. The timeout value must be between 1 and 30 seconds. Default to 10 seconds.
+    /// timeoutSeconds specifies the timeout for this webhook. After the timeout passes, the webhook call will be ignored or the API call will fail based on the failure policy. The timeout value must be between 1 and 30 seconds. Default to 10 seconds.
     timeoutSeconds: ?i64 = null,
 
     pub fn validate(self: @This()) !void {
@@ -612,9 +612,9 @@ pub const ValidatingWebhookConfiguration = struct {
     apiVersion: ?[]const u8 = null,
     /// Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     kind: ?[]const u8 = null,
-    /// Standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata.
+    /// metadata is the standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata.
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
-    /// Webhooks is a list of webhooks and the affected resources and operations.
+    /// webhooks is a list of webhooks and the affected resources and operations.
     webhooks: ?[]const root.io.k8s.api.admissionregistration.v1.ValidatingWebhook = null,
 
     pub fn validate(self: @This()) !void {
@@ -631,7 +631,7 @@ pub const ValidatingWebhookConfigurationList = struct {
     items: []const root.io.k8s.api.admissionregistration.v1.ValidatingWebhookConfiguration,
     /// Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     kind: ?[]const u8 = null,
-    /// Standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+    /// metadata is the standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ListMeta = null,
 
     pub fn validate(self: @This()) !void {
@@ -642,7 +642,7 @@ pub const ValidatingWebhookConfigurationList = struct {
 
 /// Validation specifies the CEL expression which is used to apply the validation.
 pub const Validation = struct {
-    /// Expression represents the expression which will be evaluated by CEL. ref: https://github.com/google/cel-spec CEL expressions have access to the contents of the API request/response, organized into CEL variables as well as some other useful variables:
+    /// expression represents the expression which will be evaluated by CEL. ref: https://github.com/google/cel-spec CEL expressions have access to the contents of the API request/response, organized into CEL variables as well as some other useful variables:
     /// 
     /// - 'object' - The object from the incoming request. The value is null for DELETE requests. - 'oldObject' - The existing object. The value is null for CREATE requests. - 'request' - Attributes of the API request([ref](/pkg/apis/admission/types.go#AdmissionRequest)). - 'params' - Parameter resource referred to by the policy binding being evaluated. Only populated if the policy has a ParamKind. - 'namespaceObject' - The namespace object that the incoming object belongs to. The value is null for cluster-scoped resources. - 'variables' - Map of composited variables, from its name to its lazily evaluated value.
     ///   For example, a variable named 'foo' can be accessed as 'variables.foo'.
@@ -669,11 +669,11 @@ pub const Validation = struct {
     ///     non-intersecting keys are appended, retaining their partial order.
     /// Required.
     expression: []const u8,
-    /// Message represents the message displayed when validation fails. The message is required if the Expression contains line breaks. The message must not contain line breaks. If unset, the message is "failed rule: {Rule}". e.g. "must be a URL with the host matching spec.host" If the Expression contains line breaks. Message is required. The message must not contain line breaks. If unset, the message is "failed Expression: {Expression}".
+    /// message represents the message displayed when validation fails. The message is required if the Expression contains line breaks. The message must not contain line breaks. If unset, the message is "failed rule: {Rule}". e.g. "must be a URL with the host matching spec.host" If the Expression contains line breaks. Message is required. The message must not contain line breaks. If unset, the message is "failed Expression: {Expression}".
     message: ?[]const u8 = null,
     /// messageExpression declares a CEL expression that evaluates to the validation failure message that is returned when this rule fails. Since messageExpression is used as a failure message, it must evaluate to a string. If both message and messageExpression are present on a validation, then messageExpression will be used if validation fails. If messageExpression results in a runtime error, the runtime error is logged, and the validation failure message is produced as if the messageExpression field were unset. If messageExpression evaluates to an empty string, a string with only spaces, or a string that contains line breaks, then the validation failure message will also be produced as if the messageExpression field were unset, and the fact that messageExpression produced an empty string/string with only spaces/string with line breaks will be logged. messageExpression has access to all the same variables as the `expression` except for 'authorizer' and 'authorizer.requestResource'. Example: "object.x must be less than max ("+string(params.max)+")"
     messageExpression: ?[]const u8 = null,
-    /// Reason represents a machine-readable description of why this validation failed. If this is the first validation in the list to fail, this reason, as well as the corresponding HTTP response code, are used in the HTTP response to the client. The currently supported reasons are: "Unauthorized", "Forbidden", "Invalid", "RequestEntityTooLarge". If not set, StatusReasonInvalid is used in the response to the client.
+    /// reason represents a machine-readable description of why this validation failed. If this is the first validation in the list to fail, this reason, as well as the corresponding HTTP response code, are used in the HTTP response to the client. The currently supported reasons are: "Unauthorized", "Forbidden", "Invalid", "RequestEntityTooLarge". If not set, StatusReasonInvalid is used in the response to the client.
     reason: ?[]const u8 = null,
 
     pub fn validate(self: @This()) !void {
@@ -683,9 +683,9 @@ pub const Validation = struct {
 
 /// Variable is the definition of a variable that is used for composition. A variable is defined as a named expression.
 pub const Variable = struct {
-    /// Expression is the expression that will be evaluated as the value of the variable. The CEL expression has access to the same identifiers as the CEL expressions in Validation.
+    /// expression is the expression that will be evaluated as the value of the variable. The CEL expression has access to the same identifiers as the CEL expressions in Validation.
     expression: []const u8,
-    /// Name is the name of the variable. The name must be a valid CEL identifier and unique among all variables. The variable can be accessed in other expressions through `variables` For example, if name is "foo", the variable will be available as `variables.foo`
+    /// name is the name of the variable. The name must be a valid CEL identifier and unique among all variables. The variable can be accessed in other expressions through `variables` For example, if name is "foo", the variable will be available as `variables.foo`
     name: []const u8,
 
     pub fn validate(self: @This()) !void {
@@ -695,13 +695,13 @@ pub const Variable = struct {
 
 /// WebhookClientConfig contains the information to make a TLS connection with the webhook
 pub const WebhookClientConfig = struct {
-    /// `caBundle` is a PEM encoded CA bundle which will be used to validate the webhook's server certificate. If unspecified, system trust roots on the apiserver are used.
+    /// caBundle is a PEM encoded CA bundle which will be used to validate the webhook's server certificate. If unspecified, system trust roots on the apiserver are used.
     caBundle: ?[]const u8 = null,
-    /// `service` is a reference to the service for this webhook. Either `service` or `url` must be specified.
+    /// service is a reference to the service for this webhook. Either `service` or `url` must be specified.
     /// 
     /// If the webhook is running within the cluster, then you should use `service`.
     service: ?root.io.k8s.api.admissionregistration.v1.ServiceReference = null,
-    /// `url` gives the location of the webhook, in standard URL form (`scheme://host:port/path`). Exactly one of `url` or `service` must be specified.
+    /// url gives the location of the webhook, in standard URL form (`scheme://host:port/path`). Exactly one of `url` or `service` must be specified.
     /// 
     /// The `host` should not refer to a service running in the cluster; use the `service` field instead. The host might be resolved via external DNS in some apiservers (e.g., `kube-apiserver` cannot resolve in-cluster DNS as that would be a layering violation). `host` may also be an IP address.
     /// 

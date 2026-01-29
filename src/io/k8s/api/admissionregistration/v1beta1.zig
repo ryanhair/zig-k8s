@@ -106,7 +106,7 @@ pub const JSONPatch = struct {
 
 /// MatchCondition represents a condition which must be fulfilled for a request to be sent to a webhook.
 pub const MatchCondition = struct {
-    /// Expression represents the expression which will be evaluated by CEL. Must evaluate to bool. CEL expressions have access to the contents of the AdmissionRequest and Authorizer, organized into CEL variables:
+    /// expression represents the expression which will be evaluated by CEL. Must evaluate to bool. CEL expressions have access to the contents of the AdmissionRequest and Authorizer, organized into CEL variables:
     /// 
     /// 'object' - The object from the incoming request. The value is null for DELETE requests. 'oldObject' - The existing object. The value is null for CREATE requests. 'request' - Attributes of the admission request(/pkg/apis/admission/types.go#AdmissionRequest). 'authorizer' - A CEL Authorizer. May be used to perform authorization checks for the principal (user or service account) of the request.
     ///   See https://pkg.go.dev/k8s.io/apiserver/pkg/cel/library#Authz
@@ -116,7 +116,7 @@ pub const MatchCondition = struct {
     /// 
     /// Required.
     expression: []const u8,
-    /// Name is an identifier for this match condition, used for strategic merging of MatchConditions, as well as providing an identifier for logging purposes. A good name should be descriptive of the associated expression. Name must be a qualified name consisting of alphanumeric characters, '-', '_' or '.', and must start and end with an alphanumeric character (e.g. 'MyName',  or 'my.name',  or '123-abc', regex used for validation is '([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9]') with an optional DNS subdomain prefix and '/' (e.g. 'example.com/MyName')
+    /// name is an identifier for this match condition, used for strategic merging of MatchConditions, as well as providing an identifier for logging purposes. A good name should be descriptive of the associated expression. Name must be a qualified name consisting of alphanumeric characters, '-', '_' or '.', and must start and end with an alphanumeric character (e.g. 'MyName',  or 'my.name',  or '123-abc', regex used for validation is '([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9]') with an optional DNS subdomain prefix and '/' (e.g. 'example.com/MyName')
     /// 
     /// Required.
     name: []const u8,
@@ -128,7 +128,7 @@ pub const MatchCondition = struct {
 
 /// MatchResources decides whether to run the admission control policy on an object based on whether it meets the match criteria. The exclude rules take precedence over include rules (if a resource matches both, it is excluded)
 pub const MatchResources = struct {
-    /// ExcludeResourceRules describes what operations on what resources/subresources the ValidatingAdmissionPolicy should not care about. The exclude rules take precedence over include rules (if a resource matches both, it is excluded)
+    /// excludeResourceRules describes what operations on what resources/subresources the ValidatingAdmissionPolicy should not care about. The exclude rules take precedence over include rules (if a resource matches both, it is excluded)
     excludeResourceRules: ?[]const root.io.k8s.api.admissionregistration.v1beta1.NamedRuleWithOperations = null,
     /// matchPolicy defines how the "MatchResources" list is used to match incoming requests. Allowed values are "Exact" or "Equivalent".
     /// 
@@ -138,7 +138,7 @@ pub const MatchResources = struct {
     /// 
     /// Defaults to "Equivalent"
     matchPolicy: ?[]const u8 = null,
-    /// NamespaceSelector decides whether to run the admission control policy on an object based on whether the namespace for that object matches the selector. If the object itself is a namespace, the matching is performed on object.metadata.labels. If the object is another cluster scoped resource, it never skips the policy.
+    /// namespaceSelector decides whether to run the admission control policy on an object based on whether the namespace for that object matches the selector. If the object itself is a namespace, the matching is performed on object.metadata.labels. If the object is another cluster scoped resource, it never skips the policy.
     /// 
     /// For example, to run the webhook on any objects whose namespace is not associated with "runlevel" of "0" or "1";  you will set the selector as follows: "namespaceSelector": {
     ///   "matchExpressions": [
@@ -170,9 +170,9 @@ pub const MatchResources = struct {
     /// 
     /// Default to the empty LabelSelector, which matches everything.
     namespaceSelector: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelector = null,
-    /// ObjectSelector decides whether to run the validation based on if the object has matching labels. objectSelector is evaluated against both the oldObject and newObject that would be sent to the cel validation, and is considered to match if either object matches the selector. A null object (oldObject in the case of create, or newObject in the case of delete) or an object that cannot have labels (like a DeploymentRollback or a PodProxyOptions object) is not considered to match. Use the object selector only if the webhook is opt-in, because end users may skip the admission webhook by setting the labels. Default to the empty LabelSelector, which matches everything.
+    /// objectSelector decides whether to run the validation based on if the object has matching labels. objectSelector is evaluated against both the oldObject and newObject that would be sent to the cel validation, and is considered to match if either object matches the selector. A null object (oldObject in the case of create, or newObject in the case of delete) or an object that cannot have labels (like a DeploymentRollback or a PodProxyOptions object) is not considered to match. Use the object selector only if the webhook is opt-in, because end users may skip the admission webhook by setting the labels. Default to the empty LabelSelector, which matches everything.
     objectSelector: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelector = null,
-    /// ResourceRules describes what operations on what resources/subresources the ValidatingAdmissionPolicy matches. The policy cares about an operation if it matches _any_ Rule.
+    /// resourceRules describes what operations on what resources/subresources the ValidatingAdmissionPolicy matches. The policy cares about an operation if it matches _any_ Rule.
     resourceRules: ?[]const root.io.k8s.api.admissionregistration.v1beta1.NamedRuleWithOperations = null,
 
     pub fn validate(self: @This()) !void {
@@ -189,9 +189,9 @@ pub const MutatingAdmissionPolicy = struct {
     apiVersion: ?[]const u8 = null,
     /// Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     kind: ?[]const u8 = null,
-    /// Standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata.
+    /// metadata is the standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata.
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
-    /// Specification of the desired behavior of the MutatingAdmissionPolicy.
+    /// spec defines the desired behavior of the MutatingAdmissionPolicy.
     spec: ?root.io.k8s.api.admissionregistration.v1beta1.MutatingAdmissionPolicySpec = null,
 
     pub fn validate(self: @This()) !void {
@@ -210,9 +210,9 @@ pub const MutatingAdmissionPolicyBinding = struct {
     apiVersion: ?[]const u8 = null,
     /// Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     kind: ?[]const u8 = null,
-    /// Standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata.
+    /// metadata is the standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata.
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
-    /// Specification of the desired behavior of the MutatingAdmissionPolicyBinding.
+    /// spec defines the desired behavior of the MutatingAdmissionPolicyBinding.
     spec: ?root.io.k8s.api.admissionregistration.v1beta1.MutatingAdmissionPolicyBindingSpec = null,
 
     pub fn validate(self: @This()) !void {
@@ -229,7 +229,7 @@ pub const MutatingAdmissionPolicyBindingList = struct {
     items: []const root.io.k8s.api.admissionregistration.v1beta1.MutatingAdmissionPolicyBinding,
     /// Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     kind: ?[]const u8 = null,
-    /// Standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+    /// metadata is the standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ListMeta = null,
 
     pub fn validate(self: @This()) !void {
@@ -261,7 +261,7 @@ pub const MutatingAdmissionPolicyList = struct {
     items: []const root.io.k8s.api.admissionregistration.v1beta1.MutatingAdmissionPolicy,
     /// Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     kind: ?[]const u8 = null,
-    /// Standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+    /// metadata is the standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ListMeta = null,
 
     pub fn validate(self: @This()) !void {
@@ -334,15 +334,15 @@ pub const Mutation = struct {
 
 /// NamedRuleWithOperations is a tuple of Operations and Resources with ResourceNames.
 pub const NamedRuleWithOperations = struct {
-    /// APIGroups is the API groups the resources belong to. '*' is all groups. If '*' is present, the length of the slice must be one. Required.
+    /// apiGroups is the API groups the resources belong to. '*' is all groups. If '*' is present, the length of the slice must be one. Required.
     apiGroups: ?[]const []const u8 = null,
-    /// APIVersions is the API versions the resources belong to. '*' is all versions. If '*' is present, the length of the slice must be one. Required.
+    /// apiVersions is the API versions the resources belong to. '*' is all versions. If '*' is present, the length of the slice must be one. Required.
     apiVersions: ?[]const []const u8 = null,
-    /// Operations is the operations the admission hook cares about - CREATE, UPDATE, DELETE, CONNECT or * for all of those operations and any future admission operations that are added. If '*' is present, the length of the slice must be one. Required.
+    /// operations is the operations the admission hook cares about - CREATE, UPDATE, DELETE, CONNECT or * for all of those operations and any future admission operations that are added. If '*' is present, the length of the slice must be one. Required.
     operations: ?[]const []const u8 = null,
-    /// ResourceNames is an optional white list of names that the rule applies to.  An empty set means that everything is allowed.
+    /// resourceNames is an optional white list of names that the rule applies to.  An empty set means that everything is allowed.
     resourceNames: ?[]const []const u8 = null,
-    /// Resources is a list of resources this rule applies to.
+    /// resources is a list of resources this rule applies to.
     /// 
     /// For example: 'pods' means pods. 'pods/log' means the log subresource of pods. '*' means all resources, but not subresources. 'pods/*' means all subresources of pods. '*/scale' means all scale subresources. '*/*' means all resources and their subresources.
     /// 
@@ -360,9 +360,9 @@ pub const NamedRuleWithOperations = struct {
 
 /// ParamKind is a tuple of Group Kind and Version.
 pub const ParamKind = struct {
-    /// APIVersion is the API group version the resources belong to. In format of "group/version". Required.
+    /// apiVersion is the API group version the resources belong to. In format of "group/version". Required.
     apiVersion: ?[]const u8 = null,
-    /// Kind is the API kind the resources belong to. Required.
+    /// kind is the API kind the resources belong to. Required.
     kind: ?[]const u8 = null,
 
     pub fn validate(self: @This()) !void {
@@ -386,7 +386,7 @@ pub const ParamRef = struct {
     /// 
     /// - If `paramKind` is namespace-scoped, the namespace of the object being evaluated for admission will be used when this field is left unset. Take care that if this is left empty the binding must not match any cluster-scoped resources, which will result in an error.
     namespace: ?[]const u8 = null,
-    /// `parameterNotFoundAction` controls the behavior of the binding when the resource exists, and name or selector is valid, but there are no parameters matched by the binding. If the value is set to `Allow`, then no matched parameters will be treated as successful validation by the binding. If set to `Deny`, then no matched parameters will be subject to the `failurePolicy` of the policy.
+    /// parameterNotFoundAction controls the behavior of the binding when the resource exists, and name or selector is valid, but there are no parameters matched by the binding. If the value is set to `Allow`, then no matched parameters will be treated as successful validation by the binding. If set to `Deny`, then no matched parameters will be subject to the `failurePolicy` of the policy.
     /// 
     /// Allowed values are `Allow` or `Deny`
     /// 
@@ -406,9 +406,9 @@ pub const ParamRef = struct {
 
 /// Variable is the definition of a variable that is used for composition. A variable is defined as a named expression.
 pub const Variable = struct {
-    /// Expression is the expression that will be evaluated as the value of the variable. The CEL expression has access to the same identifiers as the CEL expressions in Validation.
+    /// expression is the expression that will be evaluated as the value of the variable. The CEL expression has access to the same identifiers as the CEL expressions in Validation.
     expression: []const u8,
-    /// Name is the name of the variable. The name must be a valid CEL identifier and unique among all variables. The variable can be accessed in other expressions through `variables` For example, if name is "foo", the variable will be available as `variables.foo`
+    /// name is the name of the variable. The name must be a valid CEL identifier and unique among all variables. The variable can be accessed in other expressions through `variables` For example, if name is "foo", the variable will be available as `variables.foo`
     name: []const u8,
 
     pub fn validate(self: @This()) !void {
