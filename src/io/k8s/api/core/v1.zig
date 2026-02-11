@@ -2532,7 +2532,7 @@ pub const PodCondition = struct {
     lastTransitionTime: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.Time = null,
     /// Human-readable message indicating details about last transition.
     message: ?[]const u8 = null,
-    /// If set, this represents the .metadata.generation that the pod condition was set based upon. The PodObservedGenerationTracking feature gate must be enabled to use this field.
+    /// If set, this represents the .metadata.generation that the pod condition was set based upon.
     observedGeneration: ?i64 = null,
     /// Unique, one-word, CamelCase reason for the condition's last transition.
     reason: ?[]const u8 = null,
