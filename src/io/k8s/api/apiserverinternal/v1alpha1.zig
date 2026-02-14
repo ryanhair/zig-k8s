@@ -6,11 +6,11 @@ const root = @import("../../../../root.zig");
 /// An API server instance reports the version it can decode and the version it encodes objects to when persisting objects in the backend.
 pub const ServerStorageVersion = struct {
     /// The ID of the reporting API server.
-    apiServerID: ?[]const u8 = null,
+    apiServerID: []const u8,
     /// The API server can decode objects encoded in these versions. The encodingVersion must be included in the decodableVersions.
-    decodableVersions: ?[]const []const u8 = null,
+    decodableVersions: []const []const u8,
     /// The API server encodes the object to this version when persisting it in the backend (e.g., etcd).
-    encodingVersion: ?[]const u8 = null,
+    encodingVersion: []const u8,
     /// The API server can serve these versions. DecodableVersions must include all ServedVersions.
     servedVersions: ?[]const []const u8 = null,
 
@@ -26,15 +26,15 @@ pub const StorageVersion = struct {
     /// Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     kind: ?[]const u8 = null,
     /// The name is <group>.<resource>.
-    metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
+    metadata: root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta,
     /// Spec is an empty spec. It is here to comply with Kubernetes API style.
-    spec: root.io.k8s.api.apiserverinternal.v1alpha1.StorageVersionSpec,
+    spec: ?root.io.k8s.api.apiserverinternal.v1alpha1.StorageVersionSpec = null,
     /// API server instances report the version they can decode and the version they encode objects to when persisting objects in the backend.
-    status: root.io.k8s.api.apiserverinternal.v1alpha1.StorageVersionStatus,
+    status: ?root.io.k8s.api.apiserverinternal.v1alpha1.StorageVersionStatus = null,
 
     pub fn validate(self: @This()) !void {
-        if (self.metadata) |v| try v.validate();
-        try self.status.validate();
+        try self.metadata.validate();
+        if (self.status) |v| try v.validate();
     }
 };
 

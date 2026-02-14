@@ -26,13 +26,13 @@ pub const HorizontalPodAutoscaler = struct {
     /// Standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
     /// spec defines the behaviour of autoscaler. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status.
-    spec: ?root.io.k8s.api.autoscaling.v1.HorizontalPodAutoscalerSpec = null,
+    spec: root.io.k8s.api.autoscaling.v1.HorizontalPodAutoscalerSpec,
     /// status is the current information about the autoscaler.
     status: ?root.io.k8s.api.autoscaling.v1.HorizontalPodAutoscalerStatus = null,
 
     pub fn validate(self: @This()) !void {
         if (self.metadata) |v| try v.validate();
-        if (self.spec) |v| try v.validate();
+        try self.spec.validate();
         if (self.status) |v| try v.validate();
     }
 };

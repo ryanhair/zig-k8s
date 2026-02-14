@@ -47,11 +47,11 @@ pub const IPAddress = struct {
     /// Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
     /// spec is the desired state of the IPAddress. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
-    spec: ?root.io.k8s.api.networking.v1.IPAddressSpec = null,
+    spec: root.io.k8s.api.networking.v1.IPAddressSpec,
 
     pub fn validate(self: @This()) !void {
         if (self.metadata) |v| try v.validate();
-        if (self.spec) |v| try v.validate();
+        try self.spec.validate();
     }
 };
 

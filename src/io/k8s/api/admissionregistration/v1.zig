@@ -391,11 +391,11 @@ pub const ValidatingAdmissionPolicyBinding = struct {
     /// metadata is the standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata.
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
     /// spec defines the desired behavior of the ValidatingAdmissionPolicyBinding.
-    spec: ?root.io.k8s.api.admissionregistration.v1.ValidatingAdmissionPolicyBindingSpec = null,
+    spec: root.io.k8s.api.admissionregistration.v1.ValidatingAdmissionPolicyBindingSpec,
 
     pub fn validate(self: @This()) !void {
         if (self.metadata) |v| try v.validate();
-        if (self.spec) |v| try v.validate();
+        try self.spec.validate();
     }
 };
 

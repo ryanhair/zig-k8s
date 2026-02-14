@@ -12,13 +12,13 @@ pub const CronJob = struct {
     /// Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
     /// Specification of the desired behavior of a cron job, including the schedule. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
-    spec: ?root.io.k8s.api.batch.v1.CronJobSpec = null,
+    spec: root.io.k8s.api.batch.v1.CronJobSpec,
     /// Current status of a cron job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
     status: ?root.io.k8s.api.batch.v1.CronJobStatus = null,
 
     pub fn validate(self: @This()) !void {
         if (self.metadata) |v| try v.validate();
-        if (self.spec) |v| try v.validate();
+        try self.spec.validate();
         if (self.status) |v| try v.validate();
     }
 };

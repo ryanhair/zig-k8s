@@ -12,11 +12,11 @@ pub const LeaseCandidate = struct {
     /// More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
     /// spec contains the specification of the Lease. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
-    spec: ?root.io.k8s.api.coordination.v1beta1.LeaseCandidateSpec = null,
+    spec: root.io.k8s.api.coordination.v1beta1.LeaseCandidateSpec,
 
     pub fn validate(self: @This()) !void {
         if (self.metadata) |v| try v.validate();
-        if (self.spec) |v| try v.validate();
+        try self.spec.validate();
     }
 };
 
