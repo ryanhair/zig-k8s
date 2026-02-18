@@ -55,13 +55,13 @@ pub const TokenRequest = struct {
     /// metadata is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
     /// spec holds information about the request being evaluated
-    spec: root.io.k8s.api.authentication.v1.TokenRequestSpec,
+    spec: ?root.io.k8s.api.authentication.v1.TokenRequestSpec = null,
     /// status is filled in by the server and indicates whether the token can be authenticated.
     status: ?root.io.k8s.api.authentication.v1.TokenRequestStatus = null,
 
     pub fn validate(self: @This()) !void {
         if (self.metadata) |v| try v.validate();
-        try self.spec.validate();
+        if (self.spec) |v| try v.validate();
         if (self.status) |v| try v.validate();
     }
 };
@@ -69,7 +69,7 @@ pub const TokenRequest = struct {
 /// TokenRequestSpec contains client provided parameters of a token request.
 pub const TokenRequestSpec = struct {
     /// audiences are the intendend audiences of the token. A recipient of a token must identify themself with an identifier in the list of audiences of the token, and otherwise should reject the token. A token issued for multiple audiences may be used to authenticate against any of the audiences listed but implies a high degree of trust between the target audiences.
-    audiences: []const []const u8,
+    audiences: ?[]const []const u8 = null,
     /// boundObjectRef is a reference to an object that the token will be bound to. The token will only be valid for as long as the bound object exists. NOTE: The API server's TokenReview endpoint will validate the BoundObjectRef, but other audiences may not. Keep ExpirationSeconds small if you want prompt revocation.
     boundObjectRef: ?root.io.k8s.api.authentication.v1.BoundObjectReference = null,
     /// expirationSeconds is the requested duration of validity of the request. The token issuer may return a token with a different validity duration so a client needs to check the 'expiration' field in a response.
@@ -83,9 +83,9 @@ pub const TokenRequestSpec = struct {
 /// TokenRequestStatus is the result of a token request.
 pub const TokenRequestStatus = struct {
     /// expirationTimestamp is the time of expiration of the returned token.
-    expirationTimestamp: root.io.k8s.apimachinery.pkg.apis.meta.v1.Time,
+    expirationTimestamp: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.Time = null,
     /// token is the opaque bearer token.
-    token: []const u8,
+    token: ?[]const u8 = null,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -117,7 +117,7 @@ pub const TokenReviewSpec = struct {
     /// audiences is a list of the identifiers that the resource server presented with the token identifies as. Audience-aware token authenticators will verify that the token was intended for at least one of the audiences in this list. If no audiences are provided, the audience will default to the audience of the Kubernetes apiserver.
     audiences: ?[]const []const u8 = null,
     /// token is the opaque bearer token.
-    token: ?[]const u8 = null,
+    token: []const u8,
 
     pub fn validate(self: @This()) !void {
         _ = self;
