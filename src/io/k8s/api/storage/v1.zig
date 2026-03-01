@@ -51,7 +51,7 @@ pub const CSIDriverSpec = struct {
     fsGroupPolicy: ?[]const u8 = null,
     /// nodeAllocatableUpdatePeriodSeconds specifies the interval between periodic updates of the CSINode allocatable capacity for this driver. When set, both periodic updates and updates triggered by capacity-related failures are enabled. If not set, no updates occur (neither periodic nor upon detecting capacity-related failures), and the allocatable.count remains static. The minimum allowed value for this field is 10 seconds.
     ///
-    /// This is a beta feature and requires the MutableCSINodeAllocatableCount feature gate to be enabled.
+    /// This feature requires the MutableCSINodeAllocatableCount feature gate to be enabled.
     ///
     /// This field is mutable.
     nodeAllocatableUpdatePeriodSeconds: ?i64 = null,
@@ -419,7 +419,7 @@ pub const VolumeAttributesClassList = struct {
 pub const VolumeError = struct {
     /// errorCode is a numeric gRPC code representing the error encountered during Attach or Detach operations.
     ///
-    /// This is an optional, beta field that requires the MutableCSINodeAllocatableCount feature gate being enabled to be set.
+    /// This field requires the MutableCSINodeAllocatableCount feature gate being enabled to be set.
     errorCode: ?i64 = null,
     /// message represents the error encountered during Attach or Detach operation. This string may be logged, so it should not contain sensitive information.
     message: ?[]const u8 = null,
