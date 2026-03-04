@@ -615,7 +615,9 @@ pub const DeviceTaint = struct {
     effect: []const u8,
     /// The taint key to be applied to a device. Must be a label name.
     key: []const u8,
-    /// TimeAdded represents the time at which the taint was added. Added automatically during create or update if not set.
+    /// TimeAdded represents the time at which the taint was added or (only in a DeviceTaintRule) the effect was modified. Added automatically during create or update if not set.
+    ///
+    /// In addition, in a DeviceTaintRule a value provided during an update gets replaced with the current time if the provided value is the same as the old one and the new effect is different. Changing the key and/or value while keeping the effect unchanged is possible and does not update the time stamp because the eviction which uses it is either already started (NoExecute) or not started yet (NoEffect, NoSchedule).
     timeAdded: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.Time = null,
     /// The taint value corresponding to the taint key. Must be a label value.
     value: ?[]const u8 = null,
@@ -702,11 +704,11 @@ pub const ExactDeviceRequest = struct {
 pub const NetworkDeviceData = struct {
     /// HardwareAddress represents the hardware address (e.g. MAC Address) of the device's network interface.
     ///
-    /// Must not be longer than 128 characters.
+    /// Must not be longer than 128 bytes.
     hardwareAddress: ?[]const u8 = null,
     /// InterfaceName specifies the name of the network interface associated with the allocated device. This might be the name of a physical or virtual network interface being configured in the pod.
     ///
-    /// Must not be longer than 256 characters.
+    /// Must not be longer than 256 bytes.
     interfaceName: ?[]const u8 = null,
     /// IPs lists the network addresses assigned to the device's network interface. This can include both IPv4 and IPv6 addresses. The IPs are in the CIDR notation, which includes both the address and the associated subnet mask. e.g.: "192.0.2.5/24" for IPv4 and "2001:db8::5/64" for IPv6.
     ips: ?[]const []const u8 = null,

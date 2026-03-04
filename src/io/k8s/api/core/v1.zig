@@ -3243,6 +3243,8 @@ pub const ResourceHealth = struct {
     /// 
     /// In future we may want to introduce the PermanentlyUnhealthy Status.
     health: ?[]const u8 = null,
+    /// Message provides human-readable context for Health (e.g. "ECC error count exceeded threshold"). This field is populated by the kubelet when ResourceHealthStatusMessage is enabled if the DRA plugin returns a message, and is null otherwise.
+    message: ?[]const u8 = null,
     /// ResourceID is the unique identifier of the resource. See the ResourceID type for more information.
     resourceID: []const u8,
 
