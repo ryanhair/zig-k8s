@@ -495,7 +495,7 @@ pub const DeviceRequest = struct {
 pub const DeviceRequestAllocationResult = struct {
     /// AdminAccess indicates that this device was allocated for administrative access. See the corresponding request field for a definition of mode.
     ///
-    /// This is an beta field and requires enabling the DRAAdminAccess feature gate. Admin access is disabled if this field is unset or set to false, otherwise it is enabled.
+    /// Admin access is disabled if this field is unset or set to false, otherwise it is enabled.
     adminAccess: ?bool = null,
     /// BindingConditions contains a copy of the BindingConditions from the corresponding ResourceSlice at the time of allocation.
     ///
@@ -647,7 +647,7 @@ pub const DeviceToleration = struct {
 pub const ExactDeviceRequest = struct {
     /// AdminAccess indicates that this is a claim for administrative access to the device(s). Claims with AdminAccess are expected to be used for monitoring or other management services for a device.  They ignore all ordinary claims to the device with respect to access modes and any resource allocations.
     ///
-    /// This is an beta field and requires enabling the DRAAdminAccess feature gate. Admin access is disabled if this field is unset or set to false, otherwise it is enabled.
+    /// Admin access is disabled if this field is unset or set to false, otherwise it is enabled.
     adminAccess: ?bool = null,
     /// AllocationMode and its related fields define how devices are allocated to satisfy this request. Supported values are:
     ///
