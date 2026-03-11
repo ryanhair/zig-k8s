@@ -2677,6 +2677,16 @@ pub const PodSchedulingGate = struct {
     }
 };
 
+/// PodSchedulingGroup identifies the runtime scheduling group instance that a Pod belongs to. The scheduler uses this information to apply workload-aware scheduling semantics. Exactly one field must be specified.
+pub const PodSchedulingGroup = struct {
+    /// PodGroupName specifies the name of the standalone PodGroup object that represents the runtime instance of this group. Must be a DNS subdomain.
+    podGroupName: ?[]const u8 = null,
+
+    pub fn validate(self: @This()) !void {
+        _ = self;
+    }
+};
+
 /// PodSecurityContext holds pod-level security attributes and common container settings. Some fields are also present in container.securityContext.  Field values of container.securityContext take precedence over field values of PodSecurityContext.
 pub const PodSecurityContext = struct {
     /// appArmorProfile is the AppArmor options to use by the containers in this pod. Note that this field cannot be set when spec.os.name is windows.
@@ -2809,6 +2819,8 @@ pub const PodSpec = struct {
     /// 
     /// SchedulingGates can only be set at pod creation time, and be removed only afterwards.
     schedulingGates: ?[]const root.io.k8s.api.core.v1.PodSchedulingGate = null,
+    /// SchedulingGroup provides a reference to the immediate scheduling runtime grouping object that this Pod belongs to. This field is used by the scheduler to identify the group and apply the correct group scheduling policies. The association with a group also impacts other lifecycle aspects of a Pod that are relevant in a wider context of scheduling like preemption, resource attachment, etc. If not specified, the Pod is treated as a single unit in all of these aspects. The group object referenced by this field may not exist at the time the Pod is created. This field is immutable, but a group object with the same name may be recreated with different policies. Doing this during pod scheduling may result in the placement not conforming to the expected policies.
+    schedulingGroup: ?root.io.k8s.api.core.v1.PodSchedulingGroup = null,
     /// SecurityContext holds pod-level security attributes and common container settings. Optional: Defaults to empty.  See type description for default values of each field.
     securityContext: ?root.io.k8s.api.core.v1.PodSecurityContext = null,
     /// DeprecatedServiceAccount is a deprecated alias for ServiceAccountName. Deprecated: Use serviceAccountName instead.
@@ -2829,8 +2841,6 @@ pub const PodSpec = struct {
     topologySpreadConstraints: ?[]const root.io.k8s.api.core.v1.TopologySpreadConstraint = null,
     /// List of volumes that can be mounted by containers belonging to the pod. More info: https://kubernetes.io/docs/concepts/storage/volumes
     volumes: ?[]const root.io.k8s.api.core.v1.Volume = null,
-    /// WorkloadRef provides a reference to the Workload object that this Pod belongs to. This field is used by the scheduler to identify the PodGroup and apply the correct group scheduling policies. The Workload object referenced by this field may not exist at the time the Pod is created. This field is immutable, but a Workload object with the same name may be recreated with different policies. Doing this during pod scheduling may result in the placement not conforming to the expected policies.
-    workloadRef: ?root.io.k8s.api.core.v1.WorkloadReference = null,
 
     pub fn validate(self: @This()) !void {
         if (self.affinity) |v| try v.validate();
@@ -2845,11 +2855,11 @@ pub const PodSpec = struct {
         if (self.resourceClaims) |arr| for (arr) |item| try item.validate();
         if (self.resources) |v| try v.validate();
         if (self.schedulingGates) |arr| for (arr) |item| try item.validate();
+        if (self.schedulingGroup) |v| try v.validate();
         if (self.securityContext) |v| try v.validate();
         if (self.tolerations) |arr| for (arr) |item| try item.validate();
         if (self.topologySpreadConstraints) |arr| for (arr) |item| try item.validate();
         if (self.volumes) |arr| for (arr) |item| try item.validate();
-        if (self.workloadRef) |v| try v.validate();
     }
 };
 
@@ -4280,20 +4290,6 @@ pub const WindowsSecurityContextOptions = struct {
     hostProcess: ?bool = null,
     /// The UserName in Windows to run the entrypoint of the container process. Defaults to the user specified in image metadata if unspecified. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
     runAsUserName: ?[]const u8 = null,
-
-    pub fn validate(self: @This()) !void {
-        _ = self;
-    }
-};
-
-/// WorkloadReference identifies the Workload object and PodGroup membership that a Pod belongs to. The scheduler uses this information to apply workload-aware scheduling semantics.
-pub const WorkloadReference = struct {
-    /// Name defines the name of the Workload object this Pod belongs to. Workload must be in the same namespace as the Pod. If it doesn't match any existing Workload, the Pod will remain unschedulable until a Workload object is created and observed by the kube-scheduler. It must be a DNS subdomain.
-    name: []const u8,
-    /// PodGroup is the name of the PodGroup within the Workload that this Pod belongs to. If it doesn't match any existing PodGroup within the Workload, the Pod will remain unschedulable until the Workload object is recreated and observed by the kube-scheduler. It must be a DNS label.
-    podGroup: []const u8,
-    /// PodGroupReplicaKey specifies the replica key of the PodGroup to which this Pod belongs. It is used to distinguish pods belonging to different replicas of the same pod group. The pod group policy is applied separately to each replica. When set, it must be a DNS label.
-    podGroupReplicaKey: ?[]const u8 = null,
 
     pub fn validate(self: @This()) !void {
         _ = self;

@@ -222877,33 +222877,33 @@ pub const Client = struct {
         }
     }
 
-    pub const GetSchedulingV1alpha1APIResourcesResponse200 = struct {
+    pub const GetSchedulingV1alpha2APIResourcesResponse200 = struct {
         body: root.io.k8s.apimachinery.pkg.apis.meta.v1.APIResourceList,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const GetSchedulingV1alpha1APIResourcesResponse401 = struct {
+    pub const GetSchedulingV1alpha2APIResourcesResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const GetSchedulingV1alpha1APIResourcesResponseDefault = struct {
+    pub const GetSchedulingV1alpha2APIResourcesResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const GetSchedulingV1alpha1APIResourcesResponse = union(enum) {
-        ok: GetSchedulingV1alpha1APIResourcesResponse200,
-        unauthorized: GetSchedulingV1alpha1APIResourcesResponse401,
-        default_response: GetSchedulingV1alpha1APIResourcesResponseDefault,
+    pub const GetSchedulingV1alpha2APIResourcesResponse = union(enum) {
+        ok: GetSchedulingV1alpha2APIResourcesResponse200,
+        unauthorized: GetSchedulingV1alpha2APIResourcesResponse401,
+        default_response: GetSchedulingV1alpha2APIResourcesResponseDefault,
     };
 
     /// get available resources
-    pub fn getSchedulingV1alpha1APIResources(self: *Client) !GetSchedulingV1alpha1APIResourcesResponse {
+    pub fn getSchedulingV1alpha2APIResources(self: *Client) !GetSchedulingV1alpha2APIResourcesResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha1/", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/", .{});
         const url = url_fbs.getWritten();
         var extra_headers = std.ArrayListUnmanaged(std.http.Header){};
         defer extra_headers.deinit(self.allocator);
@@ -222982,27 +222982,2171 @@ pub const Client = struct {
         }
     }
 
-    pub const ListSchedulingV1alpha1NamespacedWorkloadResponse200 = struct {
-        body: root.io.k8s.api.scheduling.v1alpha1.WorkloadList,
+    pub const ListSchedulingV1alpha2NamespacedPodGroupResponse200 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha2.PodGroupList,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ListSchedulingV1alpha1NamespacedWorkloadResponse401 = struct {
+    pub const ListSchedulingV1alpha2NamespacedPodGroupResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ListSchedulingV1alpha1NamespacedWorkloadResponseDefault = struct {
+    pub const ListSchedulingV1alpha2NamespacedPodGroupResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ListSchedulingV1alpha1NamespacedWorkloadResponse = union(enum) {
-        ok: ListSchedulingV1alpha1NamespacedWorkloadResponse200,
-        unauthorized: ListSchedulingV1alpha1NamespacedWorkloadResponse401,
-        default_response: ListSchedulingV1alpha1NamespacedWorkloadResponseDefault,
+    pub const ListSchedulingV1alpha2NamespacedPodGroupResponse = union(enum) {
+        ok: ListSchedulingV1alpha2NamespacedPodGroupResponse200,
+        unauthorized: ListSchedulingV1alpha2NamespacedPodGroupResponse401,
+        default_response: ListSchedulingV1alpha2NamespacedPodGroupResponseDefault,
     };
 
-    pub const listSchedulingV1alpha1NamespacedWorkloadOptions = struct {
+    pub const listSchedulingV1alpha2NamespacedPodGroupOptions = struct {
+        /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
+        pretty: ?[]const u8 = null,
+        /// allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored.
+        allowWatchBookmarks: ?[]const u8 = null,
+        /// The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key".
+        ///
+        /// This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
+        @"continue": ?[]const u8 = null,
+        /// A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        fieldSelector: ?[]const u8 = null,
+        /// A selector to restrict the list of returned objects by their labels. Defaults to everything.
+        labelSelector: ?[]const u8 = null,
+        /// limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.
+        ///
+        /// The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
+        limit: ?[]const u8 = null,
+        /// resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.
+        ///
+        /// Defaults to unset
+        resourceVersion: ?[]const u8 = null,
+        /// resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.
+        ///
+        /// Defaults to unset
+        resourceVersionMatch: ?[]const u8 = null,
+        /// `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event  will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched.
+        ///
+        /// When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan
+        ///   is interpreted as "data at least as new as the provided `resourceVersion`"
+        ///   and the bookmark event is send when the state is synced
+        ///   to a `resourceVersion` at least as fresh as the one provided by the ListOptions.
+        ///   If `resourceVersion` is unset, this is interpreted as "consistent read" and the
+        ///   bookmark event is send when the state is synced at least to the moment
+        ///   when request started being processed.
+        /// - `resourceVersionMatch` set to any other value or unset
+        ///   Invalid error is returned.
+        ///
+        /// Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise.
+        sendInitialEvents: ?[]const u8 = null,
+        /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
+        timeoutSeconds: ?[]const u8 = null,
+        /// Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
+        watch: ?[]const u8 = null,
+    };
+    /// list or watch objects of kind PodGroup
+    pub fn listSchedulingV1alpha2NamespacedPodGroup(self: *Client, namespace: []const u8, options: listSchedulingV1alpha2NamespacedPodGroupOptions) !ListSchedulingV1alpha2NamespacedPodGroupResponse {
+        var url_buf: [1024]u8 = undefined;
+        var url_fbs = std.io.fixedBufferStream(&url_buf);
+        const url_w = url_fbs.writer();
+        try url_w.print("{s}", .{self.base_url});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/namespaces/", .{});
+        try urlEncode(url_w, namespace);
+        try url_w.print("/podgroups", .{});
+        var first_query = true;
+        _ = &first_query;
+        if (options.pretty) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("pretty=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.allowWatchBookmarks) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("allowWatchBookmarks=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.@"continue") |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("continue=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.fieldSelector) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("fieldSelector=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.labelSelector) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("labelSelector=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.limit) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("limit=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.resourceVersion) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("resourceVersion=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.resourceVersionMatch) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("resourceVersionMatch=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.sendInitialEvents) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("sendInitialEvents=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.timeoutSeconds) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("timeoutSeconds=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.watch) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("watch=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        const url = url_fbs.getWritten();
+        var extra_headers = std.ArrayListUnmanaged(std.http.Header){};
+        defer extra_headers.deinit(self.allocator);
+        var body_list = std.ArrayListUnmanaged(u8){};
+        defer body_list.deinit(self.allocator);
+
+        // Serialize body if present
+        var req_body_writer = std.io.Writer.Allocating.init(self.allocator);
+        defer req_body_writer.deinit();
+
+        var write_buf: [4096]u8 = undefined;
+        const ResponseContext = struct {
+            writer: std.io.Writer,
+            list: *std.ArrayListUnmanaged(u8),
+            allocator: std.mem.Allocator,
+            fn drain(w: *std.io.Writer, chunks: []const []const u8, len: usize) error{WriteFailed}!usize {
+                _ = len;
+                const ctx: *@This() = @fieldParentPtr("writer", w);
+
+                // Flush existing buffer
+                if (w.end > 0) {
+                    const buffered = w.buffer[0..w.end];
+                    ctx.list.appendSlice(ctx.allocator, buffered) catch return error.WriteFailed;
+                    w.end = 0;
+                }
+
+                var total_written: usize = 0;
+                for (chunks) |chunk| {
+                    if (chunk.len > 0) {
+                        ctx.list.appendSlice(ctx.allocator, chunk) catch return error.WriteFailed;
+                        total_written += chunk.len;
+                    }
+                }
+                return total_written;
+            }
+        };
+        const vtable = std.io.Writer.VTable{ .drain = ResponseContext.drain };
+        var ctx = ResponseContext{
+            .writer = std.io.Writer{ .vtable = &vtable, .buffer = &write_buf, .end = 0 },
+            .list = &body_list,
+            .allocator = self.allocator,
+        };
+
+        const fetch_res = try self.client.fetch(.{
+            .location = .{ .uri = try std.Uri.parse(url) },
+            .method = .GET, // Use format specifier for method
+            .extra_headers = extra_headers.items,
+            .payload = if (!std.mem.eql(u8, "GET", "DELETE") and req_body_writer.writer.end > 0) req_body_writer.writer.buffer[0..req_body_writer.writer.end] else null,
+            .response_writer = &ctx.writer,
+        });
+
+        // Flush any remaining data in the writer buffer
+        try ctx.writer.vtable.flush(&ctx.writer);
+
+        // Headers are not available from client.fetch, so we return empty headers for now.
+        // This is a workaround for Zig 0.15.2 std.http.Client limitations/bugs.
+        const headers = try self.allocator.alloc(std.http.Header, 0);
+        var arena = std.heap.ArenaAllocator.init(self.allocator);
+        errdefer arena.deinit();
+
+        const response = struct { head: struct { status: std.http.Status } }{ .head = .{ .status = fetch_res.status } };
+        switch (response.head.status) {
+            .ok => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.PodGroupList, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .unauthorized => {
+                return .{ .unauthorized = .{ .headers = headers, .arena = arena } };
+            },
+            else => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(std.json.Value, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .default_response = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+        }
+    }
+
+    pub fn watchlistSchedulingV1alpha2NamespacedPodGroup(self: *Client, namespace: []const u8, options: listSchedulingV1alpha2NamespacedPodGroupOptions) !WatchStream(root.io.k8s.api.scheduling.v1alpha2.PodGroup) {
+        var url_buf: [4096]u8 = undefined;
+        var url_fbs = std.io.fixedBufferStream(&url_buf);
+        const url_w = url_fbs.writer();
+        try url_w.print("{s}", .{self.base_url});
+        try url_w.writeAll("/apis/scheduling.k8s.io/v1alpha2/namespaces/");
+        try url_w.print("{any}", .{namespace});
+        try url_w.writeAll("/podgroups");
+        try url_w.writeAll("?watch=true");
+        if (options.pretty) |val| {
+            try url_w.print("&pretty={any}", .{val});
+        }
+        if (options.allowWatchBookmarks) |val| {
+            try url_w.print("&allowWatchBookmarks={any}", .{val});
+        }
+        if (options.@"continue") |val| {
+            try url_w.print("&continue={any}", .{val});
+        }
+        if (options.fieldSelector) |val| {
+            try url_w.print("&fieldSelector={any}", .{val});
+        }
+        if (options.labelSelector) |val| {
+            try url_w.print("&labelSelector={any}", .{val});
+        }
+        if (options.limit) |val| {
+            try url_w.print("&limit={any}", .{val});
+        }
+        if (options.resourceVersion) |val| {
+            try url_w.print("&resourceVersion={any}", .{val});
+        }
+        if (options.resourceVersionMatch) |val| {
+            try url_w.print("&resourceVersionMatch={any}", .{val});
+        }
+        if (options.sendInitialEvents) |val| {
+            try url_w.print("&sendInitialEvents={any}", .{val});
+        }
+        if (options.timeoutSeconds) |val| {
+            try url_w.print("&timeoutSeconds={any}", .{val});
+        }
+
+        const req = try self.client.request(.GET, try std.Uri.parse(url_w.context.getWritten()), .{ .headers = .{ .content_type = .{ .override = "application/json" }, .authorization = if (@hasField(AuthConfig, "BearerToken")) if (self.auth_config.BearerToken) |t| .{ .override = try std.fmt.allocPrint(self.allocator, "Bearer {s}", .{t}) } else .omit else .omit } });
+        const heap_req = try self.allocator.create(std.http.Client.Request);
+        heap_req.* = req;
+        errdefer self.allocator.destroy(heap_req);
+        try heap_req.sendBodiless();
+        var header_buf: [4096]u8 = undefined;
+        var res = try heap_req.receiveHead(&header_buf);
+        const transfer_buf = try self.allocator.alloc(u8, 4096);
+        errdefer self.allocator.free(transfer_buf);
+        const reader = res.reader(transfer_buf);
+        return WatchStream(root.io.k8s.api.scheduling.v1alpha2.PodGroup){ .allocator = self.allocator, .req = heap_req, .transfer_buf = transfer_buf, .reader = reader };
+    }
+
+    pub const CreateSchedulingV1alpha2NamespacedPodGroupResponse200 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha2.PodGroup,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const CreateSchedulingV1alpha2NamespacedPodGroupResponse201 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha2.PodGroup,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const CreateSchedulingV1alpha2NamespacedPodGroupResponse202 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha2.PodGroup,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const CreateSchedulingV1alpha2NamespacedPodGroupResponse401 = struct {
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const CreateSchedulingV1alpha2NamespacedPodGroupResponseDefault = struct {
+        body: std.json.Value,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const CreateSchedulingV1alpha2NamespacedPodGroupResponse = union(enum) {
+        ok: CreateSchedulingV1alpha2NamespacedPodGroupResponse200,
+        created: CreateSchedulingV1alpha2NamespacedPodGroupResponse201,
+        accepted: CreateSchedulingV1alpha2NamespacedPodGroupResponse202,
+        unauthorized: CreateSchedulingV1alpha2NamespacedPodGroupResponse401,
+        default_response: CreateSchedulingV1alpha2NamespacedPodGroupResponseDefault,
+    };
+
+    pub const createSchedulingV1alpha2NamespacedPodGroupOptions = struct {
+        /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
+        pretty: ?[]const u8 = null,
+        /// When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
+        dryRun: ?[]const u8 = null,
+        /// fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint.
+        fieldManager: ?[]const u8 = null,
+        /// fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.
+        fieldValidation: ?[]const u8 = null,
+    };
+    /// create a PodGroup
+    pub fn createSchedulingV1alpha2NamespacedPodGroup(self: *Client, namespace: []const u8, body: root.io.k8s.api.scheduling.v1alpha2.PodGroup, options: createSchedulingV1alpha2NamespacedPodGroupOptions) !CreateSchedulingV1alpha2NamespacedPodGroupResponse {
+        var url_buf: [1024]u8 = undefined;
+        var url_fbs = std.io.fixedBufferStream(&url_buf);
+        const url_w = url_fbs.writer();
+        try url_w.print("{s}", .{self.base_url});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/namespaces/", .{});
+        try urlEncode(url_w, namespace);
+        try url_w.print("/podgroups", .{});
+        var first_query = true;
+        _ = &first_query;
+        if (options.pretty) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("pretty=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.dryRun) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("dryRun=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.fieldManager) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("fieldManager=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.fieldValidation) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("fieldValidation=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        const url = url_fbs.getWritten();
+        var extra_headers = std.ArrayListUnmanaged(std.http.Header){};
+        defer extra_headers.deinit(self.allocator);
+        var body_list = std.ArrayListUnmanaged(u8){};
+        defer body_list.deinit(self.allocator);
+
+        // Serialize body if present
+        var req_body_writer = std.io.Writer.Allocating.init(self.allocator);
+        defer req_body_writer.deinit();
+        if (@hasDecl(@TypeOf(body), "validate")) try body.validate();
+        try std.json.Stringify.value(body, .{}, &req_body_writer.writer);
+
+        var write_buf: [4096]u8 = undefined;
+        const ResponseContext = struct {
+            writer: std.io.Writer,
+            list: *std.ArrayListUnmanaged(u8),
+            allocator: std.mem.Allocator,
+            fn drain(w: *std.io.Writer, chunks: []const []const u8, len: usize) error{WriteFailed}!usize {
+                _ = len;
+                const ctx: *@This() = @fieldParentPtr("writer", w);
+
+                // Flush existing buffer
+                if (w.end > 0) {
+                    const buffered = w.buffer[0..w.end];
+                    ctx.list.appendSlice(ctx.allocator, buffered) catch return error.WriteFailed;
+                    w.end = 0;
+                }
+
+                var total_written: usize = 0;
+                for (chunks) |chunk| {
+                    if (chunk.len > 0) {
+                        ctx.list.appendSlice(ctx.allocator, chunk) catch return error.WriteFailed;
+                        total_written += chunk.len;
+                    }
+                }
+                return total_written;
+            }
+        };
+        const vtable = std.io.Writer.VTable{ .drain = ResponseContext.drain };
+        var ctx = ResponseContext{
+            .writer = std.io.Writer{ .vtable = &vtable, .buffer = &write_buf, .end = 0 },
+            .list = &body_list,
+            .allocator = self.allocator,
+        };
+
+        const fetch_res = try self.client.fetch(.{
+            .location = .{ .uri = try std.Uri.parse(url) },
+            .method = .POST, // Use format specifier for method
+            .extra_headers = extra_headers.items,
+            .payload = if (!std.mem.eql(u8, "POST", "DELETE") and req_body_writer.writer.end > 0) req_body_writer.writer.buffer[0..req_body_writer.writer.end] else null,
+            .response_writer = &ctx.writer,
+        });
+
+        // Flush any remaining data in the writer buffer
+        try ctx.writer.vtable.flush(&ctx.writer);
+
+        // Headers are not available from client.fetch, so we return empty headers for now.
+        // This is a workaround for Zig 0.15.2 std.http.Client limitations/bugs.
+        const headers = try self.allocator.alloc(std.http.Header, 0);
+        var arena = std.heap.ArenaAllocator.init(self.allocator);
+        errdefer arena.deinit();
+
+        const response = struct { head: struct { status: std.http.Status } }{ .head = .{ .status = fetch_res.status } };
+        switch (response.head.status) {
+            .ok => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .created => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .created = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .accepted => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .accepted = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .unauthorized => {
+                return .{ .unauthorized = .{ .headers = headers, .arena = arena } };
+            },
+            else => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(std.json.Value, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .default_response = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+        }
+    }
+
+    pub const DeleteSchedulingV1alpha2CollectionNamespacedPodGroupResponse200 = struct {
+        body: root.io.k8s.apimachinery.pkg.apis.meta.v1.Status,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const DeleteSchedulingV1alpha2CollectionNamespacedPodGroupResponse401 = struct {
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const DeleteSchedulingV1alpha2CollectionNamespacedPodGroupResponseDefault = struct {
+        body: std.json.Value,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const DeleteSchedulingV1alpha2CollectionNamespacedPodGroupResponse = union(enum) {
+        ok: DeleteSchedulingV1alpha2CollectionNamespacedPodGroupResponse200,
+        unauthorized: DeleteSchedulingV1alpha2CollectionNamespacedPodGroupResponse401,
+        default_response: DeleteSchedulingV1alpha2CollectionNamespacedPodGroupResponseDefault,
+    };
+
+    pub const deleteSchedulingV1alpha2CollectionNamespacedPodGroupOptions = struct {
+        /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
+        pretty: ?[]const u8 = null,
+        /// The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key".
+        ///
+        /// This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
+        @"continue": ?[]const u8 = null,
+        /// When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
+        dryRun: ?[]const u8 = null,
+        /// A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        fieldSelector: ?[]const u8 = null,
+        /// The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.
+        gracePeriodSeconds: ?[]const u8 = null,
+        /// if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it
+        ignoreStoreReadErrorWithClusterBreakingPotential: ?[]const u8 = null,
+        /// A selector to restrict the list of returned objects by their labels. Defaults to everything.
+        labelSelector: ?[]const u8 = null,
+        /// limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.
+        ///
+        /// The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
+        limit: ?[]const u8 = null,
+        /// Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both.
+        orphanDependents: ?[]const u8 = null,
+        /// Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground.
+        propagationPolicy: ?[]const u8 = null,
+        /// resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.
+        ///
+        /// Defaults to unset
+        resourceVersion: ?[]const u8 = null,
+        /// resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.
+        ///
+        /// Defaults to unset
+        resourceVersionMatch: ?[]const u8 = null,
+        /// `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event  will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched.
+        ///
+        /// When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan
+        ///   is interpreted as "data at least as new as the provided `resourceVersion`"
+        ///   and the bookmark event is send when the state is synced
+        ///   to a `resourceVersion` at least as fresh as the one provided by the ListOptions.
+        ///   If `resourceVersion` is unset, this is interpreted as "consistent read" and the
+        ///   bookmark event is send when the state is synced at least to the moment
+        ///   when request started being processed.
+        /// - `resourceVersionMatch` set to any other value or unset
+        ///   Invalid error is returned.
+        ///
+        /// Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise.
+        sendInitialEvents: ?[]const u8 = null,
+        /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
+        timeoutSeconds: ?[]const u8 = null,
+    };
+    /// delete collection of PodGroup
+    pub fn deleteSchedulingV1alpha2CollectionNamespacedPodGroup(self: *Client, namespace: []const u8, body: root.io.k8s.apimachinery.pkg.apis.meta.v1.DeleteOptions, options: deleteSchedulingV1alpha2CollectionNamespacedPodGroupOptions) !DeleteSchedulingV1alpha2CollectionNamespacedPodGroupResponse {
+        var url_buf: [1024]u8 = undefined;
+        var url_fbs = std.io.fixedBufferStream(&url_buf);
+        const url_w = url_fbs.writer();
+        try url_w.print("{s}", .{self.base_url});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/namespaces/", .{});
+        try urlEncode(url_w, namespace);
+        try url_w.print("/podgroups", .{});
+        var first_query = true;
+        _ = &first_query;
+        if (options.pretty) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("pretty=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.@"continue") |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("continue=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.dryRun) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("dryRun=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.fieldSelector) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("fieldSelector=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.gracePeriodSeconds) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("gracePeriodSeconds=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.ignoreStoreReadErrorWithClusterBreakingPotential) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("ignoreStoreReadErrorWithClusterBreakingPotential=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.labelSelector) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("labelSelector=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.limit) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("limit=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.orphanDependents) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("orphanDependents=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.propagationPolicy) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("propagationPolicy=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.resourceVersion) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("resourceVersion=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.resourceVersionMatch) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("resourceVersionMatch=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.sendInitialEvents) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("sendInitialEvents=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.timeoutSeconds) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("timeoutSeconds=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        const url = url_fbs.getWritten();
+        if (@hasField(@TypeOf(body), "gracePeriodSeconds")) {
+            if (body.gracePeriodSeconds) |gp| {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("gracePeriodSeconds={d}", .{gp});
+            }
+        }
+        if (@hasField(@TypeOf(body), "propagationPolicy")) {
+            if (body.propagationPolicy) |pp| {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("propagationPolicy={s}", .{pp});
+            }
+        }
+        if (@hasField(@TypeOf(body), "dryRun")) {
+            if (body.dryRun) |dr| {
+                for (dr) |d| {
+                    if (first_query) {
+                        try url_w.writeByte('?');
+                        first_query = false;
+                    } else {
+                        try url_w.writeByte('&');
+                    }
+                    try url_w.print("dryRun={s}", .{d});
+                }
+            }
+        }
+        var extra_headers = std.ArrayListUnmanaged(std.http.Header){};
+        defer extra_headers.deinit(self.allocator);
+        var body_list = std.ArrayListUnmanaged(u8){};
+        defer body_list.deinit(self.allocator);
+
+        // Serialize body if present
+        var req_body_writer = std.io.Writer.Allocating.init(self.allocator);
+        defer req_body_writer.deinit();
+        if (@hasDecl(@TypeOf(body), "validate")) try body.validate();
+        try std.json.Stringify.value(body, .{}, &req_body_writer.writer);
+
+        var write_buf: [4096]u8 = undefined;
+        const ResponseContext = struct {
+            writer: std.io.Writer,
+            list: *std.ArrayListUnmanaged(u8),
+            allocator: std.mem.Allocator,
+            fn drain(w: *std.io.Writer, chunks: []const []const u8, len: usize) error{WriteFailed}!usize {
+                _ = len;
+                const ctx: *@This() = @fieldParentPtr("writer", w);
+
+                // Flush existing buffer
+                if (w.end > 0) {
+                    const buffered = w.buffer[0..w.end];
+                    ctx.list.appendSlice(ctx.allocator, buffered) catch return error.WriteFailed;
+                    w.end = 0;
+                }
+
+                var total_written: usize = 0;
+                for (chunks) |chunk| {
+                    if (chunk.len > 0) {
+                        ctx.list.appendSlice(ctx.allocator, chunk) catch return error.WriteFailed;
+                        total_written += chunk.len;
+                    }
+                }
+                return total_written;
+            }
+        };
+        const vtable = std.io.Writer.VTable{ .drain = ResponseContext.drain };
+        var ctx = ResponseContext{
+            .writer = std.io.Writer{ .vtable = &vtable, .buffer = &write_buf, .end = 0 },
+            .list = &body_list,
+            .allocator = self.allocator,
+        };
+
+        const fetch_res = try self.client.fetch(.{
+            .location = .{ .uri = try std.Uri.parse(url) },
+            .method = .DELETE, // Use format specifier for method
+            .extra_headers = extra_headers.items,
+            .payload = if (!std.mem.eql(u8, "DELETE", "DELETE") and req_body_writer.writer.end > 0) req_body_writer.writer.buffer[0..req_body_writer.writer.end] else null,
+            .response_writer = &ctx.writer,
+        });
+
+        // Flush any remaining data in the writer buffer
+        try ctx.writer.vtable.flush(&ctx.writer);
+
+        // Headers are not available from client.fetch, so we return empty headers for now.
+        // This is a workaround for Zig 0.15.2 std.http.Client limitations/bugs.
+        const headers = try self.allocator.alloc(std.http.Header, 0);
+        var arena = std.heap.ArenaAllocator.init(self.allocator);
+        errdefer arena.deinit();
+
+        const response = struct { head: struct { status: std.http.Status } }{ .head = .{ .status = fetch_res.status } };
+        switch (response.head.status) {
+            .ok => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.apimachinery.pkg.apis.meta.v1.Status, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .unauthorized => {
+                return .{ .unauthorized = .{ .headers = headers, .arena = arena } };
+            },
+            else => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(std.json.Value, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .default_response = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+        }
+    }
+
+    pub const ReadSchedulingV1alpha2NamespacedPodGroupResponse200 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha2.PodGroup,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ReadSchedulingV1alpha2NamespacedPodGroupResponse401 = struct {
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ReadSchedulingV1alpha2NamespacedPodGroupResponseDefault = struct {
+        body: std.json.Value,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ReadSchedulingV1alpha2NamespacedPodGroupResponse = union(enum) {
+        ok: ReadSchedulingV1alpha2NamespacedPodGroupResponse200,
+        unauthorized: ReadSchedulingV1alpha2NamespacedPodGroupResponse401,
+        default_response: ReadSchedulingV1alpha2NamespacedPodGroupResponseDefault,
+    };
+
+    pub const readSchedulingV1alpha2NamespacedPodGroupOptions = struct {
+        /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
+        pretty: ?[]const u8 = null,
+    };
+    /// read the specified PodGroup
+    pub fn readSchedulingV1alpha2NamespacedPodGroup(self: *Client, name: []const u8, namespace: []const u8, options: readSchedulingV1alpha2NamespacedPodGroupOptions) !ReadSchedulingV1alpha2NamespacedPodGroupResponse {
+        var url_buf: [1024]u8 = undefined;
+        var url_fbs = std.io.fixedBufferStream(&url_buf);
+        const url_w = url_fbs.writer();
+        try url_w.print("{s}", .{self.base_url});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/namespaces/", .{});
+        try urlEncode(url_w, namespace);
+        try url_w.print("/podgroups/", .{});
+        try urlEncode(url_w, name);
+        var first_query = true;
+        _ = &first_query;
+        if (options.pretty) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("pretty=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        const url = url_fbs.getWritten();
+        var extra_headers = std.ArrayListUnmanaged(std.http.Header){};
+        defer extra_headers.deinit(self.allocator);
+        var body_list = std.ArrayListUnmanaged(u8){};
+        defer body_list.deinit(self.allocator);
+
+        // Serialize body if present
+        var req_body_writer = std.io.Writer.Allocating.init(self.allocator);
+        defer req_body_writer.deinit();
+
+        var write_buf: [4096]u8 = undefined;
+        const ResponseContext = struct {
+            writer: std.io.Writer,
+            list: *std.ArrayListUnmanaged(u8),
+            allocator: std.mem.Allocator,
+            fn drain(w: *std.io.Writer, chunks: []const []const u8, len: usize) error{WriteFailed}!usize {
+                _ = len;
+                const ctx: *@This() = @fieldParentPtr("writer", w);
+
+                // Flush existing buffer
+                if (w.end > 0) {
+                    const buffered = w.buffer[0..w.end];
+                    ctx.list.appendSlice(ctx.allocator, buffered) catch return error.WriteFailed;
+                    w.end = 0;
+                }
+
+                var total_written: usize = 0;
+                for (chunks) |chunk| {
+                    if (chunk.len > 0) {
+                        ctx.list.appendSlice(ctx.allocator, chunk) catch return error.WriteFailed;
+                        total_written += chunk.len;
+                    }
+                }
+                return total_written;
+            }
+        };
+        const vtable = std.io.Writer.VTable{ .drain = ResponseContext.drain };
+        var ctx = ResponseContext{
+            .writer = std.io.Writer{ .vtable = &vtable, .buffer = &write_buf, .end = 0 },
+            .list = &body_list,
+            .allocator = self.allocator,
+        };
+
+        const fetch_res = try self.client.fetch(.{
+            .location = .{ .uri = try std.Uri.parse(url) },
+            .method = .GET, // Use format specifier for method
+            .extra_headers = extra_headers.items,
+            .payload = if (!std.mem.eql(u8, "GET", "DELETE") and req_body_writer.writer.end > 0) req_body_writer.writer.buffer[0..req_body_writer.writer.end] else null,
+            .response_writer = &ctx.writer,
+        });
+
+        // Flush any remaining data in the writer buffer
+        try ctx.writer.vtable.flush(&ctx.writer);
+
+        // Headers are not available from client.fetch, so we return empty headers for now.
+        // This is a workaround for Zig 0.15.2 std.http.Client limitations/bugs.
+        const headers = try self.allocator.alloc(std.http.Header, 0);
+        var arena = std.heap.ArenaAllocator.init(self.allocator);
+        errdefer arena.deinit();
+
+        const response = struct { head: struct { status: std.http.Status } }{ .head = .{ .status = fetch_res.status } };
+        switch (response.head.status) {
+            .ok => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .unauthorized => {
+                return .{ .unauthorized = .{ .headers = headers, .arena = arena } };
+            },
+            else => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(std.json.Value, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .default_response = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+        }
+    }
+
+    pub const ReplaceSchedulingV1alpha2NamespacedPodGroupResponse200 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha2.PodGroup,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ReplaceSchedulingV1alpha2NamespacedPodGroupResponse201 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha2.PodGroup,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ReplaceSchedulingV1alpha2NamespacedPodGroupResponse401 = struct {
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ReplaceSchedulingV1alpha2NamespacedPodGroupResponseDefault = struct {
+        body: std.json.Value,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ReplaceSchedulingV1alpha2NamespacedPodGroupResponse = union(enum) {
+        ok: ReplaceSchedulingV1alpha2NamespacedPodGroupResponse200,
+        created: ReplaceSchedulingV1alpha2NamespacedPodGroupResponse201,
+        unauthorized: ReplaceSchedulingV1alpha2NamespacedPodGroupResponse401,
+        default_response: ReplaceSchedulingV1alpha2NamespacedPodGroupResponseDefault,
+    };
+
+    pub const replaceSchedulingV1alpha2NamespacedPodGroupOptions = struct {
+        /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
+        pretty: ?[]const u8 = null,
+        /// When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
+        dryRun: ?[]const u8 = null,
+        /// fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint.
+        fieldManager: ?[]const u8 = null,
+        /// fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.
+        fieldValidation: ?[]const u8 = null,
+    };
+    /// replace the specified PodGroup
+    pub fn replaceSchedulingV1alpha2NamespacedPodGroup(self: *Client, name: []const u8, namespace: []const u8, body: root.io.k8s.api.scheduling.v1alpha2.PodGroup, options: replaceSchedulingV1alpha2NamespacedPodGroupOptions) !ReplaceSchedulingV1alpha2NamespacedPodGroupResponse {
+        var url_buf: [1024]u8 = undefined;
+        var url_fbs = std.io.fixedBufferStream(&url_buf);
+        const url_w = url_fbs.writer();
+        try url_w.print("{s}", .{self.base_url});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/namespaces/", .{});
+        try urlEncode(url_w, namespace);
+        try url_w.print("/podgroups/", .{});
+        try urlEncode(url_w, name);
+        var first_query = true;
+        _ = &first_query;
+        if (options.pretty) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("pretty=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.dryRun) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("dryRun=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.fieldManager) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("fieldManager=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.fieldValidation) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("fieldValidation=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        const url = url_fbs.getWritten();
+        var extra_headers = std.ArrayListUnmanaged(std.http.Header){};
+        defer extra_headers.deinit(self.allocator);
+        var body_list = std.ArrayListUnmanaged(u8){};
+        defer body_list.deinit(self.allocator);
+
+        // Serialize body if present
+        var req_body_writer = std.io.Writer.Allocating.init(self.allocator);
+        defer req_body_writer.deinit();
+        if (@hasDecl(@TypeOf(body), "validate")) try body.validate();
+        try std.json.Stringify.value(body, .{}, &req_body_writer.writer);
+
+        var write_buf: [4096]u8 = undefined;
+        const ResponseContext = struct {
+            writer: std.io.Writer,
+            list: *std.ArrayListUnmanaged(u8),
+            allocator: std.mem.Allocator,
+            fn drain(w: *std.io.Writer, chunks: []const []const u8, len: usize) error{WriteFailed}!usize {
+                _ = len;
+                const ctx: *@This() = @fieldParentPtr("writer", w);
+
+                // Flush existing buffer
+                if (w.end > 0) {
+                    const buffered = w.buffer[0..w.end];
+                    ctx.list.appendSlice(ctx.allocator, buffered) catch return error.WriteFailed;
+                    w.end = 0;
+                }
+
+                var total_written: usize = 0;
+                for (chunks) |chunk| {
+                    if (chunk.len > 0) {
+                        ctx.list.appendSlice(ctx.allocator, chunk) catch return error.WriteFailed;
+                        total_written += chunk.len;
+                    }
+                }
+                return total_written;
+            }
+        };
+        const vtable = std.io.Writer.VTable{ .drain = ResponseContext.drain };
+        var ctx = ResponseContext{
+            .writer = std.io.Writer{ .vtable = &vtable, .buffer = &write_buf, .end = 0 },
+            .list = &body_list,
+            .allocator = self.allocator,
+        };
+
+        const fetch_res = try self.client.fetch(.{
+            .location = .{ .uri = try std.Uri.parse(url) },
+            .method = .PUT, // Use format specifier for method
+            .extra_headers = extra_headers.items,
+            .payload = if (!std.mem.eql(u8, "PUT", "DELETE") and req_body_writer.writer.end > 0) req_body_writer.writer.buffer[0..req_body_writer.writer.end] else null,
+            .response_writer = &ctx.writer,
+        });
+
+        // Flush any remaining data in the writer buffer
+        try ctx.writer.vtable.flush(&ctx.writer);
+
+        // Headers are not available from client.fetch, so we return empty headers for now.
+        // This is a workaround for Zig 0.15.2 std.http.Client limitations/bugs.
+        const headers = try self.allocator.alloc(std.http.Header, 0);
+        var arena = std.heap.ArenaAllocator.init(self.allocator);
+        errdefer arena.deinit();
+
+        const response = struct { head: struct { status: std.http.Status } }{ .head = .{ .status = fetch_res.status } };
+        switch (response.head.status) {
+            .ok => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .created => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .created = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .unauthorized => {
+                return .{ .unauthorized = .{ .headers = headers, .arena = arena } };
+            },
+            else => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(std.json.Value, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .default_response = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+        }
+    }
+
+    pub const DeleteSchedulingV1alpha2NamespacedPodGroupResponse200 = struct {
+        body: root.io.k8s.apimachinery.pkg.apis.meta.v1.Status,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const DeleteSchedulingV1alpha2NamespacedPodGroupResponse202 = struct {
+        body: root.io.k8s.apimachinery.pkg.apis.meta.v1.Status,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const DeleteSchedulingV1alpha2NamespacedPodGroupResponse401 = struct {
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const DeleteSchedulingV1alpha2NamespacedPodGroupResponseDefault = struct {
+        body: std.json.Value,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const DeleteSchedulingV1alpha2NamespacedPodGroupResponse = union(enum) {
+        ok: DeleteSchedulingV1alpha2NamespacedPodGroupResponse200,
+        accepted: DeleteSchedulingV1alpha2NamespacedPodGroupResponse202,
+        unauthorized: DeleteSchedulingV1alpha2NamespacedPodGroupResponse401,
+        default_response: DeleteSchedulingV1alpha2NamespacedPodGroupResponseDefault,
+    };
+
+    pub const deleteSchedulingV1alpha2NamespacedPodGroupOptions = struct {
+        /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
+        pretty: ?[]const u8 = null,
+        /// When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
+        dryRun: ?[]const u8 = null,
+        /// The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.
+        gracePeriodSeconds: ?[]const u8 = null,
+        /// if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it
+        ignoreStoreReadErrorWithClusterBreakingPotential: ?[]const u8 = null,
+        /// Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both.
+        orphanDependents: ?[]const u8 = null,
+        /// Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground.
+        propagationPolicy: ?[]const u8 = null,
+    };
+    /// delete a PodGroup
+    pub fn deleteSchedulingV1alpha2NamespacedPodGroup(self: *Client, name: []const u8, namespace: []const u8, body: root.io.k8s.apimachinery.pkg.apis.meta.v1.DeleteOptions, options: deleteSchedulingV1alpha2NamespacedPodGroupOptions) !DeleteSchedulingV1alpha2NamespacedPodGroupResponse {
+        var url_buf: [1024]u8 = undefined;
+        var url_fbs = std.io.fixedBufferStream(&url_buf);
+        const url_w = url_fbs.writer();
+        try url_w.print("{s}", .{self.base_url});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/namespaces/", .{});
+        try urlEncode(url_w, namespace);
+        try url_w.print("/podgroups/", .{});
+        try urlEncode(url_w, name);
+        var first_query = true;
+        _ = &first_query;
+        if (options.pretty) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("pretty=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.dryRun) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("dryRun=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.gracePeriodSeconds) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("gracePeriodSeconds=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.ignoreStoreReadErrorWithClusterBreakingPotential) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("ignoreStoreReadErrorWithClusterBreakingPotential=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.orphanDependents) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("orphanDependents=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.propagationPolicy) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("propagationPolicy=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        const url = url_fbs.getWritten();
+        if (@hasField(@TypeOf(body), "gracePeriodSeconds")) {
+            if (body.gracePeriodSeconds) |gp| {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("gracePeriodSeconds={d}", .{gp});
+            }
+        }
+        if (@hasField(@TypeOf(body), "propagationPolicy")) {
+            if (body.propagationPolicy) |pp| {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("propagationPolicy={s}", .{pp});
+            }
+        }
+        if (@hasField(@TypeOf(body), "dryRun")) {
+            if (body.dryRun) |dr| {
+                for (dr) |d| {
+                    if (first_query) {
+                        try url_w.writeByte('?');
+                        first_query = false;
+                    } else {
+                        try url_w.writeByte('&');
+                    }
+                    try url_w.print("dryRun={s}", .{d});
+                }
+            }
+        }
+        var extra_headers = std.ArrayListUnmanaged(std.http.Header){};
+        defer extra_headers.deinit(self.allocator);
+        var body_list = std.ArrayListUnmanaged(u8){};
+        defer body_list.deinit(self.allocator);
+
+        // Serialize body if present
+        var req_body_writer = std.io.Writer.Allocating.init(self.allocator);
+        defer req_body_writer.deinit();
+        if (@hasDecl(@TypeOf(body), "validate")) try body.validate();
+        try std.json.Stringify.value(body, .{}, &req_body_writer.writer);
+
+        var write_buf: [4096]u8 = undefined;
+        const ResponseContext = struct {
+            writer: std.io.Writer,
+            list: *std.ArrayListUnmanaged(u8),
+            allocator: std.mem.Allocator,
+            fn drain(w: *std.io.Writer, chunks: []const []const u8, len: usize) error{WriteFailed}!usize {
+                _ = len;
+                const ctx: *@This() = @fieldParentPtr("writer", w);
+
+                // Flush existing buffer
+                if (w.end > 0) {
+                    const buffered = w.buffer[0..w.end];
+                    ctx.list.appendSlice(ctx.allocator, buffered) catch return error.WriteFailed;
+                    w.end = 0;
+                }
+
+                var total_written: usize = 0;
+                for (chunks) |chunk| {
+                    if (chunk.len > 0) {
+                        ctx.list.appendSlice(ctx.allocator, chunk) catch return error.WriteFailed;
+                        total_written += chunk.len;
+                    }
+                }
+                return total_written;
+            }
+        };
+        const vtable = std.io.Writer.VTable{ .drain = ResponseContext.drain };
+        var ctx = ResponseContext{
+            .writer = std.io.Writer{ .vtable = &vtable, .buffer = &write_buf, .end = 0 },
+            .list = &body_list,
+            .allocator = self.allocator,
+        };
+
+        const fetch_res = try self.client.fetch(.{
+            .location = .{ .uri = try std.Uri.parse(url) },
+            .method = .DELETE, // Use format specifier for method
+            .extra_headers = extra_headers.items,
+            .payload = if (!std.mem.eql(u8, "DELETE", "DELETE") and req_body_writer.writer.end > 0) req_body_writer.writer.buffer[0..req_body_writer.writer.end] else null,
+            .response_writer = &ctx.writer,
+        });
+
+        // Flush any remaining data in the writer buffer
+        try ctx.writer.vtable.flush(&ctx.writer);
+
+        // Headers are not available from client.fetch, so we return empty headers for now.
+        // This is a workaround for Zig 0.15.2 std.http.Client limitations/bugs.
+        const headers = try self.allocator.alloc(std.http.Header, 0);
+        var arena = std.heap.ArenaAllocator.init(self.allocator);
+        errdefer arena.deinit();
+
+        const response = struct { head: struct { status: std.http.Status } }{ .head = .{ .status = fetch_res.status } };
+        switch (response.head.status) {
+            .ok => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.apimachinery.pkg.apis.meta.v1.Status, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .accepted => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.apimachinery.pkg.apis.meta.v1.Status, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .accepted = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .unauthorized => {
+                return .{ .unauthorized = .{ .headers = headers, .arena = arena } };
+            },
+            else => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(std.json.Value, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .default_response = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+        }
+    }
+
+    pub const PatchSchedulingV1alpha2NamespacedPodGroupResponse200 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha2.PodGroup,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const PatchSchedulingV1alpha2NamespacedPodGroupResponse201 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha2.PodGroup,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const PatchSchedulingV1alpha2NamespacedPodGroupResponse401 = struct {
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const PatchSchedulingV1alpha2NamespacedPodGroupResponseDefault = struct {
+        body: std.json.Value,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const PatchSchedulingV1alpha2NamespacedPodGroupResponse = union(enum) {
+        ok: PatchSchedulingV1alpha2NamespacedPodGroupResponse200,
+        created: PatchSchedulingV1alpha2NamespacedPodGroupResponse201,
+        unauthorized: PatchSchedulingV1alpha2NamespacedPodGroupResponse401,
+        default_response: PatchSchedulingV1alpha2NamespacedPodGroupResponseDefault,
+    };
+
+    pub const patchSchedulingV1alpha2NamespacedPodGroupOptions = struct {
+        /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
+        pretty: ?[]const u8 = null,
+        /// When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
+        dryRun: ?[]const u8 = null,
+        /// fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch).
+        fieldManager: ?[]const u8 = null,
+        /// fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.
+        fieldValidation: ?[]const u8 = null,
+        /// Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests.
+        force: ?[]const u8 = null,
+    };
+    /// partially update the specified PodGroup
+    pub fn patchSchedulingV1alpha2NamespacedPodGroup(self: *Client, name: []const u8, namespace: []const u8, body: root.io.k8s.apimachinery.pkg.apis.meta.v1.Patch, options: patchSchedulingV1alpha2NamespacedPodGroupOptions) !PatchSchedulingV1alpha2NamespacedPodGroupResponse {
+        var url_buf: [1024]u8 = undefined;
+        var url_fbs = std.io.fixedBufferStream(&url_buf);
+        const url_w = url_fbs.writer();
+        try url_w.print("{s}", .{self.base_url});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/namespaces/", .{});
+        try urlEncode(url_w, namespace);
+        try url_w.print("/podgroups/", .{});
+        try urlEncode(url_w, name);
+        var first_query = true;
+        _ = &first_query;
+        if (options.pretty) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("pretty=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.dryRun) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("dryRun=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.fieldManager) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("fieldManager=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.fieldValidation) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("fieldValidation=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.force) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("force=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        const url = url_fbs.getWritten();
+        var extra_headers = std.ArrayListUnmanaged(std.http.Header){};
+        defer extra_headers.deinit(self.allocator);
+        var body_list = std.ArrayListUnmanaged(u8){};
+        defer body_list.deinit(self.allocator);
+
+        // Serialize body if present
+        var req_body_writer = std.io.Writer.Allocating.init(self.allocator);
+        defer req_body_writer.deinit();
+        if (@hasDecl(@TypeOf(body), "validate")) try body.validate();
+        try std.json.Stringify.value(body, .{}, &req_body_writer.writer);
+
+        var write_buf: [4096]u8 = undefined;
+        const ResponseContext = struct {
+            writer: std.io.Writer,
+            list: *std.ArrayListUnmanaged(u8),
+            allocator: std.mem.Allocator,
+            fn drain(w: *std.io.Writer, chunks: []const []const u8, len: usize) error{WriteFailed}!usize {
+                _ = len;
+                const ctx: *@This() = @fieldParentPtr("writer", w);
+
+                // Flush existing buffer
+                if (w.end > 0) {
+                    const buffered = w.buffer[0..w.end];
+                    ctx.list.appendSlice(ctx.allocator, buffered) catch return error.WriteFailed;
+                    w.end = 0;
+                }
+
+                var total_written: usize = 0;
+                for (chunks) |chunk| {
+                    if (chunk.len > 0) {
+                        ctx.list.appendSlice(ctx.allocator, chunk) catch return error.WriteFailed;
+                        total_written += chunk.len;
+                    }
+                }
+                return total_written;
+            }
+        };
+        const vtable = std.io.Writer.VTable{ .drain = ResponseContext.drain };
+        var ctx = ResponseContext{
+            .writer = std.io.Writer{ .vtable = &vtable, .buffer = &write_buf, .end = 0 },
+            .list = &body_list,
+            .allocator = self.allocator,
+        };
+
+        const fetch_res = try self.client.fetch(.{
+            .location = .{ .uri = try std.Uri.parse(url) },
+            .method = .PATCH, // Use format specifier for method
+            .extra_headers = extra_headers.items,
+            .payload = if (!std.mem.eql(u8, "PATCH", "DELETE") and req_body_writer.writer.end > 0) req_body_writer.writer.buffer[0..req_body_writer.writer.end] else null,
+            .response_writer = &ctx.writer,
+        });
+
+        // Flush any remaining data in the writer buffer
+        try ctx.writer.vtable.flush(&ctx.writer);
+
+        // Headers are not available from client.fetch, so we return empty headers for now.
+        // This is a workaround for Zig 0.15.2 std.http.Client limitations/bugs.
+        const headers = try self.allocator.alloc(std.http.Header, 0);
+        var arena = std.heap.ArenaAllocator.init(self.allocator);
+        errdefer arena.deinit();
+
+        const response = struct { head: struct { status: std.http.Status } }{ .head = .{ .status = fetch_res.status } };
+        switch (response.head.status) {
+            .ok => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .created => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .created = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .unauthorized => {
+                return .{ .unauthorized = .{ .headers = headers, .arena = arena } };
+            },
+            else => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(std.json.Value, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .default_response = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+        }
+    }
+
+    pub const ReadSchedulingV1alpha2NamespacedPodGroupStatusResponse200 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha2.PodGroup,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ReadSchedulingV1alpha2NamespacedPodGroupStatusResponse401 = struct {
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ReadSchedulingV1alpha2NamespacedPodGroupStatusResponseDefault = struct {
+        body: std.json.Value,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ReadSchedulingV1alpha2NamespacedPodGroupStatusResponse = union(enum) {
+        ok: ReadSchedulingV1alpha2NamespacedPodGroupStatusResponse200,
+        unauthorized: ReadSchedulingV1alpha2NamespacedPodGroupStatusResponse401,
+        default_response: ReadSchedulingV1alpha2NamespacedPodGroupStatusResponseDefault,
+    };
+
+    pub const readSchedulingV1alpha2NamespacedPodGroupStatusOptions = struct {
+        /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
+        pretty: ?[]const u8 = null,
+    };
+    /// read status of the specified PodGroup
+    pub fn readSchedulingV1alpha2NamespacedPodGroupStatus(self: *Client, name: []const u8, namespace: []const u8, options: readSchedulingV1alpha2NamespacedPodGroupStatusOptions) !ReadSchedulingV1alpha2NamespacedPodGroupStatusResponse {
+        var url_buf: [1024]u8 = undefined;
+        var url_fbs = std.io.fixedBufferStream(&url_buf);
+        const url_w = url_fbs.writer();
+        try url_w.print("{s}", .{self.base_url});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/namespaces/", .{});
+        try urlEncode(url_w, namespace);
+        try url_w.print("/podgroups/", .{});
+        try urlEncode(url_w, name);
+        try url_w.print("/status", .{});
+        var first_query = true;
+        _ = &first_query;
+        if (options.pretty) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("pretty=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        const url = url_fbs.getWritten();
+        var extra_headers = std.ArrayListUnmanaged(std.http.Header){};
+        defer extra_headers.deinit(self.allocator);
+        var body_list = std.ArrayListUnmanaged(u8){};
+        defer body_list.deinit(self.allocator);
+
+        // Serialize body if present
+        var req_body_writer = std.io.Writer.Allocating.init(self.allocator);
+        defer req_body_writer.deinit();
+
+        var write_buf: [4096]u8 = undefined;
+        const ResponseContext = struct {
+            writer: std.io.Writer,
+            list: *std.ArrayListUnmanaged(u8),
+            allocator: std.mem.Allocator,
+            fn drain(w: *std.io.Writer, chunks: []const []const u8, len: usize) error{WriteFailed}!usize {
+                _ = len;
+                const ctx: *@This() = @fieldParentPtr("writer", w);
+
+                // Flush existing buffer
+                if (w.end > 0) {
+                    const buffered = w.buffer[0..w.end];
+                    ctx.list.appendSlice(ctx.allocator, buffered) catch return error.WriteFailed;
+                    w.end = 0;
+                }
+
+                var total_written: usize = 0;
+                for (chunks) |chunk| {
+                    if (chunk.len > 0) {
+                        ctx.list.appendSlice(ctx.allocator, chunk) catch return error.WriteFailed;
+                        total_written += chunk.len;
+                    }
+                }
+                return total_written;
+            }
+        };
+        const vtable = std.io.Writer.VTable{ .drain = ResponseContext.drain };
+        var ctx = ResponseContext{
+            .writer = std.io.Writer{ .vtable = &vtable, .buffer = &write_buf, .end = 0 },
+            .list = &body_list,
+            .allocator = self.allocator,
+        };
+
+        const fetch_res = try self.client.fetch(.{
+            .location = .{ .uri = try std.Uri.parse(url) },
+            .method = .GET, // Use format specifier for method
+            .extra_headers = extra_headers.items,
+            .payload = if (!std.mem.eql(u8, "GET", "DELETE") and req_body_writer.writer.end > 0) req_body_writer.writer.buffer[0..req_body_writer.writer.end] else null,
+            .response_writer = &ctx.writer,
+        });
+
+        // Flush any remaining data in the writer buffer
+        try ctx.writer.vtable.flush(&ctx.writer);
+
+        // Headers are not available from client.fetch, so we return empty headers for now.
+        // This is a workaround for Zig 0.15.2 std.http.Client limitations/bugs.
+        const headers = try self.allocator.alloc(std.http.Header, 0);
+        var arena = std.heap.ArenaAllocator.init(self.allocator);
+        errdefer arena.deinit();
+
+        const response = struct { head: struct { status: std.http.Status } }{ .head = .{ .status = fetch_res.status } };
+        switch (response.head.status) {
+            .ok => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .unauthorized => {
+                return .{ .unauthorized = .{ .headers = headers, .arena = arena } };
+            },
+            else => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(std.json.Value, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .default_response = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+        }
+    }
+
+    pub const ReplaceSchedulingV1alpha2NamespacedPodGroupStatusResponse200 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha2.PodGroup,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ReplaceSchedulingV1alpha2NamespacedPodGroupStatusResponse201 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha2.PodGroup,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ReplaceSchedulingV1alpha2NamespacedPodGroupStatusResponse401 = struct {
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ReplaceSchedulingV1alpha2NamespacedPodGroupStatusResponseDefault = struct {
+        body: std.json.Value,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ReplaceSchedulingV1alpha2NamespacedPodGroupStatusResponse = union(enum) {
+        ok: ReplaceSchedulingV1alpha2NamespacedPodGroupStatusResponse200,
+        created: ReplaceSchedulingV1alpha2NamespacedPodGroupStatusResponse201,
+        unauthorized: ReplaceSchedulingV1alpha2NamespacedPodGroupStatusResponse401,
+        default_response: ReplaceSchedulingV1alpha2NamespacedPodGroupStatusResponseDefault,
+    };
+
+    pub const replaceSchedulingV1alpha2NamespacedPodGroupStatusOptions = struct {
+        /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
+        pretty: ?[]const u8 = null,
+        /// When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
+        dryRun: ?[]const u8 = null,
+        /// fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint.
+        fieldManager: ?[]const u8 = null,
+        /// fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.
+        fieldValidation: ?[]const u8 = null,
+    };
+    /// replace status of the specified PodGroup
+    pub fn replaceSchedulingV1alpha2NamespacedPodGroupStatus(self: *Client, name: []const u8, namespace: []const u8, body: root.io.k8s.api.scheduling.v1alpha2.PodGroup, options: replaceSchedulingV1alpha2NamespacedPodGroupStatusOptions) !ReplaceSchedulingV1alpha2NamespacedPodGroupStatusResponse {
+        var url_buf: [1024]u8 = undefined;
+        var url_fbs = std.io.fixedBufferStream(&url_buf);
+        const url_w = url_fbs.writer();
+        try url_w.print("{s}", .{self.base_url});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/namespaces/", .{});
+        try urlEncode(url_w, namespace);
+        try url_w.print("/podgroups/", .{});
+        try urlEncode(url_w, name);
+        try url_w.print("/status", .{});
+        var first_query = true;
+        _ = &first_query;
+        if (options.pretty) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("pretty=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.dryRun) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("dryRun=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.fieldManager) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("fieldManager=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.fieldValidation) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("fieldValidation=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        const url = url_fbs.getWritten();
+        var extra_headers = std.ArrayListUnmanaged(std.http.Header){};
+        defer extra_headers.deinit(self.allocator);
+        var body_list = std.ArrayListUnmanaged(u8){};
+        defer body_list.deinit(self.allocator);
+
+        // Serialize body if present
+        var req_body_writer = std.io.Writer.Allocating.init(self.allocator);
+        defer req_body_writer.deinit();
+        if (@hasDecl(@TypeOf(body), "validate")) try body.validate();
+        try std.json.Stringify.value(body, .{}, &req_body_writer.writer);
+
+        var write_buf: [4096]u8 = undefined;
+        const ResponseContext = struct {
+            writer: std.io.Writer,
+            list: *std.ArrayListUnmanaged(u8),
+            allocator: std.mem.Allocator,
+            fn drain(w: *std.io.Writer, chunks: []const []const u8, len: usize) error{WriteFailed}!usize {
+                _ = len;
+                const ctx: *@This() = @fieldParentPtr("writer", w);
+
+                // Flush existing buffer
+                if (w.end > 0) {
+                    const buffered = w.buffer[0..w.end];
+                    ctx.list.appendSlice(ctx.allocator, buffered) catch return error.WriteFailed;
+                    w.end = 0;
+                }
+
+                var total_written: usize = 0;
+                for (chunks) |chunk| {
+                    if (chunk.len > 0) {
+                        ctx.list.appendSlice(ctx.allocator, chunk) catch return error.WriteFailed;
+                        total_written += chunk.len;
+                    }
+                }
+                return total_written;
+            }
+        };
+        const vtable = std.io.Writer.VTable{ .drain = ResponseContext.drain };
+        var ctx = ResponseContext{
+            .writer = std.io.Writer{ .vtable = &vtable, .buffer = &write_buf, .end = 0 },
+            .list = &body_list,
+            .allocator = self.allocator,
+        };
+
+        const fetch_res = try self.client.fetch(.{
+            .location = .{ .uri = try std.Uri.parse(url) },
+            .method = .PUT, // Use format specifier for method
+            .extra_headers = extra_headers.items,
+            .payload = if (!std.mem.eql(u8, "PUT", "DELETE") and req_body_writer.writer.end > 0) req_body_writer.writer.buffer[0..req_body_writer.writer.end] else null,
+            .response_writer = &ctx.writer,
+        });
+
+        // Flush any remaining data in the writer buffer
+        try ctx.writer.vtable.flush(&ctx.writer);
+
+        // Headers are not available from client.fetch, so we return empty headers for now.
+        // This is a workaround for Zig 0.15.2 std.http.Client limitations/bugs.
+        const headers = try self.allocator.alloc(std.http.Header, 0);
+        var arena = std.heap.ArenaAllocator.init(self.allocator);
+        errdefer arena.deinit();
+
+        const response = struct { head: struct { status: std.http.Status } }{ .head = .{ .status = fetch_res.status } };
+        switch (response.head.status) {
+            .ok => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .created => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .created = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .unauthorized => {
+                return .{ .unauthorized = .{ .headers = headers, .arena = arena } };
+            },
+            else => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(std.json.Value, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .default_response = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+        }
+    }
+
+    pub const PatchSchedulingV1alpha2NamespacedPodGroupStatusResponse200 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha2.PodGroup,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const PatchSchedulingV1alpha2NamespacedPodGroupStatusResponse201 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha2.PodGroup,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const PatchSchedulingV1alpha2NamespacedPodGroupStatusResponse401 = struct {
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const PatchSchedulingV1alpha2NamespacedPodGroupStatusResponseDefault = struct {
+        body: std.json.Value,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const PatchSchedulingV1alpha2NamespacedPodGroupStatusResponse = union(enum) {
+        ok: PatchSchedulingV1alpha2NamespacedPodGroupStatusResponse200,
+        created: PatchSchedulingV1alpha2NamespacedPodGroupStatusResponse201,
+        unauthorized: PatchSchedulingV1alpha2NamespacedPodGroupStatusResponse401,
+        default_response: PatchSchedulingV1alpha2NamespacedPodGroupStatusResponseDefault,
+    };
+
+    pub const patchSchedulingV1alpha2NamespacedPodGroupStatusOptions = struct {
+        /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
+        pretty: ?[]const u8 = null,
+        /// When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
+        dryRun: ?[]const u8 = null,
+        /// fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch).
+        fieldManager: ?[]const u8 = null,
+        /// fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.
+        fieldValidation: ?[]const u8 = null,
+        /// Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests.
+        force: ?[]const u8 = null,
+    };
+    /// partially update status of the specified PodGroup
+    pub fn patchSchedulingV1alpha2NamespacedPodGroupStatus(self: *Client, name: []const u8, namespace: []const u8, body: root.io.k8s.apimachinery.pkg.apis.meta.v1.Patch, options: patchSchedulingV1alpha2NamespacedPodGroupStatusOptions) !PatchSchedulingV1alpha2NamespacedPodGroupStatusResponse {
+        var url_buf: [1024]u8 = undefined;
+        var url_fbs = std.io.fixedBufferStream(&url_buf);
+        const url_w = url_fbs.writer();
+        try url_w.print("{s}", .{self.base_url});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/namespaces/", .{});
+        try urlEncode(url_w, namespace);
+        try url_w.print("/podgroups/", .{});
+        try urlEncode(url_w, name);
+        try url_w.print("/status", .{});
+        var first_query = true;
+        _ = &first_query;
+        if (options.pretty) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("pretty=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.dryRun) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("dryRun=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.fieldManager) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("fieldManager=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.fieldValidation) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("fieldValidation=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.force) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("force=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        const url = url_fbs.getWritten();
+        var extra_headers = std.ArrayListUnmanaged(std.http.Header){};
+        defer extra_headers.deinit(self.allocator);
+        var body_list = std.ArrayListUnmanaged(u8){};
+        defer body_list.deinit(self.allocator);
+
+        // Serialize body if present
+        var req_body_writer = std.io.Writer.Allocating.init(self.allocator);
+        defer req_body_writer.deinit();
+        if (@hasDecl(@TypeOf(body), "validate")) try body.validate();
+        try std.json.Stringify.value(body, .{}, &req_body_writer.writer);
+
+        var write_buf: [4096]u8 = undefined;
+        const ResponseContext = struct {
+            writer: std.io.Writer,
+            list: *std.ArrayListUnmanaged(u8),
+            allocator: std.mem.Allocator,
+            fn drain(w: *std.io.Writer, chunks: []const []const u8, len: usize) error{WriteFailed}!usize {
+                _ = len;
+                const ctx: *@This() = @fieldParentPtr("writer", w);
+
+                // Flush existing buffer
+                if (w.end > 0) {
+                    const buffered = w.buffer[0..w.end];
+                    ctx.list.appendSlice(ctx.allocator, buffered) catch return error.WriteFailed;
+                    w.end = 0;
+                }
+
+                var total_written: usize = 0;
+                for (chunks) |chunk| {
+                    if (chunk.len > 0) {
+                        ctx.list.appendSlice(ctx.allocator, chunk) catch return error.WriteFailed;
+                        total_written += chunk.len;
+                    }
+                }
+                return total_written;
+            }
+        };
+        const vtable = std.io.Writer.VTable{ .drain = ResponseContext.drain };
+        var ctx = ResponseContext{
+            .writer = std.io.Writer{ .vtable = &vtable, .buffer = &write_buf, .end = 0 },
+            .list = &body_list,
+            .allocator = self.allocator,
+        };
+
+        const fetch_res = try self.client.fetch(.{
+            .location = .{ .uri = try std.Uri.parse(url) },
+            .method = .PATCH, // Use format specifier for method
+            .extra_headers = extra_headers.items,
+            .payload = if (!std.mem.eql(u8, "PATCH", "DELETE") and req_body_writer.writer.end > 0) req_body_writer.writer.buffer[0..req_body_writer.writer.end] else null,
+            .response_writer = &ctx.writer,
+        });
+
+        // Flush any remaining data in the writer buffer
+        try ctx.writer.vtable.flush(&ctx.writer);
+
+        // Headers are not available from client.fetch, so we return empty headers for now.
+        // This is a workaround for Zig 0.15.2 std.http.Client limitations/bugs.
+        const headers = try self.allocator.alloc(std.http.Header, 0);
+        var arena = std.heap.ArenaAllocator.init(self.allocator);
+        errdefer arena.deinit();
+
+        const response = struct { head: struct { status: std.http.Status } }{ .head = .{ .status = fetch_res.status } };
+        switch (response.head.status) {
+            .ok => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .created => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .created = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .unauthorized => {
+                return .{ .unauthorized = .{ .headers = headers, .arena = arena } };
+            },
+            else => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(std.json.Value, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .default_response = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+        }
+    }
+
+    pub const ListSchedulingV1alpha2NamespacedWorkloadResponse200 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha2.WorkloadList,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ListSchedulingV1alpha2NamespacedWorkloadResponse401 = struct {
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ListSchedulingV1alpha2NamespacedWorkloadResponseDefault = struct {
+        body: std.json.Value,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ListSchedulingV1alpha2NamespacedWorkloadResponse = union(enum) {
+        ok: ListSchedulingV1alpha2NamespacedWorkloadResponse200,
+        unauthorized: ListSchedulingV1alpha2NamespacedWorkloadResponse401,
+        default_response: ListSchedulingV1alpha2NamespacedWorkloadResponseDefault,
+    };
+
+    pub const listSchedulingV1alpha2NamespacedWorkloadOptions = struct {
         /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
         pretty: ?[]const u8 = null,
         /// allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored.
@@ -223047,12 +225191,12 @@ pub const Client = struct {
         watch: ?[]const u8 = null,
     };
     /// list or watch objects of kind Workload
-    pub fn listSchedulingV1alpha1NamespacedWorkload(self: *Client, namespace: []const u8, options: listSchedulingV1alpha1NamespacedWorkloadOptions) !ListSchedulingV1alpha1NamespacedWorkloadResponse {
+    pub fn listSchedulingV1alpha2NamespacedWorkload(self: *Client, namespace: []const u8, options: listSchedulingV1alpha2NamespacedWorkloadOptions) !ListSchedulingV1alpha2NamespacedWorkloadResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha1/namespaces/", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/namespaces/", .{});
         try urlEncode(url_w, namespace);
         try url_w.print("/workloads", .{});
         var first_query = true;
@@ -223253,7 +225397,7 @@ pub const Client = struct {
         switch (response.head.status) {
             .ok => {
                 const body_resp = try arena.allocator().dupe(u8, body_list.items);
-                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha1.WorkloadList, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.WorkloadList, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
                 return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
             },
             .unauthorized => {
@@ -223267,12 +225411,12 @@ pub const Client = struct {
         }
     }
 
-    pub fn watchlistSchedulingV1alpha1NamespacedWorkload(self: *Client, namespace: []const u8, options: listSchedulingV1alpha1NamespacedWorkloadOptions) !WatchStream(root.io.k8s.api.scheduling.v1alpha1.Workload) {
+    pub fn watchlistSchedulingV1alpha2NamespacedWorkload(self: *Client, namespace: []const u8, options: listSchedulingV1alpha2NamespacedWorkloadOptions) !WatchStream(root.io.k8s.api.scheduling.v1alpha2.Workload) {
         var url_buf: [4096]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.writeAll("/apis/scheduling.k8s.io/v1alpha1/namespaces/");
+        try url_w.writeAll("/apis/scheduling.k8s.io/v1alpha2/namespaces/");
         try url_w.print("{any}", .{namespace});
         try url_w.writeAll("/workloads");
         try url_w.writeAll("?watch=true");
@@ -223317,42 +225461,42 @@ pub const Client = struct {
         const transfer_buf = try self.allocator.alloc(u8, 4096);
         errdefer self.allocator.free(transfer_buf);
         const reader = res.reader(transfer_buf);
-        return WatchStream(root.io.k8s.api.scheduling.v1alpha1.Workload){ .allocator = self.allocator, .req = heap_req, .transfer_buf = transfer_buf, .reader = reader };
+        return WatchStream(root.io.k8s.api.scheduling.v1alpha2.Workload){ .allocator = self.allocator, .req = heap_req, .transfer_buf = transfer_buf, .reader = reader };
     }
 
-    pub const CreateSchedulingV1alpha1NamespacedWorkloadResponse200 = struct {
-        body: root.io.k8s.api.scheduling.v1alpha1.Workload,
+    pub const CreateSchedulingV1alpha2NamespacedWorkloadResponse200 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha2.Workload,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const CreateSchedulingV1alpha1NamespacedWorkloadResponse201 = struct {
-        body: root.io.k8s.api.scheduling.v1alpha1.Workload,
+    pub const CreateSchedulingV1alpha2NamespacedWorkloadResponse201 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha2.Workload,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const CreateSchedulingV1alpha1NamespacedWorkloadResponse202 = struct {
-        body: root.io.k8s.api.scheduling.v1alpha1.Workload,
+    pub const CreateSchedulingV1alpha2NamespacedWorkloadResponse202 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha2.Workload,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const CreateSchedulingV1alpha1NamespacedWorkloadResponse401 = struct {
+    pub const CreateSchedulingV1alpha2NamespacedWorkloadResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const CreateSchedulingV1alpha1NamespacedWorkloadResponseDefault = struct {
+    pub const CreateSchedulingV1alpha2NamespacedWorkloadResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const CreateSchedulingV1alpha1NamespacedWorkloadResponse = union(enum) {
-        ok: CreateSchedulingV1alpha1NamespacedWorkloadResponse200,
-        created: CreateSchedulingV1alpha1NamespacedWorkloadResponse201,
-        accepted: CreateSchedulingV1alpha1NamespacedWorkloadResponse202,
-        unauthorized: CreateSchedulingV1alpha1NamespacedWorkloadResponse401,
-        default_response: CreateSchedulingV1alpha1NamespacedWorkloadResponseDefault,
+    pub const CreateSchedulingV1alpha2NamespacedWorkloadResponse = union(enum) {
+        ok: CreateSchedulingV1alpha2NamespacedWorkloadResponse200,
+        created: CreateSchedulingV1alpha2NamespacedWorkloadResponse201,
+        accepted: CreateSchedulingV1alpha2NamespacedWorkloadResponse202,
+        unauthorized: CreateSchedulingV1alpha2NamespacedWorkloadResponse401,
+        default_response: CreateSchedulingV1alpha2NamespacedWorkloadResponseDefault,
     };
 
-    pub const createSchedulingV1alpha1NamespacedWorkloadOptions = struct {
+    pub const createSchedulingV1alpha2NamespacedWorkloadOptions = struct {
         /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
         pretty: ?[]const u8 = null,
         /// When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
@@ -223363,12 +225507,12 @@ pub const Client = struct {
         fieldValidation: ?[]const u8 = null,
     };
     /// create a Workload
-    pub fn createSchedulingV1alpha1NamespacedWorkload(self: *Client, namespace: []const u8, body: root.io.k8s.api.scheduling.v1alpha1.Workload, options: createSchedulingV1alpha1NamespacedWorkloadOptions) !CreateSchedulingV1alpha1NamespacedWorkloadResponse {
+    pub fn createSchedulingV1alpha2NamespacedWorkload(self: *Client, namespace: []const u8, body: root.io.k8s.api.scheduling.v1alpha2.Workload, options: createSchedulingV1alpha2NamespacedWorkloadOptions) !CreateSchedulingV1alpha2NamespacedWorkloadResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha1/namespaces/", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/namespaces/", .{});
         try urlEncode(url_w, namespace);
         try url_w.print("/workloads", .{});
         var first_query = true;
@@ -223487,17 +225631,17 @@ pub const Client = struct {
         switch (response.head.status) {
             .ok => {
                 const body_resp = try arena.allocator().dupe(u8, body_list.items);
-                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha1.Workload, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.Workload, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
                 return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
             },
             .created => {
                 const body_resp = try arena.allocator().dupe(u8, body_list.items);
-                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha1.Workload, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.Workload, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
                 return .{ .created = .{ .body = parsed, .headers = headers, .arena = arena } };
             },
             .accepted => {
                 const body_resp = try arena.allocator().dupe(u8, body_list.items);
-                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha1.Workload, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.Workload, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
                 return .{ .accepted = .{ .body = parsed, .headers = headers, .arena = arena } };
             },
             .unauthorized => {
@@ -223511,27 +225655,27 @@ pub const Client = struct {
         }
     }
 
-    pub const DeleteSchedulingV1alpha1CollectionNamespacedWorkloadResponse200 = struct {
+    pub const DeleteSchedulingV1alpha2CollectionNamespacedWorkloadResponse200 = struct {
         body: root.io.k8s.apimachinery.pkg.apis.meta.v1.Status,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const DeleteSchedulingV1alpha1CollectionNamespacedWorkloadResponse401 = struct {
+    pub const DeleteSchedulingV1alpha2CollectionNamespacedWorkloadResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const DeleteSchedulingV1alpha1CollectionNamespacedWorkloadResponseDefault = struct {
+    pub const DeleteSchedulingV1alpha2CollectionNamespacedWorkloadResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const DeleteSchedulingV1alpha1CollectionNamespacedWorkloadResponse = union(enum) {
-        ok: DeleteSchedulingV1alpha1CollectionNamespacedWorkloadResponse200,
-        unauthorized: DeleteSchedulingV1alpha1CollectionNamespacedWorkloadResponse401,
-        default_response: DeleteSchedulingV1alpha1CollectionNamespacedWorkloadResponseDefault,
+    pub const DeleteSchedulingV1alpha2CollectionNamespacedWorkloadResponse = union(enum) {
+        ok: DeleteSchedulingV1alpha2CollectionNamespacedWorkloadResponse200,
+        unauthorized: DeleteSchedulingV1alpha2CollectionNamespacedWorkloadResponse401,
+        default_response: DeleteSchedulingV1alpha2CollectionNamespacedWorkloadResponseDefault,
     };
 
-    pub const deleteSchedulingV1alpha1CollectionNamespacedWorkloadOptions = struct {
+    pub const deleteSchedulingV1alpha2CollectionNamespacedWorkloadOptions = struct {
         /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
         pretty: ?[]const u8 = null,
         /// The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key".
@@ -223582,12 +225726,12 @@ pub const Client = struct {
         timeoutSeconds: ?[]const u8 = null,
     };
     /// delete collection of Workload
-    pub fn deleteSchedulingV1alpha1CollectionNamespacedWorkload(self: *Client, namespace: []const u8, body: root.io.k8s.apimachinery.pkg.apis.meta.v1.DeleteOptions, options: deleteSchedulingV1alpha1CollectionNamespacedWorkloadOptions) !DeleteSchedulingV1alpha1CollectionNamespacedWorkloadResponse {
+    pub fn deleteSchedulingV1alpha2CollectionNamespacedWorkload(self: *Client, namespace: []const u8, body: root.io.k8s.apimachinery.pkg.apis.meta.v1.DeleteOptions, options: deleteSchedulingV1alpha2CollectionNamespacedWorkloadOptions) !DeleteSchedulingV1alpha2CollectionNamespacedWorkloadResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha1/namespaces/", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/namespaces/", .{});
         try urlEncode(url_w, namespace);
         try url_w.print("/workloads", .{});
         var first_query = true;
@@ -223875,37 +226019,37 @@ pub const Client = struct {
         }
     }
 
-    pub const ReadSchedulingV1alpha1NamespacedWorkloadResponse200 = struct {
-        body: root.io.k8s.api.scheduling.v1alpha1.Workload,
+    pub const ReadSchedulingV1alpha2NamespacedWorkloadResponse200 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha2.Workload,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ReadSchedulingV1alpha1NamespacedWorkloadResponse401 = struct {
+    pub const ReadSchedulingV1alpha2NamespacedWorkloadResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ReadSchedulingV1alpha1NamespacedWorkloadResponseDefault = struct {
+    pub const ReadSchedulingV1alpha2NamespacedWorkloadResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ReadSchedulingV1alpha1NamespacedWorkloadResponse = union(enum) {
-        ok: ReadSchedulingV1alpha1NamespacedWorkloadResponse200,
-        unauthorized: ReadSchedulingV1alpha1NamespacedWorkloadResponse401,
-        default_response: ReadSchedulingV1alpha1NamespacedWorkloadResponseDefault,
+    pub const ReadSchedulingV1alpha2NamespacedWorkloadResponse = union(enum) {
+        ok: ReadSchedulingV1alpha2NamespacedWorkloadResponse200,
+        unauthorized: ReadSchedulingV1alpha2NamespacedWorkloadResponse401,
+        default_response: ReadSchedulingV1alpha2NamespacedWorkloadResponseDefault,
     };
 
-    pub const readSchedulingV1alpha1NamespacedWorkloadOptions = struct {
+    pub const readSchedulingV1alpha2NamespacedWorkloadOptions = struct {
         /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
         pretty: ?[]const u8 = null,
     };
     /// read the specified Workload
-    pub fn readSchedulingV1alpha1NamespacedWorkload(self: *Client, name: []const u8, namespace: []const u8, options: readSchedulingV1alpha1NamespacedWorkloadOptions) !ReadSchedulingV1alpha1NamespacedWorkloadResponse {
+    pub fn readSchedulingV1alpha2NamespacedWorkload(self: *Client, name: []const u8, namespace: []const u8, options: readSchedulingV1alpha2NamespacedWorkloadOptions) !ReadSchedulingV1alpha2NamespacedWorkloadResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha1/namespaces/", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/namespaces/", .{});
         try urlEncode(url_w, namespace);
         try url_w.print("/workloads/", .{});
         try urlEncode(url_w, name);
@@ -223987,7 +226131,7 @@ pub const Client = struct {
         switch (response.head.status) {
             .ok => {
                 const body_resp = try arena.allocator().dupe(u8, body_list.items);
-                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha1.Workload, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.Workload, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
                 return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
             },
             .unauthorized => {
@@ -224001,33 +226145,33 @@ pub const Client = struct {
         }
     }
 
-    pub const ReplaceSchedulingV1alpha1NamespacedWorkloadResponse200 = struct {
-        body: root.io.k8s.api.scheduling.v1alpha1.Workload,
+    pub const ReplaceSchedulingV1alpha2NamespacedWorkloadResponse200 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha2.Workload,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ReplaceSchedulingV1alpha1NamespacedWorkloadResponse201 = struct {
-        body: root.io.k8s.api.scheduling.v1alpha1.Workload,
+    pub const ReplaceSchedulingV1alpha2NamespacedWorkloadResponse201 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha2.Workload,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ReplaceSchedulingV1alpha1NamespacedWorkloadResponse401 = struct {
+    pub const ReplaceSchedulingV1alpha2NamespacedWorkloadResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ReplaceSchedulingV1alpha1NamespacedWorkloadResponseDefault = struct {
+    pub const ReplaceSchedulingV1alpha2NamespacedWorkloadResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ReplaceSchedulingV1alpha1NamespacedWorkloadResponse = union(enum) {
-        ok: ReplaceSchedulingV1alpha1NamespacedWorkloadResponse200,
-        created: ReplaceSchedulingV1alpha1NamespacedWorkloadResponse201,
-        unauthorized: ReplaceSchedulingV1alpha1NamespacedWorkloadResponse401,
-        default_response: ReplaceSchedulingV1alpha1NamespacedWorkloadResponseDefault,
+    pub const ReplaceSchedulingV1alpha2NamespacedWorkloadResponse = union(enum) {
+        ok: ReplaceSchedulingV1alpha2NamespacedWorkloadResponse200,
+        created: ReplaceSchedulingV1alpha2NamespacedWorkloadResponse201,
+        unauthorized: ReplaceSchedulingV1alpha2NamespacedWorkloadResponse401,
+        default_response: ReplaceSchedulingV1alpha2NamespacedWorkloadResponseDefault,
     };
 
-    pub const replaceSchedulingV1alpha1NamespacedWorkloadOptions = struct {
+    pub const replaceSchedulingV1alpha2NamespacedWorkloadOptions = struct {
         /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
         pretty: ?[]const u8 = null,
         /// When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
@@ -224038,12 +226182,12 @@ pub const Client = struct {
         fieldValidation: ?[]const u8 = null,
     };
     /// replace the specified Workload
-    pub fn replaceSchedulingV1alpha1NamespacedWorkload(self: *Client, name: []const u8, namespace: []const u8, body: root.io.k8s.api.scheduling.v1alpha1.Workload, options: replaceSchedulingV1alpha1NamespacedWorkloadOptions) !ReplaceSchedulingV1alpha1NamespacedWorkloadResponse {
+    pub fn replaceSchedulingV1alpha2NamespacedWorkload(self: *Client, name: []const u8, namespace: []const u8, body: root.io.k8s.api.scheduling.v1alpha2.Workload, options: replaceSchedulingV1alpha2NamespacedWorkloadOptions) !ReplaceSchedulingV1alpha2NamespacedWorkloadResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha1/namespaces/", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/namespaces/", .{});
         try urlEncode(url_w, namespace);
         try url_w.print("/workloads/", .{});
         try urlEncode(url_w, name);
@@ -224163,12 +226307,12 @@ pub const Client = struct {
         switch (response.head.status) {
             .ok => {
                 const body_resp = try arena.allocator().dupe(u8, body_list.items);
-                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha1.Workload, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.Workload, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
                 return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
             },
             .created => {
                 const body_resp = try arena.allocator().dupe(u8, body_list.items);
-                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha1.Workload, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.Workload, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
                 return .{ .created = .{ .body = parsed, .headers = headers, .arena = arena } };
             },
             .unauthorized => {
@@ -224182,33 +226326,33 @@ pub const Client = struct {
         }
     }
 
-    pub const DeleteSchedulingV1alpha1NamespacedWorkloadResponse200 = struct {
+    pub const DeleteSchedulingV1alpha2NamespacedWorkloadResponse200 = struct {
         body: root.io.k8s.apimachinery.pkg.apis.meta.v1.Status,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const DeleteSchedulingV1alpha1NamespacedWorkloadResponse202 = struct {
+    pub const DeleteSchedulingV1alpha2NamespacedWorkloadResponse202 = struct {
         body: root.io.k8s.apimachinery.pkg.apis.meta.v1.Status,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const DeleteSchedulingV1alpha1NamespacedWorkloadResponse401 = struct {
+    pub const DeleteSchedulingV1alpha2NamespacedWorkloadResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const DeleteSchedulingV1alpha1NamespacedWorkloadResponseDefault = struct {
+    pub const DeleteSchedulingV1alpha2NamespacedWorkloadResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const DeleteSchedulingV1alpha1NamespacedWorkloadResponse = union(enum) {
-        ok: DeleteSchedulingV1alpha1NamespacedWorkloadResponse200,
-        accepted: DeleteSchedulingV1alpha1NamespacedWorkloadResponse202,
-        unauthorized: DeleteSchedulingV1alpha1NamespacedWorkloadResponse401,
-        default_response: DeleteSchedulingV1alpha1NamespacedWorkloadResponseDefault,
+    pub const DeleteSchedulingV1alpha2NamespacedWorkloadResponse = union(enum) {
+        ok: DeleteSchedulingV1alpha2NamespacedWorkloadResponse200,
+        accepted: DeleteSchedulingV1alpha2NamespacedWorkloadResponse202,
+        unauthorized: DeleteSchedulingV1alpha2NamespacedWorkloadResponse401,
+        default_response: DeleteSchedulingV1alpha2NamespacedWorkloadResponseDefault,
     };
 
-    pub const deleteSchedulingV1alpha1NamespacedWorkloadOptions = struct {
+    pub const deleteSchedulingV1alpha2NamespacedWorkloadOptions = struct {
         /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
         pretty: ?[]const u8 = null,
         /// When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
@@ -224223,12 +226367,12 @@ pub const Client = struct {
         propagationPolicy: ?[]const u8 = null,
     };
     /// delete a Workload
-    pub fn deleteSchedulingV1alpha1NamespacedWorkload(self: *Client, name: []const u8, namespace: []const u8, body: root.io.k8s.apimachinery.pkg.apis.meta.v1.DeleteOptions, options: deleteSchedulingV1alpha1NamespacedWorkloadOptions) !DeleteSchedulingV1alpha1NamespacedWorkloadResponse {
+    pub fn deleteSchedulingV1alpha2NamespacedWorkload(self: *Client, name: []const u8, namespace: []const u8, body: root.io.k8s.apimachinery.pkg.apis.meta.v1.DeleteOptions, options: deleteSchedulingV1alpha2NamespacedWorkloadOptions) !DeleteSchedulingV1alpha2NamespacedWorkloadResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha1/namespaces/", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/namespaces/", .{});
         try urlEncode(url_w, namespace);
         try url_w.print("/workloads/", .{});
         try urlEncode(url_w, name);
@@ -224426,33 +226570,33 @@ pub const Client = struct {
         }
     }
 
-    pub const PatchSchedulingV1alpha1NamespacedWorkloadResponse200 = struct {
-        body: root.io.k8s.api.scheduling.v1alpha1.Workload,
+    pub const PatchSchedulingV1alpha2NamespacedWorkloadResponse200 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha2.Workload,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const PatchSchedulingV1alpha1NamespacedWorkloadResponse201 = struct {
-        body: root.io.k8s.api.scheduling.v1alpha1.Workload,
+    pub const PatchSchedulingV1alpha2NamespacedWorkloadResponse201 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha2.Workload,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const PatchSchedulingV1alpha1NamespacedWorkloadResponse401 = struct {
+    pub const PatchSchedulingV1alpha2NamespacedWorkloadResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const PatchSchedulingV1alpha1NamespacedWorkloadResponseDefault = struct {
+    pub const PatchSchedulingV1alpha2NamespacedWorkloadResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const PatchSchedulingV1alpha1NamespacedWorkloadResponse = union(enum) {
-        ok: PatchSchedulingV1alpha1NamespacedWorkloadResponse200,
-        created: PatchSchedulingV1alpha1NamespacedWorkloadResponse201,
-        unauthorized: PatchSchedulingV1alpha1NamespacedWorkloadResponse401,
-        default_response: PatchSchedulingV1alpha1NamespacedWorkloadResponseDefault,
+    pub const PatchSchedulingV1alpha2NamespacedWorkloadResponse = union(enum) {
+        ok: PatchSchedulingV1alpha2NamespacedWorkloadResponse200,
+        created: PatchSchedulingV1alpha2NamespacedWorkloadResponse201,
+        unauthorized: PatchSchedulingV1alpha2NamespacedWorkloadResponse401,
+        default_response: PatchSchedulingV1alpha2NamespacedWorkloadResponseDefault,
     };
 
-    pub const patchSchedulingV1alpha1NamespacedWorkloadOptions = struct {
+    pub const patchSchedulingV1alpha2NamespacedWorkloadOptions = struct {
         /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
         pretty: ?[]const u8 = null,
         /// When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
@@ -224465,12 +226609,12 @@ pub const Client = struct {
         force: ?[]const u8 = null,
     };
     /// partially update the specified Workload
-    pub fn patchSchedulingV1alpha1NamespacedWorkload(self: *Client, name: []const u8, namespace: []const u8, body: root.io.k8s.apimachinery.pkg.apis.meta.v1.Patch, options: patchSchedulingV1alpha1NamespacedWorkloadOptions) !PatchSchedulingV1alpha1NamespacedWorkloadResponse {
+    pub fn patchSchedulingV1alpha2NamespacedWorkload(self: *Client, name: []const u8, namespace: []const u8, body: root.io.k8s.apimachinery.pkg.apis.meta.v1.Patch, options: patchSchedulingV1alpha2NamespacedWorkloadOptions) !PatchSchedulingV1alpha2NamespacedWorkloadResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha1/namespaces/", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/namespaces/", .{});
         try urlEncode(url_w, namespace);
         try url_w.print("/workloads/", .{});
         try urlEncode(url_w, name);
@@ -224602,12 +226746,12 @@ pub const Client = struct {
         switch (response.head.status) {
             .ok => {
                 const body_resp = try arena.allocator().dupe(u8, body_list.items);
-                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha1.Workload, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.Workload, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
                 return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
             },
             .created => {
                 const body_resp = try arena.allocator().dupe(u8, body_list.items);
-                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha1.Workload, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.Workload, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
                 return .{ .created = .{ .body = parsed, .headers = headers, .arena = arena } };
             },
             .unauthorized => {
@@ -224621,27 +226765,932 @@ pub const Client = struct {
         }
     }
 
-    pub const WatchSchedulingV1alpha1NamespacedWorkloadListResponse200 = struct {
-        body: root.io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent,
+    pub const ListSchedulingV1alpha2PodGroupForAllNamespacesResponse200 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha2.PodGroupList,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const WatchSchedulingV1alpha1NamespacedWorkloadListResponse401 = struct {
+    pub const ListSchedulingV1alpha2PodGroupForAllNamespacesResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const WatchSchedulingV1alpha1NamespacedWorkloadListResponseDefault = struct {
+    pub const ListSchedulingV1alpha2PodGroupForAllNamespacesResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const WatchSchedulingV1alpha1NamespacedWorkloadListResponse = union(enum) {
-        ok: WatchSchedulingV1alpha1NamespacedWorkloadListResponse200,
-        unauthorized: WatchSchedulingV1alpha1NamespacedWorkloadListResponse401,
-        default_response: WatchSchedulingV1alpha1NamespacedWorkloadListResponseDefault,
+    pub const ListSchedulingV1alpha2PodGroupForAllNamespacesResponse = union(enum) {
+        ok: ListSchedulingV1alpha2PodGroupForAllNamespacesResponse200,
+        unauthorized: ListSchedulingV1alpha2PodGroupForAllNamespacesResponse401,
+        default_response: ListSchedulingV1alpha2PodGroupForAllNamespacesResponseDefault,
     };
 
-    pub const watchSchedulingV1alpha1NamespacedWorkloadListOptions = struct {
+    pub const listSchedulingV1alpha2PodGroupForAllNamespacesOptions = struct {
+        /// allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored.
+        allowWatchBookmarks: ?[]const u8 = null,
+        /// The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key".
+        ///
+        /// This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
+        @"continue": ?[]const u8 = null,
+        /// A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        fieldSelector: ?[]const u8 = null,
+        /// A selector to restrict the list of returned objects by their labels. Defaults to everything.
+        labelSelector: ?[]const u8 = null,
+        /// limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.
+        ///
+        /// The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
+        limit: ?[]const u8 = null,
+        /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
+        pretty: ?[]const u8 = null,
+        /// resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.
+        ///
+        /// Defaults to unset
+        resourceVersion: ?[]const u8 = null,
+        /// resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.
+        ///
+        /// Defaults to unset
+        resourceVersionMatch: ?[]const u8 = null,
+        /// `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event  will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched.
+        ///
+        /// When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan
+        ///   is interpreted as "data at least as new as the provided `resourceVersion`"
+        ///   and the bookmark event is send when the state is synced
+        ///   to a `resourceVersion` at least as fresh as the one provided by the ListOptions.
+        ///   If `resourceVersion` is unset, this is interpreted as "consistent read" and the
+        ///   bookmark event is send when the state is synced at least to the moment
+        ///   when request started being processed.
+        /// - `resourceVersionMatch` set to any other value or unset
+        ///   Invalid error is returned.
+        ///
+        /// Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise.
+        sendInitialEvents: ?[]const u8 = null,
+        /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
+        timeoutSeconds: ?[]const u8 = null,
+        /// Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
+        watch: ?[]const u8 = null,
+    };
+    /// list or watch objects of kind PodGroup
+    pub fn listSchedulingV1alpha2PodGroupForAllNamespaces(self: *Client, options: listSchedulingV1alpha2PodGroupForAllNamespacesOptions) !ListSchedulingV1alpha2PodGroupForAllNamespacesResponse {
+        var url_buf: [1024]u8 = undefined;
+        var url_fbs = std.io.fixedBufferStream(&url_buf);
+        const url_w = url_fbs.writer();
+        try url_w.print("{s}", .{self.base_url});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/podgroups", .{});
+        var first_query = true;
+        _ = &first_query;
+        if (options.allowWatchBookmarks) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("allowWatchBookmarks=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.@"continue") |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("continue=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.fieldSelector) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("fieldSelector=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.labelSelector) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("labelSelector=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.limit) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("limit=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.pretty) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("pretty=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.resourceVersion) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("resourceVersion=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.resourceVersionMatch) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("resourceVersionMatch=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.sendInitialEvents) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("sendInitialEvents=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.timeoutSeconds) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("timeoutSeconds=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.watch) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("watch=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        const url = url_fbs.getWritten();
+        var extra_headers = std.ArrayListUnmanaged(std.http.Header){};
+        defer extra_headers.deinit(self.allocator);
+        var body_list = std.ArrayListUnmanaged(u8){};
+        defer body_list.deinit(self.allocator);
+
+        // Serialize body if present
+        var req_body_writer = std.io.Writer.Allocating.init(self.allocator);
+        defer req_body_writer.deinit();
+
+        var write_buf: [4096]u8 = undefined;
+        const ResponseContext = struct {
+            writer: std.io.Writer,
+            list: *std.ArrayListUnmanaged(u8),
+            allocator: std.mem.Allocator,
+            fn drain(w: *std.io.Writer, chunks: []const []const u8, len: usize) error{WriteFailed}!usize {
+                _ = len;
+                const ctx: *@This() = @fieldParentPtr("writer", w);
+
+                // Flush existing buffer
+                if (w.end > 0) {
+                    const buffered = w.buffer[0..w.end];
+                    ctx.list.appendSlice(ctx.allocator, buffered) catch return error.WriteFailed;
+                    w.end = 0;
+                }
+
+                var total_written: usize = 0;
+                for (chunks) |chunk| {
+                    if (chunk.len > 0) {
+                        ctx.list.appendSlice(ctx.allocator, chunk) catch return error.WriteFailed;
+                        total_written += chunk.len;
+                    }
+                }
+                return total_written;
+            }
+        };
+        const vtable = std.io.Writer.VTable{ .drain = ResponseContext.drain };
+        var ctx = ResponseContext{
+            .writer = std.io.Writer{ .vtable = &vtable, .buffer = &write_buf, .end = 0 },
+            .list = &body_list,
+            .allocator = self.allocator,
+        };
+
+        const fetch_res = try self.client.fetch(.{
+            .location = .{ .uri = try std.Uri.parse(url) },
+            .method = .GET, // Use format specifier for method
+            .extra_headers = extra_headers.items,
+            .payload = if (!std.mem.eql(u8, "GET", "DELETE") and req_body_writer.writer.end > 0) req_body_writer.writer.buffer[0..req_body_writer.writer.end] else null,
+            .response_writer = &ctx.writer,
+        });
+
+        // Flush any remaining data in the writer buffer
+        try ctx.writer.vtable.flush(&ctx.writer);
+
+        // Headers are not available from client.fetch, so we return empty headers for now.
+        // This is a workaround for Zig 0.15.2 std.http.Client limitations/bugs.
+        const headers = try self.allocator.alloc(std.http.Header, 0);
+        var arena = std.heap.ArenaAllocator.init(self.allocator);
+        errdefer arena.deinit();
+
+        const response = struct { head: struct { status: std.http.Status } }{ .head = .{ .status = fetch_res.status } };
+        switch (response.head.status) {
+            .ok => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.PodGroupList, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .unauthorized => {
+                return .{ .unauthorized = .{ .headers = headers, .arena = arena } };
+            },
+            else => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(std.json.Value, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .default_response = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+        }
+    }
+
+    pub fn watchlistSchedulingV1alpha2PodGroupForAllNamespaces(self: *Client, options: listSchedulingV1alpha2PodGroupForAllNamespacesOptions) !WatchStream(root.io.k8s.api.scheduling.v1alpha2.PodGroup) {
+        var url_buf: [4096]u8 = undefined;
+        var url_fbs = std.io.fixedBufferStream(&url_buf);
+        const url_w = url_fbs.writer();
+        try url_w.print("{s}", .{self.base_url});
+        try url_w.writeAll("/apis/scheduling.k8s.io/v1alpha2/podgroups");
+        try url_w.writeAll("?watch=true");
+        if (options.allowWatchBookmarks) |val| {
+            try url_w.print("&allowWatchBookmarks={any}", .{val});
+        }
+        if (options.@"continue") |val| {
+            try url_w.print("&continue={any}", .{val});
+        }
+        if (options.fieldSelector) |val| {
+            try url_w.print("&fieldSelector={any}", .{val});
+        }
+        if (options.labelSelector) |val| {
+            try url_w.print("&labelSelector={any}", .{val});
+        }
+        if (options.limit) |val| {
+            try url_w.print("&limit={any}", .{val});
+        }
+        if (options.pretty) |val| {
+            try url_w.print("&pretty={any}", .{val});
+        }
+        if (options.resourceVersion) |val| {
+            try url_w.print("&resourceVersion={any}", .{val});
+        }
+        if (options.resourceVersionMatch) |val| {
+            try url_w.print("&resourceVersionMatch={any}", .{val});
+        }
+        if (options.sendInitialEvents) |val| {
+            try url_w.print("&sendInitialEvents={any}", .{val});
+        }
+        if (options.timeoutSeconds) |val| {
+            try url_w.print("&timeoutSeconds={any}", .{val});
+        }
+
+        const req = try self.client.request(.GET, try std.Uri.parse(url_w.context.getWritten()), .{ .headers = .{ .content_type = .{ .override = "application/json" }, .authorization = if (@hasField(AuthConfig, "BearerToken")) if (self.auth_config.BearerToken) |t| .{ .override = try std.fmt.allocPrint(self.allocator, "Bearer {s}", .{t}) } else .omit else .omit } });
+        const heap_req = try self.allocator.create(std.http.Client.Request);
+        heap_req.* = req;
+        errdefer self.allocator.destroy(heap_req);
+        try heap_req.sendBodiless();
+        var header_buf: [4096]u8 = undefined;
+        var res = try heap_req.receiveHead(&header_buf);
+        const transfer_buf = try self.allocator.alloc(u8, 4096);
+        errdefer self.allocator.free(transfer_buf);
+        const reader = res.reader(transfer_buf);
+        return WatchStream(root.io.k8s.api.scheduling.v1alpha2.PodGroup){ .allocator = self.allocator, .req = heap_req, .transfer_buf = transfer_buf, .reader = reader };
+    }
+
+    pub const WatchSchedulingV1alpha2NamespacedPodGroupListResponse200 = struct {
+        body: root.io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const WatchSchedulingV1alpha2NamespacedPodGroupListResponse401 = struct {
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const WatchSchedulingV1alpha2NamespacedPodGroupListResponseDefault = struct {
+        body: std.json.Value,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const WatchSchedulingV1alpha2NamespacedPodGroupListResponse = union(enum) {
+        ok: WatchSchedulingV1alpha2NamespacedPodGroupListResponse200,
+        unauthorized: WatchSchedulingV1alpha2NamespacedPodGroupListResponse401,
+        default_response: WatchSchedulingV1alpha2NamespacedPodGroupListResponseDefault,
+    };
+
+    pub const watchSchedulingV1alpha2NamespacedPodGroupListOptions = struct {
+        /// allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored.
+        allowWatchBookmarks: ?[]const u8 = null,
+        /// The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key".
+        ///
+        /// This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
+        @"continue": ?[]const u8 = null,
+        /// A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        fieldSelector: ?[]const u8 = null,
+        /// A selector to restrict the list of returned objects by their labels. Defaults to everything.
+        labelSelector: ?[]const u8 = null,
+        /// limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.
+        ///
+        /// The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
+        limit: ?[]const u8 = null,
+        /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
+        pretty: ?[]const u8 = null,
+        /// resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.
+        ///
+        /// Defaults to unset
+        resourceVersion: ?[]const u8 = null,
+        /// resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.
+        ///
+        /// Defaults to unset
+        resourceVersionMatch: ?[]const u8 = null,
+        /// `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event  will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched.
+        ///
+        /// When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan
+        ///   is interpreted as "data at least as new as the provided `resourceVersion`"
+        ///   and the bookmark event is send when the state is synced
+        ///   to a `resourceVersion` at least as fresh as the one provided by the ListOptions.
+        ///   If `resourceVersion` is unset, this is interpreted as "consistent read" and the
+        ///   bookmark event is send when the state is synced at least to the moment
+        ///   when request started being processed.
+        /// - `resourceVersionMatch` set to any other value or unset
+        ///   Invalid error is returned.
+        ///
+        /// Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise.
+        sendInitialEvents: ?[]const u8 = null,
+        /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
+        timeoutSeconds: ?[]const u8 = null,
+        /// Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
+        watch: ?[]const u8 = null,
+    };
+    /// watch individual changes to a list of PodGroup. deprecated: use the 'watch' parameter with a list operation instead.
+    pub fn watchSchedulingV1alpha2NamespacedPodGroupList(self: *Client, namespace: []const u8, options: watchSchedulingV1alpha2NamespacedPodGroupListOptions) !WatchSchedulingV1alpha2NamespacedPodGroupListResponse {
+        var url_buf: [1024]u8 = undefined;
+        var url_fbs = std.io.fixedBufferStream(&url_buf);
+        const url_w = url_fbs.writer();
+        try url_w.print("{s}", .{self.base_url});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/watch/namespaces/", .{});
+        try urlEncode(url_w, namespace);
+        try url_w.print("/podgroups", .{});
+        var first_query = true;
+        _ = &first_query;
+        if (options.allowWatchBookmarks) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("allowWatchBookmarks=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.@"continue") |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("continue=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.fieldSelector) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("fieldSelector=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.labelSelector) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("labelSelector=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.limit) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("limit=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.pretty) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("pretty=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.resourceVersion) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("resourceVersion=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.resourceVersionMatch) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("resourceVersionMatch=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.sendInitialEvents) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("sendInitialEvents=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.timeoutSeconds) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("timeoutSeconds=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.watch) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("watch=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        const url = url_fbs.getWritten();
+        var extra_headers = std.ArrayListUnmanaged(std.http.Header){};
+        defer extra_headers.deinit(self.allocator);
+        var body_list = std.ArrayListUnmanaged(u8){};
+        defer body_list.deinit(self.allocator);
+
+        // Serialize body if present
+        var req_body_writer = std.io.Writer.Allocating.init(self.allocator);
+        defer req_body_writer.deinit();
+
+        var write_buf: [4096]u8 = undefined;
+        const ResponseContext = struct {
+            writer: std.io.Writer,
+            list: *std.ArrayListUnmanaged(u8),
+            allocator: std.mem.Allocator,
+            fn drain(w: *std.io.Writer, chunks: []const []const u8, len: usize) error{WriteFailed}!usize {
+                _ = len;
+                const ctx: *@This() = @fieldParentPtr("writer", w);
+
+                // Flush existing buffer
+                if (w.end > 0) {
+                    const buffered = w.buffer[0..w.end];
+                    ctx.list.appendSlice(ctx.allocator, buffered) catch return error.WriteFailed;
+                    w.end = 0;
+                }
+
+                var total_written: usize = 0;
+                for (chunks) |chunk| {
+                    if (chunk.len > 0) {
+                        ctx.list.appendSlice(ctx.allocator, chunk) catch return error.WriteFailed;
+                        total_written += chunk.len;
+                    }
+                }
+                return total_written;
+            }
+        };
+        const vtable = std.io.Writer.VTable{ .drain = ResponseContext.drain };
+        var ctx = ResponseContext{
+            .writer = std.io.Writer{ .vtable = &vtable, .buffer = &write_buf, .end = 0 },
+            .list = &body_list,
+            .allocator = self.allocator,
+        };
+
+        const fetch_res = try self.client.fetch(.{
+            .location = .{ .uri = try std.Uri.parse(url) },
+            .method = .GET, // Use format specifier for method
+            .extra_headers = extra_headers.items,
+            .payload = if (!std.mem.eql(u8, "GET", "DELETE") and req_body_writer.writer.end > 0) req_body_writer.writer.buffer[0..req_body_writer.writer.end] else null,
+            .response_writer = &ctx.writer,
+        });
+
+        // Flush any remaining data in the writer buffer
+        try ctx.writer.vtable.flush(&ctx.writer);
+
+        // Headers are not available from client.fetch, so we return empty headers for now.
+        // This is a workaround for Zig 0.15.2 std.http.Client limitations/bugs.
+        const headers = try self.allocator.alloc(std.http.Header, 0);
+        var arena = std.heap.ArenaAllocator.init(self.allocator);
+        errdefer arena.deinit();
+
+        const response = struct { head: struct { status: std.http.Status } }{ .head = .{ .status = fetch_res.status } };
+        switch (response.head.status) {
+            .ok => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .unauthorized => {
+                return .{ .unauthorized = .{ .headers = headers, .arena = arena } };
+            },
+            else => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(std.json.Value, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .default_response = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+        }
+    }
+
+    pub const WatchSchedulingV1alpha2NamespacedPodGroupResponse200 = struct {
+        body: root.io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const WatchSchedulingV1alpha2NamespacedPodGroupResponse401 = struct {
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const WatchSchedulingV1alpha2NamespacedPodGroupResponseDefault = struct {
+        body: std.json.Value,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const WatchSchedulingV1alpha2NamespacedPodGroupResponse = union(enum) {
+        ok: WatchSchedulingV1alpha2NamespacedPodGroupResponse200,
+        unauthorized: WatchSchedulingV1alpha2NamespacedPodGroupResponse401,
+        default_response: WatchSchedulingV1alpha2NamespacedPodGroupResponseDefault,
+    };
+
+    pub const watchSchedulingV1alpha2NamespacedPodGroupOptions = struct {
+        /// allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored.
+        allowWatchBookmarks: ?[]const u8 = null,
+        /// The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key".
+        ///
+        /// This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
+        @"continue": ?[]const u8 = null,
+        /// A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        fieldSelector: ?[]const u8 = null,
+        /// A selector to restrict the list of returned objects by their labels. Defaults to everything.
+        labelSelector: ?[]const u8 = null,
+        /// limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.
+        ///
+        /// The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
+        limit: ?[]const u8 = null,
+        /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
+        pretty: ?[]const u8 = null,
+        /// resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.
+        ///
+        /// Defaults to unset
+        resourceVersion: ?[]const u8 = null,
+        /// resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.
+        ///
+        /// Defaults to unset
+        resourceVersionMatch: ?[]const u8 = null,
+        /// `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event  will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched.
+        ///
+        /// When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan
+        ///   is interpreted as "data at least as new as the provided `resourceVersion`"
+        ///   and the bookmark event is send when the state is synced
+        ///   to a `resourceVersion` at least as fresh as the one provided by the ListOptions.
+        ///   If `resourceVersion` is unset, this is interpreted as "consistent read" and the
+        ///   bookmark event is send when the state is synced at least to the moment
+        ///   when request started being processed.
+        /// - `resourceVersionMatch` set to any other value or unset
+        ///   Invalid error is returned.
+        ///
+        /// Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise.
+        sendInitialEvents: ?[]const u8 = null,
+        /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
+        timeoutSeconds: ?[]const u8 = null,
+        /// Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
+        watch: ?[]const u8 = null,
+    };
+    /// watch changes to an object of kind PodGroup. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter.
+    pub fn watchSchedulingV1alpha2NamespacedPodGroup(self: *Client, name: []const u8, namespace: []const u8, options: watchSchedulingV1alpha2NamespacedPodGroupOptions) !WatchSchedulingV1alpha2NamespacedPodGroupResponse {
+        var url_buf: [1024]u8 = undefined;
+        var url_fbs = std.io.fixedBufferStream(&url_buf);
+        const url_w = url_fbs.writer();
+        try url_w.print("{s}", .{self.base_url});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/watch/namespaces/", .{});
+        try urlEncode(url_w, namespace);
+        try url_w.print("/podgroups/", .{});
+        try urlEncode(url_w, name);
+        var first_query = true;
+        _ = &first_query;
+        if (options.allowWatchBookmarks) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("allowWatchBookmarks=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.@"continue") |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("continue=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.fieldSelector) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("fieldSelector=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.labelSelector) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("labelSelector=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.limit) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("limit=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.pretty) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("pretty=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.resourceVersion) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("resourceVersion=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.resourceVersionMatch) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("resourceVersionMatch=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.sendInitialEvents) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("sendInitialEvents=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.timeoutSeconds) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("timeoutSeconds=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.watch) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("watch=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        const url = url_fbs.getWritten();
+        var extra_headers = std.ArrayListUnmanaged(std.http.Header){};
+        defer extra_headers.deinit(self.allocator);
+        var body_list = std.ArrayListUnmanaged(u8){};
+        defer body_list.deinit(self.allocator);
+
+        // Serialize body if present
+        var req_body_writer = std.io.Writer.Allocating.init(self.allocator);
+        defer req_body_writer.deinit();
+
+        var write_buf: [4096]u8 = undefined;
+        const ResponseContext = struct {
+            writer: std.io.Writer,
+            list: *std.ArrayListUnmanaged(u8),
+            allocator: std.mem.Allocator,
+            fn drain(w: *std.io.Writer, chunks: []const []const u8, len: usize) error{WriteFailed}!usize {
+                _ = len;
+                const ctx: *@This() = @fieldParentPtr("writer", w);
+
+                // Flush existing buffer
+                if (w.end > 0) {
+                    const buffered = w.buffer[0..w.end];
+                    ctx.list.appendSlice(ctx.allocator, buffered) catch return error.WriteFailed;
+                    w.end = 0;
+                }
+
+                var total_written: usize = 0;
+                for (chunks) |chunk| {
+                    if (chunk.len > 0) {
+                        ctx.list.appendSlice(ctx.allocator, chunk) catch return error.WriteFailed;
+                        total_written += chunk.len;
+                    }
+                }
+                return total_written;
+            }
+        };
+        const vtable = std.io.Writer.VTable{ .drain = ResponseContext.drain };
+        var ctx = ResponseContext{
+            .writer = std.io.Writer{ .vtable = &vtable, .buffer = &write_buf, .end = 0 },
+            .list = &body_list,
+            .allocator = self.allocator,
+        };
+
+        const fetch_res = try self.client.fetch(.{
+            .location = .{ .uri = try std.Uri.parse(url) },
+            .method = .GET, // Use format specifier for method
+            .extra_headers = extra_headers.items,
+            .payload = if (!std.mem.eql(u8, "GET", "DELETE") and req_body_writer.writer.end > 0) req_body_writer.writer.buffer[0..req_body_writer.writer.end] else null,
+            .response_writer = &ctx.writer,
+        });
+
+        // Flush any remaining data in the writer buffer
+        try ctx.writer.vtable.flush(&ctx.writer);
+
+        // Headers are not available from client.fetch, so we return empty headers for now.
+        // This is a workaround for Zig 0.15.2 std.http.Client limitations/bugs.
+        const headers = try self.allocator.alloc(std.http.Header, 0);
+        var arena = std.heap.ArenaAllocator.init(self.allocator);
+        errdefer arena.deinit();
+
+        const response = struct { head: struct { status: std.http.Status } }{ .head = .{ .status = fetch_res.status } };
+        switch (response.head.status) {
+            .ok => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .unauthorized => {
+                return .{ .unauthorized = .{ .headers = headers, .arena = arena } };
+            },
+            else => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(std.json.Value, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .default_response = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+        }
+    }
+
+    pub const WatchSchedulingV1alpha2NamespacedWorkloadListResponse200 = struct {
+        body: root.io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const WatchSchedulingV1alpha2NamespacedWorkloadListResponse401 = struct {
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const WatchSchedulingV1alpha2NamespacedWorkloadListResponseDefault = struct {
+        body: std.json.Value,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const WatchSchedulingV1alpha2NamespacedWorkloadListResponse = union(enum) {
+        ok: WatchSchedulingV1alpha2NamespacedWorkloadListResponse200,
+        unauthorized: WatchSchedulingV1alpha2NamespacedWorkloadListResponse401,
+        default_response: WatchSchedulingV1alpha2NamespacedWorkloadListResponseDefault,
+    };
+
+    pub const watchSchedulingV1alpha2NamespacedWorkloadListOptions = struct {
         /// allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored.
         allowWatchBookmarks: ?[]const u8 = null,
         /// The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key".
@@ -224686,12 +227735,12 @@ pub const Client = struct {
         watch: ?[]const u8 = null,
     };
     /// watch individual changes to a list of Workload. deprecated: use the 'watch' parameter with a list operation instead.
-    pub fn watchSchedulingV1alpha1NamespacedWorkloadList(self: *Client, namespace: []const u8, options: watchSchedulingV1alpha1NamespacedWorkloadListOptions) !WatchSchedulingV1alpha1NamespacedWorkloadListResponse {
+    pub fn watchSchedulingV1alpha2NamespacedWorkloadList(self: *Client, namespace: []const u8, options: watchSchedulingV1alpha2NamespacedWorkloadListOptions) !WatchSchedulingV1alpha2NamespacedWorkloadListResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha1/watch/namespaces/", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/watch/namespaces/", .{});
         try urlEncode(url_w, namespace);
         try url_w.print("/workloads", .{});
         var first_query = true;
@@ -224906,27 +227955,27 @@ pub const Client = struct {
         }
     }
 
-    pub const WatchSchedulingV1alpha1NamespacedWorkloadResponse200 = struct {
+    pub const WatchSchedulingV1alpha2NamespacedWorkloadResponse200 = struct {
         body: root.io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const WatchSchedulingV1alpha1NamespacedWorkloadResponse401 = struct {
+    pub const WatchSchedulingV1alpha2NamespacedWorkloadResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const WatchSchedulingV1alpha1NamespacedWorkloadResponseDefault = struct {
+    pub const WatchSchedulingV1alpha2NamespacedWorkloadResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const WatchSchedulingV1alpha1NamespacedWorkloadResponse = union(enum) {
-        ok: WatchSchedulingV1alpha1NamespacedWorkloadResponse200,
-        unauthorized: WatchSchedulingV1alpha1NamespacedWorkloadResponse401,
-        default_response: WatchSchedulingV1alpha1NamespacedWorkloadResponseDefault,
+    pub const WatchSchedulingV1alpha2NamespacedWorkloadResponse = union(enum) {
+        ok: WatchSchedulingV1alpha2NamespacedWorkloadResponse200,
+        unauthorized: WatchSchedulingV1alpha2NamespacedWorkloadResponse401,
+        default_response: WatchSchedulingV1alpha2NamespacedWorkloadResponseDefault,
     };
 
-    pub const watchSchedulingV1alpha1NamespacedWorkloadOptions = struct {
+    pub const watchSchedulingV1alpha2NamespacedWorkloadOptions = struct {
         /// allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored.
         allowWatchBookmarks: ?[]const u8 = null,
         /// The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key".
@@ -224971,12 +228020,12 @@ pub const Client = struct {
         watch: ?[]const u8 = null,
     };
     /// watch changes to an object of kind Workload. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter.
-    pub fn watchSchedulingV1alpha1NamespacedWorkload(self: *Client, name: []const u8, namespace: []const u8, options: watchSchedulingV1alpha1NamespacedWorkloadOptions) !WatchSchedulingV1alpha1NamespacedWorkloadResponse {
+    pub fn watchSchedulingV1alpha2NamespacedWorkload(self: *Client, name: []const u8, namespace: []const u8, options: watchSchedulingV1alpha2NamespacedWorkloadOptions) !WatchSchedulingV1alpha2NamespacedWorkloadResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha1/watch/namespaces/", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/watch/namespaces/", .{});
         try urlEncode(url_w, namespace);
         try url_w.print("/workloads/", .{});
         try urlEncode(url_w, name);
@@ -225192,27 +228241,27 @@ pub const Client = struct {
         }
     }
 
-    pub const WatchSchedulingV1alpha1WorkloadListForAllNamespacesResponse200 = struct {
+    pub const WatchSchedulingV1alpha2PodGroupListForAllNamespacesResponse200 = struct {
         body: root.io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const WatchSchedulingV1alpha1WorkloadListForAllNamespacesResponse401 = struct {
+    pub const WatchSchedulingV1alpha2PodGroupListForAllNamespacesResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const WatchSchedulingV1alpha1WorkloadListForAllNamespacesResponseDefault = struct {
+    pub const WatchSchedulingV1alpha2PodGroupListForAllNamespacesResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const WatchSchedulingV1alpha1WorkloadListForAllNamespacesResponse = union(enum) {
-        ok: WatchSchedulingV1alpha1WorkloadListForAllNamespacesResponse200,
-        unauthorized: WatchSchedulingV1alpha1WorkloadListForAllNamespacesResponse401,
-        default_response: WatchSchedulingV1alpha1WorkloadListForAllNamespacesResponseDefault,
+    pub const WatchSchedulingV1alpha2PodGroupListForAllNamespacesResponse = union(enum) {
+        ok: WatchSchedulingV1alpha2PodGroupListForAllNamespacesResponse200,
+        unauthorized: WatchSchedulingV1alpha2PodGroupListForAllNamespacesResponse401,
+        default_response: WatchSchedulingV1alpha2PodGroupListForAllNamespacesResponseDefault,
     };
 
-    pub const watchSchedulingV1alpha1WorkloadListForAllNamespacesOptions = struct {
+    pub const watchSchedulingV1alpha2PodGroupListForAllNamespacesOptions = struct {
         /// allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored.
         allowWatchBookmarks: ?[]const u8 = null,
         /// The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key".
@@ -225256,13 +228305,13 @@ pub const Client = struct {
         /// Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
         watch: ?[]const u8 = null,
     };
-    /// watch individual changes to a list of Workload. deprecated: use the 'watch' parameter with a list operation instead.
-    pub fn watchSchedulingV1alpha1WorkloadListForAllNamespaces(self: *Client, options: watchSchedulingV1alpha1WorkloadListForAllNamespacesOptions) !WatchSchedulingV1alpha1WorkloadListForAllNamespacesResponse {
+    /// watch individual changes to a list of PodGroup. deprecated: use the 'watch' parameter with a list operation instead.
+    pub fn watchSchedulingV1alpha2PodGroupListForAllNamespaces(self: *Client, options: watchSchedulingV1alpha2PodGroupListForAllNamespacesOptions) !WatchSchedulingV1alpha2PodGroupListForAllNamespacesResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha1/watch/workloads", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/watch/podgroups", .{});
         var first_query = true;
         _ = &first_query;
         if (options.allowWatchBookmarks) |val| {
@@ -225475,27 +228524,27 @@ pub const Client = struct {
         }
     }
 
-    pub const ListSchedulingV1alpha1WorkloadForAllNamespacesResponse200 = struct {
-        body: root.io.k8s.api.scheduling.v1alpha1.WorkloadList,
+    pub const WatchSchedulingV1alpha2WorkloadListForAllNamespacesResponse200 = struct {
+        body: root.io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ListSchedulingV1alpha1WorkloadForAllNamespacesResponse401 = struct {
+    pub const WatchSchedulingV1alpha2WorkloadListForAllNamespacesResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ListSchedulingV1alpha1WorkloadForAllNamespacesResponseDefault = struct {
+    pub const WatchSchedulingV1alpha2WorkloadListForAllNamespacesResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ListSchedulingV1alpha1WorkloadForAllNamespacesResponse = union(enum) {
-        ok: ListSchedulingV1alpha1WorkloadForAllNamespacesResponse200,
-        unauthorized: ListSchedulingV1alpha1WorkloadForAllNamespacesResponse401,
-        default_response: ListSchedulingV1alpha1WorkloadForAllNamespacesResponseDefault,
+    pub const WatchSchedulingV1alpha2WorkloadListForAllNamespacesResponse = union(enum) {
+        ok: WatchSchedulingV1alpha2WorkloadListForAllNamespacesResponse200,
+        unauthorized: WatchSchedulingV1alpha2WorkloadListForAllNamespacesResponse401,
+        default_response: WatchSchedulingV1alpha2WorkloadListForAllNamespacesResponseDefault,
     };
 
-    pub const listSchedulingV1alpha1WorkloadForAllNamespacesOptions = struct {
+    pub const watchSchedulingV1alpha2WorkloadListForAllNamespacesOptions = struct {
         /// allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored.
         allowWatchBookmarks: ?[]const u8 = null,
         /// The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key".
@@ -225539,13 +228588,13 @@ pub const Client = struct {
         /// Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
         watch: ?[]const u8 = null,
     };
-    /// list or watch objects of kind Workload
-    pub fn listSchedulingV1alpha1WorkloadForAllNamespaces(self: *Client, options: listSchedulingV1alpha1WorkloadForAllNamespacesOptions) !ListSchedulingV1alpha1WorkloadForAllNamespacesResponse {
+    /// watch individual changes to a list of Workload. deprecated: use the 'watch' parameter with a list operation instead.
+    pub fn watchSchedulingV1alpha2WorkloadListForAllNamespaces(self: *Client, options: watchSchedulingV1alpha2WorkloadListForAllNamespacesOptions) !WatchSchedulingV1alpha2WorkloadListForAllNamespacesResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha1/workloads", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/watch/workloads", .{});
         var first_query = true;
         _ = &first_query;
         if (options.allowWatchBookmarks) |val| {
@@ -225744,7 +228793,7 @@ pub const Client = struct {
         switch (response.head.status) {
             .ok => {
                 const body_resp = try arena.allocator().dupe(u8, body_list.items);
-                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha1.WorkloadList, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
                 return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
             },
             .unauthorized => {
@@ -225758,12 +228807,295 @@ pub const Client = struct {
         }
     }
 
-    pub fn watchlistSchedulingV1alpha1WorkloadForAllNamespaces(self: *Client, options: listSchedulingV1alpha1WorkloadForAllNamespacesOptions) !WatchStream(root.io.k8s.api.scheduling.v1alpha1.Workload) {
+    pub const ListSchedulingV1alpha2WorkloadForAllNamespacesResponse200 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha2.WorkloadList,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ListSchedulingV1alpha2WorkloadForAllNamespacesResponse401 = struct {
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ListSchedulingV1alpha2WorkloadForAllNamespacesResponseDefault = struct {
+        body: std.json.Value,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ListSchedulingV1alpha2WorkloadForAllNamespacesResponse = union(enum) {
+        ok: ListSchedulingV1alpha2WorkloadForAllNamespacesResponse200,
+        unauthorized: ListSchedulingV1alpha2WorkloadForAllNamespacesResponse401,
+        default_response: ListSchedulingV1alpha2WorkloadForAllNamespacesResponseDefault,
+    };
+
+    pub const listSchedulingV1alpha2WorkloadForAllNamespacesOptions = struct {
+        /// allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored.
+        allowWatchBookmarks: ?[]const u8 = null,
+        /// The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key".
+        ///
+        /// This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
+        @"continue": ?[]const u8 = null,
+        /// A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        fieldSelector: ?[]const u8 = null,
+        /// A selector to restrict the list of returned objects by their labels. Defaults to everything.
+        labelSelector: ?[]const u8 = null,
+        /// limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.
+        ///
+        /// The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
+        limit: ?[]const u8 = null,
+        /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
+        pretty: ?[]const u8 = null,
+        /// resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.
+        ///
+        /// Defaults to unset
+        resourceVersion: ?[]const u8 = null,
+        /// resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.
+        ///
+        /// Defaults to unset
+        resourceVersionMatch: ?[]const u8 = null,
+        /// `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event  will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched.
+        ///
+        /// When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan
+        ///   is interpreted as "data at least as new as the provided `resourceVersion`"
+        ///   and the bookmark event is send when the state is synced
+        ///   to a `resourceVersion` at least as fresh as the one provided by the ListOptions.
+        ///   If `resourceVersion` is unset, this is interpreted as "consistent read" and the
+        ///   bookmark event is send when the state is synced at least to the moment
+        ///   when request started being processed.
+        /// - `resourceVersionMatch` set to any other value or unset
+        ///   Invalid error is returned.
+        ///
+        /// Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise.
+        sendInitialEvents: ?[]const u8 = null,
+        /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
+        timeoutSeconds: ?[]const u8 = null,
+        /// Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
+        watch: ?[]const u8 = null,
+    };
+    /// list or watch objects of kind Workload
+    pub fn listSchedulingV1alpha2WorkloadForAllNamespaces(self: *Client, options: listSchedulingV1alpha2WorkloadForAllNamespacesOptions) !ListSchedulingV1alpha2WorkloadForAllNamespacesResponse {
+        var url_buf: [1024]u8 = undefined;
+        var url_fbs = std.io.fixedBufferStream(&url_buf);
+        const url_w = url_fbs.writer();
+        try url_w.print("{s}", .{self.base_url});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/workloads", .{});
+        var first_query = true;
+        _ = &first_query;
+        if (options.allowWatchBookmarks) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("allowWatchBookmarks=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.@"continue") |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("continue=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.fieldSelector) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("fieldSelector=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.labelSelector) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("labelSelector=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.limit) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("limit=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.pretty) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("pretty=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.resourceVersion) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("resourceVersion=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.resourceVersionMatch) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("resourceVersionMatch=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.sendInitialEvents) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("sendInitialEvents=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.timeoutSeconds) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("timeoutSeconds=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.watch) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("watch=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        const url = url_fbs.getWritten();
+        var extra_headers = std.ArrayListUnmanaged(std.http.Header){};
+        defer extra_headers.deinit(self.allocator);
+        var body_list = std.ArrayListUnmanaged(u8){};
+        defer body_list.deinit(self.allocator);
+
+        // Serialize body if present
+        var req_body_writer = std.io.Writer.Allocating.init(self.allocator);
+        defer req_body_writer.deinit();
+
+        var write_buf: [4096]u8 = undefined;
+        const ResponseContext = struct {
+            writer: std.io.Writer,
+            list: *std.ArrayListUnmanaged(u8),
+            allocator: std.mem.Allocator,
+            fn drain(w: *std.io.Writer, chunks: []const []const u8, len: usize) error{WriteFailed}!usize {
+                _ = len;
+                const ctx: *@This() = @fieldParentPtr("writer", w);
+
+                // Flush existing buffer
+                if (w.end > 0) {
+                    const buffered = w.buffer[0..w.end];
+                    ctx.list.appendSlice(ctx.allocator, buffered) catch return error.WriteFailed;
+                    w.end = 0;
+                }
+
+                var total_written: usize = 0;
+                for (chunks) |chunk| {
+                    if (chunk.len > 0) {
+                        ctx.list.appendSlice(ctx.allocator, chunk) catch return error.WriteFailed;
+                        total_written += chunk.len;
+                    }
+                }
+                return total_written;
+            }
+        };
+        const vtable = std.io.Writer.VTable{ .drain = ResponseContext.drain };
+        var ctx = ResponseContext{
+            .writer = std.io.Writer{ .vtable = &vtable, .buffer = &write_buf, .end = 0 },
+            .list = &body_list,
+            .allocator = self.allocator,
+        };
+
+        const fetch_res = try self.client.fetch(.{
+            .location = .{ .uri = try std.Uri.parse(url) },
+            .method = .GET, // Use format specifier for method
+            .extra_headers = extra_headers.items,
+            .payload = if (!std.mem.eql(u8, "GET", "DELETE") and req_body_writer.writer.end > 0) req_body_writer.writer.buffer[0..req_body_writer.writer.end] else null,
+            .response_writer = &ctx.writer,
+        });
+
+        // Flush any remaining data in the writer buffer
+        try ctx.writer.vtable.flush(&ctx.writer);
+
+        // Headers are not available from client.fetch, so we return empty headers for now.
+        // This is a workaround for Zig 0.15.2 std.http.Client limitations/bugs.
+        const headers = try self.allocator.alloc(std.http.Header, 0);
+        var arena = std.heap.ArenaAllocator.init(self.allocator);
+        errdefer arena.deinit();
+
+        const response = struct { head: struct { status: std.http.Status } }{ .head = .{ .status = fetch_res.status } };
+        switch (response.head.status) {
+            .ok => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.WorkloadList, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .unauthorized => {
+                return .{ .unauthorized = .{ .headers = headers, .arena = arena } };
+            },
+            else => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(std.json.Value, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .default_response = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+        }
+    }
+
+    pub fn watchlistSchedulingV1alpha2WorkloadForAllNamespaces(self: *Client, options: listSchedulingV1alpha2WorkloadForAllNamespacesOptions) !WatchStream(root.io.k8s.api.scheduling.v1alpha2.Workload) {
         var url_buf: [4096]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.writeAll("/apis/scheduling.k8s.io/v1alpha1/workloads");
+        try url_w.writeAll("/apis/scheduling.k8s.io/v1alpha2/workloads");
         try url_w.writeAll("?watch=true");
         if (options.allowWatchBookmarks) |val| {
             try url_w.print("&allowWatchBookmarks={any}", .{val});
@@ -225806,7 +229138,7 @@ pub const Client = struct {
         const transfer_buf = try self.allocator.alloc(u8, 4096);
         errdefer self.allocator.free(transfer_buf);
         const reader = res.reader(transfer_buf);
-        return WatchStream(root.io.k8s.api.scheduling.v1alpha1.Workload){ .allocator = self.allocator, .req = heap_req, .transfer_buf = transfer_buf, .reader = reader };
+        return WatchStream(root.io.k8s.api.scheduling.v1alpha2.Workload){ .allocator = self.allocator, .req = heap_req, .transfer_buf = transfer_buf, .reader = reader };
     }
 
     pub const GetStorageAPIGroupResponse200 = struct {
