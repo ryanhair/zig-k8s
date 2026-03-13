@@ -111,7 +111,7 @@ pub const BasicDevice = struct {
     ///
     /// The maximum number of taints is 16. If taints are set for any device in a ResourceSlice, then the maximum number of allowed devices per ResourceSlice is 64 instead of 128.
     ///
-    /// This is an alpha field and requires enabling the DRADeviceTaints feature gate.
+    /// This is a beta field and requires enabling the DRADeviceTaints feature gate.
     taints: ?[]const root.io.k8s.api.resource.v1beta1.DeviceTaint = null,
 
     pub fn validate(self: @This()) !void {
@@ -545,7 +545,7 @@ pub const DeviceRequest = struct {
     ///
     /// This field can only be set when deviceClassName is set and no subrequests are specified in the firstAvailable list.
     ///
-    /// This is an alpha field and requires enabling the DRADeviceTaints feature gate.
+    /// This is a beta field and requires enabling the DRADeviceTaints feature gate.
     tolerations: ?[]const root.io.k8s.api.resource.v1beta1.DeviceToleration = null,
 
     pub fn validate(self: @This()) !void {
@@ -596,7 +596,7 @@ pub const DeviceRequestAllocationResult = struct {
     ///
     /// The maximum number of tolerations is 16.
     ///
-    /// This is an alpha field and requires enabling the DRADeviceTaints feature gate.
+    /// This is a beta field and requires enabling the DRADeviceTaints feature gate.
     tolerations: ?[]const root.io.k8s.api.resource.v1beta1.DeviceToleration = null,
 
     pub fn validate(self: @This()) !void {
@@ -660,7 +660,7 @@ pub const DeviceSubRequest = struct {
     ///
     /// The maximum number of tolerations is 16.
     ///
-    /// This is an alpha field and requires enabling the DRADeviceTaints feature gate.
+    /// This is a beta field and requires enabling the DRADeviceTaints feature gate.
     tolerations: ?[]const root.io.k8s.api.resource.v1beta1.DeviceToleration = null,
 
     pub fn validate(self: @This()) !void {

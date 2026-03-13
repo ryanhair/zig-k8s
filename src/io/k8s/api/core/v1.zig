@@ -2765,7 +2765,7 @@ pub const PodSpec = struct {
     hostNetwork: ?bool = null,
     /// Use the host's pid namespace. Optional: Default to false.
     hostPID: ?bool = null,
-    /// Use the host's user namespace. Optional: Default to true. If set to true or not present, the pod will be run in the host user namespace, useful for when the pod needs a feature only available to the host user namespace, such as loading a kernel module with CAP_SYS_MODULE. When set to false, a new userns is created for the pod. Setting false is useful for mitigating container breakout vulnerabilities even allowing users to run their containers as root without actually having root privileges on the host. This field is alpha-level and is only honored by servers that enable the UserNamespacesSupport feature.
+    /// Use the host's user namespace. Optional: Default to true. If set to true or not present, the pod will be run in the host user namespace, useful for when the pod needs a feature only available to the host user namespace, such as loading a kernel module with CAP_SYS_MODULE. When set to false, a new userns is created for the pod. Setting false is useful for mitigating container breakout vulnerabilities even allowing users to run their containers as root without actually having root privileges on the host.
     hostUsers: ?bool = null,
     /// Specifies the hostname of the Pod If not specified, the pod's hostname will be set to a system-defined value.
     hostname: ?[]const u8 = null,
