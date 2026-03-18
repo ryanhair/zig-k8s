@@ -57,6 +57,16 @@ pub const PodGroupList = struct {
     }
 };
 
+/// PodGroupSchedulingConstraints defines scheduling constraints (e.g. topology) for a PodGroup.
+pub const PodGroupSchedulingConstraints = struct {
+    /// Topology defines the topology constraints for the pod group. Currently only a single topology constraint can be specified. This may change in the future.
+    topology: ?[]const root.io.k8s.api.scheduling.v1alpha2.TopologyConstraint = null,
+
+    pub fn validate(self: @This()) !void {
+        if (self.topology) |arr| for (arr) |item| try item.validate();
+    }
+};
+
 /// PodGroupSchedulingPolicy defines the scheduling configuration for a PodGroup. Exactly one policy must be set.
 pub const PodGroupSchedulingPolicy = struct {
     /// Basic specifies that the pods in this group should be scheduled using standard Kubernetes scheduling behavior.
@@ -73,11 +83,14 @@ pub const PodGroupSchedulingPolicy = struct {
 pub const PodGroupSpec = struct {
     /// PodGroupTemplateRef references an optional PodGroup template within other object (e.g. Workload) that was used to create the PodGroup. This field is immutable.
     podGroupTemplateRef: ?root.io.k8s.api.scheduling.v1alpha2.PodGroupTemplateReference = null,
+    /// SchedulingConstraints defines optional scheduling constraints (e.g. topology) for this PodGroup. Controllers are expected to fill this field by copying it from a PodGroupTemplate. This field is immutable. This field is only available when the TopologyAwareWorkloadScheduling feature gate is enabled.
+    schedulingConstraints: ?root.io.k8s.api.scheduling.v1alpha2.PodGroupSchedulingConstraints = null,
     /// SchedulingPolicy defines the scheduling policy for this instance of the PodGroup. Controllers are expected to fill this field by copying it from a PodGroupTemplate. This field is immutable.
     schedulingPolicy: root.io.k8s.api.scheduling.v1alpha2.PodGroupSchedulingPolicy,
 
     pub fn validate(self: @This()) !void {
         if (self.podGroupTemplateRef) |v| try v.validate();
+        if (self.schedulingConstraints) |v| try v.validate();
         try self.schedulingPolicy.validate();
     }
 };
@@ -107,10 +120,13 @@ pub const PodGroupStatus = struct {
 pub const PodGroupTemplate = struct {
     /// Name is a unique identifier for the PodGroupTemplate within the Workload. It must be a DNS label. This field is immutable.
     name: []const u8,
+    /// SchedulingConstraints defines optional scheduling constraints (e.g. topology) for this PodGroupTemplate. This field is only available when the TopologyAwareWorkloadScheduling feature gate is enabled.
+    schedulingConstraints: ?root.io.k8s.api.scheduling.v1alpha2.PodGroupSchedulingConstraints = null,
     /// SchedulingPolicy defines the scheduling policy for this PodGroupTemplate.
     schedulingPolicy: root.io.k8s.api.scheduling.v1alpha2.PodGroupSchedulingPolicy,
 
     pub fn validate(self: @This()) !void {
+        if (self.schedulingConstraints) |v| try v.validate();
         try self.schedulingPolicy.validate();
     }
 };
@@ -122,6 +138,16 @@ pub const PodGroupTemplateReference = struct {
 
     pub fn validate(self: @This()) !void {
         if (self.workload) |v| try v.validate();
+    }
+};
+
+/// TopologyConstraint defines a topology constraint for a PodGroup.
+pub const TopologyConstraint = struct {
+    /// Key specifies the key of the node label representing the topology domain. All pods within the PodGroup must be colocated within the same domain instance. Different PodGroups can land on different domain instances even if they derive from the same PodGroupTemplate. Examples: "topology.kubernetes.io/rack"
+    key: []const u8,
+
+    pub fn validate(self: @This()) !void {
+        _ = self;
     }
 };
 
