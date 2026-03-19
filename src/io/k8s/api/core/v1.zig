@@ -1788,6 +1788,20 @@ pub const NodeAffinity = struct {
     }
 };
 
+/// NodeAllocatableResourceClaimStatus describes the status of node allocatable resources allocated via DRA.
+pub const NodeAllocatableResourceClaimStatus = struct {
+    /// Containers lists the names of all containers in this pod that reference the claim.
+    containers: ?[]const []const u8 = null,
+    /// ResourceClaimName is the resource claim referenced by the pod that resulted in this node allocatable resource allocation.
+    resourceClaimName: []const u8,
+    /// Resources is a map of the node-allocatable resource name to the aggregate quantity allocated to the claim.
+    resources: std.json.Value,
+
+    pub fn validate(self: @This()) !void {
+        _ = self;
+    }
+};
+
 /// NodeCondition contains condition information for a node.
 pub const NodeCondition = struct {
     /// Last time we got an update on a given condition.
@@ -2883,6 +2897,8 @@ pub const PodStatus = struct {
     initContainerStatuses: ?[]const root.io.k8s.api.core.v1.ContainerStatus = null,
     /// A human readable message indicating details about why the pod is in this condition.
     message: ?[]const u8 = null,
+    /// NodeAllocatableResourceClaimStatuses contains the status of node-allocatable resources that were allocated for this pod through DRA claims. This includes resources currently reported in v1.Node `status.allocatable` that are not extended resources (see https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#extended-resources). Examples include "cpu", "memory", "ephemeral-storage", and hugepages.
+    nodeAllocatableResourceClaimStatuses: ?[]const root.io.k8s.api.core.v1.NodeAllocatableResourceClaimStatus = null,
     /// nominatedNodeName is set only when this pod preempts other pods on the node, but it cannot be scheduled right away as preemption victims receive their graceful termination periods. This field does not guarantee that the pod will be scheduled on this node. Scheduler may decide to place the pod elsewhere if other nodes become available sooner. Scheduler may also decide to give the resources on this node to a higher priority pod that is created after preemption. As a result, this field may be different than PodSpec.nodeName when the pod is scheduled.
     nominatedNodeName: ?[]const u8 = null,
     /// If set, this represents the .metadata.generation that the pod status was set based upon. The PodObservedGenerationTracking feature gate must be enabled to use this field.
@@ -2917,6 +2933,7 @@ pub const PodStatus = struct {
         if (self.extendedResourceClaimStatus) |v| try v.validate();
         if (self.hostIPs) |arr| for (arr) |item| try item.validate();
         if (self.initContainerStatuses) |arr| for (arr) |item| try item.validate();
+        if (self.nodeAllocatableResourceClaimStatuses) |arr| for (arr) |item| try item.validate();
         if (self.podIPs) |arr| for (arr) |item| try item.validate();
         if (self.resourceClaimStatuses) |arr| for (arr) |item| try item.validate();
         if (self.resources) |v| try v.validate();
