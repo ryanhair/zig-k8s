@@ -86,6 +86,10 @@ pub const CELDeviceSelector = struct {
     /// 
     ///     cel.bind(dra, device.attributes["dra.example.com"], dra.someBool && dra.anotherBool)
     /// 
+    /// When the DRAListTypeAttributes feature gate is enabled, the includes() helper is available and it can work for both scalar and list-type attributes. It was introduced to support smooth migration from scalar attributes to list-type attributes while keeping CEL expressions simple. For example:
+    /// 
+    ///     device.attributes["dra.example.com"].models.includes("some-model")
+    /// 
     /// The length of the expression must be smaller or equal to 10 Ki. The cost of evaluating it is also limited based on the estimated number of logical steps.
     expression: []const u8,
 
@@ -304,12 +308,26 @@ pub const DeviceAllocationResult = struct {
 pub const DeviceAttribute = struct {
     /// BoolValue is a true/false value.
     @"bool": ?bool = null,
+    /// BoolValues is a non-empty list of true/false values.
+    bools: ?[]const bool = null,
     /// IntValue is a number.
     int: ?i64 = null,
+    /// IntValues is a non-empty list of numbers.
+    /// 
+    /// This is an alpha field and requires enabling the DRAListTypeAttributes feature gate.
+    ints: ?[]const i64 = null,
     /// StringValue is a string. Must not be longer than 64 characters.
     string: ?[]const u8 = null,
+    /// StringValues is a non-empty list of strings. Each string must not be longer than 64 characters.
+    /// 
+    /// This is an alpha field and requires enabling the DRAListTypeAttributes feature gate.
+    strings: ?[]const []const u8 = null,
     /// VersionValue is a semantic version according to semver.org spec 2.0.0. Must not be longer than 64 characters.
     version: ?[]const u8 = null,
+    /// VersionValues is a non-empty list of semantic versions according to semver.org spec 2.0.0. Each version string must not be longer than 64 characters.
+    /// 
+    /// This is an alpha field and requires enabling the DRAListTypeAttributes feature gate.
+    versions: ?[]const []const u8 = null,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -435,6 +453,8 @@ pub const DeviceClassSpec = struct {
 pub const DeviceConstraint = struct {
     /// DistinctAttribute requires that all devices in question have this attribute and that its type and value are unique across those devices.
     /// 
+    /// When the DRAListTypeAttributes feature gate is enabled, comparison uses set semantics (i.e., element order and duplicates are ignored): list-valued attributes must be pairwise disjoint across devices. Scalar values are treated as singleton sets for backward compatibility.
+    /// 
     /// This acts as the inverse of MatchAttribute.
     /// 
     /// This constraint is used to avoid allocating multiple requests to the same device by ensuring attribute-level differentiation.
@@ -444,6 +464,8 @@ pub const DeviceConstraint = struct {
     /// MatchAttribute requires that all devices in question have this attribute and that its type and value are the same across those devices.
     /// 
     /// For example, if you specified "dra.example.com/numa" (a hypothetical example!), then only devices in the same NUMA node will be chosen. A device which does not have that attribute will not be chosen. All devices should use a value of the same type for this attribute because that is part of its specification, but if one device doesn't, then it also will not be chosen.
+    /// 
+    /// When the DRAListTypeAttributes feature gate is enabled, comparison uses set semantics(i.e., element order and duplicates are ignored): list-valued attributes match when the intersection across all devices is non-empty. Scalar values are treated as single-element lists for backward compatibility.
     /// 
     /// Must include the domain qualifier.
     matchAttribute: ?[]const u8 = null,
