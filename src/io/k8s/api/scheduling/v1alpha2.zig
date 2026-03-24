@@ -57,6 +57,42 @@ pub const PodGroupList = struct {
     }
 };
 
+/// PodGroupResourceClaim references exactly one ResourceClaim, either directly or by naming a ResourceClaimTemplate which is then turned into a ResourceClaim for the PodGroup.
+///
+/// It adds a name to it that uniquely identifies the ResourceClaim inside the PodGroup. Pods that need access to the ResourceClaim define a matching reference in its own Spec.ResourceClaims. The Pod's claim must match all fields of the PodGroup's claim exactly.
+pub const PodGroupResourceClaim = struct {
+    /// Name uniquely identifies this resource claim inside the PodGroup. This must be a DNS_LABEL.
+    name: []const u8,
+    /// ResourceClaimName is the name of a ResourceClaim object in the same namespace as this PodGroup. The ResourceClaim will be reserved for the PodGroup instead of its individual pods.
+    ///
+    /// Exactly one of ResourceClaimName and ResourceClaimTemplateName must be set.
+    resourceClaimName: ?[]const u8 = null,
+    /// ResourceClaimTemplateName is the name of a ResourceClaimTemplate object in the same namespace as this PodGroup.
+    ///
+    /// The template will be used to create a new ResourceClaim, which will be bound to this PodGroup. When this PodGroup is deleted, the ResourceClaim will also be deleted. The PodGroup name and resource name, along with a generated component, will be used to form a unique name for the ResourceClaim, which will be recorded in podgroup.status.resourceClaimStatuses.
+    ///
+    /// This field is immutable and no changes will be made to the corresponding ResourceClaim by the control plane after creating the ResourceClaim.
+    ///
+    /// Exactly one of ResourceClaimName and ResourceClaimTemplateName must be set.
+    resourceClaimTemplateName: ?[]const u8 = null,
+
+    pub fn validate(self: @This()) !void {
+        _ = self;
+    }
+};
+
+/// PodGroupResourceClaimStatus is stored in the PodGroupStatus for each PodGroupResourceClaim which references a ResourceClaimTemplate. It stores the generated name for the corresponding ResourceClaim.
+pub const PodGroupResourceClaimStatus = struct {
+    /// Name uniquely identifies this resource claim inside the PodGroup. This must match the name of an entry in podgroup.spec.resourceClaims, which implies that the string must be a DNS_LABEL.
+    name: []const u8,
+    /// ResourceClaimName is the name of the ResourceClaim that was generated for the PodGroup in the namespace of the PodGroup. If this is unset, then generating a ResourceClaim was not necessary. The podgroup.spec.resourceClaims entry can be ignored in this case.
+    resourceClaimName: ?[]const u8 = null,
+
+    pub fn validate(self: @This()) !void {
+        _ = self;
+    }
+};
+
 /// PodGroupSchedulingConstraints defines scheduling constraints (e.g. topology) for a PodGroup.
 pub const PodGroupSchedulingConstraints = struct {
     /// Topology defines the topology constraints for the pod group. Currently only a single topology constraint can be specified. This may change in the future.
@@ -83,6 +119,12 @@ pub const PodGroupSchedulingPolicy = struct {
 pub const PodGroupSpec = struct {
     /// PodGroupTemplateRef references an optional PodGroup template within other object (e.g. Workload) that was used to create the PodGroup. This field is immutable.
     podGroupTemplateRef: ?root.io.k8s.api.scheduling.v1alpha2.PodGroupTemplateReference = null,
+    /// ResourceClaims defines which ResourceClaims may be shared among Pods in the group. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate.
+    ///
+    /// This is an alpha-level field and requires that the DRAWorkloadResourceClaims feature gate is enabled.
+    ///
+    /// This field is immutable.
+    resourceClaims: ?[]const root.io.k8s.api.scheduling.v1alpha2.PodGroupResourceClaim = null,
     /// SchedulingConstraints defines optional scheduling constraints (e.g. topology) for this PodGroup. Controllers are expected to fill this field by copying it from a PodGroupTemplate. This field is immutable. This field is only available when the TopologyAwareWorkloadScheduling feature gate is enabled.
     schedulingConstraints: ?root.io.k8s.api.scheduling.v1alpha2.PodGroupSchedulingConstraints = null,
     /// SchedulingPolicy defines the scheduling policy for this instance of the PodGroup. Controllers are expected to fill this field by copying it from a PodGroupTemplate. This field is immutable.
@@ -90,6 +132,7 @@ pub const PodGroupSpec = struct {
 
     pub fn validate(self: @This()) !void {
         if (self.podGroupTemplateRef) |v| try v.validate();
+        if (self.resourceClaims) |arr| for (arr) |item| try item.validate();
         if (self.schedulingConstraints) |v| try v.validate();
         try self.schedulingPolicy.validate();
     }
@@ -110,9 +153,12 @@ pub const PodGroupStatus = struct {
     /// Known reasons for the DisruptionTarget condition: - "PreemptionByScheduler": The PodGroup was preempted by the scheduler to make room for
     ///   higher-priority PodGroups or Pods.
     conditions: ?[]const root.io.k8s.apimachinery.pkg.apis.meta.v1.Condition = null,
+    /// Status of resource claims.
+    resourceClaimStatuses: ?[]const root.io.k8s.api.scheduling.v1alpha2.PodGroupResourceClaimStatus = null,
 
     pub fn validate(self: @This()) !void {
         if (self.conditions) |arr| for (arr) |item| try item.validate();
+        if (self.resourceClaimStatuses) |arr| for (arr) |item| try item.validate();
     }
 };
 
@@ -120,12 +166,19 @@ pub const PodGroupStatus = struct {
 pub const PodGroupTemplate = struct {
     /// Name is a unique identifier for the PodGroupTemplate within the Workload. It must be a DNS label. This field is immutable.
     name: []const u8,
+    /// ResourceClaims defines which ResourceClaims may be shared among Pods in the group. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate.
+    ///
+    /// This is an alpha-level field and requires that the DRAWorkloadResourceClaims feature gate is enabled.
+    ///
+    /// This field is immutable.
+    resourceClaims: ?[]const root.io.k8s.api.scheduling.v1alpha2.PodGroupResourceClaim = null,
     /// SchedulingConstraints defines optional scheduling constraints (e.g. topology) for this PodGroupTemplate. This field is only available when the TopologyAwareWorkloadScheduling feature gate is enabled.
     schedulingConstraints: ?root.io.k8s.api.scheduling.v1alpha2.PodGroupSchedulingConstraints = null,
     /// SchedulingPolicy defines the scheduling policy for this PodGroupTemplate.
     schedulingPolicy: root.io.k8s.api.scheduling.v1alpha2.PodGroupSchedulingPolicy,
 
     pub fn validate(self: @This()) !void {
+        if (self.resourceClaims) |arr| for (arr) |item| try item.validate();
         if (self.schedulingConstraints) |v| try v.validate();
         try self.schedulingPolicy.validate();
     }
