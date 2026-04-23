@@ -397,11 +397,11 @@ pub const DeviceClass = struct {
     /// This is mutable. Consumers have to be prepared for classes changing at any time, either because they get updated or replaced. Claim allocations are done once based on whatever was set in classes at the time of allocation.
     /// 
     /// Changing the spec automatically increments the metadata.generation number.
-    spec: root.io.k8s.api.resource.v1beta2.DeviceClassSpec,
+    spec: ?root.io.k8s.api.resource.v1beta2.DeviceClassSpec = null,
 
     pub fn validate(self: @This()) !void {
         if (self.metadata) |v| try v.validate();
-        try self.spec.validate();
+        if (self.spec) |v| try v.validate();
     }
 };
 
@@ -887,13 +887,13 @@ pub const ResourceClaim = struct {
     /// Standard object metadata
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
     /// Spec describes what is being requested and how to configure it. The spec is immutable.
-    spec: root.io.k8s.api.resource.v1beta2.ResourceClaimSpec,
+    spec: ?root.io.k8s.api.resource.v1beta2.ResourceClaimSpec = null,
     /// Status describes whether the claim is ready to use and what has been allocated.
     status: ?root.io.k8s.api.resource.v1beta2.ResourceClaimStatus = null,
 
     pub fn validate(self: @This()) !void {
         if (self.metadata) |v| try v.validate();
-        try self.spec.validate();
+        if (self.spec) |v| try v.validate();
         if (self.status) |v| try v.validate();
     }
 };
@@ -976,11 +976,11 @@ pub const ResourceClaimTemplate = struct {
     /// Describes the ResourceClaim that is to be generated.
     /// 
     /// This field is immutable. A ResourceClaim will get created by the control plane for a Pod when needed and then not get updated anymore.
-    spec: root.io.k8s.api.resource.v1beta2.ResourceClaimTemplateSpec,
+    spec: ?root.io.k8s.api.resource.v1beta2.ResourceClaimTemplateSpec = null,
 
     pub fn validate(self: @This()) !void {
         if (self.metadata) |v| try v.validate();
-        try self.spec.validate();
+        if (self.spec) |v| try v.validate();
     }
 };
 
@@ -1006,11 +1006,11 @@ pub const ResourceClaimTemplateSpec = struct {
     /// ObjectMeta may contain labels and annotations that will be copied into the ResourceClaim when creating it. No other fields are allowed and will be rejected during validation.
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
     /// Spec for the ResourceClaim. The entire content is copied unchanged into the ResourceClaim that gets created from this template. The same fields as in a ResourceClaim are also valid here.
-    spec: root.io.k8s.api.resource.v1beta2.ResourceClaimSpec,
+    spec: ?root.io.k8s.api.resource.v1beta2.ResourceClaimSpec = null,
 
     pub fn validate(self: @This()) !void {
         if (self.metadata) |v| try v.validate();
-        try self.spec.validate();
+        if (self.spec) |v| try v.validate();
     }
 };
 
