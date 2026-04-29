@@ -1,6 +1,6 @@
 .{
     .name = .client,
-    .version = "0.1.148",
+    .version = "0.1.149",
     .minimum_zig_version = "0.15.2",
     .fingerprint = 0xc744045524078908,
     .dependencies = .{},
