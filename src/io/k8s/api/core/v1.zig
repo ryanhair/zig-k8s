@@ -4156,7 +4156,7 @@ pub const VolumeDevice = struct {
 
 /// VolumeMount describes a mounting of a Volume within a container.
 pub const VolumeMount = struct {
-    /// Path within the container at which the volume should be mounted.  Must not contain ':'.
+    /// Path within the container at which the volume should be mounted.
     mountPath: []const u8,
     /// mountPropagation determines how mounts are propagated from the host to container and the other way around. When not set, MountPropagationNone is used. This field is beta in 1.10. When RecursiveReadOnly is set to IfPossible or to Enabled, MountPropagation must be None or unspecified (which defaults to None).
     mountPropagation: ?[]const u8 = null,
