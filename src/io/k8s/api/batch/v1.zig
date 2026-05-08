@@ -218,8 +218,6 @@ pub const JobStatus = struct {
     /// The number of pods which reached phase Succeeded. The value increases monotonically for a given spec. However, it may decrease in reaction to scale down of elastic indexed jobs.
     succeeded: ?i64 = null,
     /// The number of pods which are terminating (in phase Pending or Running and have a deletionTimestamp).
-    ///
-    /// This field is beta-level. The job controller populates the field when the feature gate JobPodReplacementPolicy is enabled (enabled by default).
     terminating: ?i64 = null,
     /// uncountedTerminatedPods holds the UIDs of Pods that have terminated but the job controller hasn't yet accounted for in the status counters.
     ///
