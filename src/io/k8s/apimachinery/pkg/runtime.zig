@@ -11,7 +11,7 @@ const root = @import("../../../../root.zig");
 /// // Internal package:
 /// 
 /// 	type MyAPIObject struct {
-/// 		runtime.TypeMeta `json:",inline"`
+/// 		runtime.TypeMeta `json:""`
 /// 		MyPlugin runtime.Object `json:"myPlugin"`
 /// 	}
 /// 
@@ -22,7 +22,7 @@ const root = @import("../../../../root.zig");
 /// // External package:
 /// 
 /// 	type MyAPIObject struct {
-/// 		runtime.TypeMeta `json:",inline"`
+/// 		runtime.TypeMeta `json:""`
 /// 		MyPlugin runtime.RawExtension `json:"myPlugin"`
 /// 	}
 /// 
