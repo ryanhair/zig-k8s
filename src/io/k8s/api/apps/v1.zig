@@ -8,13 +8,13 @@ pub const ControllerRevision = struct {
     /// APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
     apiVersion: ?[]const u8 = null,
     /// Data is the serialized representation of the state.
-    data: ?root.io.k8s.apimachinery.pkg.runtime.RawExtension = null,
+    data: root.io.k8s.apimachinery.pkg.runtime.RawExtension,
     /// Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     kind: ?[]const u8 = null,
     /// Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
     /// Revision indicates the revision of the state represented by Data.
-    revision: i64,
+    revision: ?i64 = null,
 
     pub fn validate(self: @This()) !void {
         if (self.metadata) |v| try v.validate();
@@ -47,13 +47,13 @@ pub const DaemonSet = struct {
     /// Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
     /// The desired behavior of this daemon set. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
-    spec: ?root.io.k8s.api.apps.v1.DaemonSetSpec = null,
+    spec: root.io.k8s.api.apps.v1.DaemonSetSpec,
     /// The current status of this daemon set. This data may be out of date by some window of time. Populated by the system. Read-only. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
     status: ?root.io.k8s.api.apps.v1.DaemonSetStatus = null,
 
     pub fn validate(self: @This()) !void {
         if (self.metadata) |v| try v.validate();
-        if (self.spec) |v| try v.validate();
+        try self.spec.validate();
         if (self.status) |v| try v.validate();
     }
 };
@@ -67,9 +67,9 @@ pub const DaemonSetCondition = struct {
     /// The reason for the condition's last transition.
     reason: ?[]const u8 = null,
     /// Status of the condition, one of True, False, Unknown.
-    status: []const u8,
+    status: ?[]const u8 = null,
     /// Type of DaemonSet condition.
-    type: []const u8,
+    type: ?[]const u8 = null,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -162,13 +162,13 @@ pub const Deployment = struct {
     /// Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
     /// Specification of the desired behavior of the Deployment.
-    spec: ?root.io.k8s.api.apps.v1.DeploymentSpec = null,
+    spec: root.io.k8s.api.apps.v1.DeploymentSpec,
     /// Most recently observed status of the Deployment.
     status: ?root.io.k8s.api.apps.v1.DeploymentStatus = null,
 
     pub fn validate(self: @This()) !void {
         if (self.metadata) |v| try v.validate();
-        if (self.spec) |v| try v.validate();
+        try self.spec.validate();
         if (self.status) |v| try v.validate();
     }
 };
@@ -184,9 +184,9 @@ pub const DeploymentCondition = struct {
     /// The reason for the condition's last transition.
     reason: ?[]const u8 = null,
     /// Status of the condition, one of True, False, Unknown.
-    status: []const u8,
+    status: ?[]const u8 = null,
     /// Type of deployment condition.
-    type: []const u8,
+    type: ?[]const u8 = null,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -285,13 +285,13 @@ pub const ReplicaSet = struct {
     /// If the Labels of a ReplicaSet are empty, they are defaulted to be the same as the Pod(s) that the ReplicaSet manages. Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
     /// Spec defines the specification of the desired behavior of the ReplicaSet. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
-    spec: ?root.io.k8s.api.apps.v1.ReplicaSetSpec = null,
+    spec: root.io.k8s.api.apps.v1.ReplicaSetSpec,
     /// Status is the most recently observed status of the ReplicaSet. This data may be out of date by some window of time. Populated by the system. Read-only. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
     status: ?root.io.k8s.api.apps.v1.ReplicaSetStatus = null,
 
     pub fn validate(self: @This()) !void {
         if (self.metadata) |v| try v.validate();
-        if (self.spec) |v| try v.validate();
+        try self.spec.validate();
         if (self.status) |v| try v.validate();
     }
 };
@@ -305,9 +305,9 @@ pub const ReplicaSetCondition = struct {
     /// The reason for the condition's last transition.
     reason: ?[]const u8 = null,
     /// Status of the condition, one of True, False, Unknown.
-    status: []const u8,
+    status: ?[]const u8 = null,
     /// Type of replica set condition.
-    type: []const u8,
+    type: ?[]const u8 = null,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -421,13 +421,13 @@ pub const StatefulSet = struct {
     /// Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
     /// Spec defines the desired identities of pods in this set.
-    spec: ?root.io.k8s.api.apps.v1.StatefulSetSpec = null,
+    spec: root.io.k8s.api.apps.v1.StatefulSetSpec,
     /// Status is the current status of Pods in this StatefulSet. This data may be out of date by some window of time.
     status: ?root.io.k8s.api.apps.v1.StatefulSetStatus = null,
 
     pub fn validate(self: @This()) !void {
         if (self.metadata) |v| try v.validate();
-        if (self.spec) |v| try v.validate();
+        try self.spec.validate();
         if (self.status) |v| try v.validate();
     }
 };
@@ -441,9 +441,9 @@ pub const StatefulSetCondition = struct {
     /// The reason for the condition's last transition.
     reason: ?[]const u8 = null,
     /// Status of the condition, one of True, False, Unknown.
-    status: []const u8,
+    status: ?[]const u8 = null,
     /// Type of statefulset condition.
-    type: []const u8,
+    type: ?[]const u8 = null,
 
     pub fn validate(self: @This()) !void {
         _ = self;

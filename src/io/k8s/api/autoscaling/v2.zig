@@ -259,7 +259,7 @@ pub const MetricSpec = struct {
 
 /// MetricStatus describes the last-read state of a single metric.
 pub const MetricStatus = struct {
-    /// container resource refers to a resource metric (such as those specified in requests and limits) known to Kubernetes describing a single container in each pod in the current scale target (e.g. CPU or memory). Such metrics are built in to Kubernetes, and have special scaling options on top of those available to normal per-pod metrics using the "pods" source.
+    /// containerResource refers to a resource metric (such as those specified in requests and limits) known to Kubernetes describing a single container in each pod in the current scale target (e.g. CPU or memory). Such metrics are built in to Kubernetes, and have special scaling options on top of those available to normal per-pod metrics using the "pods" source.
     containerResource: ?root.io.k8s.api.autoscaling.v2.ContainerResourceMetricStatus = null,
     /// external refers to a global metric that is not associated with any Kubernetes object. It allows autoscaling based on information coming from components running outside of cluster (for example length of queue in cloud messaging service, or QPS from loadbalancer running outside of cluster).
     external: ?root.io.k8s.api.autoscaling.v2.ExternalMetricStatus = null,
@@ -299,7 +299,7 @@ pub const MetricTarget = struct {
 
 /// MetricValueStatus holds the current value for a metric
 pub const MetricValueStatus = struct {
-    /// currentAverageUtilization is the current value of the average of the resource metric across all relevant pods, represented as a percentage of the requested value of the resource for the pods.
+    /// averageUtilization is the current value of the average of the resource metric across all relevant pods, represented as a percentage of the requested value of the resource for the pods.
     averageUtilization: ?i64 = null,
     /// averageValue is the current value of the average of the metric across all relevant pods (as a quantity)
     averageValue: ?root.io.k8s.apimachinery.pkg.api.resource.Quantity = null,
@@ -331,7 +331,7 @@ pub const ObjectMetricSource = struct {
 pub const ObjectMetricStatus = struct {
     /// current contains the current value for the given metric
     current: root.io.k8s.api.autoscaling.v2.MetricValueStatus,
-    /// DescribedObject specifies the descriptions of a object,such as kind,name apiVersion
+    /// describedObject specifies the descriptions of a object,such as kind,name apiVersion
     describedObject: root.io.k8s.api.autoscaling.v2.CrossVersionObjectReference,
     /// metric identifies the target metric by name and selector
     metric: root.io.k8s.api.autoscaling.v2.MetricIdentifier,
