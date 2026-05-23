@@ -242043,33 +242043,33 @@ pub const Client = struct {
         }
     }
 
-    pub const GetSchedulingV1alpha2APIResourcesResponse200 = struct {
+    pub const GetSchedulingV1alpha3APIResourcesResponse200 = struct {
         body: root.io.k8s.apimachinery.pkg.apis.meta.v1.APIResourceList,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const GetSchedulingV1alpha2APIResourcesResponse401 = struct {
+    pub const GetSchedulingV1alpha3APIResourcesResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const GetSchedulingV1alpha2APIResourcesResponseDefault = struct {
+    pub const GetSchedulingV1alpha3APIResourcesResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const GetSchedulingV1alpha2APIResourcesResponse = union(enum) {
-        ok: GetSchedulingV1alpha2APIResourcesResponse200,
-        unauthorized: GetSchedulingV1alpha2APIResourcesResponse401,
-        default_response: GetSchedulingV1alpha2APIResourcesResponseDefault,
+    pub const GetSchedulingV1alpha3APIResourcesResponse = union(enum) {
+        ok: GetSchedulingV1alpha3APIResourcesResponse200,
+        unauthorized: GetSchedulingV1alpha3APIResourcesResponse401,
+        default_response: GetSchedulingV1alpha3APIResourcesResponseDefault,
     };
 
     /// get available resources
-    pub fn getSchedulingV1alpha2APIResources(self: *Client) !GetSchedulingV1alpha2APIResourcesResponse {
+    pub fn getSchedulingV1alpha3APIResources(self: *Client) !GetSchedulingV1alpha3APIResourcesResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha3/", .{});
         const url = url_fbs.getWritten();
         var extra_headers = std.ArrayListUnmanaged(std.http.Header){};
         defer extra_headers.deinit(self.allocator);
@@ -242148,27 +242148,27 @@ pub const Client = struct {
         }
     }
 
-    pub const ListSchedulingV1alpha2NamespacedPodGroupResponse200 = struct {
-        body: root.io.k8s.api.scheduling.v1alpha2.PodGroupList,
+    pub const ListSchedulingV1alpha3NamespacedPodGroupResponse200 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha3.PodGroupList,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ListSchedulingV1alpha2NamespacedPodGroupResponse401 = struct {
+    pub const ListSchedulingV1alpha3NamespacedPodGroupResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ListSchedulingV1alpha2NamespacedPodGroupResponseDefault = struct {
+    pub const ListSchedulingV1alpha3NamespacedPodGroupResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ListSchedulingV1alpha2NamespacedPodGroupResponse = union(enum) {
-        ok: ListSchedulingV1alpha2NamespacedPodGroupResponse200,
-        unauthorized: ListSchedulingV1alpha2NamespacedPodGroupResponse401,
-        default_response: ListSchedulingV1alpha2NamespacedPodGroupResponseDefault,
+    pub const ListSchedulingV1alpha3NamespacedPodGroupResponse = union(enum) {
+        ok: ListSchedulingV1alpha3NamespacedPodGroupResponse200,
+        unauthorized: ListSchedulingV1alpha3NamespacedPodGroupResponse401,
+        default_response: ListSchedulingV1alpha3NamespacedPodGroupResponseDefault,
     };
 
-    pub const listSchedulingV1alpha2NamespacedPodGroupOptions = struct {
+    pub const listSchedulingV1alpha3NamespacedPodGroupOptions = struct {
         /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
         pretty: ?[]const u8 = null,
         /// allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored.
@@ -242236,12 +242236,12 @@ pub const Client = struct {
         watch: ?[]const u8 = null,
     };
     /// list or watch objects of kind PodGroup
-    pub fn listSchedulingV1alpha2NamespacedPodGroup(self: *Client, namespace: []const u8, options: listSchedulingV1alpha2NamespacedPodGroupOptions) !ListSchedulingV1alpha2NamespacedPodGroupResponse {
+    pub fn listSchedulingV1alpha3NamespacedPodGroup(self: *Client, namespace: []const u8, options: listSchedulingV1alpha3NamespacedPodGroupOptions) !ListSchedulingV1alpha3NamespacedPodGroupResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/namespaces/", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha3/namespaces/", .{});
         try urlEncode(url_w, namespace);
         try url_w.print("/podgroups", .{});
         var first_query = true;
@@ -242454,7 +242454,7 @@ pub const Client = struct {
         switch (response.head.status) {
             .ok => {
                 const body_resp = try arena.allocator().dupe(u8, body_list.items);
-                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.PodGroupList, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha3.PodGroupList, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
                 return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
             },
             .unauthorized => {
@@ -242468,12 +242468,12 @@ pub const Client = struct {
         }
     }
 
-    pub fn watchlistSchedulingV1alpha2NamespacedPodGroup(self: *Client, namespace: []const u8, options: listSchedulingV1alpha2NamespacedPodGroupOptions) !WatchStream(root.io.k8s.api.scheduling.v1alpha2.PodGroup) {
+    pub fn watchlistSchedulingV1alpha3NamespacedPodGroup(self: *Client, namespace: []const u8, options: listSchedulingV1alpha3NamespacedPodGroupOptions) !WatchStream(root.io.k8s.api.scheduling.v1alpha3.PodGroup) {
         var url_buf: [4096]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.writeAll("/apis/scheduling.k8s.io/v1alpha2/namespaces/");
+        try url_w.writeAll("/apis/scheduling.k8s.io/v1alpha3/namespaces/");
         try url_w.print("{any}", .{namespace});
         try url_w.writeAll("/podgroups");
         try url_w.writeAll("?watch=true");
@@ -242521,42 +242521,42 @@ pub const Client = struct {
         const transfer_buf = try self.allocator.alloc(u8, 4096);
         errdefer self.allocator.free(transfer_buf);
         const reader = res.reader(transfer_buf);
-        return WatchStream(root.io.k8s.api.scheduling.v1alpha2.PodGroup){ .allocator = self.allocator, .req = heap_req, .transfer_buf = transfer_buf, .reader = reader };
+        return WatchStream(root.io.k8s.api.scheduling.v1alpha3.PodGroup){ .allocator = self.allocator, .req = heap_req, .transfer_buf = transfer_buf, .reader = reader };
     }
 
-    pub const CreateSchedulingV1alpha2NamespacedPodGroupResponse200 = struct {
-        body: root.io.k8s.api.scheduling.v1alpha2.PodGroup,
+    pub const CreateSchedulingV1alpha3NamespacedPodGroupResponse200 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha3.PodGroup,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const CreateSchedulingV1alpha2NamespacedPodGroupResponse201 = struct {
-        body: root.io.k8s.api.scheduling.v1alpha2.PodGroup,
+    pub const CreateSchedulingV1alpha3NamespacedPodGroupResponse201 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha3.PodGroup,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const CreateSchedulingV1alpha2NamespacedPodGroupResponse202 = struct {
-        body: root.io.k8s.api.scheduling.v1alpha2.PodGroup,
+    pub const CreateSchedulingV1alpha3NamespacedPodGroupResponse202 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha3.PodGroup,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const CreateSchedulingV1alpha2NamespacedPodGroupResponse401 = struct {
+    pub const CreateSchedulingV1alpha3NamespacedPodGroupResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const CreateSchedulingV1alpha2NamespacedPodGroupResponseDefault = struct {
+    pub const CreateSchedulingV1alpha3NamespacedPodGroupResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const CreateSchedulingV1alpha2NamespacedPodGroupResponse = union(enum) {
-        ok: CreateSchedulingV1alpha2NamespacedPodGroupResponse200,
-        created: CreateSchedulingV1alpha2NamespacedPodGroupResponse201,
-        accepted: CreateSchedulingV1alpha2NamespacedPodGroupResponse202,
-        unauthorized: CreateSchedulingV1alpha2NamespacedPodGroupResponse401,
-        default_response: CreateSchedulingV1alpha2NamespacedPodGroupResponseDefault,
+    pub const CreateSchedulingV1alpha3NamespacedPodGroupResponse = union(enum) {
+        ok: CreateSchedulingV1alpha3NamespacedPodGroupResponse200,
+        created: CreateSchedulingV1alpha3NamespacedPodGroupResponse201,
+        accepted: CreateSchedulingV1alpha3NamespacedPodGroupResponse202,
+        unauthorized: CreateSchedulingV1alpha3NamespacedPodGroupResponse401,
+        default_response: CreateSchedulingV1alpha3NamespacedPodGroupResponseDefault,
     };
 
-    pub const createSchedulingV1alpha2NamespacedPodGroupOptions = struct {
+    pub const createSchedulingV1alpha3NamespacedPodGroupOptions = struct {
         /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
         pretty: ?[]const u8 = null,
         /// When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
@@ -242567,12 +242567,12 @@ pub const Client = struct {
         fieldValidation: ?[]const u8 = null,
     };
     /// create a PodGroup
-    pub fn createSchedulingV1alpha2NamespacedPodGroup(self: *Client, namespace: []const u8, body: root.io.k8s.api.scheduling.v1alpha2.PodGroup, options: createSchedulingV1alpha2NamespacedPodGroupOptions) !CreateSchedulingV1alpha2NamespacedPodGroupResponse {
+    pub fn createSchedulingV1alpha3NamespacedPodGroup(self: *Client, namespace: []const u8, body: root.io.k8s.api.scheduling.v1alpha3.PodGroup, options: createSchedulingV1alpha3NamespacedPodGroupOptions) !CreateSchedulingV1alpha3NamespacedPodGroupResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/namespaces/", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha3/namespaces/", .{});
         try urlEncode(url_w, namespace);
         try url_w.print("/podgroups", .{});
         var first_query = true;
@@ -242691,17 +242691,17 @@ pub const Client = struct {
         switch (response.head.status) {
             .ok => {
                 const body_resp = try arena.allocator().dupe(u8, body_list.items);
-                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha3.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
                 return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
             },
             .created => {
                 const body_resp = try arena.allocator().dupe(u8, body_list.items);
-                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha3.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
                 return .{ .created = .{ .body = parsed, .headers = headers, .arena = arena } };
             },
             .accepted => {
                 const body_resp = try arena.allocator().dupe(u8, body_list.items);
-                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha3.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
                 return .{ .accepted = .{ .body = parsed, .headers = headers, .arena = arena } };
             },
             .unauthorized => {
@@ -242715,27 +242715,27 @@ pub const Client = struct {
         }
     }
 
-    pub const DeleteSchedulingV1alpha2CollectionNamespacedPodGroupResponse200 = struct {
+    pub const DeleteSchedulingV1alpha3CollectionNamespacedPodGroupResponse200 = struct {
         body: root.io.k8s.apimachinery.pkg.apis.meta.v1.Status,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const DeleteSchedulingV1alpha2CollectionNamespacedPodGroupResponse401 = struct {
+    pub const DeleteSchedulingV1alpha3CollectionNamespacedPodGroupResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const DeleteSchedulingV1alpha2CollectionNamespacedPodGroupResponseDefault = struct {
+    pub const DeleteSchedulingV1alpha3CollectionNamespacedPodGroupResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const DeleteSchedulingV1alpha2CollectionNamespacedPodGroupResponse = union(enum) {
-        ok: DeleteSchedulingV1alpha2CollectionNamespacedPodGroupResponse200,
-        unauthorized: DeleteSchedulingV1alpha2CollectionNamespacedPodGroupResponse401,
-        default_response: DeleteSchedulingV1alpha2CollectionNamespacedPodGroupResponseDefault,
+    pub const DeleteSchedulingV1alpha3CollectionNamespacedPodGroupResponse = union(enum) {
+        ok: DeleteSchedulingV1alpha3CollectionNamespacedPodGroupResponse200,
+        unauthorized: DeleteSchedulingV1alpha3CollectionNamespacedPodGroupResponse401,
+        default_response: DeleteSchedulingV1alpha3CollectionNamespacedPodGroupResponseDefault,
     };
 
-    pub const deleteSchedulingV1alpha2CollectionNamespacedPodGroupOptions = struct {
+    pub const deleteSchedulingV1alpha3CollectionNamespacedPodGroupOptions = struct {
         /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
         pretty: ?[]const u8 = null,
         /// The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key".
@@ -242809,12 +242809,12 @@ pub const Client = struct {
         timeoutSeconds: ?[]const u8 = null,
     };
     /// delete collection of PodGroup
-    pub fn deleteSchedulingV1alpha2CollectionNamespacedPodGroup(self: *Client, namespace: []const u8, body: root.io.k8s.apimachinery.pkg.apis.meta.v1.DeleteOptions, options: deleteSchedulingV1alpha2CollectionNamespacedPodGroupOptions) !DeleteSchedulingV1alpha2CollectionNamespacedPodGroupResponse {
+    pub fn deleteSchedulingV1alpha3CollectionNamespacedPodGroup(self: *Client, namespace: []const u8, body: root.io.k8s.apimachinery.pkg.apis.meta.v1.DeleteOptions, options: deleteSchedulingV1alpha3CollectionNamespacedPodGroupOptions) !DeleteSchedulingV1alpha3CollectionNamespacedPodGroupResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/namespaces/", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha3/namespaces/", .{});
         try urlEncode(url_w, namespace);
         try url_w.print("/podgroups", .{});
         var first_query = true;
@@ -243114,37 +243114,37 @@ pub const Client = struct {
         }
     }
 
-    pub const ReadSchedulingV1alpha2NamespacedPodGroupResponse200 = struct {
-        body: root.io.k8s.api.scheduling.v1alpha2.PodGroup,
+    pub const ReadSchedulingV1alpha3NamespacedPodGroupResponse200 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha3.PodGroup,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ReadSchedulingV1alpha2NamespacedPodGroupResponse401 = struct {
+    pub const ReadSchedulingV1alpha3NamespacedPodGroupResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ReadSchedulingV1alpha2NamespacedPodGroupResponseDefault = struct {
+    pub const ReadSchedulingV1alpha3NamespacedPodGroupResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ReadSchedulingV1alpha2NamespacedPodGroupResponse = union(enum) {
-        ok: ReadSchedulingV1alpha2NamespacedPodGroupResponse200,
-        unauthorized: ReadSchedulingV1alpha2NamespacedPodGroupResponse401,
-        default_response: ReadSchedulingV1alpha2NamespacedPodGroupResponseDefault,
+    pub const ReadSchedulingV1alpha3NamespacedPodGroupResponse = union(enum) {
+        ok: ReadSchedulingV1alpha3NamespacedPodGroupResponse200,
+        unauthorized: ReadSchedulingV1alpha3NamespacedPodGroupResponse401,
+        default_response: ReadSchedulingV1alpha3NamespacedPodGroupResponseDefault,
     };
 
-    pub const readSchedulingV1alpha2NamespacedPodGroupOptions = struct {
+    pub const readSchedulingV1alpha3NamespacedPodGroupOptions = struct {
         /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
         pretty: ?[]const u8 = null,
     };
     /// read the specified PodGroup
-    pub fn readSchedulingV1alpha2NamespacedPodGroup(self: *Client, name: []const u8, namespace: []const u8, options: readSchedulingV1alpha2NamespacedPodGroupOptions) !ReadSchedulingV1alpha2NamespacedPodGroupResponse {
+    pub fn readSchedulingV1alpha3NamespacedPodGroup(self: *Client, name: []const u8, namespace: []const u8, options: readSchedulingV1alpha3NamespacedPodGroupOptions) !ReadSchedulingV1alpha3NamespacedPodGroupResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/namespaces/", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha3/namespaces/", .{});
         try urlEncode(url_w, namespace);
         try url_w.print("/podgroups/", .{});
         try urlEncode(url_w, name);
@@ -243226,7 +243226,7 @@ pub const Client = struct {
         switch (response.head.status) {
             .ok => {
                 const body_resp = try arena.allocator().dupe(u8, body_list.items);
-                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha3.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
                 return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
             },
             .unauthorized => {
@@ -243240,33 +243240,33 @@ pub const Client = struct {
         }
     }
 
-    pub const ReplaceSchedulingV1alpha2NamespacedPodGroupResponse200 = struct {
-        body: root.io.k8s.api.scheduling.v1alpha2.PodGroup,
+    pub const ReplaceSchedulingV1alpha3NamespacedPodGroupResponse200 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha3.PodGroup,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ReplaceSchedulingV1alpha2NamespacedPodGroupResponse201 = struct {
-        body: root.io.k8s.api.scheduling.v1alpha2.PodGroup,
+    pub const ReplaceSchedulingV1alpha3NamespacedPodGroupResponse201 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha3.PodGroup,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ReplaceSchedulingV1alpha2NamespacedPodGroupResponse401 = struct {
+    pub const ReplaceSchedulingV1alpha3NamespacedPodGroupResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ReplaceSchedulingV1alpha2NamespacedPodGroupResponseDefault = struct {
+    pub const ReplaceSchedulingV1alpha3NamespacedPodGroupResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ReplaceSchedulingV1alpha2NamespacedPodGroupResponse = union(enum) {
-        ok: ReplaceSchedulingV1alpha2NamespacedPodGroupResponse200,
-        created: ReplaceSchedulingV1alpha2NamespacedPodGroupResponse201,
-        unauthorized: ReplaceSchedulingV1alpha2NamespacedPodGroupResponse401,
-        default_response: ReplaceSchedulingV1alpha2NamespacedPodGroupResponseDefault,
+    pub const ReplaceSchedulingV1alpha3NamespacedPodGroupResponse = union(enum) {
+        ok: ReplaceSchedulingV1alpha3NamespacedPodGroupResponse200,
+        created: ReplaceSchedulingV1alpha3NamespacedPodGroupResponse201,
+        unauthorized: ReplaceSchedulingV1alpha3NamespacedPodGroupResponse401,
+        default_response: ReplaceSchedulingV1alpha3NamespacedPodGroupResponseDefault,
     };
 
-    pub const replaceSchedulingV1alpha2NamespacedPodGroupOptions = struct {
+    pub const replaceSchedulingV1alpha3NamespacedPodGroupOptions = struct {
         /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
         pretty: ?[]const u8 = null,
         /// When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
@@ -243277,12 +243277,12 @@ pub const Client = struct {
         fieldValidation: ?[]const u8 = null,
     };
     /// replace the specified PodGroup
-    pub fn replaceSchedulingV1alpha2NamespacedPodGroup(self: *Client, name: []const u8, namespace: []const u8, body: root.io.k8s.api.scheduling.v1alpha2.PodGroup, options: replaceSchedulingV1alpha2NamespacedPodGroupOptions) !ReplaceSchedulingV1alpha2NamespacedPodGroupResponse {
+    pub fn replaceSchedulingV1alpha3NamespacedPodGroup(self: *Client, name: []const u8, namespace: []const u8, body: root.io.k8s.api.scheduling.v1alpha3.PodGroup, options: replaceSchedulingV1alpha3NamespacedPodGroupOptions) !ReplaceSchedulingV1alpha3NamespacedPodGroupResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/namespaces/", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha3/namespaces/", .{});
         try urlEncode(url_w, namespace);
         try url_w.print("/podgroups/", .{});
         try urlEncode(url_w, name);
@@ -243402,12 +243402,12 @@ pub const Client = struct {
         switch (response.head.status) {
             .ok => {
                 const body_resp = try arena.allocator().dupe(u8, body_list.items);
-                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha3.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
                 return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
             },
             .created => {
                 const body_resp = try arena.allocator().dupe(u8, body_list.items);
-                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha3.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
                 return .{ .created = .{ .body = parsed, .headers = headers, .arena = arena } };
             },
             .unauthorized => {
@@ -243421,33 +243421,33 @@ pub const Client = struct {
         }
     }
 
-    pub const DeleteSchedulingV1alpha2NamespacedPodGroupResponse200 = struct {
+    pub const DeleteSchedulingV1alpha3NamespacedPodGroupResponse200 = struct {
         body: root.io.k8s.apimachinery.pkg.apis.meta.v1.Status,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const DeleteSchedulingV1alpha2NamespacedPodGroupResponse202 = struct {
+    pub const DeleteSchedulingV1alpha3NamespacedPodGroupResponse202 = struct {
         body: root.io.k8s.apimachinery.pkg.apis.meta.v1.Status,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const DeleteSchedulingV1alpha2NamespacedPodGroupResponse401 = struct {
+    pub const DeleteSchedulingV1alpha3NamespacedPodGroupResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const DeleteSchedulingV1alpha2NamespacedPodGroupResponseDefault = struct {
+    pub const DeleteSchedulingV1alpha3NamespacedPodGroupResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const DeleteSchedulingV1alpha2NamespacedPodGroupResponse = union(enum) {
-        ok: DeleteSchedulingV1alpha2NamespacedPodGroupResponse200,
-        accepted: DeleteSchedulingV1alpha2NamespacedPodGroupResponse202,
-        unauthorized: DeleteSchedulingV1alpha2NamespacedPodGroupResponse401,
-        default_response: DeleteSchedulingV1alpha2NamespacedPodGroupResponseDefault,
+    pub const DeleteSchedulingV1alpha3NamespacedPodGroupResponse = union(enum) {
+        ok: DeleteSchedulingV1alpha3NamespacedPodGroupResponse200,
+        accepted: DeleteSchedulingV1alpha3NamespacedPodGroupResponse202,
+        unauthorized: DeleteSchedulingV1alpha3NamespacedPodGroupResponse401,
+        default_response: DeleteSchedulingV1alpha3NamespacedPodGroupResponseDefault,
     };
 
-    pub const deleteSchedulingV1alpha2NamespacedPodGroupOptions = struct {
+    pub const deleteSchedulingV1alpha3NamespacedPodGroupOptions = struct {
         /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
         pretty: ?[]const u8 = null,
         /// When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
@@ -243462,12 +243462,12 @@ pub const Client = struct {
         propagationPolicy: ?[]const u8 = null,
     };
     /// delete a PodGroup
-    pub fn deleteSchedulingV1alpha2NamespacedPodGroup(self: *Client, name: []const u8, namespace: []const u8, body: root.io.k8s.apimachinery.pkg.apis.meta.v1.DeleteOptions, options: deleteSchedulingV1alpha2NamespacedPodGroupOptions) !DeleteSchedulingV1alpha2NamespacedPodGroupResponse {
+    pub fn deleteSchedulingV1alpha3NamespacedPodGroup(self: *Client, name: []const u8, namespace: []const u8, body: root.io.k8s.apimachinery.pkg.apis.meta.v1.DeleteOptions, options: deleteSchedulingV1alpha3NamespacedPodGroupOptions) !DeleteSchedulingV1alpha3NamespacedPodGroupResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/namespaces/", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha3/namespaces/", .{});
         try urlEncode(url_w, namespace);
         try url_w.print("/podgroups/", .{});
         try urlEncode(url_w, name);
@@ -243665,33 +243665,33 @@ pub const Client = struct {
         }
     }
 
-    pub const PatchSchedulingV1alpha2NamespacedPodGroupResponse200 = struct {
-        body: root.io.k8s.api.scheduling.v1alpha2.PodGroup,
+    pub const PatchSchedulingV1alpha3NamespacedPodGroupResponse200 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha3.PodGroup,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const PatchSchedulingV1alpha2NamespacedPodGroupResponse201 = struct {
-        body: root.io.k8s.api.scheduling.v1alpha2.PodGroup,
+    pub const PatchSchedulingV1alpha3NamespacedPodGroupResponse201 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha3.PodGroup,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const PatchSchedulingV1alpha2NamespacedPodGroupResponse401 = struct {
+    pub const PatchSchedulingV1alpha3NamespacedPodGroupResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const PatchSchedulingV1alpha2NamespacedPodGroupResponseDefault = struct {
+    pub const PatchSchedulingV1alpha3NamespacedPodGroupResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const PatchSchedulingV1alpha2NamespacedPodGroupResponse = union(enum) {
-        ok: PatchSchedulingV1alpha2NamespacedPodGroupResponse200,
-        created: PatchSchedulingV1alpha2NamespacedPodGroupResponse201,
-        unauthorized: PatchSchedulingV1alpha2NamespacedPodGroupResponse401,
-        default_response: PatchSchedulingV1alpha2NamespacedPodGroupResponseDefault,
+    pub const PatchSchedulingV1alpha3NamespacedPodGroupResponse = union(enum) {
+        ok: PatchSchedulingV1alpha3NamespacedPodGroupResponse200,
+        created: PatchSchedulingV1alpha3NamespacedPodGroupResponse201,
+        unauthorized: PatchSchedulingV1alpha3NamespacedPodGroupResponse401,
+        default_response: PatchSchedulingV1alpha3NamespacedPodGroupResponseDefault,
     };
 
-    pub const patchSchedulingV1alpha2NamespacedPodGroupOptions = struct {
+    pub const patchSchedulingV1alpha3NamespacedPodGroupOptions = struct {
         /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
         pretty: ?[]const u8 = null,
         /// When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
@@ -243704,12 +243704,12 @@ pub const Client = struct {
         force: ?[]const u8 = null,
     };
     /// partially update the specified PodGroup
-    pub fn patchSchedulingV1alpha2NamespacedPodGroup(self: *Client, name: []const u8, namespace: []const u8, body: root.io.k8s.apimachinery.pkg.apis.meta.v1.Patch, options: patchSchedulingV1alpha2NamespacedPodGroupOptions) !PatchSchedulingV1alpha2NamespacedPodGroupResponse {
+    pub fn patchSchedulingV1alpha3NamespacedPodGroup(self: *Client, name: []const u8, namespace: []const u8, body: root.io.k8s.apimachinery.pkg.apis.meta.v1.Patch, options: patchSchedulingV1alpha3NamespacedPodGroupOptions) !PatchSchedulingV1alpha3NamespacedPodGroupResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/namespaces/", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha3/namespaces/", .{});
         try urlEncode(url_w, namespace);
         try url_w.print("/podgroups/", .{});
         try urlEncode(url_w, name);
@@ -243841,12 +243841,12 @@ pub const Client = struct {
         switch (response.head.status) {
             .ok => {
                 const body_resp = try arena.allocator().dupe(u8, body_list.items);
-                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha3.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
                 return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
             },
             .created => {
                 const body_resp = try arena.allocator().dupe(u8, body_list.items);
-                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha3.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
                 return .{ .created = .{ .body = parsed, .headers = headers, .arena = arena } };
             },
             .unauthorized => {
@@ -243860,37 +243860,37 @@ pub const Client = struct {
         }
     }
 
-    pub const ReadSchedulingV1alpha2NamespacedPodGroupStatusResponse200 = struct {
-        body: root.io.k8s.api.scheduling.v1alpha2.PodGroup,
+    pub const ReadSchedulingV1alpha3NamespacedPodGroupStatusResponse200 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha3.PodGroup,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ReadSchedulingV1alpha2NamespacedPodGroupStatusResponse401 = struct {
+    pub const ReadSchedulingV1alpha3NamespacedPodGroupStatusResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ReadSchedulingV1alpha2NamespacedPodGroupStatusResponseDefault = struct {
+    pub const ReadSchedulingV1alpha3NamespacedPodGroupStatusResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ReadSchedulingV1alpha2NamespacedPodGroupStatusResponse = union(enum) {
-        ok: ReadSchedulingV1alpha2NamespacedPodGroupStatusResponse200,
-        unauthorized: ReadSchedulingV1alpha2NamespacedPodGroupStatusResponse401,
-        default_response: ReadSchedulingV1alpha2NamespacedPodGroupStatusResponseDefault,
+    pub const ReadSchedulingV1alpha3NamespacedPodGroupStatusResponse = union(enum) {
+        ok: ReadSchedulingV1alpha3NamespacedPodGroupStatusResponse200,
+        unauthorized: ReadSchedulingV1alpha3NamespacedPodGroupStatusResponse401,
+        default_response: ReadSchedulingV1alpha3NamespacedPodGroupStatusResponseDefault,
     };
 
-    pub const readSchedulingV1alpha2NamespacedPodGroupStatusOptions = struct {
+    pub const readSchedulingV1alpha3NamespacedPodGroupStatusOptions = struct {
         /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
         pretty: ?[]const u8 = null,
     };
     /// read status of the specified PodGroup
-    pub fn readSchedulingV1alpha2NamespacedPodGroupStatus(self: *Client, name: []const u8, namespace: []const u8, options: readSchedulingV1alpha2NamespacedPodGroupStatusOptions) !ReadSchedulingV1alpha2NamespacedPodGroupStatusResponse {
+    pub fn readSchedulingV1alpha3NamespacedPodGroupStatus(self: *Client, name: []const u8, namespace: []const u8, options: readSchedulingV1alpha3NamespacedPodGroupStatusOptions) !ReadSchedulingV1alpha3NamespacedPodGroupStatusResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/namespaces/", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha3/namespaces/", .{});
         try urlEncode(url_w, namespace);
         try url_w.print("/podgroups/", .{});
         try urlEncode(url_w, name);
@@ -243973,7 +243973,7 @@ pub const Client = struct {
         switch (response.head.status) {
             .ok => {
                 const body_resp = try arena.allocator().dupe(u8, body_list.items);
-                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha3.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
                 return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
             },
             .unauthorized => {
@@ -243987,33 +243987,33 @@ pub const Client = struct {
         }
     }
 
-    pub const ReplaceSchedulingV1alpha2NamespacedPodGroupStatusResponse200 = struct {
-        body: root.io.k8s.api.scheduling.v1alpha2.PodGroup,
+    pub const ReplaceSchedulingV1alpha3NamespacedPodGroupStatusResponse200 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha3.PodGroup,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ReplaceSchedulingV1alpha2NamespacedPodGroupStatusResponse201 = struct {
-        body: root.io.k8s.api.scheduling.v1alpha2.PodGroup,
+    pub const ReplaceSchedulingV1alpha3NamespacedPodGroupStatusResponse201 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha3.PodGroup,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ReplaceSchedulingV1alpha2NamespacedPodGroupStatusResponse401 = struct {
+    pub const ReplaceSchedulingV1alpha3NamespacedPodGroupStatusResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ReplaceSchedulingV1alpha2NamespacedPodGroupStatusResponseDefault = struct {
+    pub const ReplaceSchedulingV1alpha3NamespacedPodGroupStatusResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ReplaceSchedulingV1alpha2NamespacedPodGroupStatusResponse = union(enum) {
-        ok: ReplaceSchedulingV1alpha2NamespacedPodGroupStatusResponse200,
-        created: ReplaceSchedulingV1alpha2NamespacedPodGroupStatusResponse201,
-        unauthorized: ReplaceSchedulingV1alpha2NamespacedPodGroupStatusResponse401,
-        default_response: ReplaceSchedulingV1alpha2NamespacedPodGroupStatusResponseDefault,
+    pub const ReplaceSchedulingV1alpha3NamespacedPodGroupStatusResponse = union(enum) {
+        ok: ReplaceSchedulingV1alpha3NamespacedPodGroupStatusResponse200,
+        created: ReplaceSchedulingV1alpha3NamespacedPodGroupStatusResponse201,
+        unauthorized: ReplaceSchedulingV1alpha3NamespacedPodGroupStatusResponse401,
+        default_response: ReplaceSchedulingV1alpha3NamespacedPodGroupStatusResponseDefault,
     };
 
-    pub const replaceSchedulingV1alpha2NamespacedPodGroupStatusOptions = struct {
+    pub const replaceSchedulingV1alpha3NamespacedPodGroupStatusOptions = struct {
         /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
         pretty: ?[]const u8 = null,
         /// When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
@@ -244024,12 +244024,12 @@ pub const Client = struct {
         fieldValidation: ?[]const u8 = null,
     };
     /// replace status of the specified PodGroup
-    pub fn replaceSchedulingV1alpha2NamespacedPodGroupStatus(self: *Client, name: []const u8, namespace: []const u8, body: root.io.k8s.api.scheduling.v1alpha2.PodGroup, options: replaceSchedulingV1alpha2NamespacedPodGroupStatusOptions) !ReplaceSchedulingV1alpha2NamespacedPodGroupStatusResponse {
+    pub fn replaceSchedulingV1alpha3NamespacedPodGroupStatus(self: *Client, name: []const u8, namespace: []const u8, body: root.io.k8s.api.scheduling.v1alpha3.PodGroup, options: replaceSchedulingV1alpha3NamespacedPodGroupStatusOptions) !ReplaceSchedulingV1alpha3NamespacedPodGroupStatusResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/namespaces/", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha3/namespaces/", .{});
         try urlEncode(url_w, namespace);
         try url_w.print("/podgroups/", .{});
         try urlEncode(url_w, name);
@@ -244150,12 +244150,12 @@ pub const Client = struct {
         switch (response.head.status) {
             .ok => {
                 const body_resp = try arena.allocator().dupe(u8, body_list.items);
-                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha3.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
                 return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
             },
             .created => {
                 const body_resp = try arena.allocator().dupe(u8, body_list.items);
-                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha3.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
                 return .{ .created = .{ .body = parsed, .headers = headers, .arena = arena } };
             },
             .unauthorized => {
@@ -244169,33 +244169,33 @@ pub const Client = struct {
         }
     }
 
-    pub const PatchSchedulingV1alpha2NamespacedPodGroupStatusResponse200 = struct {
-        body: root.io.k8s.api.scheduling.v1alpha2.PodGroup,
+    pub const PatchSchedulingV1alpha3NamespacedPodGroupStatusResponse200 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha3.PodGroup,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const PatchSchedulingV1alpha2NamespacedPodGroupStatusResponse201 = struct {
-        body: root.io.k8s.api.scheduling.v1alpha2.PodGroup,
+    pub const PatchSchedulingV1alpha3NamespacedPodGroupStatusResponse201 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha3.PodGroup,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const PatchSchedulingV1alpha2NamespacedPodGroupStatusResponse401 = struct {
+    pub const PatchSchedulingV1alpha3NamespacedPodGroupStatusResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const PatchSchedulingV1alpha2NamespacedPodGroupStatusResponseDefault = struct {
+    pub const PatchSchedulingV1alpha3NamespacedPodGroupStatusResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const PatchSchedulingV1alpha2NamespacedPodGroupStatusResponse = union(enum) {
-        ok: PatchSchedulingV1alpha2NamespacedPodGroupStatusResponse200,
-        created: PatchSchedulingV1alpha2NamespacedPodGroupStatusResponse201,
-        unauthorized: PatchSchedulingV1alpha2NamespacedPodGroupStatusResponse401,
-        default_response: PatchSchedulingV1alpha2NamespacedPodGroupStatusResponseDefault,
+    pub const PatchSchedulingV1alpha3NamespacedPodGroupStatusResponse = union(enum) {
+        ok: PatchSchedulingV1alpha3NamespacedPodGroupStatusResponse200,
+        created: PatchSchedulingV1alpha3NamespacedPodGroupStatusResponse201,
+        unauthorized: PatchSchedulingV1alpha3NamespacedPodGroupStatusResponse401,
+        default_response: PatchSchedulingV1alpha3NamespacedPodGroupStatusResponseDefault,
     };
 
-    pub const patchSchedulingV1alpha2NamespacedPodGroupStatusOptions = struct {
+    pub const patchSchedulingV1alpha3NamespacedPodGroupStatusOptions = struct {
         /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
         pretty: ?[]const u8 = null,
         /// When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
@@ -244208,12 +244208,12 @@ pub const Client = struct {
         force: ?[]const u8 = null,
     };
     /// partially update status of the specified PodGroup
-    pub fn patchSchedulingV1alpha2NamespacedPodGroupStatus(self: *Client, name: []const u8, namespace: []const u8, body: root.io.k8s.apimachinery.pkg.apis.meta.v1.Patch, options: patchSchedulingV1alpha2NamespacedPodGroupStatusOptions) !PatchSchedulingV1alpha2NamespacedPodGroupStatusResponse {
+    pub fn patchSchedulingV1alpha3NamespacedPodGroupStatus(self: *Client, name: []const u8, namespace: []const u8, body: root.io.k8s.apimachinery.pkg.apis.meta.v1.Patch, options: patchSchedulingV1alpha3NamespacedPodGroupStatusOptions) !PatchSchedulingV1alpha3NamespacedPodGroupStatusResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/namespaces/", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha3/namespaces/", .{});
         try urlEncode(url_w, namespace);
         try url_w.print("/podgroups/", .{});
         try urlEncode(url_w, name);
@@ -244346,12 +244346,12 @@ pub const Client = struct {
         switch (response.head.status) {
             .ok => {
                 const body_resp = try arena.allocator().dupe(u8, body_list.items);
-                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha3.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
                 return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
             },
             .created => {
                 const body_resp = try arena.allocator().dupe(u8, body_list.items);
-                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha3.PodGroup, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
                 return .{ .created = .{ .body = parsed, .headers = headers, .arena = arena } };
             },
             .unauthorized => {
@@ -244365,27 +244365,27 @@ pub const Client = struct {
         }
     }
 
-    pub const ListSchedulingV1alpha2NamespacedWorkloadResponse200 = struct {
-        body: root.io.k8s.api.scheduling.v1alpha2.WorkloadList,
+    pub const ListSchedulingV1alpha3NamespacedWorkloadResponse200 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha3.WorkloadList,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ListSchedulingV1alpha2NamespacedWorkloadResponse401 = struct {
+    pub const ListSchedulingV1alpha3NamespacedWorkloadResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ListSchedulingV1alpha2NamespacedWorkloadResponseDefault = struct {
+    pub const ListSchedulingV1alpha3NamespacedWorkloadResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ListSchedulingV1alpha2NamespacedWorkloadResponse = union(enum) {
-        ok: ListSchedulingV1alpha2NamespacedWorkloadResponse200,
-        unauthorized: ListSchedulingV1alpha2NamespacedWorkloadResponse401,
-        default_response: ListSchedulingV1alpha2NamespacedWorkloadResponseDefault,
+    pub const ListSchedulingV1alpha3NamespacedWorkloadResponse = union(enum) {
+        ok: ListSchedulingV1alpha3NamespacedWorkloadResponse200,
+        unauthorized: ListSchedulingV1alpha3NamespacedWorkloadResponse401,
+        default_response: ListSchedulingV1alpha3NamespacedWorkloadResponseDefault,
     };
 
-    pub const listSchedulingV1alpha2NamespacedWorkloadOptions = struct {
+    pub const listSchedulingV1alpha3NamespacedWorkloadOptions = struct {
         /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
         pretty: ?[]const u8 = null,
         /// allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored.
@@ -244453,12 +244453,12 @@ pub const Client = struct {
         watch: ?[]const u8 = null,
     };
     /// list or watch objects of kind Workload
-    pub fn listSchedulingV1alpha2NamespacedWorkload(self: *Client, namespace: []const u8, options: listSchedulingV1alpha2NamespacedWorkloadOptions) !ListSchedulingV1alpha2NamespacedWorkloadResponse {
+    pub fn listSchedulingV1alpha3NamespacedWorkload(self: *Client, namespace: []const u8, options: listSchedulingV1alpha3NamespacedWorkloadOptions) !ListSchedulingV1alpha3NamespacedWorkloadResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/namespaces/", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha3/namespaces/", .{});
         try urlEncode(url_w, namespace);
         try url_w.print("/workloads", .{});
         var first_query = true;
@@ -244671,7 +244671,7 @@ pub const Client = struct {
         switch (response.head.status) {
             .ok => {
                 const body_resp = try arena.allocator().dupe(u8, body_list.items);
-                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.WorkloadList, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha3.WorkloadList, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
                 return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
             },
             .unauthorized => {
@@ -244685,12 +244685,12 @@ pub const Client = struct {
         }
     }
 
-    pub fn watchlistSchedulingV1alpha2NamespacedWorkload(self: *Client, namespace: []const u8, options: listSchedulingV1alpha2NamespacedWorkloadOptions) !WatchStream(root.io.k8s.api.scheduling.v1alpha2.Workload) {
+    pub fn watchlistSchedulingV1alpha3NamespacedWorkload(self: *Client, namespace: []const u8, options: listSchedulingV1alpha3NamespacedWorkloadOptions) !WatchStream(root.io.k8s.api.scheduling.v1alpha3.Workload) {
         var url_buf: [4096]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.writeAll("/apis/scheduling.k8s.io/v1alpha2/namespaces/");
+        try url_w.writeAll("/apis/scheduling.k8s.io/v1alpha3/namespaces/");
         try url_w.print("{any}", .{namespace});
         try url_w.writeAll("/workloads");
         try url_w.writeAll("?watch=true");
@@ -244738,42 +244738,42 @@ pub const Client = struct {
         const transfer_buf = try self.allocator.alloc(u8, 4096);
         errdefer self.allocator.free(transfer_buf);
         const reader = res.reader(transfer_buf);
-        return WatchStream(root.io.k8s.api.scheduling.v1alpha2.Workload){ .allocator = self.allocator, .req = heap_req, .transfer_buf = transfer_buf, .reader = reader };
+        return WatchStream(root.io.k8s.api.scheduling.v1alpha3.Workload){ .allocator = self.allocator, .req = heap_req, .transfer_buf = transfer_buf, .reader = reader };
     }
 
-    pub const CreateSchedulingV1alpha2NamespacedWorkloadResponse200 = struct {
-        body: root.io.k8s.api.scheduling.v1alpha2.Workload,
+    pub const CreateSchedulingV1alpha3NamespacedWorkloadResponse200 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha3.Workload,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const CreateSchedulingV1alpha2NamespacedWorkloadResponse201 = struct {
-        body: root.io.k8s.api.scheduling.v1alpha2.Workload,
+    pub const CreateSchedulingV1alpha3NamespacedWorkloadResponse201 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha3.Workload,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const CreateSchedulingV1alpha2NamespacedWorkloadResponse202 = struct {
-        body: root.io.k8s.api.scheduling.v1alpha2.Workload,
+    pub const CreateSchedulingV1alpha3NamespacedWorkloadResponse202 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha3.Workload,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const CreateSchedulingV1alpha2NamespacedWorkloadResponse401 = struct {
+    pub const CreateSchedulingV1alpha3NamespacedWorkloadResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const CreateSchedulingV1alpha2NamespacedWorkloadResponseDefault = struct {
+    pub const CreateSchedulingV1alpha3NamespacedWorkloadResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const CreateSchedulingV1alpha2NamespacedWorkloadResponse = union(enum) {
-        ok: CreateSchedulingV1alpha2NamespacedWorkloadResponse200,
-        created: CreateSchedulingV1alpha2NamespacedWorkloadResponse201,
-        accepted: CreateSchedulingV1alpha2NamespacedWorkloadResponse202,
-        unauthorized: CreateSchedulingV1alpha2NamespacedWorkloadResponse401,
-        default_response: CreateSchedulingV1alpha2NamespacedWorkloadResponseDefault,
+    pub const CreateSchedulingV1alpha3NamespacedWorkloadResponse = union(enum) {
+        ok: CreateSchedulingV1alpha3NamespacedWorkloadResponse200,
+        created: CreateSchedulingV1alpha3NamespacedWorkloadResponse201,
+        accepted: CreateSchedulingV1alpha3NamespacedWorkloadResponse202,
+        unauthorized: CreateSchedulingV1alpha3NamespacedWorkloadResponse401,
+        default_response: CreateSchedulingV1alpha3NamespacedWorkloadResponseDefault,
     };
 
-    pub const createSchedulingV1alpha2NamespacedWorkloadOptions = struct {
+    pub const createSchedulingV1alpha3NamespacedWorkloadOptions = struct {
         /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
         pretty: ?[]const u8 = null,
         /// When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
@@ -244784,12 +244784,12 @@ pub const Client = struct {
         fieldValidation: ?[]const u8 = null,
     };
     /// create a Workload
-    pub fn createSchedulingV1alpha2NamespacedWorkload(self: *Client, namespace: []const u8, body: root.io.k8s.api.scheduling.v1alpha2.Workload, options: createSchedulingV1alpha2NamespacedWorkloadOptions) !CreateSchedulingV1alpha2NamespacedWorkloadResponse {
+    pub fn createSchedulingV1alpha3NamespacedWorkload(self: *Client, namespace: []const u8, body: root.io.k8s.api.scheduling.v1alpha3.Workload, options: createSchedulingV1alpha3NamespacedWorkloadOptions) !CreateSchedulingV1alpha3NamespacedWorkloadResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/namespaces/", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha3/namespaces/", .{});
         try urlEncode(url_w, namespace);
         try url_w.print("/workloads", .{});
         var first_query = true;
@@ -244908,17 +244908,17 @@ pub const Client = struct {
         switch (response.head.status) {
             .ok => {
                 const body_resp = try arena.allocator().dupe(u8, body_list.items);
-                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.Workload, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha3.Workload, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
                 return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
             },
             .created => {
                 const body_resp = try arena.allocator().dupe(u8, body_list.items);
-                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.Workload, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha3.Workload, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
                 return .{ .created = .{ .body = parsed, .headers = headers, .arena = arena } };
             },
             .accepted => {
                 const body_resp = try arena.allocator().dupe(u8, body_list.items);
-                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.Workload, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha3.Workload, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
                 return .{ .accepted = .{ .body = parsed, .headers = headers, .arena = arena } };
             },
             .unauthorized => {
@@ -244932,27 +244932,27 @@ pub const Client = struct {
         }
     }
 
-    pub const DeleteSchedulingV1alpha2CollectionNamespacedWorkloadResponse200 = struct {
+    pub const DeleteSchedulingV1alpha3CollectionNamespacedWorkloadResponse200 = struct {
         body: root.io.k8s.apimachinery.pkg.apis.meta.v1.Status,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const DeleteSchedulingV1alpha2CollectionNamespacedWorkloadResponse401 = struct {
+    pub const DeleteSchedulingV1alpha3CollectionNamespacedWorkloadResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const DeleteSchedulingV1alpha2CollectionNamespacedWorkloadResponseDefault = struct {
+    pub const DeleteSchedulingV1alpha3CollectionNamespacedWorkloadResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const DeleteSchedulingV1alpha2CollectionNamespacedWorkloadResponse = union(enum) {
-        ok: DeleteSchedulingV1alpha2CollectionNamespacedWorkloadResponse200,
-        unauthorized: DeleteSchedulingV1alpha2CollectionNamespacedWorkloadResponse401,
-        default_response: DeleteSchedulingV1alpha2CollectionNamespacedWorkloadResponseDefault,
+    pub const DeleteSchedulingV1alpha3CollectionNamespacedWorkloadResponse = union(enum) {
+        ok: DeleteSchedulingV1alpha3CollectionNamespacedWorkloadResponse200,
+        unauthorized: DeleteSchedulingV1alpha3CollectionNamespacedWorkloadResponse401,
+        default_response: DeleteSchedulingV1alpha3CollectionNamespacedWorkloadResponseDefault,
     };
 
-    pub const deleteSchedulingV1alpha2CollectionNamespacedWorkloadOptions = struct {
+    pub const deleteSchedulingV1alpha3CollectionNamespacedWorkloadOptions = struct {
         /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
         pretty: ?[]const u8 = null,
         /// The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key".
@@ -245026,12 +245026,12 @@ pub const Client = struct {
         timeoutSeconds: ?[]const u8 = null,
     };
     /// delete collection of Workload
-    pub fn deleteSchedulingV1alpha2CollectionNamespacedWorkload(self: *Client, namespace: []const u8, body: root.io.k8s.apimachinery.pkg.apis.meta.v1.DeleteOptions, options: deleteSchedulingV1alpha2CollectionNamespacedWorkloadOptions) !DeleteSchedulingV1alpha2CollectionNamespacedWorkloadResponse {
+    pub fn deleteSchedulingV1alpha3CollectionNamespacedWorkload(self: *Client, namespace: []const u8, body: root.io.k8s.apimachinery.pkg.apis.meta.v1.DeleteOptions, options: deleteSchedulingV1alpha3CollectionNamespacedWorkloadOptions) !DeleteSchedulingV1alpha3CollectionNamespacedWorkloadResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/namespaces/", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha3/namespaces/", .{});
         try urlEncode(url_w, namespace);
         try url_w.print("/workloads", .{});
         var first_query = true;
@@ -245331,37 +245331,37 @@ pub const Client = struct {
         }
     }
 
-    pub const ReadSchedulingV1alpha2NamespacedWorkloadResponse200 = struct {
-        body: root.io.k8s.api.scheduling.v1alpha2.Workload,
+    pub const ReadSchedulingV1alpha3NamespacedWorkloadResponse200 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha3.Workload,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ReadSchedulingV1alpha2NamespacedWorkloadResponse401 = struct {
+    pub const ReadSchedulingV1alpha3NamespacedWorkloadResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ReadSchedulingV1alpha2NamespacedWorkloadResponseDefault = struct {
+    pub const ReadSchedulingV1alpha3NamespacedWorkloadResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ReadSchedulingV1alpha2NamespacedWorkloadResponse = union(enum) {
-        ok: ReadSchedulingV1alpha2NamespacedWorkloadResponse200,
-        unauthorized: ReadSchedulingV1alpha2NamespacedWorkloadResponse401,
-        default_response: ReadSchedulingV1alpha2NamespacedWorkloadResponseDefault,
+    pub const ReadSchedulingV1alpha3NamespacedWorkloadResponse = union(enum) {
+        ok: ReadSchedulingV1alpha3NamespacedWorkloadResponse200,
+        unauthorized: ReadSchedulingV1alpha3NamespacedWorkloadResponse401,
+        default_response: ReadSchedulingV1alpha3NamespacedWorkloadResponseDefault,
     };
 
-    pub const readSchedulingV1alpha2NamespacedWorkloadOptions = struct {
+    pub const readSchedulingV1alpha3NamespacedWorkloadOptions = struct {
         /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
         pretty: ?[]const u8 = null,
     };
     /// read the specified Workload
-    pub fn readSchedulingV1alpha2NamespacedWorkload(self: *Client, name: []const u8, namespace: []const u8, options: readSchedulingV1alpha2NamespacedWorkloadOptions) !ReadSchedulingV1alpha2NamespacedWorkloadResponse {
+    pub fn readSchedulingV1alpha3NamespacedWorkload(self: *Client, name: []const u8, namespace: []const u8, options: readSchedulingV1alpha3NamespacedWorkloadOptions) !ReadSchedulingV1alpha3NamespacedWorkloadResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/namespaces/", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha3/namespaces/", .{});
         try urlEncode(url_w, namespace);
         try url_w.print("/workloads/", .{});
         try urlEncode(url_w, name);
@@ -245443,7 +245443,7 @@ pub const Client = struct {
         switch (response.head.status) {
             .ok => {
                 const body_resp = try arena.allocator().dupe(u8, body_list.items);
-                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.Workload, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha3.Workload, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
                 return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
             },
             .unauthorized => {
@@ -245457,33 +245457,33 @@ pub const Client = struct {
         }
     }
 
-    pub const ReplaceSchedulingV1alpha2NamespacedWorkloadResponse200 = struct {
-        body: root.io.k8s.api.scheduling.v1alpha2.Workload,
+    pub const ReplaceSchedulingV1alpha3NamespacedWorkloadResponse200 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha3.Workload,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ReplaceSchedulingV1alpha2NamespacedWorkloadResponse201 = struct {
-        body: root.io.k8s.api.scheduling.v1alpha2.Workload,
+    pub const ReplaceSchedulingV1alpha3NamespacedWorkloadResponse201 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha3.Workload,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ReplaceSchedulingV1alpha2NamespacedWorkloadResponse401 = struct {
+    pub const ReplaceSchedulingV1alpha3NamespacedWorkloadResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ReplaceSchedulingV1alpha2NamespacedWorkloadResponseDefault = struct {
+    pub const ReplaceSchedulingV1alpha3NamespacedWorkloadResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ReplaceSchedulingV1alpha2NamespacedWorkloadResponse = union(enum) {
-        ok: ReplaceSchedulingV1alpha2NamespacedWorkloadResponse200,
-        created: ReplaceSchedulingV1alpha2NamespacedWorkloadResponse201,
-        unauthorized: ReplaceSchedulingV1alpha2NamespacedWorkloadResponse401,
-        default_response: ReplaceSchedulingV1alpha2NamespacedWorkloadResponseDefault,
+    pub const ReplaceSchedulingV1alpha3NamespacedWorkloadResponse = union(enum) {
+        ok: ReplaceSchedulingV1alpha3NamespacedWorkloadResponse200,
+        created: ReplaceSchedulingV1alpha3NamespacedWorkloadResponse201,
+        unauthorized: ReplaceSchedulingV1alpha3NamespacedWorkloadResponse401,
+        default_response: ReplaceSchedulingV1alpha3NamespacedWorkloadResponseDefault,
     };
 
-    pub const replaceSchedulingV1alpha2NamespacedWorkloadOptions = struct {
+    pub const replaceSchedulingV1alpha3NamespacedWorkloadOptions = struct {
         /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
         pretty: ?[]const u8 = null,
         /// When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
@@ -245494,12 +245494,12 @@ pub const Client = struct {
         fieldValidation: ?[]const u8 = null,
     };
     /// replace the specified Workload
-    pub fn replaceSchedulingV1alpha2NamespacedWorkload(self: *Client, name: []const u8, namespace: []const u8, body: root.io.k8s.api.scheduling.v1alpha2.Workload, options: replaceSchedulingV1alpha2NamespacedWorkloadOptions) !ReplaceSchedulingV1alpha2NamespacedWorkloadResponse {
+    pub fn replaceSchedulingV1alpha3NamespacedWorkload(self: *Client, name: []const u8, namespace: []const u8, body: root.io.k8s.api.scheduling.v1alpha3.Workload, options: replaceSchedulingV1alpha3NamespacedWorkloadOptions) !ReplaceSchedulingV1alpha3NamespacedWorkloadResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/namespaces/", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha3/namespaces/", .{});
         try urlEncode(url_w, namespace);
         try url_w.print("/workloads/", .{});
         try urlEncode(url_w, name);
@@ -245619,12 +245619,12 @@ pub const Client = struct {
         switch (response.head.status) {
             .ok => {
                 const body_resp = try arena.allocator().dupe(u8, body_list.items);
-                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.Workload, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha3.Workload, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
                 return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
             },
             .created => {
                 const body_resp = try arena.allocator().dupe(u8, body_list.items);
-                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.Workload, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha3.Workload, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
                 return .{ .created = .{ .body = parsed, .headers = headers, .arena = arena } };
             },
             .unauthorized => {
@@ -245638,33 +245638,33 @@ pub const Client = struct {
         }
     }
 
-    pub const DeleteSchedulingV1alpha2NamespacedWorkloadResponse200 = struct {
+    pub const DeleteSchedulingV1alpha3NamespacedWorkloadResponse200 = struct {
         body: root.io.k8s.apimachinery.pkg.apis.meta.v1.Status,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const DeleteSchedulingV1alpha2NamespacedWorkloadResponse202 = struct {
+    pub const DeleteSchedulingV1alpha3NamespacedWorkloadResponse202 = struct {
         body: root.io.k8s.apimachinery.pkg.apis.meta.v1.Status,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const DeleteSchedulingV1alpha2NamespacedWorkloadResponse401 = struct {
+    pub const DeleteSchedulingV1alpha3NamespacedWorkloadResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const DeleteSchedulingV1alpha2NamespacedWorkloadResponseDefault = struct {
+    pub const DeleteSchedulingV1alpha3NamespacedWorkloadResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const DeleteSchedulingV1alpha2NamespacedWorkloadResponse = union(enum) {
-        ok: DeleteSchedulingV1alpha2NamespacedWorkloadResponse200,
-        accepted: DeleteSchedulingV1alpha2NamespacedWorkloadResponse202,
-        unauthorized: DeleteSchedulingV1alpha2NamespacedWorkloadResponse401,
-        default_response: DeleteSchedulingV1alpha2NamespacedWorkloadResponseDefault,
+    pub const DeleteSchedulingV1alpha3NamespacedWorkloadResponse = union(enum) {
+        ok: DeleteSchedulingV1alpha3NamespacedWorkloadResponse200,
+        accepted: DeleteSchedulingV1alpha3NamespacedWorkloadResponse202,
+        unauthorized: DeleteSchedulingV1alpha3NamespacedWorkloadResponse401,
+        default_response: DeleteSchedulingV1alpha3NamespacedWorkloadResponseDefault,
     };
 
-    pub const deleteSchedulingV1alpha2NamespacedWorkloadOptions = struct {
+    pub const deleteSchedulingV1alpha3NamespacedWorkloadOptions = struct {
         /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
         pretty: ?[]const u8 = null,
         /// When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
@@ -245679,12 +245679,12 @@ pub const Client = struct {
         propagationPolicy: ?[]const u8 = null,
     };
     /// delete a Workload
-    pub fn deleteSchedulingV1alpha2NamespacedWorkload(self: *Client, name: []const u8, namespace: []const u8, body: root.io.k8s.apimachinery.pkg.apis.meta.v1.DeleteOptions, options: deleteSchedulingV1alpha2NamespacedWorkloadOptions) !DeleteSchedulingV1alpha2NamespacedWorkloadResponse {
+    pub fn deleteSchedulingV1alpha3NamespacedWorkload(self: *Client, name: []const u8, namespace: []const u8, body: root.io.k8s.apimachinery.pkg.apis.meta.v1.DeleteOptions, options: deleteSchedulingV1alpha3NamespacedWorkloadOptions) !DeleteSchedulingV1alpha3NamespacedWorkloadResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/namespaces/", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha3/namespaces/", .{});
         try urlEncode(url_w, namespace);
         try url_w.print("/workloads/", .{});
         try urlEncode(url_w, name);
@@ -245882,33 +245882,33 @@ pub const Client = struct {
         }
     }
 
-    pub const PatchSchedulingV1alpha2NamespacedWorkloadResponse200 = struct {
-        body: root.io.k8s.api.scheduling.v1alpha2.Workload,
+    pub const PatchSchedulingV1alpha3NamespacedWorkloadResponse200 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha3.Workload,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const PatchSchedulingV1alpha2NamespacedWorkloadResponse201 = struct {
-        body: root.io.k8s.api.scheduling.v1alpha2.Workload,
+    pub const PatchSchedulingV1alpha3NamespacedWorkloadResponse201 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha3.Workload,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const PatchSchedulingV1alpha2NamespacedWorkloadResponse401 = struct {
+    pub const PatchSchedulingV1alpha3NamespacedWorkloadResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const PatchSchedulingV1alpha2NamespacedWorkloadResponseDefault = struct {
+    pub const PatchSchedulingV1alpha3NamespacedWorkloadResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const PatchSchedulingV1alpha2NamespacedWorkloadResponse = union(enum) {
-        ok: PatchSchedulingV1alpha2NamespacedWorkloadResponse200,
-        created: PatchSchedulingV1alpha2NamespacedWorkloadResponse201,
-        unauthorized: PatchSchedulingV1alpha2NamespacedWorkloadResponse401,
-        default_response: PatchSchedulingV1alpha2NamespacedWorkloadResponseDefault,
+    pub const PatchSchedulingV1alpha3NamespacedWorkloadResponse = union(enum) {
+        ok: PatchSchedulingV1alpha3NamespacedWorkloadResponse200,
+        created: PatchSchedulingV1alpha3NamespacedWorkloadResponse201,
+        unauthorized: PatchSchedulingV1alpha3NamespacedWorkloadResponse401,
+        default_response: PatchSchedulingV1alpha3NamespacedWorkloadResponseDefault,
     };
 
-    pub const patchSchedulingV1alpha2NamespacedWorkloadOptions = struct {
+    pub const patchSchedulingV1alpha3NamespacedWorkloadOptions = struct {
         /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
         pretty: ?[]const u8 = null,
         /// When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
@@ -245921,12 +245921,12 @@ pub const Client = struct {
         force: ?[]const u8 = null,
     };
     /// partially update the specified Workload
-    pub fn patchSchedulingV1alpha2NamespacedWorkload(self: *Client, name: []const u8, namespace: []const u8, body: root.io.k8s.apimachinery.pkg.apis.meta.v1.Patch, options: patchSchedulingV1alpha2NamespacedWorkloadOptions) !PatchSchedulingV1alpha2NamespacedWorkloadResponse {
+    pub fn patchSchedulingV1alpha3NamespacedWorkload(self: *Client, name: []const u8, namespace: []const u8, body: root.io.k8s.apimachinery.pkg.apis.meta.v1.Patch, options: patchSchedulingV1alpha3NamespacedWorkloadOptions) !PatchSchedulingV1alpha3NamespacedWorkloadResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/namespaces/", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha3/namespaces/", .{});
         try urlEncode(url_w, namespace);
         try url_w.print("/workloads/", .{});
         try urlEncode(url_w, name);
@@ -246058,12 +246058,12 @@ pub const Client = struct {
         switch (response.head.status) {
             .ok => {
                 const body_resp = try arena.allocator().dupe(u8, body_list.items);
-                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.Workload, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha3.Workload, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
                 return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
             },
             .created => {
                 const body_resp = try arena.allocator().dupe(u8, body_list.items);
-                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.Workload, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha3.Workload, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
                 return .{ .created = .{ .body = parsed, .headers = headers, .arena = arena } };
             },
             .unauthorized => {
@@ -246077,27 +246077,27 @@ pub const Client = struct {
         }
     }
 
-    pub const ListSchedulingV1alpha2PodGroupForAllNamespacesResponse200 = struct {
-        body: root.io.k8s.api.scheduling.v1alpha2.PodGroupList,
+    pub const ListSchedulingV1alpha3PodGroupForAllNamespacesResponse200 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha3.PodGroupList,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ListSchedulingV1alpha2PodGroupForAllNamespacesResponse401 = struct {
+    pub const ListSchedulingV1alpha3PodGroupForAllNamespacesResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ListSchedulingV1alpha2PodGroupForAllNamespacesResponseDefault = struct {
+    pub const ListSchedulingV1alpha3PodGroupForAllNamespacesResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ListSchedulingV1alpha2PodGroupForAllNamespacesResponse = union(enum) {
-        ok: ListSchedulingV1alpha2PodGroupForAllNamespacesResponse200,
-        unauthorized: ListSchedulingV1alpha2PodGroupForAllNamespacesResponse401,
-        default_response: ListSchedulingV1alpha2PodGroupForAllNamespacesResponseDefault,
+    pub const ListSchedulingV1alpha3PodGroupForAllNamespacesResponse = union(enum) {
+        ok: ListSchedulingV1alpha3PodGroupForAllNamespacesResponse200,
+        unauthorized: ListSchedulingV1alpha3PodGroupForAllNamespacesResponse401,
+        default_response: ListSchedulingV1alpha3PodGroupForAllNamespacesResponseDefault,
     };
 
-    pub const listSchedulingV1alpha2PodGroupForAllNamespacesOptions = struct {
+    pub const listSchedulingV1alpha3PodGroupForAllNamespacesOptions = struct {
         /// allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored.
         allowWatchBookmarks: ?[]const u8 = null,
         /// The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key".
@@ -246165,12 +246165,12 @@ pub const Client = struct {
         watch: ?[]const u8 = null,
     };
     /// list or watch objects of kind PodGroup
-    pub fn listSchedulingV1alpha2PodGroupForAllNamespaces(self: *Client, options: listSchedulingV1alpha2PodGroupForAllNamespacesOptions) !ListSchedulingV1alpha2PodGroupForAllNamespacesResponse {
+    pub fn listSchedulingV1alpha3PodGroupForAllNamespaces(self: *Client, options: listSchedulingV1alpha3PodGroupForAllNamespacesOptions) !ListSchedulingV1alpha3PodGroupForAllNamespacesResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/podgroups", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha3/podgroups", .{});
         var first_query = true;
         _ = &first_query;
         if (options.allowWatchBookmarks) |val| {
@@ -246381,7 +246381,7 @@ pub const Client = struct {
         switch (response.head.status) {
             .ok => {
                 const body_resp = try arena.allocator().dupe(u8, body_list.items);
-                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.PodGroupList, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha3.PodGroupList, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
                 return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
             },
             .unauthorized => {
@@ -246395,12 +246395,12 @@ pub const Client = struct {
         }
     }
 
-    pub fn watchlistSchedulingV1alpha2PodGroupForAllNamespaces(self: *Client, options: listSchedulingV1alpha2PodGroupForAllNamespacesOptions) !WatchStream(root.io.k8s.api.scheduling.v1alpha2.PodGroup) {
+    pub fn watchlistSchedulingV1alpha3PodGroupForAllNamespaces(self: *Client, options: listSchedulingV1alpha3PodGroupForAllNamespacesOptions) !WatchStream(root.io.k8s.api.scheduling.v1alpha3.PodGroup) {
         var url_buf: [4096]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.writeAll("/apis/scheduling.k8s.io/v1alpha2/podgroups");
+        try url_w.writeAll("/apis/scheduling.k8s.io/v1alpha3/podgroups");
         try url_w.writeAll("?watch=true");
         if (options.allowWatchBookmarks) |val| {
             try url_w.print("&allowWatchBookmarks={any}", .{val});
@@ -246446,30 +246446,30 @@ pub const Client = struct {
         const transfer_buf = try self.allocator.alloc(u8, 4096);
         errdefer self.allocator.free(transfer_buf);
         const reader = res.reader(transfer_buf);
-        return WatchStream(root.io.k8s.api.scheduling.v1alpha2.PodGroup){ .allocator = self.allocator, .req = heap_req, .transfer_buf = transfer_buf, .reader = reader };
+        return WatchStream(root.io.k8s.api.scheduling.v1alpha3.PodGroup){ .allocator = self.allocator, .req = heap_req, .transfer_buf = transfer_buf, .reader = reader };
     }
 
-    pub const WatchSchedulingV1alpha2NamespacedPodGroupListResponse200 = struct {
+    pub const WatchSchedulingV1alpha3NamespacedPodGroupListResponse200 = struct {
         body: root.io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const WatchSchedulingV1alpha2NamespacedPodGroupListResponse401 = struct {
+    pub const WatchSchedulingV1alpha3NamespacedPodGroupListResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const WatchSchedulingV1alpha2NamespacedPodGroupListResponseDefault = struct {
+    pub const WatchSchedulingV1alpha3NamespacedPodGroupListResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const WatchSchedulingV1alpha2NamespacedPodGroupListResponse = union(enum) {
-        ok: WatchSchedulingV1alpha2NamespacedPodGroupListResponse200,
-        unauthorized: WatchSchedulingV1alpha2NamespacedPodGroupListResponse401,
-        default_response: WatchSchedulingV1alpha2NamespacedPodGroupListResponseDefault,
+    pub const WatchSchedulingV1alpha3NamespacedPodGroupListResponse = union(enum) {
+        ok: WatchSchedulingV1alpha3NamespacedPodGroupListResponse200,
+        unauthorized: WatchSchedulingV1alpha3NamespacedPodGroupListResponse401,
+        default_response: WatchSchedulingV1alpha3NamespacedPodGroupListResponseDefault,
     };
 
-    pub const watchSchedulingV1alpha2NamespacedPodGroupListOptions = struct {
+    pub const watchSchedulingV1alpha3NamespacedPodGroupListOptions = struct {
         /// allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored.
         allowWatchBookmarks: ?[]const u8 = null,
         /// The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key".
@@ -246537,12 +246537,12 @@ pub const Client = struct {
         watch: ?[]const u8 = null,
     };
     /// watch individual changes to a list of PodGroup. deprecated: use the 'watch' parameter with a list operation instead.
-    pub fn watchSchedulingV1alpha2NamespacedPodGroupList(self: *Client, namespace: []const u8, options: watchSchedulingV1alpha2NamespacedPodGroupListOptions) !WatchSchedulingV1alpha2NamespacedPodGroupListResponse {
+    pub fn watchSchedulingV1alpha3NamespacedPodGroupList(self: *Client, namespace: []const u8, options: watchSchedulingV1alpha3NamespacedPodGroupListOptions) !WatchSchedulingV1alpha3NamespacedPodGroupListResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/watch/namespaces/", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha3/watch/namespaces/", .{});
         try urlEncode(url_w, namespace);
         try url_w.print("/podgroups", .{});
         var first_query = true;
@@ -246769,27 +246769,27 @@ pub const Client = struct {
         }
     }
 
-    pub const WatchSchedulingV1alpha2NamespacedPodGroupResponse200 = struct {
+    pub const WatchSchedulingV1alpha3NamespacedPodGroupResponse200 = struct {
         body: root.io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const WatchSchedulingV1alpha2NamespacedPodGroupResponse401 = struct {
+    pub const WatchSchedulingV1alpha3NamespacedPodGroupResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const WatchSchedulingV1alpha2NamespacedPodGroupResponseDefault = struct {
+    pub const WatchSchedulingV1alpha3NamespacedPodGroupResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const WatchSchedulingV1alpha2NamespacedPodGroupResponse = union(enum) {
-        ok: WatchSchedulingV1alpha2NamespacedPodGroupResponse200,
-        unauthorized: WatchSchedulingV1alpha2NamespacedPodGroupResponse401,
-        default_response: WatchSchedulingV1alpha2NamespacedPodGroupResponseDefault,
+    pub const WatchSchedulingV1alpha3NamespacedPodGroupResponse = union(enum) {
+        ok: WatchSchedulingV1alpha3NamespacedPodGroupResponse200,
+        unauthorized: WatchSchedulingV1alpha3NamespacedPodGroupResponse401,
+        default_response: WatchSchedulingV1alpha3NamespacedPodGroupResponseDefault,
     };
 
-    pub const watchSchedulingV1alpha2NamespacedPodGroupOptions = struct {
+    pub const watchSchedulingV1alpha3NamespacedPodGroupOptions = struct {
         /// allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored.
         allowWatchBookmarks: ?[]const u8 = null,
         /// The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key".
@@ -246857,12 +246857,12 @@ pub const Client = struct {
         watch: ?[]const u8 = null,
     };
     /// watch changes to an object of kind PodGroup. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter.
-    pub fn watchSchedulingV1alpha2NamespacedPodGroup(self: *Client, name: []const u8, namespace: []const u8, options: watchSchedulingV1alpha2NamespacedPodGroupOptions) !WatchSchedulingV1alpha2NamespacedPodGroupResponse {
+    pub fn watchSchedulingV1alpha3NamespacedPodGroup(self: *Client, name: []const u8, namespace: []const u8, options: watchSchedulingV1alpha3NamespacedPodGroupOptions) !WatchSchedulingV1alpha3NamespacedPodGroupResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/watch/namespaces/", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha3/watch/namespaces/", .{});
         try urlEncode(url_w, namespace);
         try url_w.print("/podgroups/", .{});
         try urlEncode(url_w, name);
@@ -247090,27 +247090,27 @@ pub const Client = struct {
         }
     }
 
-    pub const WatchSchedulingV1alpha2NamespacedWorkloadListResponse200 = struct {
+    pub const WatchSchedulingV1alpha3NamespacedWorkloadListResponse200 = struct {
         body: root.io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const WatchSchedulingV1alpha2NamespacedWorkloadListResponse401 = struct {
+    pub const WatchSchedulingV1alpha3NamespacedWorkloadListResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const WatchSchedulingV1alpha2NamespacedWorkloadListResponseDefault = struct {
+    pub const WatchSchedulingV1alpha3NamespacedWorkloadListResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const WatchSchedulingV1alpha2NamespacedWorkloadListResponse = union(enum) {
-        ok: WatchSchedulingV1alpha2NamespacedWorkloadListResponse200,
-        unauthorized: WatchSchedulingV1alpha2NamespacedWorkloadListResponse401,
-        default_response: WatchSchedulingV1alpha2NamespacedWorkloadListResponseDefault,
+    pub const WatchSchedulingV1alpha3NamespacedWorkloadListResponse = union(enum) {
+        ok: WatchSchedulingV1alpha3NamespacedWorkloadListResponse200,
+        unauthorized: WatchSchedulingV1alpha3NamespacedWorkloadListResponse401,
+        default_response: WatchSchedulingV1alpha3NamespacedWorkloadListResponseDefault,
     };
 
-    pub const watchSchedulingV1alpha2NamespacedWorkloadListOptions = struct {
+    pub const watchSchedulingV1alpha3NamespacedWorkloadListOptions = struct {
         /// allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored.
         allowWatchBookmarks: ?[]const u8 = null,
         /// The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key".
@@ -247178,12 +247178,12 @@ pub const Client = struct {
         watch: ?[]const u8 = null,
     };
     /// watch individual changes to a list of Workload. deprecated: use the 'watch' parameter with a list operation instead.
-    pub fn watchSchedulingV1alpha2NamespacedWorkloadList(self: *Client, namespace: []const u8, options: watchSchedulingV1alpha2NamespacedWorkloadListOptions) !WatchSchedulingV1alpha2NamespacedWorkloadListResponse {
+    pub fn watchSchedulingV1alpha3NamespacedWorkloadList(self: *Client, namespace: []const u8, options: watchSchedulingV1alpha3NamespacedWorkloadListOptions) !WatchSchedulingV1alpha3NamespacedWorkloadListResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/watch/namespaces/", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha3/watch/namespaces/", .{});
         try urlEncode(url_w, namespace);
         try url_w.print("/workloads", .{});
         var first_query = true;
@@ -247410,27 +247410,27 @@ pub const Client = struct {
         }
     }
 
-    pub const WatchSchedulingV1alpha2NamespacedWorkloadResponse200 = struct {
+    pub const WatchSchedulingV1alpha3NamespacedWorkloadResponse200 = struct {
         body: root.io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const WatchSchedulingV1alpha2NamespacedWorkloadResponse401 = struct {
+    pub const WatchSchedulingV1alpha3NamespacedWorkloadResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const WatchSchedulingV1alpha2NamespacedWorkloadResponseDefault = struct {
+    pub const WatchSchedulingV1alpha3NamespacedWorkloadResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const WatchSchedulingV1alpha2NamespacedWorkloadResponse = union(enum) {
-        ok: WatchSchedulingV1alpha2NamespacedWorkloadResponse200,
-        unauthorized: WatchSchedulingV1alpha2NamespacedWorkloadResponse401,
-        default_response: WatchSchedulingV1alpha2NamespacedWorkloadResponseDefault,
+    pub const WatchSchedulingV1alpha3NamespacedWorkloadResponse = union(enum) {
+        ok: WatchSchedulingV1alpha3NamespacedWorkloadResponse200,
+        unauthorized: WatchSchedulingV1alpha3NamespacedWorkloadResponse401,
+        default_response: WatchSchedulingV1alpha3NamespacedWorkloadResponseDefault,
     };
 
-    pub const watchSchedulingV1alpha2NamespacedWorkloadOptions = struct {
+    pub const watchSchedulingV1alpha3NamespacedWorkloadOptions = struct {
         /// allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored.
         allowWatchBookmarks: ?[]const u8 = null,
         /// The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key".
@@ -247498,12 +247498,12 @@ pub const Client = struct {
         watch: ?[]const u8 = null,
     };
     /// watch changes to an object of kind Workload. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter.
-    pub fn watchSchedulingV1alpha2NamespacedWorkload(self: *Client, name: []const u8, namespace: []const u8, options: watchSchedulingV1alpha2NamespacedWorkloadOptions) !WatchSchedulingV1alpha2NamespacedWorkloadResponse {
+    pub fn watchSchedulingV1alpha3NamespacedWorkload(self: *Client, name: []const u8, namespace: []const u8, options: watchSchedulingV1alpha3NamespacedWorkloadOptions) !WatchSchedulingV1alpha3NamespacedWorkloadResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/watch/namespaces/", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha3/watch/namespaces/", .{});
         try urlEncode(url_w, namespace);
         try url_w.print("/workloads/", .{});
         try urlEncode(url_w, name);
@@ -247731,27 +247731,27 @@ pub const Client = struct {
         }
     }
 
-    pub const WatchSchedulingV1alpha2PodGroupListForAllNamespacesResponse200 = struct {
+    pub const WatchSchedulingV1alpha3PodGroupListForAllNamespacesResponse200 = struct {
         body: root.io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const WatchSchedulingV1alpha2PodGroupListForAllNamespacesResponse401 = struct {
+    pub const WatchSchedulingV1alpha3PodGroupListForAllNamespacesResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const WatchSchedulingV1alpha2PodGroupListForAllNamespacesResponseDefault = struct {
+    pub const WatchSchedulingV1alpha3PodGroupListForAllNamespacesResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const WatchSchedulingV1alpha2PodGroupListForAllNamespacesResponse = union(enum) {
-        ok: WatchSchedulingV1alpha2PodGroupListForAllNamespacesResponse200,
-        unauthorized: WatchSchedulingV1alpha2PodGroupListForAllNamespacesResponse401,
-        default_response: WatchSchedulingV1alpha2PodGroupListForAllNamespacesResponseDefault,
+    pub const WatchSchedulingV1alpha3PodGroupListForAllNamespacesResponse = union(enum) {
+        ok: WatchSchedulingV1alpha3PodGroupListForAllNamespacesResponse200,
+        unauthorized: WatchSchedulingV1alpha3PodGroupListForAllNamespacesResponse401,
+        default_response: WatchSchedulingV1alpha3PodGroupListForAllNamespacesResponseDefault,
     };
 
-    pub const watchSchedulingV1alpha2PodGroupListForAllNamespacesOptions = struct {
+    pub const watchSchedulingV1alpha3PodGroupListForAllNamespacesOptions = struct {
         /// allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored.
         allowWatchBookmarks: ?[]const u8 = null,
         /// The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key".
@@ -247819,12 +247819,12 @@ pub const Client = struct {
         watch: ?[]const u8 = null,
     };
     /// watch individual changes to a list of PodGroup. deprecated: use the 'watch' parameter with a list operation instead.
-    pub fn watchSchedulingV1alpha2PodGroupListForAllNamespaces(self: *Client, options: watchSchedulingV1alpha2PodGroupListForAllNamespacesOptions) !WatchSchedulingV1alpha2PodGroupListForAllNamespacesResponse {
+    pub fn watchSchedulingV1alpha3PodGroupListForAllNamespaces(self: *Client, options: watchSchedulingV1alpha3PodGroupListForAllNamespacesOptions) !WatchSchedulingV1alpha3PodGroupListForAllNamespacesResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/watch/podgroups", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha3/watch/podgroups", .{});
         var first_query = true;
         _ = &first_query;
         if (options.allowWatchBookmarks) |val| {
@@ -248049,27 +248049,27 @@ pub const Client = struct {
         }
     }
 
-    pub const WatchSchedulingV1alpha2WorkloadListForAllNamespacesResponse200 = struct {
+    pub const WatchSchedulingV1alpha3WorkloadListForAllNamespacesResponse200 = struct {
         body: root.io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const WatchSchedulingV1alpha2WorkloadListForAllNamespacesResponse401 = struct {
+    pub const WatchSchedulingV1alpha3WorkloadListForAllNamespacesResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const WatchSchedulingV1alpha2WorkloadListForAllNamespacesResponseDefault = struct {
+    pub const WatchSchedulingV1alpha3WorkloadListForAllNamespacesResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const WatchSchedulingV1alpha2WorkloadListForAllNamespacesResponse = union(enum) {
-        ok: WatchSchedulingV1alpha2WorkloadListForAllNamespacesResponse200,
-        unauthorized: WatchSchedulingV1alpha2WorkloadListForAllNamespacesResponse401,
-        default_response: WatchSchedulingV1alpha2WorkloadListForAllNamespacesResponseDefault,
+    pub const WatchSchedulingV1alpha3WorkloadListForAllNamespacesResponse = union(enum) {
+        ok: WatchSchedulingV1alpha3WorkloadListForAllNamespacesResponse200,
+        unauthorized: WatchSchedulingV1alpha3WorkloadListForAllNamespacesResponse401,
+        default_response: WatchSchedulingV1alpha3WorkloadListForAllNamespacesResponseDefault,
     };
 
-    pub const watchSchedulingV1alpha2WorkloadListForAllNamespacesOptions = struct {
+    pub const watchSchedulingV1alpha3WorkloadListForAllNamespacesOptions = struct {
         /// allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored.
         allowWatchBookmarks: ?[]const u8 = null,
         /// The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key".
@@ -248137,12 +248137,12 @@ pub const Client = struct {
         watch: ?[]const u8 = null,
     };
     /// watch individual changes to a list of Workload. deprecated: use the 'watch' parameter with a list operation instead.
-    pub fn watchSchedulingV1alpha2WorkloadListForAllNamespaces(self: *Client, options: watchSchedulingV1alpha2WorkloadListForAllNamespacesOptions) !WatchSchedulingV1alpha2WorkloadListForAllNamespacesResponse {
+    pub fn watchSchedulingV1alpha3WorkloadListForAllNamespaces(self: *Client, options: watchSchedulingV1alpha3WorkloadListForAllNamespacesOptions) !WatchSchedulingV1alpha3WorkloadListForAllNamespacesResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/watch/workloads", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha3/watch/workloads", .{});
         var first_query = true;
         _ = &first_query;
         if (options.allowWatchBookmarks) |val| {
@@ -248367,27 +248367,27 @@ pub const Client = struct {
         }
     }
 
-    pub const ListSchedulingV1alpha2WorkloadForAllNamespacesResponse200 = struct {
-        body: root.io.k8s.api.scheduling.v1alpha2.WorkloadList,
+    pub const ListSchedulingV1alpha3WorkloadForAllNamespacesResponse200 = struct {
+        body: root.io.k8s.api.scheduling.v1alpha3.WorkloadList,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ListSchedulingV1alpha2WorkloadForAllNamespacesResponse401 = struct {
+    pub const ListSchedulingV1alpha3WorkloadForAllNamespacesResponse401 = struct {
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ListSchedulingV1alpha2WorkloadForAllNamespacesResponseDefault = struct {
+    pub const ListSchedulingV1alpha3WorkloadForAllNamespacesResponseDefault = struct {
         body: std.json.Value,
         headers: []const std.http.Header,
         arena: std.heap.ArenaAllocator,
     };
-    pub const ListSchedulingV1alpha2WorkloadForAllNamespacesResponse = union(enum) {
-        ok: ListSchedulingV1alpha2WorkloadForAllNamespacesResponse200,
-        unauthorized: ListSchedulingV1alpha2WorkloadForAllNamespacesResponse401,
-        default_response: ListSchedulingV1alpha2WorkloadForAllNamespacesResponseDefault,
+    pub const ListSchedulingV1alpha3WorkloadForAllNamespacesResponse = union(enum) {
+        ok: ListSchedulingV1alpha3WorkloadForAllNamespacesResponse200,
+        unauthorized: ListSchedulingV1alpha3WorkloadForAllNamespacesResponse401,
+        default_response: ListSchedulingV1alpha3WorkloadForAllNamespacesResponseDefault,
     };
 
-    pub const listSchedulingV1alpha2WorkloadForAllNamespacesOptions = struct {
+    pub const listSchedulingV1alpha3WorkloadForAllNamespacesOptions = struct {
         /// allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored.
         allowWatchBookmarks: ?[]const u8 = null,
         /// The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key".
@@ -248455,12 +248455,12 @@ pub const Client = struct {
         watch: ?[]const u8 = null,
     };
     /// list or watch objects of kind Workload
-    pub fn listSchedulingV1alpha2WorkloadForAllNamespaces(self: *Client, options: listSchedulingV1alpha2WorkloadForAllNamespacesOptions) !ListSchedulingV1alpha2WorkloadForAllNamespacesResponse {
+    pub fn listSchedulingV1alpha3WorkloadForAllNamespaces(self: *Client, options: listSchedulingV1alpha3WorkloadForAllNamespacesOptions) !ListSchedulingV1alpha3WorkloadForAllNamespacesResponse {
         var url_buf: [1024]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.print("/apis/scheduling.k8s.io/v1alpha2/workloads", .{});
+        try url_w.print("/apis/scheduling.k8s.io/v1alpha3/workloads", .{});
         var first_query = true;
         _ = &first_query;
         if (options.allowWatchBookmarks) |val| {
@@ -248671,7 +248671,7 @@ pub const Client = struct {
         switch (response.head.status) {
             .ok => {
                 const body_resp = try arena.allocator().dupe(u8, body_list.items);
-                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha2.WorkloadList, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.scheduling.v1alpha3.WorkloadList, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
                 return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
             },
             .unauthorized => {
@@ -248685,12 +248685,12 @@ pub const Client = struct {
         }
     }
 
-    pub fn watchlistSchedulingV1alpha2WorkloadForAllNamespaces(self: *Client, options: listSchedulingV1alpha2WorkloadForAllNamespacesOptions) !WatchStream(root.io.k8s.api.scheduling.v1alpha2.Workload) {
+    pub fn watchlistSchedulingV1alpha3WorkloadForAllNamespaces(self: *Client, options: listSchedulingV1alpha3WorkloadForAllNamespacesOptions) !WatchStream(root.io.k8s.api.scheduling.v1alpha3.Workload) {
         var url_buf: [4096]u8 = undefined;
         var url_fbs = std.io.fixedBufferStream(&url_buf);
         const url_w = url_fbs.writer();
         try url_w.print("{s}", .{self.base_url});
-        try url_w.writeAll("/apis/scheduling.k8s.io/v1alpha2/workloads");
+        try url_w.writeAll("/apis/scheduling.k8s.io/v1alpha3/workloads");
         try url_w.writeAll("?watch=true");
         if (options.allowWatchBookmarks) |val| {
             try url_w.print("&allowWatchBookmarks={any}", .{val});
@@ -248736,7 +248736,7 @@ pub const Client = struct {
         const transfer_buf = try self.allocator.alloc(u8, 4096);
         errdefer self.allocator.free(transfer_buf);
         const reader = res.reader(transfer_buf);
-        return WatchStream(root.io.k8s.api.scheduling.v1alpha2.Workload){ .allocator = self.allocator, .req = heap_req, .transfer_buf = transfer_buf, .reader = reader };
+        return WatchStream(root.io.k8s.api.scheduling.v1alpha3.Workload){ .allocator = self.allocator, .req = heap_req, .transfer_buf = transfer_buf, .reader = reader };
     }
 
     pub const GetStorageAPIGroupResponse200 = struct {
