@@ -151,6 +151,8 @@ pub const HorizontalPodAutoscalerCondition = struct {
     lastTransitionTime: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.Time = null,
     /// message is a human-readable explanation containing details about the transition
     message: ?[]const u8 = null,
+    /// observedGeneration represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date with respect to the current state of the instance.
+    observedGeneration: ?i64 = null,
     /// reason is the reason for the condition's last transition.
     reason: ?[]const u8 = null,
     /// status is the status of the condition (True, False, Unknown)
