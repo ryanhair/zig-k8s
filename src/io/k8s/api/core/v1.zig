@@ -348,7 +348,7 @@ pub const ComponentStatusList = struct {
 pub const ConfigMap = struct {
     /// APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
     apiVersion: ?[]const u8 = null,
-    /// BinaryData contains the binary data. Each key must consist of alphanumeric characters, '-', '_' or '.'. BinaryData can contain byte sequences that are not in the UTF-8 range. The keys stored in BinaryData must not overlap with the ones in the Data field, this is enforced during validation process. Using this field will require 1.10+ apiserver and kubelet.
+    /// BinaryData contains the binary data. Each key must consist of alphanumeric characters, '-', '_' or '.'. BinaryData can contain byte sequences that are not in the UTF-8 range. The keys stored in BinaryData must not overlap with the ones in the Data field, this is enforced during validation process. Using this field will require 1.10+ apiserver and kubelet. Note: BinaryData keys are not currently propagated to container env vars via ConfigMapKeyRef or ConfigMapRef env sources; only Data keys are used.
     binaryData: ?std.json.Value = null,
     /// Data contains the configuration data. Each key must consist of alphanumeric characters, '-', '_' or '.'. Values with non-UTF-8 byte sequences must use the BinaryData field. The keys stored in Data must not overlap with the keys in the BinaryData field, this is enforced during validation process.
     data: ?std.json.Value = null,
@@ -366,7 +366,7 @@ pub const ConfigMap = struct {
 
 /// ConfigMapEnvSource selects a ConfigMap to populate the environment variables with.
 /// 
-/// The contents of the target ConfigMap's Data field will represent the key-value pairs as environment variables.
+/// The contents of the target ConfigMap's Data field will represent the key-value pairs as environment variables. Keys in the BinaryData field are not currently propagated to container env vars.
 pub const ConfigMapEnvSource = struct {
     /// Name of the referent. This field is effectively required, but due to backwards compatibility is allowed to be empty. Instances of this type with an empty value here are almost certainly wrong. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
     name: ?[]const u8 = null,
@@ -380,7 +380,7 @@ pub const ConfigMapEnvSource = struct {
 
 /// Selects a key from a ConfigMap.
 pub const ConfigMapKeySelector = struct {
-    /// The key to select.
+    /// The key to select from the ConfigMap's Data field. Keys in the BinaryData field are not currently propagated to container env vars.
     key: []const u8,
     /// Name of the referent. This field is effectively required, but due to backwards compatibility is allowed to be empty. Instances of this type with an empty value here are almost certainly wrong. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
     name: ?[]const u8 = null,
