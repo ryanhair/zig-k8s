@@ -140,8 +140,6 @@ pub const PodGroupSchedulingPolicy = struct {
 pub const PodGroupSpec = struct {
     /// DisruptionMode defines the mode in which a given PodGroup can be disrupted. Controllers are expected to fill this field by copying it from a PodGroupTemplate. One of Single, All. Defaults to Single if unset. This field is immutable.
     disruptionMode: ?root.io.k8s.api.scheduling.v1alpha3.DisruptionMode = null,
-    /// PodGroupTemplateRef references an optional PodGroup template within other object (e.g. Workload) that was used to create the PodGroup. This field is immutable.
-    podGroupTemplateRef: ?root.io.k8s.api.scheduling.v1alpha3.PodGroupTemplateReference = null,
     /// PreemptionPolicy is the Policy for preempting pods/podgroups with lower priority. One of Never, PreemptLowerPriority. Defaults to PreemptLowerPriority if unset. When Priority Admission Controller is enabled, it populates this field from PriorityClassName, and defaults to PreemptLowerPriority if value is unset in PriorityClass. This field is immutable. This field is available only when the PodGroupPreemptionPolicy feature gate is enabled.
     preemptionPolicy: ?[]const u8 = null,
     /// Priority is the value of priority of this pod group. Various system components use this field to find the priority of the pod group. When Priority Admission Controller is enabled, it prevents users from setting this field. The admission controller populates this field from PriorityClassName. The higher the value, the higher the priority. This field is immutable.
@@ -158,13 +156,15 @@ pub const PodGroupSpec = struct {
     schedulingConstraints: ?root.io.k8s.api.scheduling.v1alpha3.PodGroupSchedulingConstraints = null,
     /// SchedulingPolicy defines the scheduling policy for this instance of the PodGroup. Controllers are expected to fill this field by copying it from a PodGroupTemplate.
     schedulingPolicy: root.io.k8s.api.scheduling.v1alpha3.PodGroupSchedulingPolicy,
+    /// WorkloadRef references an optional PodGroup template within the Workload object that was used to create the PodGroup. This field is immutable.
+    workloadRef: ?root.io.k8s.api.scheduling.v1alpha3.WorkloadReference = null,
 
     pub fn validate(self: @This()) !void {
         if (self.disruptionMode) |v| try v.validate();
-        if (self.podGroupTemplateRef) |v| try v.validate();
         if (self.resourceClaims) |arr| for (arr) |item| try item.validate();
         if (self.schedulingConstraints) |v| try v.validate();
         try self.schedulingPolicy.validate();
+        if (self.workloadRef) |v| try v.validate();
     }
 };
 
@@ -218,16 +218,6 @@ pub const PodGroupTemplate = struct {
         if (self.resourceClaims) |arr| for (arr) |item| try item.validate();
         if (self.schedulingConstraints) |v| try v.validate();
         try self.schedulingPolicy.validate();
-    }
-};
-
-/// PodGroupTemplateReference references a PodGroup template defined in some object (e.g. Workload). Exactly one reference must be set.
-pub const PodGroupTemplateReference = struct {
-    /// Workload references the PodGroupTemplate within the Workload object that was used to create the PodGroup.
-    workload: ?root.io.k8s.api.scheduling.v1alpha3.WorkloadPodGroupTemplateReference = null,
-
-    pub fn validate(self: @This()) !void {
-        if (self.workload) |v| try v.validate();
     }
 };
 
@@ -296,11 +286,11 @@ pub const WorkloadList = struct {
     }
 };
 
-/// WorkloadPodGroupTemplateReference references the PodGroupTemplate within the Workload object.
-pub const WorkloadPodGroupTemplateReference = struct {
-    /// PodGroupTemplateName defines the PodGroupTemplate name within the Workload object.
-    podGroupTemplateName: []const u8,
-    /// WorkloadName defines the name of the Workload object.
+/// WorkloadReference references the Workload object together with the template that was used to create a particular PodGroup.
+pub const WorkloadReference = struct {
+    /// TemplateName is the name of a template within the Workload object that was used to create a pod group. It must be a DNS label. This field is required.
+    templateName: []const u8,
+    /// WorkloadName is the name of the Workload object that contains a template that was used when creating a pod group. It must be a DNS name. This field is required.
     workloadName: []const u8,
 
     pub fn validate(self: @This()) !void {
