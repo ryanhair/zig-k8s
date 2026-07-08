@@ -259385,6 +259385,2943 @@ pub const Client = struct {
         }
     }
 
+    pub const GetStoragemigrationV1APIResourcesResponse200 = struct {
+        body: root.io.k8s.apimachinery.pkg.apis.meta.v1.APIResourceList,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const GetStoragemigrationV1APIResourcesResponse401 = struct {
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const GetStoragemigrationV1APIResourcesResponseDefault = struct {
+        body: std.json.Value,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const GetStoragemigrationV1APIResourcesResponse = union(enum) {
+        ok: GetStoragemigrationV1APIResourcesResponse200,
+        unauthorized: GetStoragemigrationV1APIResourcesResponse401,
+        default_response: GetStoragemigrationV1APIResourcesResponseDefault,
+    };
+
+    /// get available resources
+    pub fn getStoragemigrationV1APIResources(self: *Client) !GetStoragemigrationV1APIResourcesResponse {
+        var url_buf: [1024]u8 = undefined;
+        var url_fbs = std.io.fixedBufferStream(&url_buf);
+        const url_w = url_fbs.writer();
+        try url_w.print("{s}", .{self.base_url});
+        try url_w.print("/apis/storagemigration.k8s.io/v1/", .{});
+        const url = url_fbs.getWritten();
+        var extra_headers = std.ArrayListUnmanaged(std.http.Header){};
+        defer extra_headers.deinit(self.allocator);
+        var body_list = std.ArrayListUnmanaged(u8){};
+        defer body_list.deinit(self.allocator);
+
+        // Serialize body if present
+        var req_body_writer = std.io.Writer.Allocating.init(self.allocator);
+        defer req_body_writer.deinit();
+
+        var write_buf: [4096]u8 = undefined;
+        const ResponseContext = struct {
+            writer: std.io.Writer,
+            list: *std.ArrayListUnmanaged(u8),
+            allocator: std.mem.Allocator,
+            fn drain(w: *std.io.Writer, chunks: []const []const u8, len: usize) error{WriteFailed}!usize {
+                _ = len;
+                const ctx: *@This() = @fieldParentPtr("writer", w);
+
+                // Flush existing buffer
+                if (w.end > 0) {
+                    const buffered = w.buffer[0..w.end];
+                    ctx.list.appendSlice(ctx.allocator, buffered) catch return error.WriteFailed;
+                    w.end = 0;
+                }
+
+                var total_written: usize = 0;
+                for (chunks) |chunk| {
+                    if (chunk.len > 0) {
+                        ctx.list.appendSlice(ctx.allocator, chunk) catch return error.WriteFailed;
+                        total_written += chunk.len;
+                    }
+                }
+                return total_written;
+            }
+        };
+        const vtable = std.io.Writer.VTable{ .drain = ResponseContext.drain };
+        var ctx = ResponseContext{
+            .writer = std.io.Writer{ .vtable = &vtable, .buffer = &write_buf, .end = 0 },
+            .list = &body_list,
+            .allocator = self.allocator,
+        };
+
+        const fetch_res = try self.client.fetch(.{
+            .location = .{ .uri = try std.Uri.parse(url) },
+            .method = .GET, // Use format specifier for method
+            .extra_headers = extra_headers.items,
+            .payload = if (!std.mem.eql(u8, "GET", "DELETE") and req_body_writer.writer.end > 0) req_body_writer.writer.buffer[0..req_body_writer.writer.end] else null,
+            .response_writer = &ctx.writer,
+        });
+
+        // Flush any remaining data in the writer buffer
+        try ctx.writer.vtable.flush(&ctx.writer);
+
+        // Headers are not available from client.fetch, so we return empty headers for now.
+        // This is a workaround for Zig 0.15.2 std.http.Client limitations/bugs.
+        const headers = try self.allocator.alloc(std.http.Header, 0);
+        var arena = std.heap.ArenaAllocator.init(self.allocator);
+        errdefer arena.deinit();
+
+        const response = struct { head: struct { status: std.http.Status } }{ .head = .{ .status = fetch_res.status } };
+        switch (response.head.status) {
+            .ok => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.apimachinery.pkg.apis.meta.v1.APIResourceList, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .unauthorized => {
+                return .{ .unauthorized = .{ .headers = headers, .arena = arena } };
+            },
+            else => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(std.json.Value, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .default_response = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+        }
+    }
+
+    pub const ListStoragemigrationV1StorageVersionMigrationResponse200 = struct {
+        body: root.io.k8s.api.storagemigration.v1.StorageVersionMigrationList,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ListStoragemigrationV1StorageVersionMigrationResponse401 = struct {
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ListStoragemigrationV1StorageVersionMigrationResponseDefault = struct {
+        body: std.json.Value,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ListStoragemigrationV1StorageVersionMigrationResponse = union(enum) {
+        ok: ListStoragemigrationV1StorageVersionMigrationResponse200,
+        unauthorized: ListStoragemigrationV1StorageVersionMigrationResponse401,
+        default_response: ListStoragemigrationV1StorageVersionMigrationResponseDefault,
+    };
+
+    pub const listStoragemigrationV1StorageVersionMigrationOptions = struct {
+        /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
+        pretty: ?[]const u8 = null,
+        /// allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored.
+        allowWatchBookmarks: ?[]const u8 = null,
+        /// The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key".
+        ///
+        /// This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
+        @"continue": ?[]const u8 = null,
+        /// A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        fieldSelector: ?[]const u8 = null,
+        /// A selector to restrict the list of returned objects by their labels. Defaults to everything.
+        labelSelector: ?[]const u8 = null,
+        /// limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.
+        ///
+        /// The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
+        limit: ?[]const u8 = null,
+        /// resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.
+        ///
+        /// Defaults to unset
+        resourceVersion: ?[]const u8 = null,
+        /// resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.
+        ///
+        /// Defaults to unset
+        resourceVersionMatch: ?[]const u8 = null,
+        /// `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event  will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched.
+        ///
+        /// When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan
+        ///   is interpreted as "data at least as new as the provided `resourceVersion`"
+        ///   and the bookmark event is send when the state is synced
+        ///   to a `resourceVersion` at least as fresh as the one provided by the ListOptions.
+        ///   If `resourceVersion` is unset, this is interpreted as "consistent read" and the
+        ///   bookmark event is send when the state is synced at least to the moment
+        ///   when request started being processed.
+        /// - `resourceVersionMatch` set to any other value or unset
+        ///   Invalid error is returned.
+        ///
+        /// Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise.
+        sendInitialEvents: ?[]const u8 = null,
+        /// shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges:
+        ///
+        ///   shardRange(object.metadata.uid, '0x0', '0x8000000000000000')
+        ///   shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000')
+        ///
+        /// Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths:
+        ///   - object.metadata.uid
+        ///   - object.metadata.namespace
+        ///
+        /// hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64.
+        ///
+        /// Examples:
+        ///   2-shard split:
+        ///     shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000')
+        ///     shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000')
+        ///   4-shard split:
+        ///     shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000')
+        ///     shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000')
+        ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
+        ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
+        ///
+        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        shardSelector: ?[]const u8 = null,
+        /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
+        timeoutSeconds: ?[]const u8 = null,
+        /// Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
+        watch: ?[]const u8 = null,
+    };
+    /// list or watch objects of kind StorageVersionMigration
+    pub fn listStoragemigrationV1StorageVersionMigration(self: *Client, options: listStoragemigrationV1StorageVersionMigrationOptions) !ListStoragemigrationV1StorageVersionMigrationResponse {
+        var url_buf: [1024]u8 = undefined;
+        var url_fbs = std.io.fixedBufferStream(&url_buf);
+        const url_w = url_fbs.writer();
+        try url_w.print("{s}", .{self.base_url});
+        try url_w.print("/apis/storagemigration.k8s.io/v1/storageversionmigrations", .{});
+        var first_query = true;
+        _ = &first_query;
+        if (options.pretty) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("pretty=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.allowWatchBookmarks) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("allowWatchBookmarks=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.@"continue") |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("continue=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.fieldSelector) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("fieldSelector=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.labelSelector) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("labelSelector=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.limit) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("limit=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.resourceVersion) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("resourceVersion=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.resourceVersionMatch) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("resourceVersionMatch=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.sendInitialEvents) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("sendInitialEvents=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.shardSelector) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("shardSelector=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.timeoutSeconds) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("timeoutSeconds=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.watch) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("watch=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        const url = url_fbs.getWritten();
+        var extra_headers = std.ArrayListUnmanaged(std.http.Header){};
+        defer extra_headers.deinit(self.allocator);
+        var body_list = std.ArrayListUnmanaged(u8){};
+        defer body_list.deinit(self.allocator);
+
+        // Serialize body if present
+        var req_body_writer = std.io.Writer.Allocating.init(self.allocator);
+        defer req_body_writer.deinit();
+
+        var write_buf: [4096]u8 = undefined;
+        const ResponseContext = struct {
+            writer: std.io.Writer,
+            list: *std.ArrayListUnmanaged(u8),
+            allocator: std.mem.Allocator,
+            fn drain(w: *std.io.Writer, chunks: []const []const u8, len: usize) error{WriteFailed}!usize {
+                _ = len;
+                const ctx: *@This() = @fieldParentPtr("writer", w);
+
+                // Flush existing buffer
+                if (w.end > 0) {
+                    const buffered = w.buffer[0..w.end];
+                    ctx.list.appendSlice(ctx.allocator, buffered) catch return error.WriteFailed;
+                    w.end = 0;
+                }
+
+                var total_written: usize = 0;
+                for (chunks) |chunk| {
+                    if (chunk.len > 0) {
+                        ctx.list.appendSlice(ctx.allocator, chunk) catch return error.WriteFailed;
+                        total_written += chunk.len;
+                    }
+                }
+                return total_written;
+            }
+        };
+        const vtable = std.io.Writer.VTable{ .drain = ResponseContext.drain };
+        var ctx = ResponseContext{
+            .writer = std.io.Writer{ .vtable = &vtable, .buffer = &write_buf, .end = 0 },
+            .list = &body_list,
+            .allocator = self.allocator,
+        };
+
+        const fetch_res = try self.client.fetch(.{
+            .location = .{ .uri = try std.Uri.parse(url) },
+            .method = .GET, // Use format specifier for method
+            .extra_headers = extra_headers.items,
+            .payload = if (!std.mem.eql(u8, "GET", "DELETE") and req_body_writer.writer.end > 0) req_body_writer.writer.buffer[0..req_body_writer.writer.end] else null,
+            .response_writer = &ctx.writer,
+        });
+
+        // Flush any remaining data in the writer buffer
+        try ctx.writer.vtable.flush(&ctx.writer);
+
+        // Headers are not available from client.fetch, so we return empty headers for now.
+        // This is a workaround for Zig 0.15.2 std.http.Client limitations/bugs.
+        const headers = try self.allocator.alloc(std.http.Header, 0);
+        var arena = std.heap.ArenaAllocator.init(self.allocator);
+        errdefer arena.deinit();
+
+        const response = struct { head: struct { status: std.http.Status } }{ .head = .{ .status = fetch_res.status } };
+        switch (response.head.status) {
+            .ok => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.storagemigration.v1.StorageVersionMigrationList, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .unauthorized => {
+                return .{ .unauthorized = .{ .headers = headers, .arena = arena } };
+            },
+            else => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(std.json.Value, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .default_response = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+        }
+    }
+
+    pub fn watchlistStoragemigrationV1StorageVersionMigration(self: *Client, options: listStoragemigrationV1StorageVersionMigrationOptions) !WatchStream(root.io.k8s.api.storagemigration.v1.StorageVersionMigration) {
+        var url_buf: [4096]u8 = undefined;
+        var url_fbs = std.io.fixedBufferStream(&url_buf);
+        const url_w = url_fbs.writer();
+        try url_w.print("{s}", .{self.base_url});
+        try url_w.writeAll("/apis/storagemigration.k8s.io/v1/storageversionmigrations");
+        try url_w.writeAll("?watch=true");
+        if (options.pretty) |val| {
+            try url_w.print("&pretty={any}", .{val});
+        }
+        if (options.allowWatchBookmarks) |val| {
+            try url_w.print("&allowWatchBookmarks={any}", .{val});
+        }
+        if (options.@"continue") |val| {
+            try url_w.print("&continue={any}", .{val});
+        }
+        if (options.fieldSelector) |val| {
+            try url_w.print("&fieldSelector={any}", .{val});
+        }
+        if (options.labelSelector) |val| {
+            try url_w.print("&labelSelector={any}", .{val});
+        }
+        if (options.limit) |val| {
+            try url_w.print("&limit={any}", .{val});
+        }
+        if (options.resourceVersion) |val| {
+            try url_w.print("&resourceVersion={any}", .{val});
+        }
+        if (options.resourceVersionMatch) |val| {
+            try url_w.print("&resourceVersionMatch={any}", .{val});
+        }
+        if (options.sendInitialEvents) |val| {
+            try url_w.print("&sendInitialEvents={any}", .{val});
+        }
+        if (options.shardSelector) |val| {
+            try url_w.print("&shardSelector={any}", .{val});
+        }
+        if (options.timeoutSeconds) |val| {
+            try url_w.print("&timeoutSeconds={any}", .{val});
+        }
+
+        const req = try self.client.request(.GET, try std.Uri.parse(url_w.context.getWritten()), .{ .headers = .{ .content_type = .{ .override = "application/json" }, .authorization = if (@hasField(AuthConfig, "BearerToken")) if (self.auth_config.BearerToken) |t| .{ .override = try std.fmt.allocPrint(self.allocator, "Bearer {s}", .{t}) } else .omit else .omit } });
+        const heap_req = try self.allocator.create(std.http.Client.Request);
+        heap_req.* = req;
+        errdefer self.allocator.destroy(heap_req);
+        try heap_req.sendBodiless();
+        var header_buf: [4096]u8 = undefined;
+        var res = try heap_req.receiveHead(&header_buf);
+        const transfer_buf = try self.allocator.alloc(u8, 4096);
+        errdefer self.allocator.free(transfer_buf);
+        const reader = res.reader(transfer_buf);
+        return WatchStream(root.io.k8s.api.storagemigration.v1.StorageVersionMigration){ .allocator = self.allocator, .req = heap_req, .transfer_buf = transfer_buf, .reader = reader };
+    }
+
+    pub const CreateStoragemigrationV1StorageVersionMigrationResponse200 = struct {
+        body: root.io.k8s.api.storagemigration.v1.StorageVersionMigration,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const CreateStoragemigrationV1StorageVersionMigrationResponse201 = struct {
+        body: root.io.k8s.api.storagemigration.v1.StorageVersionMigration,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const CreateStoragemigrationV1StorageVersionMigrationResponse202 = struct {
+        body: root.io.k8s.api.storagemigration.v1.StorageVersionMigration,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const CreateStoragemigrationV1StorageVersionMigrationResponse401 = struct {
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const CreateStoragemigrationV1StorageVersionMigrationResponseDefault = struct {
+        body: std.json.Value,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const CreateStoragemigrationV1StorageVersionMigrationResponse = union(enum) {
+        ok: CreateStoragemigrationV1StorageVersionMigrationResponse200,
+        created: CreateStoragemigrationV1StorageVersionMigrationResponse201,
+        accepted: CreateStoragemigrationV1StorageVersionMigrationResponse202,
+        unauthorized: CreateStoragemigrationV1StorageVersionMigrationResponse401,
+        default_response: CreateStoragemigrationV1StorageVersionMigrationResponseDefault,
+    };
+
+    pub const createStoragemigrationV1StorageVersionMigrationOptions = struct {
+        /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
+        pretty: ?[]const u8 = null,
+        /// When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
+        dryRun: ?[]const u8 = null,
+        /// fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint.
+        fieldManager: ?[]const u8 = null,
+        /// fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.
+        fieldValidation: ?[]const u8 = null,
+    };
+    /// create a StorageVersionMigration
+    pub fn createStoragemigrationV1StorageVersionMigration(self: *Client, body: root.io.k8s.api.storagemigration.v1.StorageVersionMigration, options: createStoragemigrationV1StorageVersionMigrationOptions) !CreateStoragemigrationV1StorageVersionMigrationResponse {
+        var url_buf: [1024]u8 = undefined;
+        var url_fbs = std.io.fixedBufferStream(&url_buf);
+        const url_w = url_fbs.writer();
+        try url_w.print("{s}", .{self.base_url});
+        try url_w.print("/apis/storagemigration.k8s.io/v1/storageversionmigrations", .{});
+        var first_query = true;
+        _ = &first_query;
+        if (options.pretty) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("pretty=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.dryRun) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("dryRun=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.fieldManager) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("fieldManager=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.fieldValidation) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("fieldValidation=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        const url = url_fbs.getWritten();
+        var extra_headers = std.ArrayListUnmanaged(std.http.Header){};
+        defer extra_headers.deinit(self.allocator);
+        var body_list = std.ArrayListUnmanaged(u8){};
+        defer body_list.deinit(self.allocator);
+
+        // Serialize body if present
+        var req_body_writer = std.io.Writer.Allocating.init(self.allocator);
+        defer req_body_writer.deinit();
+        if (@hasDecl(@TypeOf(body), "validate")) try body.validate();
+        try std.json.Stringify.value(body, .{}, &req_body_writer.writer);
+
+        var write_buf: [4096]u8 = undefined;
+        const ResponseContext = struct {
+            writer: std.io.Writer,
+            list: *std.ArrayListUnmanaged(u8),
+            allocator: std.mem.Allocator,
+            fn drain(w: *std.io.Writer, chunks: []const []const u8, len: usize) error{WriteFailed}!usize {
+                _ = len;
+                const ctx: *@This() = @fieldParentPtr("writer", w);
+
+                // Flush existing buffer
+                if (w.end > 0) {
+                    const buffered = w.buffer[0..w.end];
+                    ctx.list.appendSlice(ctx.allocator, buffered) catch return error.WriteFailed;
+                    w.end = 0;
+                }
+
+                var total_written: usize = 0;
+                for (chunks) |chunk| {
+                    if (chunk.len > 0) {
+                        ctx.list.appendSlice(ctx.allocator, chunk) catch return error.WriteFailed;
+                        total_written += chunk.len;
+                    }
+                }
+                return total_written;
+            }
+        };
+        const vtable = std.io.Writer.VTable{ .drain = ResponseContext.drain };
+        var ctx = ResponseContext{
+            .writer = std.io.Writer{ .vtable = &vtable, .buffer = &write_buf, .end = 0 },
+            .list = &body_list,
+            .allocator = self.allocator,
+        };
+
+        const fetch_res = try self.client.fetch(.{
+            .location = .{ .uri = try std.Uri.parse(url) },
+            .method = .POST, // Use format specifier for method
+            .extra_headers = extra_headers.items,
+            .payload = if (!std.mem.eql(u8, "POST", "DELETE") and req_body_writer.writer.end > 0) req_body_writer.writer.buffer[0..req_body_writer.writer.end] else null,
+            .response_writer = &ctx.writer,
+        });
+
+        // Flush any remaining data in the writer buffer
+        try ctx.writer.vtable.flush(&ctx.writer);
+
+        // Headers are not available from client.fetch, so we return empty headers for now.
+        // This is a workaround for Zig 0.15.2 std.http.Client limitations/bugs.
+        const headers = try self.allocator.alloc(std.http.Header, 0);
+        var arena = std.heap.ArenaAllocator.init(self.allocator);
+        errdefer arena.deinit();
+
+        const response = struct { head: struct { status: std.http.Status } }{ .head = .{ .status = fetch_res.status } };
+        switch (response.head.status) {
+            .ok => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.storagemigration.v1.StorageVersionMigration, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .created => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.storagemigration.v1.StorageVersionMigration, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .created = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .accepted => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.storagemigration.v1.StorageVersionMigration, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .accepted = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .unauthorized => {
+                return .{ .unauthorized = .{ .headers = headers, .arena = arena } };
+            },
+            else => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(std.json.Value, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .default_response = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+        }
+    }
+
+    pub const DeleteStoragemigrationV1CollectionStorageVersionMigrationResponse200 = struct {
+        body: root.io.k8s.apimachinery.pkg.apis.meta.v1.Status,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const DeleteStoragemigrationV1CollectionStorageVersionMigrationResponse401 = struct {
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const DeleteStoragemigrationV1CollectionStorageVersionMigrationResponseDefault = struct {
+        body: std.json.Value,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const DeleteStoragemigrationV1CollectionStorageVersionMigrationResponse = union(enum) {
+        ok: DeleteStoragemigrationV1CollectionStorageVersionMigrationResponse200,
+        unauthorized: DeleteStoragemigrationV1CollectionStorageVersionMigrationResponse401,
+        default_response: DeleteStoragemigrationV1CollectionStorageVersionMigrationResponseDefault,
+    };
+
+    pub const deleteStoragemigrationV1CollectionStorageVersionMigrationOptions = struct {
+        /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
+        pretty: ?[]const u8 = null,
+        /// The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key".
+        ///
+        /// This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
+        @"continue": ?[]const u8 = null,
+        /// When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
+        dryRun: ?[]const u8 = null,
+        /// A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        fieldSelector: ?[]const u8 = null,
+        /// The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.
+        gracePeriodSeconds: ?[]const u8 = null,
+        /// if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it
+        ignoreStoreReadErrorWithClusterBreakingPotential: ?[]const u8 = null,
+        /// A selector to restrict the list of returned objects by their labels. Defaults to everything.
+        labelSelector: ?[]const u8 = null,
+        /// limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.
+        ///
+        /// The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
+        limit: ?[]const u8 = null,
+        /// Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both.
+        orphanDependents: ?[]const u8 = null,
+        /// Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground.
+        propagationPolicy: ?[]const u8 = null,
+        /// resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.
+        ///
+        /// Defaults to unset
+        resourceVersion: ?[]const u8 = null,
+        /// resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.
+        ///
+        /// Defaults to unset
+        resourceVersionMatch: ?[]const u8 = null,
+        /// `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event  will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched.
+        ///
+        /// When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan
+        ///   is interpreted as "data at least as new as the provided `resourceVersion`"
+        ///   and the bookmark event is send when the state is synced
+        ///   to a `resourceVersion` at least as fresh as the one provided by the ListOptions.
+        ///   If `resourceVersion` is unset, this is interpreted as "consistent read" and the
+        ///   bookmark event is send when the state is synced at least to the moment
+        ///   when request started being processed.
+        /// - `resourceVersionMatch` set to any other value or unset
+        ///   Invalid error is returned.
+        ///
+        /// Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise.
+        sendInitialEvents: ?[]const u8 = null,
+        /// shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges:
+        ///
+        ///   shardRange(object.metadata.uid, '0x0', '0x8000000000000000')
+        ///   shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000')
+        ///
+        /// Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths:
+        ///   - object.metadata.uid
+        ///   - object.metadata.namespace
+        ///
+        /// hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64.
+        ///
+        /// Examples:
+        ///   2-shard split:
+        ///     shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000')
+        ///     shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000')
+        ///   4-shard split:
+        ///     shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000')
+        ///     shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000')
+        ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
+        ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
+        ///
+        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        shardSelector: ?[]const u8 = null,
+        /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
+        timeoutSeconds: ?[]const u8 = null,
+    };
+    /// delete collection of StorageVersionMigration
+    pub fn deleteStoragemigrationV1CollectionStorageVersionMigration(self: *Client, body: root.io.k8s.apimachinery.pkg.apis.meta.v1.DeleteOptions, options: deleteStoragemigrationV1CollectionStorageVersionMigrationOptions) !DeleteStoragemigrationV1CollectionStorageVersionMigrationResponse {
+        var url_buf: [1024]u8 = undefined;
+        var url_fbs = std.io.fixedBufferStream(&url_buf);
+        const url_w = url_fbs.writer();
+        try url_w.print("{s}", .{self.base_url});
+        try url_w.print("/apis/storagemigration.k8s.io/v1/storageversionmigrations", .{});
+        var first_query = true;
+        _ = &first_query;
+        if (options.pretty) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("pretty=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.@"continue") |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("continue=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.dryRun) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("dryRun=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.fieldSelector) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("fieldSelector=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.gracePeriodSeconds) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("gracePeriodSeconds=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.ignoreStoreReadErrorWithClusterBreakingPotential) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("ignoreStoreReadErrorWithClusterBreakingPotential=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.labelSelector) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("labelSelector=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.limit) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("limit=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.orphanDependents) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("orphanDependents=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.propagationPolicy) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("propagationPolicy=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.resourceVersion) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("resourceVersion=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.resourceVersionMatch) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("resourceVersionMatch=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.sendInitialEvents) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("sendInitialEvents=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.shardSelector) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("shardSelector=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.timeoutSeconds) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("timeoutSeconds=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        const url = url_fbs.getWritten();
+        if (@hasField(@TypeOf(body), "gracePeriodSeconds")) {
+            if (body.gracePeriodSeconds) |gp| {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("gracePeriodSeconds={d}", .{gp});
+            }
+        }
+        if (@hasField(@TypeOf(body), "propagationPolicy")) {
+            if (body.propagationPolicy) |pp| {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("propagationPolicy={s}", .{pp});
+            }
+        }
+        if (@hasField(@TypeOf(body), "dryRun")) {
+            if (body.dryRun) |dr| {
+                for (dr) |d| {
+                    if (first_query) {
+                        try url_w.writeByte('?');
+                        first_query = false;
+                    } else {
+                        try url_w.writeByte('&');
+                    }
+                    try url_w.print("dryRun={s}", .{d});
+                }
+            }
+        }
+        var extra_headers = std.ArrayListUnmanaged(std.http.Header){};
+        defer extra_headers.deinit(self.allocator);
+        var body_list = std.ArrayListUnmanaged(u8){};
+        defer body_list.deinit(self.allocator);
+
+        // Serialize body if present
+        var req_body_writer = std.io.Writer.Allocating.init(self.allocator);
+        defer req_body_writer.deinit();
+        if (@hasDecl(@TypeOf(body), "validate")) try body.validate();
+        try std.json.Stringify.value(body, .{}, &req_body_writer.writer);
+
+        var write_buf: [4096]u8 = undefined;
+        const ResponseContext = struct {
+            writer: std.io.Writer,
+            list: *std.ArrayListUnmanaged(u8),
+            allocator: std.mem.Allocator,
+            fn drain(w: *std.io.Writer, chunks: []const []const u8, len: usize) error{WriteFailed}!usize {
+                _ = len;
+                const ctx: *@This() = @fieldParentPtr("writer", w);
+
+                // Flush existing buffer
+                if (w.end > 0) {
+                    const buffered = w.buffer[0..w.end];
+                    ctx.list.appendSlice(ctx.allocator, buffered) catch return error.WriteFailed;
+                    w.end = 0;
+                }
+
+                var total_written: usize = 0;
+                for (chunks) |chunk| {
+                    if (chunk.len > 0) {
+                        ctx.list.appendSlice(ctx.allocator, chunk) catch return error.WriteFailed;
+                        total_written += chunk.len;
+                    }
+                }
+                return total_written;
+            }
+        };
+        const vtable = std.io.Writer.VTable{ .drain = ResponseContext.drain };
+        var ctx = ResponseContext{
+            .writer = std.io.Writer{ .vtable = &vtable, .buffer = &write_buf, .end = 0 },
+            .list = &body_list,
+            .allocator = self.allocator,
+        };
+
+        const fetch_res = try self.client.fetch(.{
+            .location = .{ .uri = try std.Uri.parse(url) },
+            .method = .DELETE, // Use format specifier for method
+            .extra_headers = extra_headers.items,
+            .payload = if (!std.mem.eql(u8, "DELETE", "DELETE") and req_body_writer.writer.end > 0) req_body_writer.writer.buffer[0..req_body_writer.writer.end] else null,
+            .response_writer = &ctx.writer,
+        });
+
+        // Flush any remaining data in the writer buffer
+        try ctx.writer.vtable.flush(&ctx.writer);
+
+        // Headers are not available from client.fetch, so we return empty headers for now.
+        // This is a workaround for Zig 0.15.2 std.http.Client limitations/bugs.
+        const headers = try self.allocator.alloc(std.http.Header, 0);
+        var arena = std.heap.ArenaAllocator.init(self.allocator);
+        errdefer arena.deinit();
+
+        const response = struct { head: struct { status: std.http.Status } }{ .head = .{ .status = fetch_res.status } };
+        switch (response.head.status) {
+            .ok => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.apimachinery.pkg.apis.meta.v1.Status, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .unauthorized => {
+                return .{ .unauthorized = .{ .headers = headers, .arena = arena } };
+            },
+            else => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(std.json.Value, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .default_response = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+        }
+    }
+
+    pub const ReadStoragemigrationV1StorageVersionMigrationResponse200 = struct {
+        body: root.io.k8s.api.storagemigration.v1.StorageVersionMigration,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ReadStoragemigrationV1StorageVersionMigrationResponse401 = struct {
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ReadStoragemigrationV1StorageVersionMigrationResponseDefault = struct {
+        body: std.json.Value,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ReadStoragemigrationV1StorageVersionMigrationResponse = union(enum) {
+        ok: ReadStoragemigrationV1StorageVersionMigrationResponse200,
+        unauthorized: ReadStoragemigrationV1StorageVersionMigrationResponse401,
+        default_response: ReadStoragemigrationV1StorageVersionMigrationResponseDefault,
+    };
+
+    pub const readStoragemigrationV1StorageVersionMigrationOptions = struct {
+        /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
+        pretty: ?[]const u8 = null,
+    };
+    /// read the specified StorageVersionMigration
+    pub fn readStoragemigrationV1StorageVersionMigration(self: *Client, name: []const u8, options: readStoragemigrationV1StorageVersionMigrationOptions) !ReadStoragemigrationV1StorageVersionMigrationResponse {
+        var url_buf: [1024]u8 = undefined;
+        var url_fbs = std.io.fixedBufferStream(&url_buf);
+        const url_w = url_fbs.writer();
+        try url_w.print("{s}", .{self.base_url});
+        try url_w.print("/apis/storagemigration.k8s.io/v1/storageversionmigrations/", .{});
+        try urlEncode(url_w, name);
+        var first_query = true;
+        _ = &first_query;
+        if (options.pretty) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("pretty=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        const url = url_fbs.getWritten();
+        var extra_headers = std.ArrayListUnmanaged(std.http.Header){};
+        defer extra_headers.deinit(self.allocator);
+        var body_list = std.ArrayListUnmanaged(u8){};
+        defer body_list.deinit(self.allocator);
+
+        // Serialize body if present
+        var req_body_writer = std.io.Writer.Allocating.init(self.allocator);
+        defer req_body_writer.deinit();
+
+        var write_buf: [4096]u8 = undefined;
+        const ResponseContext = struct {
+            writer: std.io.Writer,
+            list: *std.ArrayListUnmanaged(u8),
+            allocator: std.mem.Allocator,
+            fn drain(w: *std.io.Writer, chunks: []const []const u8, len: usize) error{WriteFailed}!usize {
+                _ = len;
+                const ctx: *@This() = @fieldParentPtr("writer", w);
+
+                // Flush existing buffer
+                if (w.end > 0) {
+                    const buffered = w.buffer[0..w.end];
+                    ctx.list.appendSlice(ctx.allocator, buffered) catch return error.WriteFailed;
+                    w.end = 0;
+                }
+
+                var total_written: usize = 0;
+                for (chunks) |chunk| {
+                    if (chunk.len > 0) {
+                        ctx.list.appendSlice(ctx.allocator, chunk) catch return error.WriteFailed;
+                        total_written += chunk.len;
+                    }
+                }
+                return total_written;
+            }
+        };
+        const vtable = std.io.Writer.VTable{ .drain = ResponseContext.drain };
+        var ctx = ResponseContext{
+            .writer = std.io.Writer{ .vtable = &vtable, .buffer = &write_buf, .end = 0 },
+            .list = &body_list,
+            .allocator = self.allocator,
+        };
+
+        const fetch_res = try self.client.fetch(.{
+            .location = .{ .uri = try std.Uri.parse(url) },
+            .method = .GET, // Use format specifier for method
+            .extra_headers = extra_headers.items,
+            .payload = if (!std.mem.eql(u8, "GET", "DELETE") and req_body_writer.writer.end > 0) req_body_writer.writer.buffer[0..req_body_writer.writer.end] else null,
+            .response_writer = &ctx.writer,
+        });
+
+        // Flush any remaining data in the writer buffer
+        try ctx.writer.vtable.flush(&ctx.writer);
+
+        // Headers are not available from client.fetch, so we return empty headers for now.
+        // This is a workaround for Zig 0.15.2 std.http.Client limitations/bugs.
+        const headers = try self.allocator.alloc(std.http.Header, 0);
+        var arena = std.heap.ArenaAllocator.init(self.allocator);
+        errdefer arena.deinit();
+
+        const response = struct { head: struct { status: std.http.Status } }{ .head = .{ .status = fetch_res.status } };
+        switch (response.head.status) {
+            .ok => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.storagemigration.v1.StorageVersionMigration, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .unauthorized => {
+                return .{ .unauthorized = .{ .headers = headers, .arena = arena } };
+            },
+            else => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(std.json.Value, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .default_response = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+        }
+    }
+
+    pub const ReplaceStoragemigrationV1StorageVersionMigrationResponse200 = struct {
+        body: root.io.k8s.api.storagemigration.v1.StorageVersionMigration,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ReplaceStoragemigrationV1StorageVersionMigrationResponse201 = struct {
+        body: root.io.k8s.api.storagemigration.v1.StorageVersionMigration,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ReplaceStoragemigrationV1StorageVersionMigrationResponse401 = struct {
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ReplaceStoragemigrationV1StorageVersionMigrationResponseDefault = struct {
+        body: std.json.Value,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ReplaceStoragemigrationV1StorageVersionMigrationResponse = union(enum) {
+        ok: ReplaceStoragemigrationV1StorageVersionMigrationResponse200,
+        created: ReplaceStoragemigrationV1StorageVersionMigrationResponse201,
+        unauthorized: ReplaceStoragemigrationV1StorageVersionMigrationResponse401,
+        default_response: ReplaceStoragemigrationV1StorageVersionMigrationResponseDefault,
+    };
+
+    pub const replaceStoragemigrationV1StorageVersionMigrationOptions = struct {
+        /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
+        pretty: ?[]const u8 = null,
+        /// When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
+        dryRun: ?[]const u8 = null,
+        /// fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint.
+        fieldManager: ?[]const u8 = null,
+        /// fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.
+        fieldValidation: ?[]const u8 = null,
+    };
+    /// replace the specified StorageVersionMigration
+    pub fn replaceStoragemigrationV1StorageVersionMigration(self: *Client, name: []const u8, body: root.io.k8s.api.storagemigration.v1.StorageVersionMigration, options: replaceStoragemigrationV1StorageVersionMigrationOptions) !ReplaceStoragemigrationV1StorageVersionMigrationResponse {
+        var url_buf: [1024]u8 = undefined;
+        var url_fbs = std.io.fixedBufferStream(&url_buf);
+        const url_w = url_fbs.writer();
+        try url_w.print("{s}", .{self.base_url});
+        try url_w.print("/apis/storagemigration.k8s.io/v1/storageversionmigrations/", .{});
+        try urlEncode(url_w, name);
+        var first_query = true;
+        _ = &first_query;
+        if (options.pretty) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("pretty=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.dryRun) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("dryRun=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.fieldManager) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("fieldManager=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.fieldValidation) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("fieldValidation=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        const url = url_fbs.getWritten();
+        var extra_headers = std.ArrayListUnmanaged(std.http.Header){};
+        defer extra_headers.deinit(self.allocator);
+        var body_list = std.ArrayListUnmanaged(u8){};
+        defer body_list.deinit(self.allocator);
+
+        // Serialize body if present
+        var req_body_writer = std.io.Writer.Allocating.init(self.allocator);
+        defer req_body_writer.deinit();
+        if (@hasDecl(@TypeOf(body), "validate")) try body.validate();
+        try std.json.Stringify.value(body, .{}, &req_body_writer.writer);
+
+        var write_buf: [4096]u8 = undefined;
+        const ResponseContext = struct {
+            writer: std.io.Writer,
+            list: *std.ArrayListUnmanaged(u8),
+            allocator: std.mem.Allocator,
+            fn drain(w: *std.io.Writer, chunks: []const []const u8, len: usize) error{WriteFailed}!usize {
+                _ = len;
+                const ctx: *@This() = @fieldParentPtr("writer", w);
+
+                // Flush existing buffer
+                if (w.end > 0) {
+                    const buffered = w.buffer[0..w.end];
+                    ctx.list.appendSlice(ctx.allocator, buffered) catch return error.WriteFailed;
+                    w.end = 0;
+                }
+
+                var total_written: usize = 0;
+                for (chunks) |chunk| {
+                    if (chunk.len > 0) {
+                        ctx.list.appendSlice(ctx.allocator, chunk) catch return error.WriteFailed;
+                        total_written += chunk.len;
+                    }
+                }
+                return total_written;
+            }
+        };
+        const vtable = std.io.Writer.VTable{ .drain = ResponseContext.drain };
+        var ctx = ResponseContext{
+            .writer = std.io.Writer{ .vtable = &vtable, .buffer = &write_buf, .end = 0 },
+            .list = &body_list,
+            .allocator = self.allocator,
+        };
+
+        const fetch_res = try self.client.fetch(.{
+            .location = .{ .uri = try std.Uri.parse(url) },
+            .method = .PUT, // Use format specifier for method
+            .extra_headers = extra_headers.items,
+            .payload = if (!std.mem.eql(u8, "PUT", "DELETE") and req_body_writer.writer.end > 0) req_body_writer.writer.buffer[0..req_body_writer.writer.end] else null,
+            .response_writer = &ctx.writer,
+        });
+
+        // Flush any remaining data in the writer buffer
+        try ctx.writer.vtable.flush(&ctx.writer);
+
+        // Headers are not available from client.fetch, so we return empty headers for now.
+        // This is a workaround for Zig 0.15.2 std.http.Client limitations/bugs.
+        const headers = try self.allocator.alloc(std.http.Header, 0);
+        var arena = std.heap.ArenaAllocator.init(self.allocator);
+        errdefer arena.deinit();
+
+        const response = struct { head: struct { status: std.http.Status } }{ .head = .{ .status = fetch_res.status } };
+        switch (response.head.status) {
+            .ok => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.storagemigration.v1.StorageVersionMigration, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .created => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.storagemigration.v1.StorageVersionMigration, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .created = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .unauthorized => {
+                return .{ .unauthorized = .{ .headers = headers, .arena = arena } };
+            },
+            else => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(std.json.Value, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .default_response = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+        }
+    }
+
+    pub const DeleteStoragemigrationV1StorageVersionMigrationResponse200 = struct {
+        body: root.io.k8s.apimachinery.pkg.apis.meta.v1.Status,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const DeleteStoragemigrationV1StorageVersionMigrationResponse202 = struct {
+        body: root.io.k8s.apimachinery.pkg.apis.meta.v1.Status,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const DeleteStoragemigrationV1StorageVersionMigrationResponse401 = struct {
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const DeleteStoragemigrationV1StorageVersionMigrationResponseDefault = struct {
+        body: std.json.Value,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const DeleteStoragemigrationV1StorageVersionMigrationResponse = union(enum) {
+        ok: DeleteStoragemigrationV1StorageVersionMigrationResponse200,
+        accepted: DeleteStoragemigrationV1StorageVersionMigrationResponse202,
+        unauthorized: DeleteStoragemigrationV1StorageVersionMigrationResponse401,
+        default_response: DeleteStoragemigrationV1StorageVersionMigrationResponseDefault,
+    };
+
+    pub const deleteStoragemigrationV1StorageVersionMigrationOptions = struct {
+        /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
+        pretty: ?[]const u8 = null,
+        /// When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
+        dryRun: ?[]const u8 = null,
+        /// The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.
+        gracePeriodSeconds: ?[]const u8 = null,
+        /// if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it
+        ignoreStoreReadErrorWithClusterBreakingPotential: ?[]const u8 = null,
+        /// Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both.
+        orphanDependents: ?[]const u8 = null,
+        /// Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground.
+        propagationPolicy: ?[]const u8 = null,
+    };
+    /// delete a StorageVersionMigration
+    pub fn deleteStoragemigrationV1StorageVersionMigration(self: *Client, name: []const u8, body: root.io.k8s.apimachinery.pkg.apis.meta.v1.DeleteOptions, options: deleteStoragemigrationV1StorageVersionMigrationOptions) !DeleteStoragemigrationV1StorageVersionMigrationResponse {
+        var url_buf: [1024]u8 = undefined;
+        var url_fbs = std.io.fixedBufferStream(&url_buf);
+        const url_w = url_fbs.writer();
+        try url_w.print("{s}", .{self.base_url});
+        try url_w.print("/apis/storagemigration.k8s.io/v1/storageversionmigrations/", .{});
+        try urlEncode(url_w, name);
+        var first_query = true;
+        _ = &first_query;
+        if (options.pretty) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("pretty=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.dryRun) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("dryRun=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.gracePeriodSeconds) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("gracePeriodSeconds=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.ignoreStoreReadErrorWithClusterBreakingPotential) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("ignoreStoreReadErrorWithClusterBreakingPotential=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.orphanDependents) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("orphanDependents=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.propagationPolicy) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("propagationPolicy=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        const url = url_fbs.getWritten();
+        if (@hasField(@TypeOf(body), "gracePeriodSeconds")) {
+            if (body.gracePeriodSeconds) |gp| {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("gracePeriodSeconds={d}", .{gp});
+            }
+        }
+        if (@hasField(@TypeOf(body), "propagationPolicy")) {
+            if (body.propagationPolicy) |pp| {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("propagationPolicy={s}", .{pp});
+            }
+        }
+        if (@hasField(@TypeOf(body), "dryRun")) {
+            if (body.dryRun) |dr| {
+                for (dr) |d| {
+                    if (first_query) {
+                        try url_w.writeByte('?');
+                        first_query = false;
+                    } else {
+                        try url_w.writeByte('&');
+                    }
+                    try url_w.print("dryRun={s}", .{d});
+                }
+            }
+        }
+        var extra_headers = std.ArrayListUnmanaged(std.http.Header){};
+        defer extra_headers.deinit(self.allocator);
+        var body_list = std.ArrayListUnmanaged(u8){};
+        defer body_list.deinit(self.allocator);
+
+        // Serialize body if present
+        var req_body_writer = std.io.Writer.Allocating.init(self.allocator);
+        defer req_body_writer.deinit();
+        if (@hasDecl(@TypeOf(body), "validate")) try body.validate();
+        try std.json.Stringify.value(body, .{}, &req_body_writer.writer);
+
+        var write_buf: [4096]u8 = undefined;
+        const ResponseContext = struct {
+            writer: std.io.Writer,
+            list: *std.ArrayListUnmanaged(u8),
+            allocator: std.mem.Allocator,
+            fn drain(w: *std.io.Writer, chunks: []const []const u8, len: usize) error{WriteFailed}!usize {
+                _ = len;
+                const ctx: *@This() = @fieldParentPtr("writer", w);
+
+                // Flush existing buffer
+                if (w.end > 0) {
+                    const buffered = w.buffer[0..w.end];
+                    ctx.list.appendSlice(ctx.allocator, buffered) catch return error.WriteFailed;
+                    w.end = 0;
+                }
+
+                var total_written: usize = 0;
+                for (chunks) |chunk| {
+                    if (chunk.len > 0) {
+                        ctx.list.appendSlice(ctx.allocator, chunk) catch return error.WriteFailed;
+                        total_written += chunk.len;
+                    }
+                }
+                return total_written;
+            }
+        };
+        const vtable = std.io.Writer.VTable{ .drain = ResponseContext.drain };
+        var ctx = ResponseContext{
+            .writer = std.io.Writer{ .vtable = &vtable, .buffer = &write_buf, .end = 0 },
+            .list = &body_list,
+            .allocator = self.allocator,
+        };
+
+        const fetch_res = try self.client.fetch(.{
+            .location = .{ .uri = try std.Uri.parse(url) },
+            .method = .DELETE, // Use format specifier for method
+            .extra_headers = extra_headers.items,
+            .payload = if (!std.mem.eql(u8, "DELETE", "DELETE") and req_body_writer.writer.end > 0) req_body_writer.writer.buffer[0..req_body_writer.writer.end] else null,
+            .response_writer = &ctx.writer,
+        });
+
+        // Flush any remaining data in the writer buffer
+        try ctx.writer.vtable.flush(&ctx.writer);
+
+        // Headers are not available from client.fetch, so we return empty headers for now.
+        // This is a workaround for Zig 0.15.2 std.http.Client limitations/bugs.
+        const headers = try self.allocator.alloc(std.http.Header, 0);
+        var arena = std.heap.ArenaAllocator.init(self.allocator);
+        errdefer arena.deinit();
+
+        const response = struct { head: struct { status: std.http.Status } }{ .head = .{ .status = fetch_res.status } };
+        switch (response.head.status) {
+            .ok => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.apimachinery.pkg.apis.meta.v1.Status, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .accepted => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.apimachinery.pkg.apis.meta.v1.Status, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .accepted = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .unauthorized => {
+                return .{ .unauthorized = .{ .headers = headers, .arena = arena } };
+            },
+            else => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(std.json.Value, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .default_response = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+        }
+    }
+
+    pub const PatchStoragemigrationV1StorageVersionMigrationResponse200 = struct {
+        body: root.io.k8s.api.storagemigration.v1.StorageVersionMigration,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const PatchStoragemigrationV1StorageVersionMigrationResponse201 = struct {
+        body: root.io.k8s.api.storagemigration.v1.StorageVersionMigration,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const PatchStoragemigrationV1StorageVersionMigrationResponse401 = struct {
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const PatchStoragemigrationV1StorageVersionMigrationResponseDefault = struct {
+        body: std.json.Value,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const PatchStoragemigrationV1StorageVersionMigrationResponse = union(enum) {
+        ok: PatchStoragemigrationV1StorageVersionMigrationResponse200,
+        created: PatchStoragemigrationV1StorageVersionMigrationResponse201,
+        unauthorized: PatchStoragemigrationV1StorageVersionMigrationResponse401,
+        default_response: PatchStoragemigrationV1StorageVersionMigrationResponseDefault,
+    };
+
+    pub const patchStoragemigrationV1StorageVersionMigrationOptions = struct {
+        /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
+        pretty: ?[]const u8 = null,
+        /// When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
+        dryRun: ?[]const u8 = null,
+        /// fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch).
+        fieldManager: ?[]const u8 = null,
+        /// fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.
+        fieldValidation: ?[]const u8 = null,
+        /// Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests.
+        force: ?[]const u8 = null,
+    };
+    /// partially update the specified StorageVersionMigration
+    pub fn patchStoragemigrationV1StorageVersionMigration(self: *Client, name: []const u8, body: root.io.k8s.apimachinery.pkg.apis.meta.v1.Patch, options: patchStoragemigrationV1StorageVersionMigrationOptions) !PatchStoragemigrationV1StorageVersionMigrationResponse {
+        var url_buf: [1024]u8 = undefined;
+        var url_fbs = std.io.fixedBufferStream(&url_buf);
+        const url_w = url_fbs.writer();
+        try url_w.print("{s}", .{self.base_url});
+        try url_w.print("/apis/storagemigration.k8s.io/v1/storageversionmigrations/", .{});
+        try urlEncode(url_w, name);
+        var first_query = true;
+        _ = &first_query;
+        if (options.pretty) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("pretty=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.dryRun) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("dryRun=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.fieldManager) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("fieldManager=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.fieldValidation) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("fieldValidation=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.force) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("force=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        const url = url_fbs.getWritten();
+        var extra_headers = std.ArrayListUnmanaged(std.http.Header){};
+        defer extra_headers.deinit(self.allocator);
+        var body_list = std.ArrayListUnmanaged(u8){};
+        defer body_list.deinit(self.allocator);
+
+        // Serialize body if present
+        var req_body_writer = std.io.Writer.Allocating.init(self.allocator);
+        defer req_body_writer.deinit();
+        if (@hasDecl(@TypeOf(body), "validate")) try body.validate();
+        try std.json.Stringify.value(body, .{}, &req_body_writer.writer);
+
+        var write_buf: [4096]u8 = undefined;
+        const ResponseContext = struct {
+            writer: std.io.Writer,
+            list: *std.ArrayListUnmanaged(u8),
+            allocator: std.mem.Allocator,
+            fn drain(w: *std.io.Writer, chunks: []const []const u8, len: usize) error{WriteFailed}!usize {
+                _ = len;
+                const ctx: *@This() = @fieldParentPtr("writer", w);
+
+                // Flush existing buffer
+                if (w.end > 0) {
+                    const buffered = w.buffer[0..w.end];
+                    ctx.list.appendSlice(ctx.allocator, buffered) catch return error.WriteFailed;
+                    w.end = 0;
+                }
+
+                var total_written: usize = 0;
+                for (chunks) |chunk| {
+                    if (chunk.len > 0) {
+                        ctx.list.appendSlice(ctx.allocator, chunk) catch return error.WriteFailed;
+                        total_written += chunk.len;
+                    }
+                }
+                return total_written;
+            }
+        };
+        const vtable = std.io.Writer.VTable{ .drain = ResponseContext.drain };
+        var ctx = ResponseContext{
+            .writer = std.io.Writer{ .vtable = &vtable, .buffer = &write_buf, .end = 0 },
+            .list = &body_list,
+            .allocator = self.allocator,
+        };
+
+        const fetch_res = try self.client.fetch(.{
+            .location = .{ .uri = try std.Uri.parse(url) },
+            .method = .PATCH, // Use format specifier for method
+            .extra_headers = extra_headers.items,
+            .payload = if (!std.mem.eql(u8, "PATCH", "DELETE") and req_body_writer.writer.end > 0) req_body_writer.writer.buffer[0..req_body_writer.writer.end] else null,
+            .response_writer = &ctx.writer,
+        });
+
+        // Flush any remaining data in the writer buffer
+        try ctx.writer.vtable.flush(&ctx.writer);
+
+        // Headers are not available from client.fetch, so we return empty headers for now.
+        // This is a workaround for Zig 0.15.2 std.http.Client limitations/bugs.
+        const headers = try self.allocator.alloc(std.http.Header, 0);
+        var arena = std.heap.ArenaAllocator.init(self.allocator);
+        errdefer arena.deinit();
+
+        const response = struct { head: struct { status: std.http.Status } }{ .head = .{ .status = fetch_res.status } };
+        switch (response.head.status) {
+            .ok => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.storagemigration.v1.StorageVersionMigration, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .created => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.storagemigration.v1.StorageVersionMigration, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .created = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .unauthorized => {
+                return .{ .unauthorized = .{ .headers = headers, .arena = arena } };
+            },
+            else => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(std.json.Value, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .default_response = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+        }
+    }
+
+    pub const ReadStoragemigrationV1StorageVersionMigrationStatusResponse200 = struct {
+        body: root.io.k8s.api.storagemigration.v1.StorageVersionMigration,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ReadStoragemigrationV1StorageVersionMigrationStatusResponse401 = struct {
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ReadStoragemigrationV1StorageVersionMigrationStatusResponseDefault = struct {
+        body: std.json.Value,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ReadStoragemigrationV1StorageVersionMigrationStatusResponse = union(enum) {
+        ok: ReadStoragemigrationV1StorageVersionMigrationStatusResponse200,
+        unauthorized: ReadStoragemigrationV1StorageVersionMigrationStatusResponse401,
+        default_response: ReadStoragemigrationV1StorageVersionMigrationStatusResponseDefault,
+    };
+
+    pub const readStoragemigrationV1StorageVersionMigrationStatusOptions = struct {
+        /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
+        pretty: ?[]const u8 = null,
+    };
+    /// read status of the specified StorageVersionMigration
+    pub fn readStoragemigrationV1StorageVersionMigrationStatus(self: *Client, name: []const u8, options: readStoragemigrationV1StorageVersionMigrationStatusOptions) !ReadStoragemigrationV1StorageVersionMigrationStatusResponse {
+        var url_buf: [1024]u8 = undefined;
+        var url_fbs = std.io.fixedBufferStream(&url_buf);
+        const url_w = url_fbs.writer();
+        try url_w.print("{s}", .{self.base_url});
+        try url_w.print("/apis/storagemigration.k8s.io/v1/storageversionmigrations/", .{});
+        try urlEncode(url_w, name);
+        try url_w.print("/status", .{});
+        var first_query = true;
+        _ = &first_query;
+        if (options.pretty) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("pretty=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        const url = url_fbs.getWritten();
+        var extra_headers = std.ArrayListUnmanaged(std.http.Header){};
+        defer extra_headers.deinit(self.allocator);
+        var body_list = std.ArrayListUnmanaged(u8){};
+        defer body_list.deinit(self.allocator);
+
+        // Serialize body if present
+        var req_body_writer = std.io.Writer.Allocating.init(self.allocator);
+        defer req_body_writer.deinit();
+
+        var write_buf: [4096]u8 = undefined;
+        const ResponseContext = struct {
+            writer: std.io.Writer,
+            list: *std.ArrayListUnmanaged(u8),
+            allocator: std.mem.Allocator,
+            fn drain(w: *std.io.Writer, chunks: []const []const u8, len: usize) error{WriteFailed}!usize {
+                _ = len;
+                const ctx: *@This() = @fieldParentPtr("writer", w);
+
+                // Flush existing buffer
+                if (w.end > 0) {
+                    const buffered = w.buffer[0..w.end];
+                    ctx.list.appendSlice(ctx.allocator, buffered) catch return error.WriteFailed;
+                    w.end = 0;
+                }
+
+                var total_written: usize = 0;
+                for (chunks) |chunk| {
+                    if (chunk.len > 0) {
+                        ctx.list.appendSlice(ctx.allocator, chunk) catch return error.WriteFailed;
+                        total_written += chunk.len;
+                    }
+                }
+                return total_written;
+            }
+        };
+        const vtable = std.io.Writer.VTable{ .drain = ResponseContext.drain };
+        var ctx = ResponseContext{
+            .writer = std.io.Writer{ .vtable = &vtable, .buffer = &write_buf, .end = 0 },
+            .list = &body_list,
+            .allocator = self.allocator,
+        };
+
+        const fetch_res = try self.client.fetch(.{
+            .location = .{ .uri = try std.Uri.parse(url) },
+            .method = .GET, // Use format specifier for method
+            .extra_headers = extra_headers.items,
+            .payload = if (!std.mem.eql(u8, "GET", "DELETE") and req_body_writer.writer.end > 0) req_body_writer.writer.buffer[0..req_body_writer.writer.end] else null,
+            .response_writer = &ctx.writer,
+        });
+
+        // Flush any remaining data in the writer buffer
+        try ctx.writer.vtable.flush(&ctx.writer);
+
+        // Headers are not available from client.fetch, so we return empty headers for now.
+        // This is a workaround for Zig 0.15.2 std.http.Client limitations/bugs.
+        const headers = try self.allocator.alloc(std.http.Header, 0);
+        var arena = std.heap.ArenaAllocator.init(self.allocator);
+        errdefer arena.deinit();
+
+        const response = struct { head: struct { status: std.http.Status } }{ .head = .{ .status = fetch_res.status } };
+        switch (response.head.status) {
+            .ok => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.storagemigration.v1.StorageVersionMigration, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .unauthorized => {
+                return .{ .unauthorized = .{ .headers = headers, .arena = arena } };
+            },
+            else => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(std.json.Value, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .default_response = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+        }
+    }
+
+    pub const ReplaceStoragemigrationV1StorageVersionMigrationStatusResponse200 = struct {
+        body: root.io.k8s.api.storagemigration.v1.StorageVersionMigration,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ReplaceStoragemigrationV1StorageVersionMigrationStatusResponse201 = struct {
+        body: root.io.k8s.api.storagemigration.v1.StorageVersionMigration,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ReplaceStoragemigrationV1StorageVersionMigrationStatusResponse401 = struct {
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ReplaceStoragemigrationV1StorageVersionMigrationStatusResponseDefault = struct {
+        body: std.json.Value,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ReplaceStoragemigrationV1StorageVersionMigrationStatusResponse = union(enum) {
+        ok: ReplaceStoragemigrationV1StorageVersionMigrationStatusResponse200,
+        created: ReplaceStoragemigrationV1StorageVersionMigrationStatusResponse201,
+        unauthorized: ReplaceStoragemigrationV1StorageVersionMigrationStatusResponse401,
+        default_response: ReplaceStoragemigrationV1StorageVersionMigrationStatusResponseDefault,
+    };
+
+    pub const replaceStoragemigrationV1StorageVersionMigrationStatusOptions = struct {
+        /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
+        pretty: ?[]const u8 = null,
+        /// When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
+        dryRun: ?[]const u8 = null,
+        /// fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint.
+        fieldManager: ?[]const u8 = null,
+        /// fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.
+        fieldValidation: ?[]const u8 = null,
+    };
+    /// replace status of the specified StorageVersionMigration
+    pub fn replaceStoragemigrationV1StorageVersionMigrationStatus(self: *Client, name: []const u8, body: root.io.k8s.api.storagemigration.v1.StorageVersionMigration, options: replaceStoragemigrationV1StorageVersionMigrationStatusOptions) !ReplaceStoragemigrationV1StorageVersionMigrationStatusResponse {
+        var url_buf: [1024]u8 = undefined;
+        var url_fbs = std.io.fixedBufferStream(&url_buf);
+        const url_w = url_fbs.writer();
+        try url_w.print("{s}", .{self.base_url});
+        try url_w.print("/apis/storagemigration.k8s.io/v1/storageversionmigrations/", .{});
+        try urlEncode(url_w, name);
+        try url_w.print("/status", .{});
+        var first_query = true;
+        _ = &first_query;
+        if (options.pretty) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("pretty=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.dryRun) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("dryRun=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.fieldManager) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("fieldManager=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.fieldValidation) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("fieldValidation=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        const url = url_fbs.getWritten();
+        var extra_headers = std.ArrayListUnmanaged(std.http.Header){};
+        defer extra_headers.deinit(self.allocator);
+        var body_list = std.ArrayListUnmanaged(u8){};
+        defer body_list.deinit(self.allocator);
+
+        // Serialize body if present
+        var req_body_writer = std.io.Writer.Allocating.init(self.allocator);
+        defer req_body_writer.deinit();
+        if (@hasDecl(@TypeOf(body), "validate")) try body.validate();
+        try std.json.Stringify.value(body, .{}, &req_body_writer.writer);
+
+        var write_buf: [4096]u8 = undefined;
+        const ResponseContext = struct {
+            writer: std.io.Writer,
+            list: *std.ArrayListUnmanaged(u8),
+            allocator: std.mem.Allocator,
+            fn drain(w: *std.io.Writer, chunks: []const []const u8, len: usize) error{WriteFailed}!usize {
+                _ = len;
+                const ctx: *@This() = @fieldParentPtr("writer", w);
+
+                // Flush existing buffer
+                if (w.end > 0) {
+                    const buffered = w.buffer[0..w.end];
+                    ctx.list.appendSlice(ctx.allocator, buffered) catch return error.WriteFailed;
+                    w.end = 0;
+                }
+
+                var total_written: usize = 0;
+                for (chunks) |chunk| {
+                    if (chunk.len > 0) {
+                        ctx.list.appendSlice(ctx.allocator, chunk) catch return error.WriteFailed;
+                        total_written += chunk.len;
+                    }
+                }
+                return total_written;
+            }
+        };
+        const vtable = std.io.Writer.VTable{ .drain = ResponseContext.drain };
+        var ctx = ResponseContext{
+            .writer = std.io.Writer{ .vtable = &vtable, .buffer = &write_buf, .end = 0 },
+            .list = &body_list,
+            .allocator = self.allocator,
+        };
+
+        const fetch_res = try self.client.fetch(.{
+            .location = .{ .uri = try std.Uri.parse(url) },
+            .method = .PUT, // Use format specifier for method
+            .extra_headers = extra_headers.items,
+            .payload = if (!std.mem.eql(u8, "PUT", "DELETE") and req_body_writer.writer.end > 0) req_body_writer.writer.buffer[0..req_body_writer.writer.end] else null,
+            .response_writer = &ctx.writer,
+        });
+
+        // Flush any remaining data in the writer buffer
+        try ctx.writer.vtable.flush(&ctx.writer);
+
+        // Headers are not available from client.fetch, so we return empty headers for now.
+        // This is a workaround for Zig 0.15.2 std.http.Client limitations/bugs.
+        const headers = try self.allocator.alloc(std.http.Header, 0);
+        var arena = std.heap.ArenaAllocator.init(self.allocator);
+        errdefer arena.deinit();
+
+        const response = struct { head: struct { status: std.http.Status } }{ .head = .{ .status = fetch_res.status } };
+        switch (response.head.status) {
+            .ok => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.storagemigration.v1.StorageVersionMigration, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .created => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.storagemigration.v1.StorageVersionMigration, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .created = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .unauthorized => {
+                return .{ .unauthorized = .{ .headers = headers, .arena = arena } };
+            },
+            else => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(std.json.Value, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .default_response = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+        }
+    }
+
+    pub const PatchStoragemigrationV1StorageVersionMigrationStatusResponse200 = struct {
+        body: root.io.k8s.api.storagemigration.v1.StorageVersionMigration,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const PatchStoragemigrationV1StorageVersionMigrationStatusResponse201 = struct {
+        body: root.io.k8s.api.storagemigration.v1.StorageVersionMigration,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const PatchStoragemigrationV1StorageVersionMigrationStatusResponse401 = struct {
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const PatchStoragemigrationV1StorageVersionMigrationStatusResponseDefault = struct {
+        body: std.json.Value,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const PatchStoragemigrationV1StorageVersionMigrationStatusResponse = union(enum) {
+        ok: PatchStoragemigrationV1StorageVersionMigrationStatusResponse200,
+        created: PatchStoragemigrationV1StorageVersionMigrationStatusResponse201,
+        unauthorized: PatchStoragemigrationV1StorageVersionMigrationStatusResponse401,
+        default_response: PatchStoragemigrationV1StorageVersionMigrationStatusResponseDefault,
+    };
+
+    pub const patchStoragemigrationV1StorageVersionMigrationStatusOptions = struct {
+        /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
+        pretty: ?[]const u8 = null,
+        /// When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
+        dryRun: ?[]const u8 = null,
+        /// fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch).
+        fieldManager: ?[]const u8 = null,
+        /// fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.
+        fieldValidation: ?[]const u8 = null,
+        /// Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests.
+        force: ?[]const u8 = null,
+    };
+    /// partially update status of the specified StorageVersionMigration
+    pub fn patchStoragemigrationV1StorageVersionMigrationStatus(self: *Client, name: []const u8, body: root.io.k8s.apimachinery.pkg.apis.meta.v1.Patch, options: patchStoragemigrationV1StorageVersionMigrationStatusOptions) !PatchStoragemigrationV1StorageVersionMigrationStatusResponse {
+        var url_buf: [1024]u8 = undefined;
+        var url_fbs = std.io.fixedBufferStream(&url_buf);
+        const url_w = url_fbs.writer();
+        try url_w.print("{s}", .{self.base_url});
+        try url_w.print("/apis/storagemigration.k8s.io/v1/storageversionmigrations/", .{});
+        try urlEncode(url_w, name);
+        try url_w.print("/status", .{});
+        var first_query = true;
+        _ = &first_query;
+        if (options.pretty) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("pretty=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.dryRun) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("dryRun=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.fieldManager) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("fieldManager=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.fieldValidation) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("fieldValidation=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.force) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("force=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        const url = url_fbs.getWritten();
+        var extra_headers = std.ArrayListUnmanaged(std.http.Header){};
+        defer extra_headers.deinit(self.allocator);
+        var body_list = std.ArrayListUnmanaged(u8){};
+        defer body_list.deinit(self.allocator);
+
+        // Serialize body if present
+        var req_body_writer = std.io.Writer.Allocating.init(self.allocator);
+        defer req_body_writer.deinit();
+        if (@hasDecl(@TypeOf(body), "validate")) try body.validate();
+        try std.json.Stringify.value(body, .{}, &req_body_writer.writer);
+
+        var write_buf: [4096]u8 = undefined;
+        const ResponseContext = struct {
+            writer: std.io.Writer,
+            list: *std.ArrayListUnmanaged(u8),
+            allocator: std.mem.Allocator,
+            fn drain(w: *std.io.Writer, chunks: []const []const u8, len: usize) error{WriteFailed}!usize {
+                _ = len;
+                const ctx: *@This() = @fieldParentPtr("writer", w);
+
+                // Flush existing buffer
+                if (w.end > 0) {
+                    const buffered = w.buffer[0..w.end];
+                    ctx.list.appendSlice(ctx.allocator, buffered) catch return error.WriteFailed;
+                    w.end = 0;
+                }
+
+                var total_written: usize = 0;
+                for (chunks) |chunk| {
+                    if (chunk.len > 0) {
+                        ctx.list.appendSlice(ctx.allocator, chunk) catch return error.WriteFailed;
+                        total_written += chunk.len;
+                    }
+                }
+                return total_written;
+            }
+        };
+        const vtable = std.io.Writer.VTable{ .drain = ResponseContext.drain };
+        var ctx = ResponseContext{
+            .writer = std.io.Writer{ .vtable = &vtable, .buffer = &write_buf, .end = 0 },
+            .list = &body_list,
+            .allocator = self.allocator,
+        };
+
+        const fetch_res = try self.client.fetch(.{
+            .location = .{ .uri = try std.Uri.parse(url) },
+            .method = .PATCH, // Use format specifier for method
+            .extra_headers = extra_headers.items,
+            .payload = if (!std.mem.eql(u8, "PATCH", "DELETE") and req_body_writer.writer.end > 0) req_body_writer.writer.buffer[0..req_body_writer.writer.end] else null,
+            .response_writer = &ctx.writer,
+        });
+
+        // Flush any remaining data in the writer buffer
+        try ctx.writer.vtable.flush(&ctx.writer);
+
+        // Headers are not available from client.fetch, so we return empty headers for now.
+        // This is a workaround for Zig 0.15.2 std.http.Client limitations/bugs.
+        const headers = try self.allocator.alloc(std.http.Header, 0);
+        var arena = std.heap.ArenaAllocator.init(self.allocator);
+        errdefer arena.deinit();
+
+        const response = struct { head: struct { status: std.http.Status } }{ .head = .{ .status = fetch_res.status } };
+        switch (response.head.status) {
+            .ok => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.storagemigration.v1.StorageVersionMigration, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .created => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.storagemigration.v1.StorageVersionMigration, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .created = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .unauthorized => {
+                return .{ .unauthorized = .{ .headers = headers, .arena = arena } };
+            },
+            else => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(std.json.Value, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .default_response = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+        }
+    }
+
+    pub const WatchStoragemigrationV1StorageVersionMigrationListResponse200 = struct {
+        body: root.io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const WatchStoragemigrationV1StorageVersionMigrationListResponse401 = struct {
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const WatchStoragemigrationV1StorageVersionMigrationListResponseDefault = struct {
+        body: std.json.Value,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const WatchStoragemigrationV1StorageVersionMigrationListResponse = union(enum) {
+        ok: WatchStoragemigrationV1StorageVersionMigrationListResponse200,
+        unauthorized: WatchStoragemigrationV1StorageVersionMigrationListResponse401,
+        default_response: WatchStoragemigrationV1StorageVersionMigrationListResponseDefault,
+    };
+
+    pub const watchStoragemigrationV1StorageVersionMigrationListOptions = struct {
+        /// allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored.
+        allowWatchBookmarks: ?[]const u8 = null,
+        /// The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key".
+        ///
+        /// This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
+        @"continue": ?[]const u8 = null,
+        /// A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        fieldSelector: ?[]const u8 = null,
+        /// A selector to restrict the list of returned objects by their labels. Defaults to everything.
+        labelSelector: ?[]const u8 = null,
+        /// limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.
+        ///
+        /// The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
+        limit: ?[]const u8 = null,
+        /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
+        pretty: ?[]const u8 = null,
+        /// resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.
+        ///
+        /// Defaults to unset
+        resourceVersion: ?[]const u8 = null,
+        /// resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.
+        ///
+        /// Defaults to unset
+        resourceVersionMatch: ?[]const u8 = null,
+        /// `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event  will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched.
+        ///
+        /// When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan
+        ///   is interpreted as "data at least as new as the provided `resourceVersion`"
+        ///   and the bookmark event is send when the state is synced
+        ///   to a `resourceVersion` at least as fresh as the one provided by the ListOptions.
+        ///   If `resourceVersion` is unset, this is interpreted as "consistent read" and the
+        ///   bookmark event is send when the state is synced at least to the moment
+        ///   when request started being processed.
+        /// - `resourceVersionMatch` set to any other value or unset
+        ///   Invalid error is returned.
+        ///
+        /// Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise.
+        sendInitialEvents: ?[]const u8 = null,
+        /// shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges:
+        ///
+        ///   shardRange(object.metadata.uid, '0x0', '0x8000000000000000')
+        ///   shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000')
+        ///
+        /// Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths:
+        ///   - object.metadata.uid
+        ///   - object.metadata.namespace
+        ///
+        /// hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64.
+        ///
+        /// Examples:
+        ///   2-shard split:
+        ///     shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000')
+        ///     shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000')
+        ///   4-shard split:
+        ///     shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000')
+        ///     shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000')
+        ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
+        ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
+        ///
+        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        shardSelector: ?[]const u8 = null,
+        /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
+        timeoutSeconds: ?[]const u8 = null,
+        /// Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
+        watch: ?[]const u8 = null,
+    };
+    /// watch individual changes to a list of StorageVersionMigration. deprecated: use the 'watch' parameter with a list operation instead.
+    pub fn watchStoragemigrationV1StorageVersionMigrationList(self: *Client, options: watchStoragemigrationV1StorageVersionMigrationListOptions) !WatchStoragemigrationV1StorageVersionMigrationListResponse {
+        var url_buf: [1024]u8 = undefined;
+        var url_fbs = std.io.fixedBufferStream(&url_buf);
+        const url_w = url_fbs.writer();
+        try url_w.print("{s}", .{self.base_url});
+        try url_w.print("/apis/storagemigration.k8s.io/v1/watch/storageversionmigrations", .{});
+        var first_query = true;
+        _ = &first_query;
+        if (options.allowWatchBookmarks) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("allowWatchBookmarks=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.@"continue") |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("continue=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.fieldSelector) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("fieldSelector=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.labelSelector) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("labelSelector=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.limit) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("limit=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.pretty) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("pretty=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.resourceVersion) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("resourceVersion=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.resourceVersionMatch) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("resourceVersionMatch=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.sendInitialEvents) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("sendInitialEvents=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.shardSelector) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("shardSelector=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.timeoutSeconds) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("timeoutSeconds=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.watch) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("watch=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        const url = url_fbs.getWritten();
+        var extra_headers = std.ArrayListUnmanaged(std.http.Header){};
+        defer extra_headers.deinit(self.allocator);
+        var body_list = std.ArrayListUnmanaged(u8){};
+        defer body_list.deinit(self.allocator);
+
+        // Serialize body if present
+        var req_body_writer = std.io.Writer.Allocating.init(self.allocator);
+        defer req_body_writer.deinit();
+
+        var write_buf: [4096]u8 = undefined;
+        const ResponseContext = struct {
+            writer: std.io.Writer,
+            list: *std.ArrayListUnmanaged(u8),
+            allocator: std.mem.Allocator,
+            fn drain(w: *std.io.Writer, chunks: []const []const u8, len: usize) error{WriteFailed}!usize {
+                _ = len;
+                const ctx: *@This() = @fieldParentPtr("writer", w);
+
+                // Flush existing buffer
+                if (w.end > 0) {
+                    const buffered = w.buffer[0..w.end];
+                    ctx.list.appendSlice(ctx.allocator, buffered) catch return error.WriteFailed;
+                    w.end = 0;
+                }
+
+                var total_written: usize = 0;
+                for (chunks) |chunk| {
+                    if (chunk.len > 0) {
+                        ctx.list.appendSlice(ctx.allocator, chunk) catch return error.WriteFailed;
+                        total_written += chunk.len;
+                    }
+                }
+                return total_written;
+            }
+        };
+        const vtable = std.io.Writer.VTable{ .drain = ResponseContext.drain };
+        var ctx = ResponseContext{
+            .writer = std.io.Writer{ .vtable = &vtable, .buffer = &write_buf, .end = 0 },
+            .list = &body_list,
+            .allocator = self.allocator,
+        };
+
+        const fetch_res = try self.client.fetch(.{
+            .location = .{ .uri = try std.Uri.parse(url) },
+            .method = .GET, // Use format specifier for method
+            .extra_headers = extra_headers.items,
+            .payload = if (!std.mem.eql(u8, "GET", "DELETE") and req_body_writer.writer.end > 0) req_body_writer.writer.buffer[0..req_body_writer.writer.end] else null,
+            .response_writer = &ctx.writer,
+        });
+
+        // Flush any remaining data in the writer buffer
+        try ctx.writer.vtable.flush(&ctx.writer);
+
+        // Headers are not available from client.fetch, so we return empty headers for now.
+        // This is a workaround for Zig 0.15.2 std.http.Client limitations/bugs.
+        const headers = try self.allocator.alloc(std.http.Header, 0);
+        var arena = std.heap.ArenaAllocator.init(self.allocator);
+        errdefer arena.deinit();
+
+        const response = struct { head: struct { status: std.http.Status } }{ .head = .{ .status = fetch_res.status } };
+        switch (response.head.status) {
+            .ok => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .unauthorized => {
+                return .{ .unauthorized = .{ .headers = headers, .arena = arena } };
+            },
+            else => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(std.json.Value, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .default_response = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+        }
+    }
+
+    pub const WatchStoragemigrationV1StorageVersionMigrationResponse200 = struct {
+        body: root.io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const WatchStoragemigrationV1StorageVersionMigrationResponse401 = struct {
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const WatchStoragemigrationV1StorageVersionMigrationResponseDefault = struct {
+        body: std.json.Value,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const WatchStoragemigrationV1StorageVersionMigrationResponse = union(enum) {
+        ok: WatchStoragemigrationV1StorageVersionMigrationResponse200,
+        unauthorized: WatchStoragemigrationV1StorageVersionMigrationResponse401,
+        default_response: WatchStoragemigrationV1StorageVersionMigrationResponseDefault,
+    };
+
+    pub const watchStoragemigrationV1StorageVersionMigrationOptions = struct {
+        /// allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored.
+        allowWatchBookmarks: ?[]const u8 = null,
+        /// The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key".
+        ///
+        /// This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
+        @"continue": ?[]const u8 = null,
+        /// A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        fieldSelector: ?[]const u8 = null,
+        /// A selector to restrict the list of returned objects by their labels. Defaults to everything.
+        labelSelector: ?[]const u8 = null,
+        /// limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.
+        ///
+        /// The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
+        limit: ?[]const u8 = null,
+        /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
+        pretty: ?[]const u8 = null,
+        /// resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.
+        ///
+        /// Defaults to unset
+        resourceVersion: ?[]const u8 = null,
+        /// resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.
+        ///
+        /// Defaults to unset
+        resourceVersionMatch: ?[]const u8 = null,
+        /// `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event  will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched.
+        ///
+        /// When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan
+        ///   is interpreted as "data at least as new as the provided `resourceVersion`"
+        ///   and the bookmark event is send when the state is synced
+        ///   to a `resourceVersion` at least as fresh as the one provided by the ListOptions.
+        ///   If `resourceVersion` is unset, this is interpreted as "consistent read" and the
+        ///   bookmark event is send when the state is synced at least to the moment
+        ///   when request started being processed.
+        /// - `resourceVersionMatch` set to any other value or unset
+        ///   Invalid error is returned.
+        ///
+        /// Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise.
+        sendInitialEvents: ?[]const u8 = null,
+        /// shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges:
+        ///
+        ///   shardRange(object.metadata.uid, '0x0', '0x8000000000000000')
+        ///   shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000')
+        ///
+        /// Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths:
+        ///   - object.metadata.uid
+        ///   - object.metadata.namespace
+        ///
+        /// hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64.
+        ///
+        /// Examples:
+        ///   2-shard split:
+        ///     shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000')
+        ///     shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000')
+        ///   4-shard split:
+        ///     shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000')
+        ///     shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000')
+        ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
+        ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
+        ///
+        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        shardSelector: ?[]const u8 = null,
+        /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
+        timeoutSeconds: ?[]const u8 = null,
+        /// Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
+        watch: ?[]const u8 = null,
+    };
+    /// watch changes to an object of kind StorageVersionMigration. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter.
+    pub fn watchStoragemigrationV1StorageVersionMigration(self: *Client, name: []const u8, options: watchStoragemigrationV1StorageVersionMigrationOptions) !WatchStoragemigrationV1StorageVersionMigrationResponse {
+        var url_buf: [1024]u8 = undefined;
+        var url_fbs = std.io.fixedBufferStream(&url_buf);
+        const url_w = url_fbs.writer();
+        try url_w.print("{s}", .{self.base_url});
+        try url_w.print("/apis/storagemigration.k8s.io/v1/watch/storageversionmigrations/", .{});
+        try urlEncode(url_w, name);
+        var first_query = true;
+        _ = &first_query;
+        if (options.allowWatchBookmarks) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("allowWatchBookmarks=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.@"continue") |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("continue=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.fieldSelector) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("fieldSelector=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.labelSelector) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("labelSelector=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.limit) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("limit=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.pretty) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("pretty=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.resourceVersion) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("resourceVersion=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.resourceVersionMatch) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("resourceVersionMatch=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.sendInitialEvents) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("sendInitialEvents=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.shardSelector) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("shardSelector=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.timeoutSeconds) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("timeoutSeconds=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.watch) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("watch=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        const url = url_fbs.getWritten();
+        var extra_headers = std.ArrayListUnmanaged(std.http.Header){};
+        defer extra_headers.deinit(self.allocator);
+        var body_list = std.ArrayListUnmanaged(u8){};
+        defer body_list.deinit(self.allocator);
+
+        // Serialize body if present
+        var req_body_writer = std.io.Writer.Allocating.init(self.allocator);
+        defer req_body_writer.deinit();
+
+        var write_buf: [4096]u8 = undefined;
+        const ResponseContext = struct {
+            writer: std.io.Writer,
+            list: *std.ArrayListUnmanaged(u8),
+            allocator: std.mem.Allocator,
+            fn drain(w: *std.io.Writer, chunks: []const []const u8, len: usize) error{WriteFailed}!usize {
+                _ = len;
+                const ctx: *@This() = @fieldParentPtr("writer", w);
+
+                // Flush existing buffer
+                if (w.end > 0) {
+                    const buffered = w.buffer[0..w.end];
+                    ctx.list.appendSlice(ctx.allocator, buffered) catch return error.WriteFailed;
+                    w.end = 0;
+                }
+
+                var total_written: usize = 0;
+                for (chunks) |chunk| {
+                    if (chunk.len > 0) {
+                        ctx.list.appendSlice(ctx.allocator, chunk) catch return error.WriteFailed;
+                        total_written += chunk.len;
+                    }
+                }
+                return total_written;
+            }
+        };
+        const vtable = std.io.Writer.VTable{ .drain = ResponseContext.drain };
+        var ctx = ResponseContext{
+            .writer = std.io.Writer{ .vtable = &vtable, .buffer = &write_buf, .end = 0 },
+            .list = &body_list,
+            .allocator = self.allocator,
+        };
+
+        const fetch_res = try self.client.fetch(.{
+            .location = .{ .uri = try std.Uri.parse(url) },
+            .method = .GET, // Use format specifier for method
+            .extra_headers = extra_headers.items,
+            .payload = if (!std.mem.eql(u8, "GET", "DELETE") and req_body_writer.writer.end > 0) req_body_writer.writer.buffer[0..req_body_writer.writer.end] else null,
+            .response_writer = &ctx.writer,
+        });
+
+        // Flush any remaining data in the writer buffer
+        try ctx.writer.vtable.flush(&ctx.writer);
+
+        // Headers are not available from client.fetch, so we return empty headers for now.
+        // This is a workaround for Zig 0.15.2 std.http.Client limitations/bugs.
+        const headers = try self.allocator.alloc(std.http.Header, 0);
+        var arena = std.heap.ArenaAllocator.init(self.allocator);
+        errdefer arena.deinit();
+
+        const response = struct { head: struct { status: std.http.Status } }{ .head = .{ .status = fetch_res.status } };
+        switch (response.head.status) {
+            .ok => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.apimachinery.pkg.apis.meta.v1.WatchEvent, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .unauthorized => {
+                return .{ .unauthorized = .{ .headers = headers, .arena = arena } };
+            },
+            else => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(std.json.Value, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .default_response = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+        }
+    }
+
     pub const GetStoragemigrationV1beta1APIResourcesResponse200 = struct {
         body: root.io.k8s.apimachinery.pkg.apis.meta.v1.APIResourceList,
         headers: []const std.http.Header,
