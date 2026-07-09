@@ -7,11 +7,11 @@ const root = @import("../../../../root.zig");
 pub const Eviction = struct {
     /// APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
     apiVersion: ?[]const u8 = null,
-    /// DeleteOptions may be provided
+    /// deleteOptions may be provided
     deleteOptions: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.DeleteOptions = null,
     /// Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     kind: ?[]const u8 = null,
-    /// ObjectMeta describes the pod that is being evicted.
+    /// metadata describes the pod that is being evicted.
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
 
     pub fn validate(self: @This()) !void {
@@ -26,11 +26,11 @@ pub const PodDisruptionBudget = struct {
     apiVersion: ?[]const u8 = null,
     /// Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     kind: ?[]const u8 = null,
-    /// Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
+    /// metadata is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
-    /// Specification of the desired behavior of the PodDisruptionBudget.
+    /// spec is the specification of the desired behavior of the PodDisruptionBudget.
     spec: ?root.io.k8s.api.policy.v1.PodDisruptionBudgetSpec = null,
-    /// Most recently observed status of the PodDisruptionBudget.
+    /// status is the most recently observed status of the PodDisruptionBudget.
     status: ?root.io.k8s.api.policy.v1.PodDisruptionBudgetStatus = null,
 
     pub fn validate(self: @This()) !void {
@@ -59,13 +59,13 @@ pub const PodDisruptionBudgetList = struct {
 
 /// PodDisruptionBudgetSpec is a description of a PodDisruptionBudget.
 pub const PodDisruptionBudgetSpec = struct {
-    /// An eviction is allowed if at most "maxUnavailable" pods selected by "selector" are unavailable after the eviction, i.e. even in absence of the evicted pod. For example, one can prevent all voluntary evictions by specifying 0. This is a mutually exclusive setting with "minAvailable".
+    /// maxUnavailable indicates that an eviction is allowed if at most "maxUnavailable" pods selected by "selector" are unavailable after the eviction, i.e. even in absence of the evicted pod. For example, one can prevent all voluntary evictions by specifying 0. This is a mutually exclusive setting with "minAvailable".
     maxUnavailable: ?root.io.k8s.apimachinery.pkg.util.intstr.IntOrString = null,
-    /// An eviction is allowed if at least "minAvailable" pods selected by "selector" will still be available after the eviction, i.e. even in the absence of the evicted pod.  So for example you can prevent all voluntary evictions by specifying "100%".
+    /// minAvailable indicates that an eviction is allowed if at least "minAvailable" pods selected by "selector" will still be available after the eviction, i.e. even in the absence of the evicted pod.  So for example you can prevent all voluntary evictions by specifying "100%".
     minAvailable: ?root.io.k8s.apimachinery.pkg.util.intstr.IntOrString = null,
-    /// Label query over pods whose evictions are managed by the disruption budget. A null selector will match no pods, while an empty ({}) selector will select all pods within the namespace.
+    /// selector is a label query over pods whose evictions are managed by the disruption budget. A null selector will match no pods, while an empty ({}) selector will select all pods within the namespace.
     selector: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelector = null,
-    /// UnhealthyPodEvictionPolicy defines the criteria for when unhealthy pods should be considered for eviction. Current implementation considers healthy pods, as pods that have status.conditions item with type="Ready",status="True".
+    /// unhealthyPodEvictionPolicy defines the criteria for when unhealthy pods should be considered for eviction. Current implementation considers healthy pods, as pods that have status.conditions item with type="Ready",status="True".
     ///
     /// Valid policies are IfHealthyBudget and AlwaysAllow. If no policy is specified, the default behavior will be used, which corresponds to the IfHealthyBudget policy.
     ///
