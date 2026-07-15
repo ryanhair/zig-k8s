@@ -198,6 +198,8 @@ pub const PodGroupTemplate = struct {
     disruptionMode: ?root.io.k8s.api.scheduling.v1alpha3.DisruptionMode = null,
     /// Name is a unique identifier for the PodGroupTemplate within the Workload. It must be a DNS label. This field is immutable.
     name: []const u8,
+    /// PreemptionPolicy is the Policy for preempting pods/podgroups with lower priority. One of Never, PreemptLowerPriority. This field is immutable. This field is available only when the PodGroupPreemptionPolicy feature gate is enabled.
+    preemptionPolicy: ?[]const u8 = null,
     /// Priority is the value of priority of pod groups created from this template. Various system components use this field to find the priority of the pod group. The higher the value, the higher the priority. This field is immutable.
     priority: ?i64 = null,
     /// PriorityClassName indicates the priority that should be considered when scheduling a pod group created from this template. This field is immutable.
