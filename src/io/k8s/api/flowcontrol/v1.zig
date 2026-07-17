@@ -40,13 +40,13 @@ pub const FlowSchema = struct {
     /// `metadata` is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
     /// `spec` is the specification of the desired behavior of a FlowSchema. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
-    spec: ?root.io.k8s.api.flowcontrol.v1.FlowSchemaSpec = null,
+    spec: root.io.k8s.api.flowcontrol.v1.FlowSchemaSpec,
     /// `status` is the current status of a FlowSchema. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
     status: ?root.io.k8s.api.flowcontrol.v1.FlowSchemaStatus = null,
 
     pub fn validate(self: @This()) !void {
         if (self.metadata) |v| try v.validate();
-        if (self.spec) |v| try v.validate();
+        try self.spec.validate();
         if (self.status) |v| try v.validate();
     }
 };
@@ -59,10 +59,10 @@ pub const FlowSchemaCondition = struct {
     message: ?[]const u8 = null,
     /// `reason` is a unique, one-word, CamelCase reason for the condition's last transition.
     reason: ?[]const u8 = null,
-    /// `status` is the status of the condition. Can be True, False, Unknown. Required.
+    /// `status` is the status of the condition. Should be specified and set to one of True, False, Unknown.
     status: ?[]const u8 = null,
     /// `type` is the type of the condition. Required.
-    type: ?[]const u8 = null,
+    type: []const u8,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -151,7 +151,7 @@ pub const LimitedPriorityLevelConfiguration = struct {
     /// LendableCL(i) = round( NominalCL(i) * lendablePercent(i)/100.0 )
     lendablePercent: ?i64 = null,
     /// `limitResponse` indicates what to do with requests that can not be executed right now
-    limitResponse: ?root.io.k8s.api.flowcontrol.v1.LimitResponse = null,
+    limitResponse: root.io.k8s.api.flowcontrol.v1.LimitResponse,
     /// `nominalConcurrencyShares` (NCS) contributes to the computation of the NominalConcurrencyLimit (NominalCL) of this level. This is the number of execution seats available at this priority level. This is used both for requests dispatched from this priority level as well as requests dispatched from other priority levels borrowing seats from this level. The server's concurrency limit (ServerCL) is divided among the Limited priority levels in proportion to their NCS values:
     ///
     /// NominalCL(i)  = ceil( ServerCL * NCS(i) / sum_ncs ) sum_ncs = sum[priority level k] NCS(k)
@@ -164,7 +164,7 @@ pub const LimitedPriorityLevelConfiguration = struct {
     nominalConcurrencyShares: ?i64 = null,
 
     pub fn validate(self: @This()) !void {
-        if (self.limitResponse) |v| try v.validate();
+        try self.limitResponse.validate();
     }
 };
 
@@ -211,13 +211,13 @@ pub const PriorityLevelConfiguration = struct {
     /// `metadata` is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
     /// `spec` is the specification of the desired behavior of a "request-priority". More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
-    spec: ?root.io.k8s.api.flowcontrol.v1.PriorityLevelConfigurationSpec = null,
+    spec: root.io.k8s.api.flowcontrol.v1.PriorityLevelConfigurationSpec,
     /// `status` is the current status of a "request-priority". More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
     status: ?root.io.k8s.api.flowcontrol.v1.PriorityLevelConfigurationStatus = null,
 
     pub fn validate(self: @This()) !void {
         if (self.metadata) |v| try v.validate();
-        if (self.spec) |v| try v.validate();
+        try self.spec.validate();
         if (self.status) |v| try v.validate();
     }
 };
@@ -230,10 +230,10 @@ pub const PriorityLevelConfigurationCondition = struct {
     message: ?[]const u8 = null,
     /// `reason` is a unique, one-word, CamelCase reason for the condition's last transition.
     reason: ?[]const u8 = null,
-    /// `status` is the status of the condition. Can be True, False, Unknown. Required.
+    /// `status` is the status of the condition. Should be specified and set to one of True, False, Unknown.
     status: ?[]const u8 = null,
     /// `type` is the type of the condition. Required.
-    type: ?[]const u8 = null,
+    type: []const u8,
 
     pub fn validate(self: @This()) !void {
         _ = self;

@@ -89,7 +89,7 @@ pub const HPAScalingPolicy = struct {
 ///
 /// Scaling Policy Rules are applied after calculating DesiredReplicas from metrics for the HPA. They can limit the scaling velocity by specifying scaling policies. They can prevent flapping by specifying the stabilization window, so that the number of replicas is not set instantly, instead, the safest value from the stabilization window is chosen.
 ///
-/// The tolerance is applied to the metric values and prevents scaling too eagerly for small metric variations. (Note that setting a tolerance requires the beta HPAConfigurableTolerance feature gate to be enabled.)
+/// The tolerance is applied to the metric values and prevents scaling too eagerly for small metric variations.
 pub const HPAScalingRules = struct {
     /// policies is a list of potential scaling polices which can be used during scaling. If not set, use the default values: - For scale up: allow doubling the number of pods, or an absolute change of 4 pods in a 15s window. - For scale down: allow all pods to be removed in a 15s window.
     policies: ?[]const root.io.k8s.api.autoscaling.v2.HPAScalingPolicy = null,
@@ -100,8 +100,6 @@ pub const HPAScalingRules = struct {
     /// tolerance is the tolerance on the ratio between the current and desired metric value under which no updates are made to the desired number of replicas (e.g. 0.01 for 1%). Must be greater than or equal to zero. If not set, the default cluster-wide tolerance is applied (by default 10%).
     ///
     /// For example, if autoscaling is configured with a memory consumption target of 100Mi, and scale-down and scale-up tolerances of 5% and 1% respectively, scaling will be triggered when the actual consumption falls below 95Mi or exceeds 101Mi.
-    ///
-    /// This is an beta field and requires the HPAConfigurableTolerance feature gate to be enabled.
     tolerance: ?root.io.k8s.apimachinery.pkg.api.resource.Quantity = null,
 
     pub fn validate(self: @This()) !void {
