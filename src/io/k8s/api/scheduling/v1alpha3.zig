@@ -26,7 +26,7 @@ pub const CompositeBasicSchedulingPolicy = struct {
 
 /// CompositeGangSchedulingPolicy indicates that the groups belonging to the composite group should be scheduled using all-or-nothing semantics.
 pub const CompositeGangSchedulingPolicy = struct {
-    /// MinGroupCount is the minimum number of child groups that must be schedulable or scheduled at the same time for the scheduler to admit the entire group. It must be a positive integer.
+    /// minGroupCount is the minimum number of child groups that must be schedulable or scheduled at the same time for the scheduler to admit the entire group. It must be a positive integer.
     minGroupCount: i64,
 
     pub fn validate(self: @This()) !void {
@@ -40,11 +40,11 @@ pub const CompositePodGroup = struct {
     apiVersion: ?[]const u8 = null,
     /// Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     kind: ?[]const u8 = null,
-    /// Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
+    /// metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
-    /// Spec defines the desired state of the CompositePodGroup.
+    /// spec defines the desired state of the CompositePodGroup.
     spec: root.io.k8s.api.scheduling.v1alpha3.CompositePodGroupSpec,
-    /// Status represents the current observed state of the CompositePodGroup.
+    /// status represents the current observed state of the CompositePodGroup.
     status: ?root.io.k8s.api.scheduling.v1alpha3.CompositePodGroupStatus = null,
 
     pub fn validate(self: @This()) !void {
@@ -73,9 +73,9 @@ pub const CompositePodGroupList = struct {
 
 /// CompositePodGroupSchedulingPolicy defines the scheduling configuration for a CompositePodGroup. Exactly one policy must be set.
 pub const CompositePodGroupSchedulingPolicy = struct {
-    /// Basic specifies that the groups of this composite group should be scheduled independently. This field is immutable.
+    /// basic specifies that the groups of this composite group should be scheduled independently. This field is immutable.
     basic: ?root.io.k8s.api.scheduling.v1alpha3.CompositeBasicSchedulingPolicy = null,
-    /// Gang specifies that the groups of this composite group should be scheduled using all-or-nothing semantics.
+    /// gang specifies that the groups of this composite group should be scheduled using all-or-nothing semantics.
     gang: ?root.io.k8s.api.scheduling.v1alpha3.CompositeGangSchedulingPolicy = null,
 
     pub fn validate(self: @This()) !void {
@@ -85,15 +85,15 @@ pub const CompositePodGroupSchedulingPolicy = struct {
 
 /// CompositePodGroupSpec defines the desired state of CompositePodGroup.
 pub const CompositePodGroupSpec = struct {
-    /// ParentCompositePodGroupName contains the name of the parent composite pod group within the same namespace as this composite pod group. It must be a DNS name. If it's nil, then this composite pod group is a root of a workload's hierarchy. This field is immutable.
+    /// parentCompositePodGroupName contains the name of the parent composite pod group within the same namespace as this composite pod group. It must be a DNS name. If it's nil, then this composite pod group is a root of a workload's hierarchy. This field is immutable.
     parentCompositePodGroupName: ?[]const u8 = null,
-    /// Priority is the value of priority of this composite pod group. Various system components use this field to find the priority of the composite pod group. When Priority Admission Controller is enabled, it prevents users from setting this field. The admission controller populates this field from PriorityClassName. The higher the value, the higher the priority. This field is immutable.
+    /// priority is the value of priority of this composite pod group. Various system components use this field to find the priority of the composite pod group. When Priority Admission Controller is enabled, it prevents users from setting this field. The admission controller populates this field from PriorityClassName. The higher the value, the higher the priority. This field is immutable.
     priority: ?i64 = null,
-    /// PriorityClassName defines the priority that should be considered when scheduling this CompositePodGroup. Controllers are expected to fill this field by copying it from a CompositePodGroupTemplate. If left unspecified, it is validated and resolved similarly to the PriorityClassName field in Pods (i.e. if no priority class is specified, admission control can set this to the global default priority class if it exists. Otherwise, the composite pod group's priority will be zero). This field is immutable.
+    /// priorityClassName defines the priority that should be considered when scheduling this CompositePodGroup. Controllers are expected to fill this field by copying it from a CompositePodGroupTemplate. If left unspecified, it is validated and resolved similarly to the PriorityClassName field in Pods (i.e. if no priority class is specified, admission control can set this to the global default priority class if it exists. Otherwise, the composite pod group's priority will be zero). This field is immutable.
     priorityClassName: ?[]const u8 = null,
-    /// SchedulingPolicy defines the scheduling policy for this instance of the CompositePodGroup. Controllers are expected to fill this field by copying it from a CompositePodGroupTemplate. This field is immutable.
+    /// schedulingPolicy defines the scheduling policy for this instance of the CompositePodGroup. Controllers are expected to fill this field by copying it from a CompositePodGroupTemplate. This field is immutable.
     schedulingPolicy: root.io.k8s.api.scheduling.v1alpha3.CompositePodGroupSchedulingPolicy,
-    /// WorkloadRef references an optional CompositePodGroup template within the Workload object that was used to create the CompositePodGroup. This field is required. This field is immutable.
+    /// workloadRef references an optional CompositePodGroup template within the Workload object that was used to create the CompositePodGroup. This field is required. This field is immutable.
     workloadRef: root.io.k8s.api.scheduling.v1alpha3.WorkloadReference,
 
     pub fn validate(self: @This()) !void {
@@ -104,7 +104,7 @@ pub const CompositePodGroupSpec = struct {
 
 /// CompositePodGroupStatus represents information about the status of a composite pod group.
 pub const CompositePodGroupStatus = struct {
-    /// Conditions represent the latest observations of the CompositePodGroup's state.
+    /// conditions represent the latest observations of the CompositePodGroup's state.
     ///
     /// Known condition types: - "CompositePodGroupInitiallyScheduled": Indicates whether the overall scheduling requirement
     ///   for the subtree under this CompositePodGroup has been satisfied. Once this condition
@@ -132,17 +132,17 @@ pub const CompositePodGroupStatus = struct {
 
 /// CompositePodGroupTemplate represents a template for a CompositePodGroup with a scheduling policy.
 pub const CompositePodGroupTemplate = struct {
-    /// CompositePodGroupTemplates is the list of templates for children CompositePodGroups. The maximum number of templates is 8. At least one entry in CompositePodGroupTemplates or PodGroupTemplates must be set.
+    /// compositePodGroupTemplates is the list of templates for children CompositePodGroups. The maximum number of templates is 8. At least one entry in CompositePodGroupTemplates or PodGroupTemplates must be set.
     compositePodGroupTemplates: ?[]const root.io.k8s.api.scheduling.v1alpha3.CompositePodGroupTemplate = null,
-    /// Name is a unique identifier for the CompositePodGroupTemplate within the Workload. It must be a DNS label. This field is required.
+    /// name is a unique identifier for the CompositePodGroupTemplate within the Workload. It must be a DNS label. This field is required.
     name: []const u8,
-    /// PodGroupTemplates is the list of templates for children PodGroups. The maximum number of templates is 8. At least one entry in CompositePodGroupTemplates or PodGroupTemplates must be set.
+    /// podGroupTemplates is the list of templates for children PodGroups. The maximum number of templates is 8. At least one entry in CompositePodGroupTemplates or PodGroupTemplates must be set.
     podGroupTemplates: ?[]const root.io.k8s.api.scheduling.v1alpha3.PodGroupTemplate = null,
-    /// Priority is the value of priority of composite pod groups created from this template. Various system components use this field to find the priority of the composite pod group. When Priority Admission Controller is enabled, it prevents users from setting this field. The admission controller populates this field from PriorityClassName. The higher the value, the higher the priority. This field is immutable.
+    /// priority is the value of priority of composite pod groups created from this template. Various system components use this field to find the priority of the composite pod group. When Priority Admission Controller is enabled, it prevents users from setting this field. The admission controller populates this field from PriorityClassName. The higher the value, the higher the priority. This field is immutable.
     priority: ?i64 = null,
-    /// PriorityClassName indicates the priority that should be considered when scheduling a composite pod group created from this template. If no priority class is specified, admission control can set this to the global default priority class if it exists. Otherwise, composite pod groups created from this template will have the priority set to zero. This field is immutable.
+    /// priorityClassName indicates the priority that should be considered when scheduling a composite pod group created from this template. If no priority class is specified, admission control can set this to the global default priority class if it exists. Otherwise, composite pod groups created from this template will have the priority set to zero. This field is immutable.
     priorityClassName: ?[]const u8 = null,
-    /// SchedulingPolicy defines the scheduling policy for this template.
+    /// schedulingPolicy defines the scheduling policy for this template.
     schedulingPolicy: root.io.k8s.api.scheduling.v1alpha3.CompositePodGroupSchedulingPolicy,
 
     pub fn validate(self: @This()) !void {
@@ -154,9 +154,9 @@ pub const CompositePodGroupTemplate = struct {
 
 /// DisruptionMode defines how individual entities within a group can be disrupted. Exactly one mode can be set.
 pub const DisruptionMode = struct {
-    /// All specifies that all children can only be disrupted together.
+    /// all specifies that all children can only be disrupted together.
     all: ?root.io.k8s.api.scheduling.v1alpha3.AllDisruptionMode = null,
-    /// Single specifies that children can be disrupted independently from each other.
+    /// single specifies that children can be disrupted independently from each other.
     single: ?root.io.k8s.api.scheduling.v1alpha3.SingleDisruptionMode = null,
 
     pub fn validate(self: @This()) !void {
@@ -166,7 +166,7 @@ pub const DisruptionMode = struct {
 
 /// GangSchedulingPolicy defines the parameters for gang scheduling.
 pub const GangSchedulingPolicy = struct {
-    /// MinCount is the minimum number of pods that must be schedulable or scheduled at the same time for the scheduler to admit the entire group. It must be a positive integer. This field is mutable to support workload scaling.
+    /// minCount is the minimum number of pods that must be schedulable or scheduled at the same time for the scheduler to admit the entire group. It must be a positive integer. This field is mutable to support workload scaling.
     ///
     /// Note that the scheduler operates on an eventually consistent model. Updates to minCount may not be immediately reflected in scheduling decisions due to propagation delays. If minCount is updated while a scheduling cycle is in progress for that group, the new value may not take effect until the next cycle. Moreover, minCount is only enforced during scheduling, meaning that modifications to this field do not affect already-scheduled pods, applying only to those evaluated in future cycles.
     minCount: i64,
@@ -182,11 +182,11 @@ pub const PodGroup = struct {
     apiVersion: ?[]const u8 = null,
     /// Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     kind: ?[]const u8 = null,
-    /// Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
+    /// metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
-    /// Spec defines the desired state of the PodGroup.
+    /// spec defines the desired state of the PodGroup.
     spec: root.io.k8s.api.scheduling.v1alpha3.PodGroupSpec,
-    /// Status represents the current observed state of the PodGroup.
+    /// status represents the current observed state of the PodGroup.
     status: ?root.io.k8s.api.scheduling.v1alpha3.PodGroupStatus = null,
 
     pub fn validate(self: @This()) !void {
@@ -217,13 +217,13 @@ pub const PodGroupList = struct {
 ///
 /// It adds a name to it that uniquely identifies the ResourceClaim inside the PodGroup. Pods that need access to the ResourceClaim define a matching reference in its own Spec.ResourceClaims. The Pod's claim must match all fields of the PodGroup's claim exactly.
 pub const PodGroupResourceClaim = struct {
-    /// Name uniquely identifies this resource claim inside the PodGroup. This must be a DNS_LABEL.
+    /// name uniquely identifies this resource claim inside the PodGroup. This must be a DNS_LABEL.
     name: []const u8,
-    /// ResourceClaimName is the name of a ResourceClaim object in the same namespace as this PodGroup. The ResourceClaim will be reserved for the PodGroup instead of its individual pods.
+    /// resourceClaimName is the name of a ResourceClaim object in the same namespace as this PodGroup. The ResourceClaim will be reserved for the PodGroup instead of its individual pods.
     ///
     /// Exactly one of ResourceClaimName and ResourceClaimTemplateName must be set.
     resourceClaimName: ?[]const u8 = null,
-    /// ResourceClaimTemplateName is the name of a ResourceClaimTemplate object in the same namespace as this PodGroup.
+    /// resourceClaimTemplateName is the name of a ResourceClaimTemplate object in the same namespace as this PodGroup.
     ///
     /// The template will be used to create a new ResourceClaim, which will be bound to this PodGroup. When this PodGroup is deleted, the ResourceClaim will also be deleted. The PodGroup name and resource name, along with a generated component, will be used to form a unique name for the ResourceClaim, which will be recorded in podgroup.status.resourceClaimStatuses.
     ///
@@ -239,9 +239,9 @@ pub const PodGroupResourceClaim = struct {
 
 /// PodGroupResourceClaimStatus is stored in the PodGroupStatus for each PodGroupResourceClaim which references a ResourceClaimTemplate. It stores the generated name for the corresponding ResourceClaim.
 pub const PodGroupResourceClaimStatus = struct {
-    /// Name uniquely identifies this resource claim inside the PodGroup. This must match the name of an entry in podgroup.spec.resourceClaims, which implies that the string must be a DNS_LABEL.
+    /// name uniquely identifies this resource claim inside the PodGroup. This must match the name of an entry in podgroup.spec.resourceClaims, which implies that the string must be a DNS_LABEL.
     name: []const u8,
-    /// ResourceClaimName is the name of the ResourceClaim that was generated for the PodGroup in the namespace of the PodGroup. If this is unset, then generating a ResourceClaim was not necessary. The podgroup.spec.resourceClaims entry can be ignored in this case.
+    /// resourceClaimName is the name of the ResourceClaim that was generated for the PodGroup in the namespace of the PodGroup. If this is unset, then generating a ResourceClaim was not necessary. The podgroup.spec.resourceClaims entry can be ignored in this case.
     resourceClaimName: ?[]const u8 = null,
 
     pub fn validate(self: @This()) !void {
@@ -251,7 +251,7 @@ pub const PodGroupResourceClaimStatus = struct {
 
 /// PodGroupSchedulingConstraints defines scheduling constraints (e.g. topology) for a PodGroup.
 pub const PodGroupSchedulingConstraints = struct {
-    /// Topology defines the topology constraints for the pod group. Currently only a single topology constraint can be specified. This may change in the future.
+    /// topology defines the topology constraints for the pod group. Currently only a single topology constraint can be specified. This may change in the future.
     topology: ?[]const root.io.k8s.api.scheduling.v1alpha3.TopologyConstraint = null,
 
     pub fn validate(self: @This()) !void {
@@ -261,9 +261,9 @@ pub const PodGroupSchedulingConstraints = struct {
 
 /// PodGroupSchedulingPolicy defines the scheduling configuration for a PodGroup. Exactly one policy must be set. The policy is chosen at creation time by setting either the Basic or Gang field. The PodGroup may not change policy after creation. Fields within chosen policy may be updated after creation when their individual fields allow it.
 pub const PodGroupSchedulingPolicy = struct {
-    /// Basic specifies that the pods in this group should be scheduled using standard Kubernetes scheduling behavior. Setting this field at group creation time opts this group to basic scheduling; this field cannot be changed afterward.
+    /// basic specifies that the pods in this group should be scheduled using standard Kubernetes scheduling behavior. Setting this field at group creation time opts this group to basic scheduling; this field cannot be changed afterward.
     basic: ?root.io.k8s.api.scheduling.v1alpha3.BasicSchedulingPolicy = null,
-    /// Gang specifies that the pods in this group should be scheduled using all-or-nothing semantics. Setting this field at group creation time opts this group to gang scheduling; this field cannot be set or unset afterward. The minCount field within Gang scheduling policy remains mutable after group creation.
+    /// gang specifies that the pods in this group should be scheduled using all-or-nothing semantics. Setting this field at group creation time opts this group to gang scheduling; this field cannot be set or unset afterward. The minCount field within Gang scheduling policy remains mutable after group creation.
     gang: ?root.io.k8s.api.scheduling.v1alpha3.GangSchedulingPolicy = null,
 
     pub fn validate(self: @This()) !void {
@@ -273,27 +273,27 @@ pub const PodGroupSchedulingPolicy = struct {
 
 /// PodGroupSpec defines the desired state of a PodGroup.
 pub const PodGroupSpec = struct {
-    /// DisruptionMode defines the mode in which a given PodGroup can be disrupted. Controllers are expected to fill this field by copying it from a PodGroupTemplate. One of Single, All. Defaults to Single if unset. This field is immutable.
+    /// disruptionMode defines the mode in which a given PodGroup can be disrupted. Controllers are expected to fill this field by copying it from a PodGroupTemplate. One of Single, All. Defaults to Single if unset. This field is immutable.
     disruptionMode: ?root.io.k8s.api.scheduling.v1alpha3.DisruptionMode = null,
-    /// ParentCompositePodGroupName contains the name of the parent composite pod group within the same namespace as this pod group. If it's nil, then this pod group is a root of a workload's hierarchy. This field is used only when the CompositePodGroup feature gate is enabled. This field is immutable.
+    /// parentCompositePodGroupName contains the name of the parent composite pod group within the same namespace as this pod group. If it's nil, then this pod group is a root of a workload's hierarchy. This field is used only when the CompositePodGroup feature gate is enabled. This field is immutable.
     parentCompositePodGroupName: ?[]const u8 = null,
-    /// PreemptionPolicy is the Policy for preempting pods/podgroups with lower priority. One of Never, PreemptLowerPriority. Defaults to PreemptLowerPriority if unset. When Priority Admission Controller is enabled, it populates this field from PriorityClassName, and defaults to PreemptLowerPriority if value is unset in PriorityClass. This field is immutable. This field is available only when the PodGroupPreemptionPolicy feature gate is enabled.
+    /// preemptionPolicy is the Policy for preempting pods/podgroups with lower priority. One of Never, PreemptLowerPriority. Defaults to PreemptLowerPriority if unset. When Priority Admission Controller is enabled, it populates this field from PriorityClassName, and defaults to PreemptLowerPriority if value is unset in PriorityClass. This field is immutable. This field is available only when the PodGroupPreemptionPolicy feature gate is enabled.
     preemptionPolicy: ?[]const u8 = null,
-    /// Priority is the value of priority of this pod group. Various system components use this field to find the priority of the pod group. When Priority Admission Controller is enabled, it prevents users from setting this field. The admission controller populates this field from PriorityClassName. The higher the value, the higher the priority. This field is immutable.
+    /// priority is the value of priority of this pod group. Various system components use this field to find the priority of the pod group. When Priority Admission Controller is enabled, it prevents users from setting this field. The admission controller populates this field from PriorityClassName. The higher the value, the higher the priority. This field is immutable.
     priority: ?i64 = null,
-    /// PriorityClassName defines the priority that should be considered when scheduling this pod group. Controllers are expected to fill this field by copying it from a PodGroupTemplate. Otherwise, it is validated and resolved similarly to the PriorityClassName on PodGroupTemplate (i.e. if no priority class is specified, admission control can set this to the global default priority class if it exists. Otherwise, the pod group's priority will be zero). This field is immutable.
+    /// priorityClassName defines the priority that should be considered when scheduling this pod group. Controllers are expected to fill this field by copying it from a PodGroupTemplate. Otherwise, it is validated and resolved similarly to the PriorityClassName on PodGroupTemplate (i.e. if no priority class is specified, admission control can set this to the global default priority class if it exists. Otherwise, the pod group's priority will be zero). This field is immutable.
     priorityClassName: ?[]const u8 = null,
-    /// ResourceClaims defines which ResourceClaims may be shared among Pods in the group. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate.
+    /// resourceClaims defines which ResourceClaims may be shared among Pods in the group. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate.
     ///
     /// This is an alpha-level field and requires that the DRAWorkloadResourceClaims feature gate is enabled.
     ///
     /// This field is immutable.
     resourceClaims: ?[]const root.io.k8s.api.scheduling.v1alpha3.PodGroupResourceClaim = null,
-    /// SchedulingConstraints defines optional scheduling constraints (e.g. topology) for this PodGroup. Controllers are expected to fill this field by copying it from a PodGroupTemplate. This field is immutable. This field is only available when the TopologyAwareWorkloadScheduling feature gate is enabled.
+    /// schedulingConstraints defines optional scheduling constraints (e.g. topology) for this PodGroup. Controllers are expected to fill this field by copying it from a PodGroupTemplate. This field is immutable. This field is only available when the TopologyAwareWorkloadScheduling feature gate is enabled.
     schedulingConstraints: ?root.io.k8s.api.scheduling.v1alpha3.PodGroupSchedulingConstraints = null,
-    /// SchedulingPolicy defines the scheduling policy for this instance of the PodGroup. Controllers are expected to fill this field by copying it from a PodGroupTemplate.
+    /// schedulingPolicy defines the scheduling policy for this instance of the PodGroup. Controllers are expected to fill this field by copying it from a PodGroupTemplate.
     schedulingPolicy: root.io.k8s.api.scheduling.v1alpha3.PodGroupSchedulingPolicy,
-    /// WorkloadRef references an optional PodGroup template within the Workload object that was used to create the PodGroup. This field is immutable.
+    /// workloadRef references an optional PodGroup template within the Workload object that was used to create the PodGroup. This field is immutable.
     workloadRef: ?root.io.k8s.api.scheduling.v1alpha3.WorkloadReference = null,
 
     pub fn validate(self: @This()) !void {
@@ -307,7 +307,7 @@ pub const PodGroupSpec = struct {
 
 /// PodGroupStatus represents information about the status of a pod group.
 pub const PodGroupStatus = struct {
-    /// Conditions represent the latest observations of the PodGroup's state.
+    /// conditions represent the latest observations of the PodGroup's state.
     ///
     /// Known condition types: - "PodGroupInitiallyScheduled": Indicates whether the scheduling requirement has been satisfied. Once this condition transitions to True, it serves as a terminal state and will never revert to False, even if pods are subsequently evicted and group constraints are no longer met. - "DisruptionTarget": Indicates whether the PodGroup is about to be terminated
     ///   due to disruption such as preemption.
@@ -320,7 +320,7 @@ pub const PodGroupStatus = struct {
     /// Known reasons for the DisruptionTarget condition: - "PreemptionByScheduler": The PodGroup was preempted by the scheduler to make room for
     ///   higher-priority PodGroups or Pods.
     conditions: ?[]const root.io.k8s.apimachinery.pkg.apis.meta.v1.Condition = null,
-    /// Status of resource claims.
+    /// resourceClaimStatuses is status of resource claims.
     resourceClaimStatuses: ?[]const root.io.k8s.api.scheduling.v1alpha3.PodGroupResourceClaimStatus = null,
 
     pub fn validate(self: @This()) !void {
@@ -331,25 +331,25 @@ pub const PodGroupStatus = struct {
 
 /// PodGroupTemplate represents a template for a set of pods with a scheduling policy.
 pub const PodGroupTemplate = struct {
-    /// DisruptionMode defines the mode in which a given PodGroup can be disrupted. One of Single, All. This field is immutable.
+    /// disruptionMode defines the mode in which a given PodGroup can be disrupted. One of Single, All. This field is immutable.
     disruptionMode: ?root.io.k8s.api.scheduling.v1alpha3.DisruptionMode = null,
-    /// Name is a unique identifier for the PodGroupTemplate within the Workload. It must be a DNS label. This field is immutable.
+    /// name is a unique identifier for the PodGroupTemplate within the Workload. It must be a DNS label. This field is immutable.
     name: []const u8,
-    /// PreemptionPolicy is the Policy for preempting pods/podgroups with lower priority. One of Never, PreemptLowerPriority. This field is immutable. This field is available only when the PodGroupPreemptionPolicy feature gate is enabled.
+    /// preemptionPolicy is the Policy for preempting pods/podgroups with lower priority. One of Never, PreemptLowerPriority. This field is immutable. This field is available only when the PodGroupPreemptionPolicy feature gate is enabled.
     preemptionPolicy: ?[]const u8 = null,
-    /// Priority is the value of priority of pod groups created from this template. Various system components use this field to find the priority of the pod group. The higher the value, the higher the priority. This field is immutable.
+    /// priority is the value of priority of pod groups created from this template. Various system components use this field to find the priority of the pod group. The higher the value, the higher the priority. This field is immutable.
     priority: ?i64 = null,
-    /// PriorityClassName indicates the priority that should be considered when scheduling a pod group created from this template. This field is immutable.
+    /// priorityClassName indicates the priority that should be considered when scheduling a pod group created from this template. This field is immutable.
     priorityClassName: ?[]const u8 = null,
-    /// ResourceClaims defines which ResourceClaims may be shared among Pods in the group. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate.
+    /// resourceClaims defines which ResourceClaims may be shared among Pods in the group. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate.
     ///
     /// This is an alpha-level field and requires that the DRAWorkloadResourceClaims feature gate is enabled.
     ///
     /// This field is immutable.
     resourceClaims: ?[]const root.io.k8s.api.scheduling.v1alpha3.PodGroupResourceClaim = null,
-    /// SchedulingConstraints defines optional scheduling constraints (e.g. topology) for this PodGroupTemplate. This field is only available when the TopologyAwareWorkloadScheduling feature gate is enabled. This field is immutable.
+    /// schedulingConstraints defines optional scheduling constraints (e.g. topology) for this PodGroupTemplate. This field is only available when the TopologyAwareWorkloadScheduling feature gate is enabled. This field is immutable.
     schedulingConstraints: ?root.io.k8s.api.scheduling.v1alpha3.PodGroupSchedulingConstraints = null,
-    /// SchedulingPolicy defines the scheduling policy for this PodGroupTemplate.
+    /// schedulingPolicy defines the scheduling policy for this PodGroupTemplate.
     schedulingPolicy: root.io.k8s.api.scheduling.v1alpha3.PodGroupSchedulingPolicy,
 
     pub fn validate(self: @This()) !void {
@@ -369,7 +369,7 @@ pub const SingleDisruptionMode = struct {
 
 /// TopologyConstraint defines a topology constraint for a PodGroup.
 pub const TopologyConstraint = struct {
-    /// Key specifies the key of the node label representing the topology domain. All pods within the PodGroup must be colocated within the same domain instance. Different PodGroups can land on different domain instances even if they derive from the same PodGroupTemplate. Examples: "topology.kubernetes.io/rack"
+    /// key specifies the key of the node label representing the topology domain. All pods within the PodGroup must be colocated within the same domain instance. Different PodGroups can land on different domain instances even if they derive from the same PodGroupTemplate. Examples: "topology.kubernetes.io/rack"
     key: []const u8,
 
     pub fn validate(self: @This()) !void {
@@ -379,11 +379,11 @@ pub const TopologyConstraint = struct {
 
 /// TypedLocalObjectReference allows to reference typed object inside the same namespace.
 pub const TypedLocalObjectReference = struct {
-    /// APIGroup is the group for the resource being referenced. If APIGroup is empty, the specified Kind must be in the core API group. For any other third-party types, setting APIGroup is required. It must be a DNS subdomain.
+    /// apiGroup is the group for the resource being referenced. If APIGroup is empty, the specified Kind must be in the core API group. For any other third-party types, setting APIGroup is required. It must be a DNS subdomain.
     apiGroup: ?[]const u8 = null,
-    /// Kind is the type of resource being referenced. It must be a path segment name.
+    /// kind is the type of resource being referenced. It must be a path segment name.
     kind: []const u8,
-    /// Name is the name of resource being referenced. It must be a path segment name.
+    /// name is the name of resource being referenced. It must be a path segment name.
     name: []const u8,
 
     pub fn validate(self: @This()) !void {
@@ -397,9 +397,9 @@ pub const Workload = struct {
     apiVersion: ?[]const u8 = null,
     /// Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     kind: ?[]const u8 = null,
-    /// Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
+    /// metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
-    /// Spec defines the desired behavior of a Workload.
+    /// spec defines the desired behavior of a Workload.
     spec: root.io.k8s.api.scheduling.v1alpha3.WorkloadSpec,
 
     pub fn validate(self: @This()) !void {
@@ -427,9 +427,9 @@ pub const WorkloadList = struct {
 
 /// WorkloadReference references the Workload object together with the template that was used to create a particular PodGroup.
 pub const WorkloadReference = struct {
-    /// TemplateName is the name of a template within the Workload object that was used to create a pod group. It must be a DNS label. This field is required.
+    /// templateName is the name of a template within the Workload object that was used to create a pod group. It must be a DNS label. This field is required.
     templateName: []const u8,
-    /// WorkloadName is the name of the Workload object that contains a template that was used when creating a pod group. It must be a DNS name. This field is required.
+    /// workloadName is the name of the Workload object that contains a template that was used when creating a pod group. It must be a DNS name. This field is required.
     workloadName: []const u8,
 
     pub fn validate(self: @This()) !void {
@@ -439,13 +439,13 @@ pub const WorkloadReference = struct {
 
 /// WorkloadSpec defines the desired state of a Workload.
 pub const WorkloadSpec = struct {
-    /// CompositePodGroupTemplates is the list of CompositePodGroup templates that make up the Workload. The maximum number of templates is 8. This field is immutable. Exactly one of CompositePodGroupTemplates and PodGroupTemplates must be set.
+    /// compositePodGroupTemplates is the list of CompositePodGroup templates that make up the Workload. The maximum number of templates is 8. This field is immutable. Exactly one of CompositePodGroupTemplates and PodGroupTemplates must be set.
     ///
     /// This field is used only when the CompositePodGroup feature gate is enabled.
     compositePodGroupTemplates: ?[]const root.io.k8s.api.scheduling.v1alpha3.CompositePodGroupTemplate = null,
-    /// ControllerRef is an optional reference to the controlling object, such as a Deployment or Job. This field is intended for use by tools like CLIs to provide a link back to the original workload definition. This field is immutable.
+    /// controllerRef is an optional reference to the controlling object, such as a Deployment or Job. This field is intended for use by tools like CLIs to provide a link back to the original workload definition. This field is immutable.
     controllerRef: ?root.io.k8s.api.scheduling.v1alpha3.TypedLocalObjectReference = null,
-    /// PodGroupTemplates is the list of templates that make up the Workload. The maximum number of templates is 8. Templates cannot be added or removed after the workload is created. Existing templates may still be updated where their individual fields allow it. Exactly one of CompositePodGroupTemplates and PodGroupTemplates must be set.
+    /// podGroupTemplates is the list of templates that make up the Workload. The maximum number of templates is 8. Templates cannot be added or removed after the workload is created. Existing templates may still be updated where their individual fields allow it. Exactly one of CompositePodGroupTemplates and PodGroupTemplates must be set.
     podGroupTemplates: ?[]const root.io.k8s.api.scheduling.v1alpha3.PodGroupTemplate = null,
 
     pub fn validate(self: @This()) !void {
