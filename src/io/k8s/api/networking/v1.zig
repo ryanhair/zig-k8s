@@ -44,7 +44,7 @@ pub const IPAddress = struct {
     apiVersion: ?[]const u8 = null,
     /// Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     kind: ?[]const u8 = null,
-    /// Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
+    /// metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
     /// spec is the desired state of the IPAddress. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
     spec: root.io.k8s.api.networking.v1.IPAddressSpec,
@@ -74,7 +74,7 @@ pub const IPAddressList = struct {
 
 /// IPAddressSpec describe the attributes in an IP Address.
 pub const IPAddressSpec = struct {
-    /// ParentRef references the resource that an IPAddress is attached to. An IPAddress must reference a parent object.
+    /// parentRef references the resource that an IPAddress is attached to. An IPAddress must reference a parent object.
     parentRef: root.io.k8s.api.networking.v1.ParentReference,
 
     pub fn validate(self: @This()) !void {
@@ -100,7 +100,7 @@ pub const Ingress = struct {
     apiVersion: ?[]const u8 = null,
     /// Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     kind: ?[]const u8 = null,
-    /// Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
+    /// metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
     /// spec is the desired state of the Ingress. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
     spec: ?root.io.k8s.api.networking.v1.IngressSpec = null,
@@ -133,7 +133,7 @@ pub const IngressClass = struct {
     apiVersion: ?[]const u8 = null,
     /// Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     kind: ?[]const u8 = null,
-    /// Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
+    /// metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
     /// spec is the desired state of the IngressClass. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
     spec: ?root.io.k8s.api.networking.v1.IngressClassSpec = null,
@@ -260,6 +260,7 @@ pub const IngressRule = struct {
     /// 
     /// host can be "precise" which is a domain name without the terminating dot of a network host (e.g. "foo.bar.com") or "wildcard", which is a domain name prefixed with a single wildcard label (e.g. "*.foo.com"). The wildcard character '*' must appear by itself as the first DNS label and matches only a single label. You cannot have a wildcard label by itself (e.g. Host == "*"). Requests will be matched against the Host field in the following way: 1. If host is precise, the request matches this rule if the http host header is equal to Host. 2. If host is a wildcard, then the request matches this rule if the http host header is to equal to the suffix (removing the first label) of the wildcard rule.
     host: ?[]const u8 = null,
+    /// http is a HTTP IngressRuleValue, which contains a list of http selectors
     http: ?root.io.k8s.api.networking.v1.HTTPIngressRuleValue = null,
 
     pub fn validate(self: @This()) !void {
@@ -325,7 +326,7 @@ pub const NetworkPolicy = struct {
     apiVersion: ?[]const u8 = null,
     /// Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     kind: ?[]const u8 = null,
-    /// Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
+    /// metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
     /// spec represents the specification of the desired behavior for this NetworkPolicy.
     spec: ?root.io.k8s.api.networking.v1.NetworkPolicySpec = null,
@@ -433,13 +434,13 @@ pub const NetworkPolicySpec = struct {
 
 /// ParentReference describes a reference to a parent object.
 pub const ParentReference = struct {
-    /// Group is the group of the object being referenced.
+    /// group is the group of the object being referenced.
     group: ?[]const u8 = null,
-    /// Name is the name of the object being referenced.
+    /// name is the name of the object being referenced.
     name: []const u8,
-    /// Namespace is the namespace of the object being referenced.
+    /// namespace is the namespace of the object being referenced.
     namespace: ?[]const u8 = null,
-    /// Resource is the resource of the object being referenced.
+    /// resource is the resource of the object being referenced.
     resource: []const u8,
 
     pub fn validate(self: @This()) !void {
@@ -465,7 +466,7 @@ pub const ServiceCIDR = struct {
     apiVersion: ?[]const u8 = null,
     /// Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     kind: ?[]const u8 = null,
-    /// Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
+    /// metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
     /// spec is the desired state of the ServiceCIDR. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
     spec: ?root.io.k8s.api.networking.v1.ServiceCIDRSpec = null,
@@ -498,7 +499,7 @@ pub const ServiceCIDRList = struct {
 
 /// ServiceCIDRSpec define the CIDRs the user wants to use for allocating ClusterIPs for Services.
 pub const ServiceCIDRSpec = struct {
-    /// CIDRs defines the IP blocks in CIDR notation (e.g. "192.168.0.0/24" or "2001:db8::/64") from which to assign service cluster IPs. Max of two CIDRs is allowed, one of each IP family. This field is immutable.
+    /// cidrs defines the IP blocks in CIDR notation (e.g. "192.168.0.0/24" or "2001:db8::/64") from which to assign service cluster IPs. Max of two CIDRs is allowed, one of each IP family. This field is immutable.
     cidrs: ?[]const []const u8 = null,
 
     pub fn validate(self: @This()) !void {

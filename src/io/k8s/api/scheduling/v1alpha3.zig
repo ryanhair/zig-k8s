@@ -425,6 +425,85 @@ pub const WorkloadList = struct {
     }
 };
 
+/// WorkloadPodGroupAllDisruptionMode indicates that all pods in the group must be disrupted together.
+pub const WorkloadPodGroupAllDisruptionMode = struct {
+    pub fn validate(self: @This()) !void {
+        _ = self;
+    }
+};
+
+/// WorkloadPodGroupBasicSchedulingPolicy indicates standard Kubernetes scheduling behavior.
+pub const WorkloadPodGroupBasicSchedulingPolicy = struct {
+    pub fn validate(self: @This()) !void {
+        _ = self;
+    }
+};
+
+/// WorkloadPodGroupDisruptionMode defines how individual pods within a group can be disrupted. Exactly one mode must be set.
+pub const WorkloadPodGroupDisruptionMode = struct {
+    /// all specifies that all pods in the group must be disrupted together.
+    all: ?root.io.k8s.api.scheduling.v1alpha3.WorkloadPodGroupAllDisruptionMode = null,
+    /// single specifies that pods can be disrupted independently from each other.
+    single: ?root.io.k8s.api.scheduling.v1alpha3.WorkloadPodGroupSingleDisruptionMode = null,
+
+    pub fn validate(self: @This()) !void {
+        _ = self;
+    }
+};
+
+/// WorkloadPodGroupGangSchedulingPolicy defines the parameters for gang (all-or-nothing) scheduling.
+pub const WorkloadPodGroupGangSchedulingPolicy = struct {
+    /// minCount is the minimum number of pods that must be scheduled at the same time for the scheduler to admit the entire group. This field is optional. If it is not specified, the controller should inject a context-specific sane default (e.g., parallelism for a Job). If set, it must be a positive integer.
+    minCount: ?i64 = null,
+
+    pub fn validate(self: @This()) !void {
+        _ = self;
+    }
+};
+
+/// WorkloadPodGroupResourceClaim references a dynamic resource claim that is shared across pods in the group.
+pub const WorkloadPodGroupResourceClaim = struct {
+    /// name uniquely identifies this resource claim inside the group. This field is required. It must be a DNS_LABEL.
+    name: []const u8,
+    /// resourceClaimName is the name of a ResourceClaim object in the same namespace. This field is optional. If it is not specified, no resource claim is used. If set, it must be a DNS subdomain.
+    resourceClaimName: ?[]const u8 = null,
+    /// resourceClaimTemplateName is the name of a ResourceClaimTemplate object in the same namespace. This field is optional. If it is not specified, no resource claim template is used. If set, it must be a DNS subdomain.
+    resourceClaimTemplateName: ?[]const u8 = null,
+
+    pub fn validate(self: @This()) !void {
+        _ = self;
+    }
+};
+
+/// WorkloadPodGroupSchedulingConstraints defines leaf-level scheduling constraints, such as topology.
+pub const WorkloadPodGroupSchedulingConstraints = struct {
+    /// topology specifies desired topological placements for all pods within the pod group. If unset, no topology placement is requested.
+    topology: ?[]const root.io.k8s.api.scheduling.v1alpha3.TopologyConstraint = null,
+
+    pub fn validate(self: @This()) !void {
+        if (self.topology) |arr| for (arr) |item| try item.validate();
+    }
+};
+
+/// WorkloadPodGroupSchedulingPolicy defines the scheduling policy for a group of pods managed by a workload controller. Exactly one policy must be set.
+pub const WorkloadPodGroupSchedulingPolicy = struct {
+    /// basic specifies that standard, pod-by-pod Kubernetes scheduling behavior should be used.
+    basic: ?root.io.k8s.api.scheduling.v1alpha3.WorkloadPodGroupBasicSchedulingPolicy = null,
+    /// gang specifies all-or-nothing scheduling semantics.
+    gang: ?root.io.k8s.api.scheduling.v1alpha3.WorkloadPodGroupGangSchedulingPolicy = null,
+
+    pub fn validate(self: @This()) !void {
+        if (self.gang) |v| try v.validate();
+    }
+};
+
+/// WorkloadPodGroupSingleDisruptionMode indicates that individual pods can be disrupted independently.
+pub const WorkloadPodGroupSingleDisruptionMode = struct {
+    pub fn validate(self: @This()) !void {
+        _ = self;
+    }
+};
+
 /// WorkloadReference references the Workload object together with the template that was used to create a particular PodGroup.
 pub const WorkloadReference = struct {
     /// templateName is the name of a template within the Workload object that was used to create a pod group. It must be a DNS label. This field is required.
