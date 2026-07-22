@@ -72,7 +72,7 @@ pub const CSIDriverSpec = struct {
     ///
     /// For components(such as cluster-autoscaler) that embed the scheduler and run pod placement simulations using scheduler plugins, they MUST be aware of CSI driver registration information via CSINode object. They must create simulated CSINode objects in addition to Node objects during scheduling simulation, otherwise if PreventPodSchedulingIfMissing is enabled globally for CSIDriver object, any newly created node may be rejected by the scheduler because of missing CSI driver information from the node.
     ///
-    /// This is an alpha feature and requires the VolumeLimitScaling feature gate to be enabled. Default is "false".
+    /// This is a beta feature and requires the VolumeLimitScaling feature gate to be enabled. Default is "false".
     preventPodSchedulingIfMissing: ?bool = null,
     /// requiresRepublish indicates the CSI driver wants `NodePublishVolume` being periodically called to reflect any possible change in the mounted volume. This field defaults to false.
     ///

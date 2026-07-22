@@ -1321,6 +1321,8 @@ pub const HTTPGetAction = struct {
     path: ?[]const u8 = null,
     /// Name or number of the port to access on the container. Number must be in the range 1 to 65535. Name must be an IANA_SVC_NAME.
     port: root.io.k8s.apimachinery.pkg.util.intstr.IntOrString,
+    /// Protocol selects the wire protocol for the probe connection. Nil defaults to HTTP/1.1.
+    protocol: ?[]const u8 = null,
     /// Scheme to use for connecting to the host. Defaults to HTTP.
     scheme: ?[]const u8 = null,
 
