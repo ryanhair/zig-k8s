@@ -3,6 +3,13 @@
 const std = @import("std");
 const root = @import("../../../../root.zig");
 
+/// AllCompositeDisruptionMode means that children of a CompositePodGroup can only be disrupted or preempted together.
+pub const AllCompositeDisruptionMode = struct {
+    pub fn validate(self: @This()) !void {
+        _ = self;
+    }
+};
+
 /// AllDisruptionMode specifies that children can only be disrupted together.
 pub const AllDisruptionMode = struct {
     pub fn validate(self: @This()) !void {
@@ -19,6 +26,18 @@ pub const BasicSchedulingPolicy = struct {
 
 /// CompositeBasicSchedulingPolicy indicates that the groups belonging to the composite group should be scheduled independently.
 pub const CompositeBasicSchedulingPolicy = struct {
+    pub fn validate(self: @This()) !void {
+        _ = self;
+    }
+};
+
+/// CompositeDisruptionMode defines how individual entities within a composite pod group can be disrupted. Exactly one mode must be set.
+pub const CompositeDisruptionMode = struct {
+    /// all specifies that all children groups can only be disrupted together.
+    all: ?root.io.k8s.api.scheduling.v1beta1.AllCompositeDisruptionMode = null,
+    /// single specifies that children groups can be disrupted independently from each other.
+    single: ?root.io.k8s.api.scheduling.v1beta1.SingleCompositeDisruptionMode = null,
+
     pub fn validate(self: @This()) !void {
         _ = self;
     }
@@ -60,10 +79,14 @@ pub const CompositePodGroupSchedulingPolicy = struct {
 pub const CompositePodGroupTemplate = struct {
     /// compositePodGroupTemplates is the list of templates for children CompositePodGroups. The maximum number of templates is 8. At least one entry in CompositePodGroupTemplates or PodGroupTemplates must be set.
     compositePodGroupTemplates: ?[]const root.io.k8s.api.scheduling.v1beta1.CompositePodGroupTemplate = null,
+    /// disruptionMode defines the mode in which a given CompositePodGroup can be disrupted. One of Single, All. This field is immutable.
+    disruptionMode: ?root.io.k8s.api.scheduling.v1beta1.CompositeDisruptionMode = null,
     /// name is a unique identifier for the CompositePodGroupTemplate within the Workload. It must be a DNS label. This field is required.
     name: []const u8,
     /// podGroupTemplates is the list of templates for children PodGroups. The maximum number of templates is 8. At least one entry in CompositePodGroupTemplates or PodGroupTemplates must be set.
     podGroupTemplates: ?[]const root.io.k8s.api.scheduling.v1beta1.PodGroupTemplate = null,
+    /// preemptionPolicy is the Policy for preempting pods/podgroups with lower priority. One of Never, PreemptLowerPriority. This field is immutable. This field is available only when the PodGroupPreemptionPolicy feature gate is enabled.
+    preemptionPolicy: ?[]const u8 = null,
     /// priority is the value of priority of composite pod groups created from this template. Various system components use this field to find the priority of the composite pod group. When Priority Admission Controller is enabled, it prevents users from setting this field. The admission controller populates this field from PriorityClassName. The higher the value, the higher the priority. This field is immutable.
     priority: ?i64 = null,
     /// priorityClassName indicates the priority that should be considered when scheduling a composite pod group created from this template. If no priority class is specified, admission control can set this to the global default priority class if it exists. Otherwise, composite pod groups created from this template will have the priority set to zero. This field is immutable.
@@ -75,6 +98,7 @@ pub const CompositePodGroupTemplate = struct {
 
     pub fn validate(self: @This()) !void {
         if (self.compositePodGroupTemplates) |arr| for (arr) |item| try item.validate();
+        if (self.disruptionMode) |v| try v.validate();
         if (self.podGroupTemplates) |arr| for (arr) |item| try item.validate();
         if (self.schedulingConstraints) |v| try v.validate();
         try self.schedulingPolicy.validate();
@@ -286,6 +310,13 @@ pub const PodGroupTemplate = struct {
         if (self.resourceClaims) |arr| for (arr) |item| try item.validate();
         if (self.schedulingConstraints) |v| try v.validate();
         try self.schedulingPolicy.validate();
+    }
+};
+
+/// SingleCompositeDisruptionMode means that individual children of a CompositePodGroup can be disrupted or preempted independently.
+pub const SingleCompositeDisruptionMode = struct {
+    pub fn validate(self: @This()) !void {
+        _ = self;
     }
 };
 

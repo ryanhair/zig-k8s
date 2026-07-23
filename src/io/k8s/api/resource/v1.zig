@@ -1021,7 +1021,7 @@ pub const ResourcePool = struct {
     /// 
     /// Combined with ResourceSliceCount, this mechanism enables consumers to detect pools which are comprised of multiple ResourceSlices and are in an incomplete state.
     generation: i64,
-    /// Name is used to identify the pool. For node-local devices, this is often the node name, but this is not required.
+    /// Name is used to identify the pool. For node-local devices, this is often the node name, but this is not required. A field selector can be used to list only ResourceSlice objects belonging to a certain pool.
     /// 
     /// It must not be longer than 253 characters and must consist of one or more DNS sub-domains separated by slashes. This field is immutable.
     name: []const u8,
@@ -1107,6 +1107,10 @@ pub const ResourceSliceSpec = struct {
     /// 
     /// Exactly one of NodeName, NodeSelector, AllNodes, and PerDeviceNodeSelection must be set.
     nodeSelector: ?root.io.k8s.api.core.v1.NodeSelector = null,
+    /// PartitionTypeAttribute names a string device attribute (by fully qualified name, e.g. "gpu.example.com/profile") whose value labels each device with its partition type, such as "Full" or "Half" for a MIG-style GPU.
+    /// 
+    /// When set, every partitionable device in the slice must carry the attribute and devices sharing a value must share the same ConsumesCounters cost.
+    partitionTypeAttribute: ?[]const u8 = null,
     /// PerDeviceNodeSelection defines whether the access from nodes to resources in the pool is set on the ResourceSlice level or on each device. If it is set to true, every device defined the ResourceSlice must specify this individually.
     /// 
     /// Exactly one of NodeName, NodeSelector, AllNodes, and PerDeviceNodeSelection must be set.

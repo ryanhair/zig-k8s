@@ -288,6 +288,8 @@ pub const ClusterTrustBundleProjection = struct {
     path: []const u8,
     /// Select all ClusterTrustBundles that match this signer name. Mutually-exclusive with name.  The contents of all selected ClusterTrustBundles will be unified and deduplicated.
     signerName: ?[]const u8 = null,
+    /// user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.
+    user: ?i64 = null,
 
     pub fn validate(self: @This()) !void {
         if (self.labelSelector) |v| try v.validate();
@@ -449,6 +451,8 @@ pub const ConfigMapProjection = struct {
 pub const ConfigMapVolumeSource = struct {
     /// defaultMode is optional: mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Defaults to 0644. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set.
     defaultMode: ?i64 = null,
+    /// defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.
+    defaultUser: ?i64 = null,
     /// items if unspecified, each key-value pair in the Data field of the referenced ConfigMap will be projected into the volume as a file whose name is the key and content is the value. If specified, the listed keys will be projected into the specified paths, and unlisted keys will not be present. If a key is specified which is not present in the ConfigMap, the volume setup will error unless it is marked optional. Paths must be relative and may not contain the '..' path or start with '..'.
     items: ?[]const root.io.k8s.api.core.v1.KeyToPath = null,
     /// Name of the referent. This field is effectively required, but due to backwards compatibility is allowed to be empty. Instances of this type with an empty value here are almost certainly wrong. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
@@ -759,6 +763,8 @@ pub const DownwardAPIVolumeFile = struct {
     path: []const u8,
     /// Selects a resource of the container: only resources limits and requests (limits.cpu, limits.memory, requests.cpu and requests.memory) are currently supported.
     resourceFieldRef: ?root.io.k8s.api.core.v1.ResourceFieldSelector = null,
+    /// user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.
+    user: ?i64 = null,
 
     pub fn validate(self: @This()) !void {
         if (self.fieldRef) |v| try v.validate();
@@ -770,6 +776,8 @@ pub const DownwardAPIVolumeFile = struct {
 pub const DownwardAPIVolumeSource = struct {
     /// Optional: mode bits to use on created files by default. Must be a Optional: mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Defaults to 0644. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set.
     defaultMode: ?i64 = null,
+    /// defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.
+    defaultUser: ?i64 = null,
     /// Items is a list of downward API volume file
     items: ?[]const root.io.k8s.api.core.v1.DownwardAPIVolumeFile = null,
 
@@ -1139,6 +1147,24 @@ pub const EventSource = struct {
     }
 };
 
+/// EvictionResponder allows you to specify the responder reacting to an Eviction. Responders should observe and communicate through the Eviction Resource API to help with the graceful eviction of a target (e.g. termination of a pod).
+pub const EvictionResponder = struct {
+    /// name allows you to identify the responder responding to the Eviction.
+    /// 
+    /// It must be a valid domain-prefixed key (such as "acme.io/foo"). Domain names *.k8s.io and *.kubernetes.io are reserved. This field must be unique for each responder. This field is required.
+    name: []const u8,
+    /// priority for this responder. Higher priorities are selected first by the evictionrequest-controller. If there are responders with the same priority, the responder whose domain name comes first in the alphabetical higher domain order, will be picked. This means that the top domain labels are compared alphabetically first, followed by the lower domain labels. The key is compared last.
+    /// 
+    /// The responder that is the managing controller of the pod should set the value of this field to 10000 to allow both for preemption or fallback registration by other responders.
+    /// 
+    /// The minimum value is 0 and the maximum value is 100000. The interval 0-999 is reserved for responders with *.k8s.io suffix. This field is required.
+    priority: i64,
+
+    pub fn validate(self: @This()) !void {
+        _ = self;
+    }
+};
+
 /// ExecAction describes a "run in container" action.
 pub const ExecAction = struct {
     /// Command is the command line to execute inside the container, the working directory for the command  is root ('/') in the container's filesystem. The command is simply exec'd, it is not run inside a shell, so traditional shell instructions ('|', etc) won't work. To use a shell, you need to explicitly call out to that shell. Exit status of 0 is treated as live/healthy and non-zero is unhealthy.
@@ -1253,6 +1279,8 @@ pub const GCEPersistentDiskVolumeSource = struct {
 
 /// GRPCAction specifies an action involving a GRPC service.
 pub const GRPCAction = struct {
+    /// mode specifies the connection mode for the gRPC health probe. Set to "TLS" to use TLS without certificate verification. Set to "Plaintext" to use a plaintext (insecure) connection explicitly. If not specified, the probe uses a plaintext (insecure) connection.
+    mode: ?[]const u8 = null,
     /// Port number of the gRPC service. Number must be in the range 1 to 65535.
     port: i64,
     /// Service is the name of the service to place in the gRPC HealthCheckRequest (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
@@ -1467,6 +1495,8 @@ pub const KeyToPath = struct {
     mode: ?i64 = null,
     /// path is the relative path of the file to map the key to. May not be an absolute path. May not contain the path element '..'. May not start with the string '..'.
     path: []const u8,
+    /// user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.
+    user: ?i64 = null,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -2266,6 +2296,8 @@ pub const PersistentVolumeClaimStatus = struct {
     conditions: ?[]const root.io.k8s.api.core.v1.PersistentVolumeClaimCondition = null,
     /// currentVolumeAttributesClassName is the current name of the VolumeAttributesClass the PVC is using. When unset, there is no VolumeAttributeClass applied to this PersistentVolumeClaim
     currentVolumeAttributesClassName: ?[]const u8 = null,
+    /// healthStatus contains the latest controller-reported health information for the volume bound to this claim.
+    healthStatus: ?root.io.k8s.api.core.v1.VolumeHealthStatus = null,
     /// ModifyVolumeStatus represents the status object of ControllerModifyVolume operation. When this is unset, there is no ModifyVolume operation being attempted.
     modifyVolumeStatus: ?root.io.k8s.api.core.v1.ModifyVolumeStatus = null,
     /// phase represents the current phase of PersistentVolumeClaim.
@@ -2273,6 +2305,7 @@ pub const PersistentVolumeClaimStatus = struct {
 
     pub fn validate(self: @This()) !void {
         if (self.conditions) |arr| for (arr) |item| try item.validate();
+        if (self.healthStatus) |v| try v.validate();
         if (self.modifyVolumeStatus) |v| try v.validate();
     }
 };
@@ -2539,6 +2572,8 @@ pub const PodCertificateProjection = struct {
     maxExpirationSeconds: ?i64 = null,
     /// Kubelet's generated CSRs will be addressed to this signer.
     signerName: []const u8,
+    /// user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.
+    user: ?i64 = null,
     /// userAnnotations allow pod authors to pass additional information to the signer implementation.  Kubernetes does not restrict or validate this metadata in any way.
     /// 
     /// These values are copied verbatim into the `spec.unverifiedUserAnnotations` field of the PodCertificateRequest objects that Kubelet creates.
@@ -2794,6 +2829,12 @@ pub const PodSpec = struct {
     enableServiceLinks: ?bool = null,
     /// List of ephemeral containers run in this pod. Ephemeral containers may be run in an existing pod to perform user-initiated actions such as debugging. This list cannot be specified when creating a pod, and it cannot be modified by updating the pod spec. In order to add an ephemeral container to an existing pod, use the pod's ephemeralcontainers subresource.
     ephemeralContainers: ?[]const root.io.k8s.api.core.v1.EphemeralContainer = null,
+    /// evictionResponders reference responders that react to Evictions based on EvictionRequests. Responders should observe and communicate through the Eviction Resource API to help with the graceful termination of a pod. The responders are selected sequentially, according to their specified priority.
+    /// 
+    /// Responders should periodically report on an eviction progress by updating the .status.responders[].heartbeatTime field of the Eviction object. If this field is not updated within the heartbeat deadline defined by the Eviction API (currently 20 minutes), the eviction is passed over to the next responder with a lower priority. If there is no other responder, the last default imperative-eviction.k8s.io/evictor responder with a priority of 100 will evict the pod using the imperative Eviction API (pods/<name>/eviction subresource).
+    /// 
+    /// The maximum length of the responders list is 10. Responders are not supported when the pod is part of a PodGroup (.spec.schedulingGroup is set). This field can only be set on creation and is immutable afterwards.
+    evictionResponders: ?[]const root.io.k8s.api.core.v1.EvictionResponder = null,
     /// HostAliases is an optional list of hosts and IPs that will be injected into the pod's hosts file if specified.
     hostAliases: ?[]const root.io.k8s.api.core.v1.HostAlias = null,
     /// Use the host's ipc namespace. Optional: Default to false.
@@ -2808,7 +2849,7 @@ pub const PodSpec = struct {
     hostname: ?[]const u8 = null,
     /// HostnameOverride specifies an explicit override for the pod's hostname as perceived by the pod. This field only specifies the pod's hostname and does not affect its DNS records. When this field is set to a non-empty string: - It takes precedence over the values set in `hostname` and `subdomain`. - The Pod's hostname will be set to this value. - `setHostnameAsFQDN` must be nil or set to false. - `hostNetwork` must be set to false.
     /// 
-    /// This field must be a valid DNS subdomain as defined in RFC 1123 and contain at most 64 characters. Requires the HostnameOverride feature gate to be enabled.
+    /// This field must be a valid DNS subdomain as defined in RFC 1123 and contain at most 64 characters.
     hostnameOverride: ?[]const u8 = null,
     /// ImagePullSecrets is an optional list of references to secrets in the same namespace to use for pulling any of the images used by this PodSpec. If specified, these secrets will be passed to individual puller implementations for them to use. More info: https://kubernetes.io/docs/concepts/containers/images#specifying-imagepullsecrets-on-a-pod
     imagePullSecrets: ?[]const root.io.k8s.api.core.v1.LocalObjectReference = null,
@@ -2884,6 +2925,7 @@ pub const PodSpec = struct {
         for (self.containers) |item| try item.validate();
         if (self.dnsConfig) |v| try v.validate();
         if (self.ephemeralContainers) |arr| for (arr) |item| try item.validate();
+        if (self.evictionResponders) |arr| for (arr) |item| try item.validate();
         if (self.hostAliases) |arr| for (arr) |item| try item.validate();
         if (self.imagePullSecrets) |arr| for (arr) |item| try item.validate();
         if (self.initContainers) |arr| for (arr) |item| try item.validate();
@@ -2948,6 +2990,8 @@ pub const PodStatus = struct {
     resources: ?root.io.k8s.api.core.v1.ResourceRequirements = null,
     /// RFC 3339 date and time at which the object was acknowledged by the Kubelet. This is before the Kubelet pulled the container image(s) for the pod.
     startTime: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.Time = null,
+    /// volumeHealth contains node-reported health for each volume the pod is using. Populated by the kubelet on the pod's node.
+    volumeHealth: ?[]const root.io.k8s.api.core.v1.PodVolumeHealth = null,
 
     pub fn validate(self: @This()) !void {
         if (self.conditions) |arr| for (arr) |item| try item.validate();
@@ -2960,6 +3004,7 @@ pub const PodStatus = struct {
         if (self.podIPs) |arr| for (arr) |item| try item.validate();
         if (self.resourceClaimStatuses) |arr| for (arr) |item| try item.validate();
         if (self.resources) |v| try v.validate();
+        if (self.volumeHealth) |arr| for (arr) |item| try item.validate();
     }
 };
 
@@ -3007,6 +3052,20 @@ pub const PodTemplateSpec = struct {
     pub fn validate(self: @This()) !void {
         if (self.metadata) |v| try v.validate();
         if (self.spec) |v| try v.validate();
+    }
+};
+
+/// PodVolumeHealth contains health information for a volume used by a pod, reported by the CSI node plugin via the kubelet.
+pub const PodVolumeHealth = struct {
+    /// conditions is the set of adverse conditions reported by the CSI node plugin for this volume on this node. At most 16 conditions may be reported.
+    healthConditions: ?[]const root.io.k8s.api.core.v1.VolumeHealthCondition = null,
+    /// lastTransitionTime is when the current set of conditions first appeared.
+    lastTransitionTime: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.Time = null,
+    /// name matches an entry in pod.spec.volumes.
+    name: []const u8,
+
+    pub fn validate(self: @This()) !void {
+        if (self.healthConditions) |arr| for (arr) |item| try item.validate();
     }
 };
 
@@ -3088,6 +3147,8 @@ pub const Probe = struct {
 pub const ProjectedVolumeSource = struct {
     /// defaultMode are the mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set.
     defaultMode: ?i64 = null,
+    /// defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.
+    defaultUser: ?i64 = null,
     /// sources is the list of volume projections. Each entry in this list handles one source.
     sources: ?[]const root.io.k8s.api.core.v1.VolumeProjection = null,
 
@@ -3386,7 +3447,7 @@ pub const ResourceRequirements = struct {
 
 /// ResourceStatus represents the status of a single resource allocated to a Pod.
 pub const ResourceStatus = struct {
-    /// Name of the resource. Must be unique within the pod and in case of non-DRA resource, match one of the resources from the pod spec. For DRA resources, the value must be "claim:<claim_name>/<request>". When this status is reported about a container, the "claim_name" and "request" must match one of the claims of this container.
+    /// Name of the resource. Must be unique within the pod and in case of non-DRA resource, match one of the resources from the pod spec. For DRA resources, the value must be "claim:<claim_name>/<request>" when container.resources.claims[*].request is set or "claim:<claim_name>" when container.resources.claims[*].request is empty. For DRA-backed extended resources, "claim:<claim_name>/<request>" is used when the claim name and request name are recorded in pod.status.extendedResourceClaimStatus. When this status is reported about a container, the "claim_name" and "request" must match one of the claims of this container.
     name: []const u8,
     /// List of unique resources health. Each element in the list contains an unique resource ID and its health. At a minimum, for the lifetime of a Pod, resource ID must uniquely identify the resource allocated to the Pod on the Node. If other Pod on the same Node reports the status with the same resource ID, it must be the same resource they share. See ResourceID type definition for a specific format it has in various use cases.
     resources: ?[]const root.io.k8s.api.core.v1.ResourceHealth = null,
@@ -3607,6 +3668,8 @@ pub const SecretReference = struct {
 pub const SecretVolumeSource = struct {
     /// defaultMode is Optional: mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Defaults to 0644. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set.
     defaultMode: ?i64 = null,
+    /// defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.
+    defaultUser: ?i64 = null,
     /// items If unspecified, each key-value pair in the Data field of the referenced Secret will be projected into the volume as a file whose name is the key and content is the value. If specified, the listed keys will be projected into the specified paths, and unlisted keys will not be present. If a key is specified which is not present in the Secret, the volume setup will error unless it is marked optional. Paths must be relative and may not contain the '..' path or start with '..'.
     items: ?[]const root.io.k8s.api.core.v1.KeyToPath = null,
     /// optional field specify whether the Secret or its keys must be defined
@@ -3722,6 +3785,8 @@ pub const ServiceAccountTokenProjection = struct {
     expirationSeconds: ?i64 = null,
     /// path is the path relative to the mount point of the file to project the token into.
     path: []const u8,
+    /// user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.
+    user: ?i64 = null,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -4166,6 +4231,32 @@ pub const VolumeDevice = struct {
 
     pub fn validate(self: @This()) !void {
         _ = self;
+    }
+};
+
+/// VolumeHealthCondition represents an adverse health condition reported for a volume.
+pub const VolumeHealthCondition = struct {
+    /// message is a human-readable description. Maximum permitted length of a message is 1024 bytes.
+    message: ?[]const u8 = null,
+    /// reason is a brief CamelCase machine-parseable reason. Together with status it forms the unique identity of a condition entry. Maximum permitted length of a reason is 256 bytes.
+    reason: []const u8,
+    /// status is the machine-parseable health category. Possible values: - "Inaccessible": the volume cannot be accessed. - "DataLoss": data loss has been detected on the volume. - "Degraded": the volume is functioning with reduced capability.
+    status: []const u8,
+
+    pub fn validate(self: @This()) !void {
+        _ = self;
+    }
+};
+
+/// VolumeHealthStatus contains health information for a volume reported by the CSI controller plugin.
+pub const VolumeHealthStatus = struct {
+    /// conditions is the set of adverse conditions reported by the CSI controller plugin. An empty list means no adverse condition. At most 16 conditions may be reported.
+    healthConditions: ?[]const root.io.k8s.api.core.v1.VolumeHealthCondition = null,
+    /// lastTransitionTime is when the current set of conditions first appeared.
+    lastTransitionTime: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.Time = null,
+
+    pub fn validate(self: @This()) !void {
+        if (self.healthConditions) |arr| for (arr) |item| try item.validate();
     }
 };
 

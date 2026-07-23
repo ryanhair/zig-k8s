@@ -138,10 +138,13 @@ pub const CSINode = struct {
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
     /// spec is the specification of CSINode
     spec: root.io.k8s.api.storage.v1.CSINodeSpec,
+    /// status contains health and status information for the node's storage.
+    status: ?root.io.k8s.api.storage.v1.CSINodeStatus = null,
 
     pub fn validate(self: @This()) !void {
         if (self.metadata) |v| try v.validate();
         try self.spec.validate();
+        if (self.status) |v| try v.validate();
     }
 };
 
@@ -185,6 +188,16 @@ pub const CSINodeSpec = struct {
 
     pub fn validate(self: @This()) !void {
         for (self.drivers) |item| try item.validate();
+    }
+};
+
+/// CSINodeStatus contains health and status information for storage on a node.
+pub const CSINodeStatus = struct {
+    /// storageHealth contains backend health reports for CSI drivers registered on the node.
+    storageHealth: ?[]const root.io.k8s.api.storage.v1.StorageHealth = null,
+
+    pub fn validate(self: @This()) !void {
+        if (self.storageHealth) |arr| for (arr) |item| try item.validate();
     }
 };
 
@@ -289,6 +302,38 @@ pub const StorageClassList = struct {
     pub fn validate(self: @This()) !void {
         for (self.items) |item| try item.validate();
         if (self.metadata) |v| try v.validate();
+    }
+};
+
+/// StorageHealth contains storage backend health reported by a CSI driver on a node.
+pub const StorageHealth = struct {
+    /// healthConditions are the adverse storage backend conditions reported by the CSI driver. At most 16 conditions may be reported.
+    healthConditions: ?[]const root.io.k8s.api.storage.v1.StorageHealthCondition = null,
+    /// name is the CSI driver name, matching CSINodeDriver.name.
+    name: []const u8,
+
+    pub fn validate(self: @This()) !void {
+        if (self.healthConditions) |arr| for (arr) |item| try item.validate();
+    }
+};
+
+/// StorageHealthCondition represents an adverse health condition reported by a CSI driver for its storage backend on a node.
+pub const StorageHealthCondition = struct {
+    /// accessMode is the access mode affected. Nil means all access modes are affected.
+    accessMode: ?[]const u8 = null,
+    /// lastTransitionTime is when this condition first appeared at its current state.
+    lastTransitionTime: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.Time = null,
+    /// message is a human-readable description. Maximum permitted length of a message is 1024 characters.
+    message: ?[]const u8 = null,
+    /// reason is a brief CamelCase machine-parseable reason. Maximum permitted length of a reason is 256 characters.
+    reason: []const u8,
+    /// status is the health status category. One of "StorageUnreachable", "StorageDegraded".
+    status: []const u8,
+    /// volumeMode is the volume mode affected. Nil means both are affected.
+    volumeMode: ?[]const u8 = null,
+
+    pub fn validate(self: @This()) !void {
+        _ = self;
     }
 };
 

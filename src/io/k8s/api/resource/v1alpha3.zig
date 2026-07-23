@@ -112,6 +112,22 @@ pub const DeviceTaintSelector = struct {
     }
 };
 
+/// PartitionTypeStatus reports allocatability for a single partition type, identified by the value of a grouping attribute.
+pub const PartitionTypeStatus = struct {
+    /// Allocatable is the number of additional devices of this partition type that could still be allocated given current shared-counter consumption.
+    allocatable: i64,
+    /// Attribute is the fully qualified name of the device attribute whose value groups this entry. It is the PartitionTypeAttribute declared by the devices' own slice, or the default named in the request when their slice declares none.
+    attribute: []const u8,
+    /// Total is the number of devices of this partition type in the pool.
+    total: i64,
+    /// Type is the partition type value (e.g. "Full" or "Half").
+    type: []const u8,
+
+    pub fn validate(self: @This()) !void {
+        _ = self;
+    }
+};
+
 /// PoolStatus contains status information for a single resource pool.
 pub const PoolStatus = struct {
     /// AllocatedDevices is the number of devices currently allocated to claims. A value of 0 means no devices are allocated. May be unset when validationError is set.
@@ -124,10 +140,14 @@ pub const PoolStatus = struct {
     generation: i64,
     /// NodeName is the node this pool is associated with. When omitted, the pool is not associated with a specific node. Must be a valid DNS subdomain name (RFC1123).
     nodeName: ?[]const u8 = null,
+    /// PartitionSummary reports allocatability per (attribute, partition type) for a partitionable pool that publishes SharedCounters. Each entry names the grouping attribute it was resolved from: the PartitionTypeAttribute declared by a device's own slice, or for devices whose slice declares none, the default named in the request. A pool that mixes partitions declared under different attributes reports each independently. When no slice declares an attribute and the request names no default, the pool reports no partition summary.
+    partitionSummary: ?[]const root.io.k8s.api.resource.v1alpha3.PartitionTypeStatus = null,
     /// PoolName is the name of the pool. Must be a valid resource pool name (DNS subdomains separated by "/").
     poolName: []const u8,
     /// ResourceSliceCount is the number of ResourceSlices that make up this pool. May be unset when validationError is set.
     resourceSliceCount: ?i64 = null,
+    /// ShareableSummary reports aggregate capacity for a pool that contains devices with AllowMultipleAllocations. It is populated only when at least one device in the pool is shareable.
+    shareableSummary: ?root.io.k8s.api.resource.v1alpha3.ShareableSummaryStatus = null,
     /// TotalDevices is the total number of devices in the pool across all slices. A value of 0 means the pool has no devices. May be unset when validationError is set.
     totalDevices: ?i64 = null,
     /// UnavailableDevices is the number of devices that are not available due to taints or other conditions, but are not allocated. A value of 0 means all unallocated devices are available. May be unset when validationError is set.
@@ -136,7 +156,8 @@ pub const PoolStatus = struct {
     validationError: ?[]const u8 = null,
 
     pub fn validate(self: @This()) !void {
-        _ = self;
+        if (self.partitionSummary) |arr| for (arr) |item| try item.validate();
+        if (self.shareableSummary) |v| try v.validate();
     }
 };
 
@@ -179,6 +200,12 @@ pub const ResourcePoolStatusRequestList = struct {
 
 /// ResourcePoolStatusRequestSpec defines the filters for the pool status request.
 pub const ResourcePoolStatusRequestSpec = struct {
+    /// DefaultPartitionTypeAttribute optionally names a device attribute (by its fully qualified name, e.g. "gpu.example.com/profile") to use as the default grouping attribute for partitionable devices whose slice has not declared one themselves.
+    ///
+    /// A slice's own PartitionTypeAttribute always takes precedence. This default applies only to devices whose slice does not declare one, so that a request can still get an accurate partitionSummary from a driver that has not been updated to declare it. When neither the slice nor this default names an attribute, a partitionable pool reports no partitionSummary.
+    ///
+    /// Must include the domain qualifier.
+    defaultPartitionTypeAttribute: ?[]const u8 = null,
     /// Driver specifies the DRA driver name to filter pools. Only pools from ResourceSlices with this driver will be included. Must be a DNS subdomain (e.g., "gpu.example.com").
     driver: []const u8,
     /// Limit optionally specifies the maximum number of pools to return in the status. If more pools match the filter criteria, the response will be truncated (i.e., len(status.pools) < status.poolCount).
@@ -207,5 +234,35 @@ pub const ResourcePoolStatusRequestStatus = struct {
     pub fn validate(self: @This()) !void {
         if (self.conditions) |arr| for (arr) |item| try item.validate();
         if (self.pools) |arr| for (arr) |item| try item.validate();
+    }
+};
+
+/// ShareableCapacityStatus reports aggregate amounts for a single shareable capacity key.
+pub const ShareableCapacityStatus = struct {
+    /// Available is Total minus Consumed, never negative.
+    available: root.io.k8s.apimachinery.pkg.api.resource.Quantity,
+    /// Consumed is the amount drawn by current allocations.
+    consumed: root.io.k8s.apimachinery.pkg.api.resource.Quantity,
+    /// Name is the capacity name.
+    name: []const u8,
+    /// Total is the sum of this capacity across shareable devices in the pool.
+    total: root.io.k8s.apimachinery.pkg.api.resource.Quantity,
+
+    pub fn validate(self: @This()) !void {
+        _ = self;
+    }
+};
+
+/// ShareableSummaryStatus reports aggregate capacity for a pool that contains devices with AllowMultipleAllocations.
+pub const ShareableSummaryStatus = struct {
+    /// Capacity reports aggregate total, consumed, and available amounts per shareable capacity key across the pool.
+    capacity: ?[]const root.io.k8s.api.resource.v1alpha3.ShareableCapacityStatus = null,
+    /// FullyAvailableDevices is the number of shareable devices with no capacity consumed.
+    fullyAvailableDevices: i64,
+    /// PartiallyAvailableDevices is the number of shareable devices with some but not all capacity consumed.
+    partiallyAvailableDevices: i64,
+
+    pub fn validate(self: @This()) !void {
+        if (self.capacity) |arr| for (arr) |item| try item.validate();
     }
 };
