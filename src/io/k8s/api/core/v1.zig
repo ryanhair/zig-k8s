@@ -790,6 +790,8 @@ pub const DownwardAPIVolumeSource = struct {
 pub const EmptyDirVolumeSource = struct {
     /// medium represents what type of storage medium should back this directory. The default is "" which means to use the node's default medium. Must be an empty string (default) or Memory. More info: https://kubernetes.io/docs/concepts/storage/volumes#emptydir
     medium: ?[]const u8 = null,
+    /// mode specifies the permission bits for the emptyDir directory, in numeric notation (e.g., 0755, 01777). Must be a value between 0000 and 01777. If not specified, defaults to 0777. This might be in conflict with other options that affect the file mode, like fsGroup. If fsGroup is specified, the fsGroup permissions will override the mode specified here. This field has no effect on Windows. This field is alpha and requires EmptyDirVolumeMode featuregate to be enabled.
+    mode: ?i64 = null,
     /// sizeLimit is the total amount of local storage required for this EmptyDir volume. The size limit is also applicable for memory medium. The maximum usage on memory medium EmptyDir would be the minimum value between the SizeLimit specified here and the sum of memory limits of all containers in a pod. The default is nil which means that the limit is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes#emptydir
     sizeLimit: ?root.io.k8s.apimachinery.pkg.api.resource.Quantity = null,
 
@@ -1820,17 +1822,46 @@ pub const NodeAffinity = struct {
     }
 };
 
+/// NodeAllocatableMappedResources describes mapped node allocatable resource allocations.
+pub const NodeAllocatableMappedResources = struct {
+    /// Name is the name of the resource (e.g., cpu, memory).
+    name: []const u8,
+    /// Quantity is the total node allocatable resource capacity allocated for the claim. This claim's allocated devices is shared by all the containers referencing the claim. Kubelet adds this value to both requests and limits at the pod-level cgroup, and to limits at the container-level cgroup for each container referencing the claim.
+    quantity: root.io.k8s.apimachinery.pkg.api.resource.Quantity,
+
+    pub fn validate(self: @This()) !void {
+        _ = self;
+    }
+};
+
+/// NodeAllocatableOverheadResources describes auxiliary overhead resource allocations.
+pub const NodeAllocatableOverheadResources = struct {
+    /// Name is the name of the resource (e.g., cpu, memory).
+    name: []const u8,
+    /// PerContainer is the variable overhead quantity applied for each container referencing the claim. The container references are recorded in `nodeAllocatableResourceClaimStatuses.containers`. The total overhead quantity allocated for the claim is computed as: Quantity = PerPod + (PerContainer * NumReferences) Kubelet accounts for this overhead in cgroups: - Pod-level cgroup (requests and limits): Kubelet adds PerPod + (PerContainer * NumReferences). - Container-level cgroup (limits only): Kubelet adds PerPod + PerContainer for each referencing container. This allows any single container to access the pod-level overhead, while the parent cgroup caps the total usage to account for PerPod exactly once. At least one of PerPod or PerContainer must be specified. Specifying neither is an invalid configuration.
+    perContainer: ?root.io.k8s.apimachinery.pkg.api.resource.Quantity = null,
+    /// PerPod is the flat overhead quantity allocated per pod. Adding to each container limit allows individual containers to utilize the overhead, while the parent pod-level cgroup limit caps the total usage at the pod boundary where the overhead is accounted for exactly once. At least one of PerPod or PerContainer must be specified. Specifying neither is an invalid configuration.
+    perPod: ?root.io.k8s.apimachinery.pkg.api.resource.Quantity = null,
+
+    pub fn validate(self: @This()) !void {
+        _ = self;
+    }
+};
+
 /// NodeAllocatableResourceClaimStatus describes the status of node allocatable resources allocated via DRA.
 pub const NodeAllocatableResourceClaimStatus = struct {
     /// Containers lists the names of all containers in this pod that reference the claim.
     containers: ?[]const []const u8 = null,
+    /// Mapping contains allocations through devices mapped in the device spec's `nodeAllocatableResources[...].mapping` field. This is used by kubelet for pod level and container-level cgroup enforcement.
+    mapping: ?[]const root.io.k8s.api.core.v1.NodeAllocatableMappedResources = null,
+    /// Overhead contains allocations through devices mapped in the device spec's `nodeAllocatableResources[...].overhead` field. This is used by kubelet for pod level and container-level cgroup enforcement.
+    overhead: ?[]const root.io.k8s.api.core.v1.NodeAllocatableOverheadResources = null,
     /// ResourceClaimName is the resource claim referenced by the pod that resulted in this node allocatable resource allocation.
     resourceClaimName: []const u8,
-    /// Resources is a map of the node-allocatable resource name to the aggregate quantity allocated to the claim.
-    resources: std.json.Value,
 
     pub fn validate(self: @This()) !void {
-        _ = self;
+        if (self.mapping) |arr| for (arr) |item| try item.validate();
+        if (self.overhead) |arr| for (arr) |item| try item.validate();
     }
 };
 
@@ -4262,6 +4293,8 @@ pub const VolumeHealthStatus = struct {
 
 /// VolumeMount describes a mounting of a Volume within a container.
 pub const VolumeMount = struct {
+    /// bindMountOptions is the list of additional bind mount options to apply when mounting this volume into the container. Allowed values are noexec, nodev, and nosuid. These are Linux mount options and have no effect on Windows nodes. This field is not supported with image volumes. This is an alpha field and requires enabling the VolumeBindMountOptions feature gate.
+    bindMountOptions: ?[]const []const u8 = null,
     /// Path within the container at which the volume should be mounted.
     mountPath: []const u8,
     /// mountPropagation determines how mounts are propagated from the host to container and the other way around. When not set, MountPropagationNone is used. This field is beta in 1.10. When RecursiveReadOnly is set to IfPossible or to Enabled, MountPropagation must be None or unspecified (which defaults to None).
