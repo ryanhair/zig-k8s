@@ -2121,6 +2121,8 @@ pub const NodeSystemInfo = struct {
     operatingSystem: []const u8,
     /// OS Image reported by the node from /etc/os-release (e.g. Debian GNU/Linux 7 (wheezy)).
     osImage: []const u8,
+    /// Whether the node is running in a user namespace.
+    runningInUserNamespace: ?bool = null,
     /// Swap Info reported by the node.
     swap: ?root.io.k8s.api.core.v1.NodeSwapStatus = null,
     /// SystemUUID reported by the node. For unique machine identification MachineID is preferred. This field is specific to Red Hat hosts https://access.redhat.com/documentation/en-us/red_hat_subscription_management/1/html/rhsm/uuid

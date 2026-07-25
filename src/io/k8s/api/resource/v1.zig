@@ -499,6 +499,32 @@ pub const DeviceCounterConsumption = struct {
     }
 };
 
+/// DeviceDerivedAttribute defines a derived attribute computed via CEL.
+pub const DeviceDerivedAttribute = struct {
+    /// Expression is a CEL expression evaluated against each candidate device. The expression must evaluate to a primitive scalar (string, integer, boolean, or semver) or a list of these scalars ([]string, []int64, []bool, []semver) to act as a virtual grouping key. Any other return type is an error and causes CEL evaluation for the device to fail.
+    ///
+    /// The expression's input is an object named "device", which carries the same properties as in a CELDeviceSelector.
+    ///
+    /// When pod scheduling encounters CEL runtime errors (such as looking up an attribute that isn't defined) for some devices, it will abort allocation and fail scheduling for the Pod. Surfacing evaluation errors immediately prevents silent topology matching failures that are extremely hard to detect. A robust expression should, for example, check for the existence of attributes before referencing them to avoid runtime evaluation errors.
+    ///
+    /// The expression gets evaluated after a device has passed the other selector expressions for the request in which this expression is used. This allows writing expressions that are tailored towards the specific devices being requested (for example, by assuming the device is from a certain vendor and skipping those checks).
+    ///
+    /// The length of the expression must be smaller or equal to 10 Ki. The cost of evaluating it is also limited based on the estimated number of logical steps; the combined cost of all derived attributes in a claim is capped by a shared CEL cost budget.
+    expression: []const u8,
+    /// Name is the identifier for this derived attribute, used in constraints.
+    ///
+    /// It must be a DNS subdomain followed by a slash ("/") followed by a C identifier (e.g. "example.com/numaNode" or "derived/numaNode").
+    ///
+    /// If the chosen name matches an existing physical attribute from a driver, the derived attribute's expression will shadow the physical attribute, and its evaluated value will be used in constraints instead. When the goal is to define a derived attribute that is only used within the ResourceClaim and not meant to shadow an existing attribute, use a domain prefix that no DRA driver should be using (e.g. "derived/myAttribute").
+    ///
+    /// It is not valid to define a derived attribute that isn't used in at least one constraint.
+    name: []const u8,
+
+    pub fn validate(self: @This()) !void {
+        _ = self;
+    }
+};
+
 /// DeviceRequest is a request for devices required for a claim. This is typically a request for a single resource like a device, but can also ask for several identical devices. With FirstAvailable it is also possible to provide a prioritized list of requests.
 pub const DeviceRequest = struct {
     /// Exactly specifies the details for a single request that must be met exactly for the request to be satisfied.
@@ -558,6 +584,8 @@ pub const DeviceRequestAllocationResult = struct {
     request: []const u8,
     /// ShareID uniquely identifies an individual allocation share of the device, used when the device supports multiple simultaneous allocations. It serves as an additional map key to differentiate concurrent shares of the same device.
     shareID: ?[]const u8 = null,
+    /// SkipNodeOperations lists node-local resource operations (gRPC calls) that will be skipped for this allocated device when determining whether operations are necessary on the node. If all allocated devices for a driver in a claim skip an operation, that gRPC call will be skipped. It is a copy of the ResourceSlice.spec.skipNodeOperations value at the time when the device was allocated.
+    skipNodeOperations: ?[]const []const u8 = null,
     /// A copy of all tolerations specified in the request at the time when the device got allocated.
     ///
     /// The maximum number of tolerations is 16.
@@ -606,6 +634,16 @@ pub const DeviceSubRequest = struct {
     capacity: ?root.io.k8s.api.resource.v1.CapacityRequirements = null,
     /// Count is used only when the count mode is "ExactCount". Must be greater than zero. If AllocationMode is ExactCount and this field is not specified, the default is one.
     count: ?i64 = null,
+    /// DerivedAttributes defines a set of virtual attributes computed via CEL expressions for each candidate device. These virtual attributes can be referenced in `.devices.constraints` to align and match different devices (e.g., co-allocating a GPU and a NIC on the same NUMA node) even if their drivers publish different attributes. Derived attributes are not available via `device.attributes` in the CEL environment when evaluating selector expressions.
+    ///
+    /// Derived attributes allow you to extract, transform, or normalize topology information (such as extracting a NUMA index from a complex topology string or renaming a vendor-specific attribute) into a common virtual attribute name at scheduling time. The scheduler then evaluates these virtual attributes exactly like static attributes when matching constraints.
+    ///
+    /// Every derived attribute defined in this list must be referenced by at least one MatchAttribute or DistinctAttribute constraint in the `.devices.constraints` list.
+    ///
+    /// The maximum number of derived attributes is 32.
+    ///
+    /// This is an alpha field and requires enabling the DRADerivedAttributes feature gate.
+    derivedAttributes: ?[]const root.io.k8s.api.resource.v1.DeviceDerivedAttribute = null,
     /// DeviceClassName references a specific DeviceClass, which can define additional configuration and selectors to be inherited by this subrequest.
     ///
     /// A class is required. Which classes are available depends on the cluster.
@@ -631,6 +669,7 @@ pub const DeviceSubRequest = struct {
 
     pub fn validate(self: @This()) !void {
         if (self.capacity) |v| try v.validate();
+        if (self.derivedAttributes) |arr| for (arr) |item| try item.validate();
         if (self.selectors) |arr| for (arr) |item| try item.validate();
         if (self.tolerations) |arr| for (arr) |item| try item.validate();
     }
@@ -792,6 +831,16 @@ pub const ExactDeviceRequest = struct {
     capacity: ?root.io.k8s.api.resource.v1.CapacityRequirements = null,
     /// Count is used only when the count mode is "ExactCount". Must be greater than zero. If AllocationMode is ExactCount and this field is not specified, the default is one.
     count: ?i64 = null,
+    /// DerivedAttributes defines a set of virtual attributes computed via CEL expressions for each candidate device. These virtual attributes can be referenced in `.devices.constraints` to align and match different devices (e.g., co-allocating a GPU and a NIC on the same NUMA node) even if their drivers publish different attributes. Derived attributes are not available via `device.attributes` in the CEL environment when evaluating selector expressions.
+    ///
+    /// Derived attributes allow you to extract, transform, or normalize topology information (such as extracting a NUMA index from a complex topology string or renaming a vendor-specific attribute) into a common virtual attribute name at scheduling time. The scheduler then evaluates these virtual attributes exactly like static attributes when matching constraints.
+    ///
+    /// Every derived attribute defined in this list must be referenced by at least one MatchAttribute or DistinctAttribute constraint in the `.devices.constraints` list.
+    ///
+    /// The maximum number of derived attributes is 32.
+    ///
+    /// This is an alpha field and requires enabling the DRADerivedAttributes feature gate.
+    derivedAttributes: ?[]const root.io.k8s.api.resource.v1.DeviceDerivedAttribute = null,
     /// DeviceClassName references a specific DeviceClass, which can define additional configuration and selectors to be inherited by this request.
     ///
     /// A DeviceClassName is required.
@@ -813,6 +862,7 @@ pub const ExactDeviceRequest = struct {
 
     pub fn validate(self: @This()) !void {
         if (self.capacity) |v| try v.validate();
+        if (self.derivedAttributes) |arr| for (arr) |item| try item.validate();
         if (self.selectors) |arr| for (arr) |item| try item.validate();
         if (self.tolerations) |arr| for (arr) |item| try item.validate();
     }
@@ -1137,6 +1187,15 @@ pub const ResourceSliceSpec = struct {
     ///
     /// The maximum number of counter sets is 8.
     sharedCounters: ?[]const root.io.k8s.api.resource.v1.CounterSet = null,
+    /// SkipNodeOperations lists node-local resource operations (gRPC calls) that will be skipped for the devices in this slice when determining whether operations are necessary on the node. If all allocated devices for a driver in a claim skip an operation, that gRPC call will be skipped. Valid values are:
+    ///
+    /// - "NodePrepareResources": NodePrepareResources gRPC calls are skipped. This
+    ///   value cannot be specified unless "NodeUnprepareResources" is also listed
+    ///   (or "*" is specified).
+    /// - "NodeUnprepareResources": NodeUnprepareResources gRPC calls are skipped. - "*": All node-local resource operations are skipped.
+    ///
+    /// Other values may be added in the future. The kubelet must ignore unknown values.
+    skipNodeOperations: ?[]const []const u8 = null,
 
     pub fn validate(self: @This()) !void {
         if (self.devices) |arr| for (arr) |item| try item.validate();
