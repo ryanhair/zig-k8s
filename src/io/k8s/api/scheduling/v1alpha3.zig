@@ -330,7 +330,7 @@ pub const PodGroupSpec = struct {
     priorityClassName: ?[]const u8 = null,
     /// resourceClaims defines which ResourceClaims may be shared among Pods in the group. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate.
     ///
-    /// This is an alpha-level field and requires that the DRAWorkloadResourceClaims feature gate is enabled.
+    /// This is a beta-level field and requires that the DRAWorkloadResourceClaims feature gate is enabled.
     ///
     /// This field is immutable.
     resourceClaims: ?[]const root.io.k8s.api.scheduling.v1alpha3.PodGroupResourceClaim = null,
@@ -388,7 +388,7 @@ pub const PodGroupTemplate = struct {
     priorityClassName: ?[]const u8 = null,
     /// resourceClaims defines which ResourceClaims may be shared among Pods in the group. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate.
     ///
-    /// This is an alpha-level field and requires that the DRAWorkloadResourceClaims feature gate is enabled.
+    /// This is a beta-level field and requires that the DRAWorkloadResourceClaims feature gate is enabled.
     ///
     /// This field is immutable.
     resourceClaims: ?[]const root.io.k8s.api.scheduling.v1alpha3.PodGroupResourceClaim = null,
