@@ -64,7 +64,7 @@ pub const NonResourceRule = struct {
     /// nonResourceURLs is a set of partial urls that a user should have access to.  *s are allowed, but only as the full, final step in the path.  "*" means all.
     nonResourceURLs: ?[]const []const u8 = null,
     /// verbs is a list of kubernetes non-resource API verbs, like: get, post, put, delete, patch, head, options.  "*" means all.
-    verbs: []const []const u8,
+    verbs: ?[]const []const u8 = null,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -108,7 +108,7 @@ pub const ResourceRule = struct {
     ///  "*/foo" represents the subresource 'foo' for all resources in the specified apiGroups.
     resources: ?[]const []const u8 = null,
     /// verbs is a list of kubernetes resource API verbs, like: get, list, watch, create, update, delete, proxy.  "*" means all.
-    verbs: []const []const u8,
+    verbs: ?[]const []const u8 = null,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -171,7 +171,7 @@ pub const SelfSubjectRulesReview = struct {
 /// SelfSubjectRulesReviewSpec defines the specification for SelfSubjectRulesReview.
 pub const SelfSubjectRulesReviewSpec = struct {
     /// namespace to evaluate rules for. Required.
-    namespace: ?[]const u8 = null,
+    namespace: []const u8,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -221,8 +221,8 @@ pub const SubjectAccessReviewSpec = struct {
 
 /// SubjectAccessReviewStatus
 pub const SubjectAccessReviewStatus = struct {
-    /// allowed is required. True if the action would be allowed, false otherwise.
-    allowed: bool,
+    /// allowed is set to true if the action is allowed, and should be set to false otherwise.
+    allowed: ?bool = null,
     /// denied is optional. True if the action would be denied, otherwise false. If both allowed is false and denied is false, then the authorizer has no opinion on whether to authorize the action. Denied may not be true if Allowed is true.
     denied: ?bool = null,
     /// evaluationError is an indication that some error occurred during the authorization check. It is entirely possible to get an error and be able to continue determine authorization status in spite of it. For instance, RBAC can be missing a role, but enough roles are still present and bound to reason about the request.
@@ -240,14 +240,14 @@ pub const SubjectRulesReviewStatus = struct {
     /// evaluationError can appear in combination with Rules. It indicates an error occurred during rule evaluation, such as an authorizer that doesn't support rule evaluation, and that ResourceRules and/or NonResourceRules may be incomplete.
     evaluationError: ?[]const u8 = null,
     /// incomplete is true when the rules returned by this call are incomplete. This is most commonly encountered when an authorizer, such as an external authorizer, doesn't support rules evaluation.
-    incomplete: bool,
+    incomplete: ?bool = null,
     /// nonResourceRules is the list of actions the subject is allowed to perform on non-resources. The list ordering isn't significant, may contain duplicates, and possibly be incomplete.
-    nonResourceRules: []const root.io.k8s.api.authorization.v1.NonResourceRule,
+    nonResourceRules: ?[]const root.io.k8s.api.authorization.v1.NonResourceRule = null,
     /// resourceRules is the list of actions the subject is allowed to perform on resources. The list ordering isn't significant, may contain duplicates, and possibly be incomplete.
-    resourceRules: []const root.io.k8s.api.authorization.v1.ResourceRule,
+    resourceRules: ?[]const root.io.k8s.api.authorization.v1.ResourceRule = null,
 
     pub fn validate(self: @This()) !void {
-        for (self.nonResourceRules) |item| try item.validate();
-        for (self.resourceRules) |item| try item.validate();
+        if (self.nonResourceRules) |arr| for (arr) |item| try item.validate();
+        if (self.resourceRules) |arr| for (arr) |item| try item.validate();
     }
 };
