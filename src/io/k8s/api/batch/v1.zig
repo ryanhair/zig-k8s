@@ -89,13 +89,13 @@ pub const Job = struct {
     /// Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
     /// Specification of the desired behavior of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
-    spec: ?root.io.k8s.api.batch.v1.JobSpec = null,
+    spec: root.io.k8s.api.batch.v1.JobSpec,
     /// Current status of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
     status: ?root.io.k8s.api.batch.v1.JobStatus = null,
 
     pub fn validate(self: @This()) !void {
         if (self.metadata) |v| try v.validate();
-        if (self.spec) |v| try v.validate();
+        try self.spec.validate();
         if (self.status) |v| try v.validate();
     }
 };
@@ -111,9 +111,9 @@ pub const JobCondition = struct {
     /// (brief) reason for the condition's last transition.
     reason: ?[]const u8 = null,
     /// Status of the condition, one of True, False, Unknown.
-    status: []const u8,
+    status: ?[]const u8 = null,
     /// Type of job condition, Complete or Failed.
-    type: []const u8,
+    type: ?[]const u8 = null,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -262,21 +262,21 @@ pub const JobTemplateSpec = struct {
     /// Standard object's metadata of the jobs created from this template. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
     /// Specification of the desired behavior of the job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
-    spec: ?root.io.k8s.api.batch.v1.JobSpec = null,
+    spec: root.io.k8s.api.batch.v1.JobSpec,
 
     pub fn validate(self: @This()) !void {
         if (self.metadata) |v| try v.validate();
-        if (self.spec) |v| try v.validate();
+        try self.spec.validate();
     }
 };
 
 /// PodFailurePolicy describes how failed pods influence the backoffLimit.
 pub const PodFailurePolicy = struct {
     /// A list of pod failure policy rules. The rules are evaluated in order. Once a rule matches a Pod failure, the remaining of the rules are ignored. When no rule matches the Pod failure, the default handling applies - the counter of pod failures is incremented and it is checked against the backoffLimit. At most 20 elements are allowed.
-    rules: []const root.io.k8s.api.batch.v1.PodFailurePolicyRule,
+    rules: ?[]const root.io.k8s.api.batch.v1.PodFailurePolicyRule = null,
 
     pub fn validate(self: @This()) !void {
-        for (self.rules) |item| try item.validate();
+        if (self.rules) |arr| for (arr) |item| try item.validate();
     }
 };
 
