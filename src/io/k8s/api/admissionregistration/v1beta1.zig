@@ -391,7 +391,7 @@ pub const ParamRef = struct {
     /// Allowed values are `Allow` or `Deny`
     /// 
     /// Required
-    parameterNotFoundAction: ?[]const u8 = null,
+    parameterNotFoundAction: []const u8,
     /// selector can be used to match multiple param objects based on their labels. Supply selector: {} to match all resources of the ParamKind.
     /// 
     /// If multiple params are found, they are all evaluated with the policy expressions and the results are ANDed together.
