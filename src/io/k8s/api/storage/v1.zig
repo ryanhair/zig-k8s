@@ -12,11 +12,11 @@ pub const CSIDriver = struct {
     /// metadata is the standard object metadata. metadata.Name indicates the name of the CSI driver that this object refers to; it MUST be the same name returned by the CSI GetPluginName() call for that driver. The driver name must be 63 characters or less, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), dots (.), and alphanumerics between. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
     /// spec represents the specification of the CSI Driver.
-    spec: root.io.k8s.api.storage.v1.CSIDriverSpec,
+    spec: ?root.io.k8s.api.storage.v1.CSIDriverSpec = null,
 
     pub fn validate(self: @This()) !void {
         if (self.metadata) |v| try v.validate();
-        try self.spec.validate();
+        if (self.spec) |v| try v.validate();
     }
 };
 
@@ -137,13 +137,13 @@ pub const CSINode = struct {
     /// metadata is the standard object metadata. metadata.name must be the Kubernetes node name.
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
     /// spec is the specification of CSINode
-    spec: root.io.k8s.api.storage.v1.CSINodeSpec,
+    spec: ?root.io.k8s.api.storage.v1.CSINodeSpec = null,
     /// status contains health and status information for the node's storage.
     status: ?root.io.k8s.api.storage.v1.CSINodeStatus = null,
 
     pub fn validate(self: @This()) !void {
         if (self.metadata) |v| try v.validate();
-        try self.spec.validate();
+        if (self.spec) |v| try v.validate();
         if (self.status) |v| try v.validate();
     }
 };
@@ -184,10 +184,10 @@ pub const CSINodeList = struct {
 /// CSINodeSpec holds information about the specification of all CSI drivers installed on a node
 pub const CSINodeSpec = struct {
     /// drivers is a list of information of all CSI Drivers existing on a node. If all drivers in the list are uninstalled, this can become empty.
-    drivers: []const root.io.k8s.api.storage.v1.CSINodeDriver,
+    drivers: ?[]const root.io.k8s.api.storage.v1.CSINodeDriver = null,
 
     pub fn validate(self: @This()) !void {
-        for (self.drivers) |item| try item.validate();
+        if (self.drivers) |arr| for (arr) |item| try item.validate();
     }
 };
 
@@ -340,7 +340,7 @@ pub const StorageHealthCondition = struct {
 /// TokenRequest contains parameters of a service account token.
 pub const TokenRequest = struct {
     /// audience is the intended audience of the token in "TokenRequestSpec". It will default to the audiences of kube apiserver.
-    audience: []const u8,
+    audience: ?[]const u8 = null,
     /// expirationSeconds is the duration of validity of the token in "TokenRequestSpec". It has the same default value of "ExpirationSeconds" in "TokenRequestSpec".
     expirationSeconds: ?i64 = null,
 
@@ -419,7 +419,7 @@ pub const VolumeAttachmentStatus = struct {
     /// attachError represents the last error encountered during attach operation, if any. This field must only be set by the entity completing the attach operation, i.e. the external-attacher.
     attachError: ?root.io.k8s.api.storage.v1.VolumeError = null,
     /// attached indicates the volume is successfully attached. This field must only be set by the entity completing the attach operation, i.e. the external-attacher.
-    attached: bool,
+    attached: ?bool = null,
     /// attachmentMetadata is populated with any information returned by the attach operation, upon successful attach, that must be passed into subsequent WaitForAttach or Mount calls. This field must only be set by the entity completing the attach operation, i.e. the external-attacher.
     attachmentMetadata: ?std.json.Value = null,
     /// detachError represents the last error encountered during detach operation, if any. This field must only be set by the entity completing the detach operation, i.e. the external-attacher.
@@ -444,7 +444,7 @@ pub const VolumeAttributesClass = struct {
     /// parameters hold volume attributes defined by the CSI driver. These values are opaque to the Kubernetes and are passed directly to the CSI driver. The underlying storage provider supports changing these attributes on an existing volume, however the parameters field itself is immutable. To invoke a volume update, a new VolumeAttributesClass should be created with new parameters, and the PersistentVolumeClaim should be updated to reference the new VolumeAttributesClass.
     ///
     /// This field is required and must contain at least one key/value pair. The keys cannot be empty, and the maximum number of parameters is 512, with a cumulative max size of 256K. If the CSI driver rejects invalid parameters, the target PersistentVolumeClaim will be set to an "Infeasible" state in the modifyVolumeStatus field.
-    parameters: ?std.json.Value = null,
+    parameters: std.json.Value,
 
     pub fn validate(self: @This()) !void {
         if (self.metadata) |v| try v.validate();

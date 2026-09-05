@@ -12,13 +12,13 @@ pub const StorageVersionMigration = struct {
     /// Standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
     /// Specification of the migration.
-    spec: ?root.io.k8s.api.storagemigration.v1beta1.StorageVersionMigrationSpec = null,
+    spec: root.io.k8s.api.storagemigration.v1beta1.StorageVersionMigrationSpec,
     /// Status of the migration.
     status: ?root.io.k8s.api.storagemigration.v1beta1.StorageVersionMigrationStatus = null,
 
     pub fn validate(self: @This()) !void {
         if (self.metadata) |v| try v.validate();
-        if (self.spec) |v| try v.validate();
+        try self.spec.validate();
         if (self.status) |v| try v.validate();
     }
 };
