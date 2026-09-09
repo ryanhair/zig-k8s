@@ -133,7 +133,7 @@ pub const CertificateSigningRequestSpec = struct {
     ///  "code signing", "email protection", "s/mime",
     ///  "ipsec end system", "ipsec tunnel", "ipsec user",
     ///  "timestamping", "ocsp signing", "microsoft sgc", "netscape sgc"
-    usages: ?[]const []const u8 = null,
+    usages: []const []const u8,
     /// username contains the name of the user that created the CertificateSigningRequest. Populated by the API server on creation and immutable.
     username: ?[]const u8 = null,
 

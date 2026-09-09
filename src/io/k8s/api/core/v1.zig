@@ -1055,10 +1055,10 @@ pub const EphemeralVolumeSource = struct {
     /// This field is read-only and no changes will be made by Kubernetes to the PVC after it has been created.
     /// 
     /// Required, must not be nil.
-    volumeClaimTemplate: ?root.io.k8s.api.core.v1.PersistentVolumeClaimTemplate = null,
+    volumeClaimTemplate: root.io.k8s.api.core.v1.PersistentVolumeClaimTemplate,
 
     pub fn validate(self: @This()) !void {
-        if (self.volumeClaimTemplate) |v| try v.validate();
+        try self.volumeClaimTemplate.validate();
     }
 };
 
@@ -1422,7 +1422,7 @@ pub const ISCSIPersistentVolumeSource = struct {
     /// iscsiInterface is the interface Name that uses an iSCSI transport. Defaults to 'default' (tcp).
     iscsiInterface: ?[]const u8 = null,
     /// lun is iSCSI Target Lun number.
-    lun: i64,
+    lun: ?i64 = null,
     /// portals is the iSCSI Target Portal List. The Portal is either an IP or ip_addr:port if the port is other than default (typically TCP ports 860 and 3260).
     portals: ?[]const []const u8 = null,
     /// readOnly here will force the ReadOnly setting in VolumeMounts. Defaults to false.
@@ -1452,7 +1452,7 @@ pub const ISCSIVolumeSource = struct {
     /// iscsiInterface is the interface Name that uses an iSCSI transport. Defaults to 'default' (tcp).
     iscsiInterface: ?[]const u8 = null,
     /// lun represents iSCSI Target Lun number.
-    lun: i64,
+    lun: ?i64 = null,
     /// portals is the iSCSI Target Portal List. The portal is either an IP or ip_addr:port if the port is other than default (typically TCP ports 860 and 3260).
     portals: ?[]const []const u8 = null,
     /// readOnly here will force the ReadOnly setting in VolumeMounts. Defaults to false.
@@ -1677,7 +1677,7 @@ pub const ModifyVolumeStatus = struct {
     ///   Infeasible indicates that the request has been rejected as invalid by the CSI driver. To
     /// 	  resolve the error, a valid VolumeAttributesClass needs to be specified.
     /// Note: New statuses can be added in the future. Consumers should check for unknown statuses and fail appropriately.
-    status: []const u8,
+    status: ?[]const u8 = null,
     /// targetVolumeAttributesClassName is the name of the VolumeAttributesClass the PVC currently being reconciled
     targetVolumeAttributesClassName: ?[]const u8 = null,
 
@@ -3517,7 +3517,7 @@ pub const ScaleIOPersistentVolumeSource = struct {
     /// readOnly defaults to false (read/write). ReadOnly here will force the ReadOnly setting in VolumeMounts.
     readOnly: ?bool = null,
     /// secretRef references to the secret for ScaleIO user and other sensitive information. If this is not provided, Login operation will fail.
-    secretRef: root.io.k8s.api.core.v1.SecretReference,
+    secretRef: ?root.io.k8s.api.core.v1.SecretReference = null,
     /// sslEnabled is the flag to enable/disable SSL communication with Gateway, default false
     sslEnabled: ?bool = null,
     /// storageMode indicates whether the storage for a volume should be ThickProvisioned or ThinProvisioned. Default is ThinProvisioned.
@@ -3527,10 +3527,10 @@ pub const ScaleIOPersistentVolumeSource = struct {
     /// system is the name of the storage system as configured in ScaleIO.
     system: []const u8,
     /// volumeName is the name of a volume already created in the ScaleIO system that is associated with this volume source.
-    volumeName: ?[]const u8 = null,
+    volumeName: []const u8,
 
     pub fn validate(self: @This()) !void {
-        try self.secretRef.validate();
+        if (self.secretRef) |v| try v.validate();
     }
 };
 
@@ -3545,7 +3545,7 @@ pub const ScaleIOVolumeSource = struct {
     /// readOnly Defaults to false (read/write). ReadOnly here will force the ReadOnly setting in VolumeMounts.
     readOnly: ?bool = null,
     /// secretRef references to the secret for ScaleIO user and other sensitive information. If this is not provided, Login operation will fail.
-    secretRef: root.io.k8s.api.core.v1.LocalObjectReference,
+    secretRef: ?root.io.k8s.api.core.v1.LocalObjectReference = null,
     /// sslEnabled Flag enable/disable SSL communication with Gateway, default false
     sslEnabled: ?bool = null,
     /// storageMode indicates whether the storage for a volume should be ThickProvisioned or ThinProvisioned. Default is ThinProvisioned.
@@ -3555,10 +3555,10 @@ pub const ScaleIOVolumeSource = struct {
     /// system is the name of the storage system as configured in ScaleIO.
     system: []const u8,
     /// volumeName is the name of a volume already created in the ScaleIO system that is associated with this volume source.
-    volumeName: ?[]const u8 = null,
+    volumeName: []const u8,
 
     pub fn validate(self: @This()) !void {
-        try self.secretRef.validate();
+        if (self.secretRef) |v| try v.validate();
     }
 };
 
@@ -3967,7 +3967,7 @@ pub const StorageOSPersistentVolumeSource = struct {
     /// secretRef specifies the secret to use for obtaining the StorageOS API credentials.  If not specified, default values will be attempted.
     secretRef: ?root.io.k8s.api.core.v1.ObjectReference = null,
     /// volumeName is the human-readable name of the StorageOS volume.  Volume names are only unique within a namespace.
-    volumeName: ?[]const u8 = null,
+    volumeName: []const u8,
     /// volumeNamespace specifies the scope of the volume within StorageOS.  If no namespace is specified then the Pod's namespace will be used.  This allows the Kubernetes name scoping to be mirrored within StorageOS for tighter integration. Set VolumeName to any name to override the default behaviour. Set to "default" if you are not using namespaces within StorageOS. Namespaces that do not pre-exist within StorageOS will be created.
     volumeNamespace: ?[]const u8 = null,
 
@@ -3985,7 +3985,7 @@ pub const StorageOSVolumeSource = struct {
     /// secretRef specifies the secret to use for obtaining the StorageOS API credentials.  If not specified, default values will be attempted.
     secretRef: ?root.io.k8s.api.core.v1.LocalObjectReference = null,
     /// volumeName is the human-readable name of the StorageOS volume.  Volume names are only unique within a namespace.
-    volumeName: ?[]const u8 = null,
+    volumeName: []const u8,
     /// volumeNamespace specifies the scope of the volume within StorageOS.  If no namespace is specified then the Pod's namespace will be used.  This allows the Kubernetes name scoping to be mirrored within StorageOS for tighter integration. Set VolumeName to any name to override the default behaviour. Set to "default" if you are not using namespaces within StorageOS. Namespaces that do not pre-exist within StorageOS will be created.
     volumeNamespace: ?[]const u8 = null,
 
@@ -4346,10 +4346,10 @@ pub const VolumeMountStatus = struct {
 /// VolumeNodeAffinity defines constraints that limit what nodes this volume can be accessed from.
 pub const VolumeNodeAffinity = struct {
     /// required specifies hard node constraints that must be met.
-    required: ?root.io.k8s.api.core.v1.NodeSelector = null,
+    required: root.io.k8s.api.core.v1.NodeSelector,
 
     pub fn validate(self: @This()) !void {
-        if (self.required) |v| try v.validate();
+        try self.required.validate();
     }
 };
 
