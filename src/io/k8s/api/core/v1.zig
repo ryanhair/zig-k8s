@@ -1558,9 +1558,9 @@ pub const LimitRange = struct {
 
 /// LimitRangeItem defines a min/max usage limit for any resource that matches on kind.
 pub const LimitRangeItem = struct {
-    /// Default resource requirement limit value by resource name if resource limit is omitted.
+    /// Default specifies resource limit values by resource name. These are applied to containers which do not specify their own limits for those resources.
     default: ?std.json.Value = null,
-    /// DefaultRequest is the default resource requirement request value by resource name if resource request is omitted.
+    /// DefaultRequest specifies resource request values by resource name. These are applied to containers which do not specify their own requests for those resources.
     defaultRequest: ?std.json.Value = null,
     /// Max usage constraints on this kind by resource name.
     max: ?std.json.Value = null,
