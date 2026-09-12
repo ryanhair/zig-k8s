@@ -3365,7 +3365,7 @@ pub const ResourceClaim = struct {
 pub const ResourceFieldSelector = struct {
     /// Container name: required for volumes, optional for env vars
     containerName: ?[]const u8 = null,
-    /// Specifies the output format of the exposed resources, defaults to "1"
+    /// Divisor optionally indicates how the resource from the container should be scaled. If unset or 0, the resource is not scaled (divisor is treated as 1).
     divisor: ?root.io.k8s.apimachinery.pkg.api.resource.Quantity = null,
     /// Required: resource to select
     resource: []const u8,
