@@ -136,11 +136,11 @@ pub const IngressClass = struct {
     /// metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
     /// spec is the desired state of the IngressClass. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
-    spec: ?root.io.k8s.api.networking.v1.IngressClassSpec = null,
+    spec: root.io.k8s.api.networking.v1.IngressClassSpec,
 
     pub fn validate(self: @This()) !void {
         if (self.metadata) |v| try v.validate();
-        if (self.spec) |v| try v.validate();
+        try self.spec.validate();
     }
 };
 
@@ -182,7 +182,7 @@ pub const IngressClassParametersReference = struct {
 /// IngressClassSpec provides information about the class of an Ingress.
 pub const IngressClassSpec = struct {
     /// controller refers to the name of the controller that should handle this class. This allows for different "flavors" that are controlled by the same controller. For example, you may have different parameters for the same implementing controller. This should be specified as a domain-prefixed path no more than 250 characters in length, e.g. "acme.io/ingress-controller". This field is immutable.
-    controller: ?[]const u8 = null,
+    controller: []const u8,
     /// parameters is a link to a custom resource containing additional configuration for the controller. This is optional if the controller does not require extra parameters.
     parameters: ?root.io.k8s.api.networking.v1.IngressClassParametersReference = null,
 
@@ -240,9 +240,9 @@ pub const IngressPortStatus = struct {
     ///   format foo.example.com/CamelCase.
     @"error": ?[]const u8 = null,
     /// port is the port number of the ingress port.
-    port: i64,
+    port: ?i64 = null,
     /// protocol is the protocol of the ingress port. The supported values are: "TCP", "UDP", "SCTP"
-    protocol: []const u8,
+    protocol: ?[]const u8 = null,
 
     pub fn validate(self: @This()) !void {
         _ = self;
