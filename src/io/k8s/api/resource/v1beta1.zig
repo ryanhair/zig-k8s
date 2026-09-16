@@ -38,13 +38,13 @@ pub const AllocatedDeviceStatus = struct {
 
 /// AllocationResult contains attributes of an allocated resource.
 pub const AllocationResult = struct {
-    /// AllocationTimestamp stores the time when the resources were allocated. This field is not guaranteed to be set, in which case that time is unknown.
+    /// allocationTimestamp stores the time when the resources were allocated. This field is not guaranteed to be set, in which case that time is unknown.
     ///
     /// This is a beta field and requires enabling the DRADeviceBindingConditions and DRAResourceClaimDeviceStatus feature gate.
     allocationTimestamp: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.Time = null,
-    /// Devices is the result of allocating devices.
+    /// devices is the result of allocating devices.
     devices: ?root.io.k8s.api.resource.v1beta1.DeviceAllocationResult = null,
-    /// NodeSelector defines where the allocated resources are available. If unset, they are available everywhere.
+    /// nodeSelector defines where the allocated resources are available. If unset, they are available everywhere.
     nodeSelector: ?root.io.k8s.api.core.v1.NodeSelector = null,
 
     pub fn validate(self: @This()) !void {
@@ -55,19 +55,19 @@ pub const AllocationResult = struct {
 
 /// BasicDevice defines one device instance.
 pub const BasicDevice = struct {
-    /// AllNodes indicates that all nodes have access to the device.
+    /// allNodes indicates that all nodes have access to the device.
     ///
     /// Must only be set if Spec.PerDeviceNodeSelection is set to true. At most one of NodeName, NodeSelector and AllNodes can be set.
     allNodes: ?bool = null,
-    /// AllowMultipleAllocations marks whether the device is allowed to be allocated to multiple DeviceRequests.
+    /// allowMultipleAllocations marks whether the device is allowed to be allocated to multiple DeviceRequests.
     ///
     /// If AllowMultipleAllocations is set to true, the device can be allocated more than once, and all of its capacity is consumable, regardless of whether the requestPolicy is defined or not.
     allowMultipleAllocations: ?bool = null,
-    /// Attributes defines the set of attributes for this device. The name of each attribute must be unique in that set.
+    /// attributes defines the set of attributes for this device. The name of each attribute must be unique in that set.
     ///
     /// The maximum number of attributes and capacities combined is 32.
     attributes: ?std.json.Value = null,
-    /// BindingConditions defines the conditions for proceeding with binding. All of these conditions must be set in the per-device status conditions with a value of True to proceed with binding the pod to the node while scheduling the pod.
+    /// bindingConditions defines the conditions for proceeding with binding. All of these conditions must be set in the per-device status conditions with a value of True to proceed with binding the pod to the node while scheduling the pod.
     ///
     /// The maximum number of binding conditions is 4.
     ///
@@ -75,7 +75,7 @@ pub const BasicDevice = struct {
     ///
     /// This is a beta field and requires enabling the DRADeviceBindingConditions and DRAResourceClaimDeviceStatus feature gates.
     bindingConditions: ?[]const []const u8 = null,
-    /// BindingFailureConditions defines the conditions for binding failure. They may be set in the per-device status conditions. If any is true, a binding failure occurred.
+    /// bindingFailureConditions defines the conditions for binding failure. They may be set in the per-device status conditions. If any is true, a binding failure occurred.
     ///
     /// The maximum number of binding failure conditions is 4.
     ///
@@ -83,33 +83,33 @@ pub const BasicDevice = struct {
     ///
     /// This is a beta field and requires enabling the DRADeviceBindingConditions and DRAResourceClaimDeviceStatus feature gates.
     bindingFailureConditions: ?[]const []const u8 = null,
-    /// BindsToNode indicates if the usage of an allocation involving this device has to be limited to exactly the node that was chosen when allocating the claim. If set to true, the scheduler will set the ResourceClaim.Status.Allocation.NodeSelector to match the node where the allocation was made.
+    /// bindsToNode indicates if the usage of an allocation involving this device has to be limited to exactly the node that was chosen when allocating the claim. If set to true, the scheduler will set the ResourceClaim.Status.Allocation.NodeSelector to match the node where the allocation was made.
     ///
     /// This is a beta field and requires enabling the DRADeviceBindingConditions and DRAResourceClaimDeviceStatus feature gates.
     bindsToNode: ?bool = null,
-    /// Capacity defines the set of capacities for this device. The name of each capacity must be unique in that set.
+    /// capacity defines the set of capacities for this device. The name of each capacity must be unique in that set.
     ///
     /// The maximum number of attributes and capacities combined is 32.
     capacity: ?std.json.Value = null,
-    /// ConsumesCounters defines a list of references to sharedCounters and the set of counters that the device will consume from those counter sets.
+    /// consumesCounters defines a list of references to sharedCounters and the set of counters that the device will consume from those counter sets.
     ///
     /// There can only be a single entry per counterSet.
     ///
     /// The maximum number of device counter consumptions per device is 2.
     consumesCounters: ?[]const root.io.k8s.api.resource.v1beta1.DeviceCounterConsumption = null,
-    /// NodeAllocatableResources defines the mapping of node resources that are managed by the DRA driver exposing this device. This includes resources currently reported in v1.Node `status.allocatable` that are not extended resources (see https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#extended-resources). Examples include "cpu", "memory", "ephemeral-storage", and hugepages. In addition to standard requests made through the Pod `spec`, these resources can also be requested through claims and allocated by the DRA driver. For example, a CPU DRA driver might allocate exclusive CPUs or auxiliary node memory dependencies of an accelerator device. The keys of this map are the node-allocatable resource names (e.g., "cpu", "memory"). Extended resource names are not permitted as keys.
+    /// nodeAllocatableResources defines the mapping of node resources that are managed by the DRA driver exposing this device. This includes resources currently reported in v1.Node `status.allocatable` that are not extended resources (see https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#extended-resources). Examples include "cpu", "memory", "ephemeral-storage", and hugepages. In addition to standard requests made through the Pod `spec`, these resources can also be requested through claims and allocated by the DRA driver. For example, a CPU DRA driver might allocate exclusive CPUs or auxiliary node memory dependencies of an accelerator device. The keys of this map are the node-allocatable resource names (e.g., "cpu", "memory"). Extended resource names are not permitted as keys.
     nodeAllocatableResources: ?std.json.Value = null,
-    /// NodeName identifies the node where the device is available.
+    /// nodeName identifies the node where the device is available.
     ///
     /// Must only be set if Spec.PerDeviceNodeSelection is set to true. At most one of NodeName, NodeSelector and AllNodes can be set.
     nodeName: ?[]const u8 = null,
-    /// NodeSelector defines the nodes where the device is available.
+    /// nodeSelector defines the nodes where the device is available.
     ///
     /// Must use exactly one term.
     ///
     /// Must only be set if Spec.PerDeviceNodeSelection is set to true. At most one of NodeName, NodeSelector and AllNodes can be set.
     nodeSelector: ?root.io.k8s.api.core.v1.NodeSelector = null,
-    /// If specified, these are the driver-defined taints.
+    /// taints if specified, these are the driver-defined taints.
     ///
     /// The maximum number of taints is 16. If taints are set for any device in a ResourceSlice, then the maximum number of allowed devices per ResourceSlice is 64 instead of 128.
     ///
@@ -125,7 +125,7 @@ pub const BasicDevice = struct {
 
 /// CELDeviceSelector contains a CEL expression for selecting a device.
 pub const CELDeviceSelector = struct {
-    /// Expression is a CEL expression which evaluates a single device. It must evaluate to true when the device under consideration satisfies the desired criteria, and false when it does not. Any other result is an error and causes allocation of devices to abort.
+    /// expression is a CEL expression which evaluates a single device. It must evaluate to true when the device under consideration satisfies the desired criteria, and false when it does not. Any other result is an error and causes allocation of devices to abort.
     ///
     /// The expression's input is an object named "device", which carries the following properties:
     ///  - driver (string): the name of the driver which defines this device.
@@ -178,9 +178,9 @@ pub const CELDeviceSelector = struct {
 ///
 /// Must not set more than one ValidRequestValues.
 pub const CapacityRequestPolicy = struct {
-    /// Default specifies how much of this capacity is consumed by a request that does not contain an entry for it in DeviceRequest's Capacity.
+    /// default specifies how much of this capacity is consumed by a request that does not contain an entry for it in DeviceRequest's Capacity.
     default: ?root.io.k8s.apimachinery.pkg.api.resource.Quantity = null,
-    /// ValidRange defines an acceptable quantity value range in consuming requests.
+    /// validRange defines an acceptable quantity value range in consuming requests.
     ///
     /// If this field is set, Default must be defined and it must fall within the defined ValidRange.
     ///
@@ -188,7 +188,7 @@ pub const CapacityRequestPolicy = struct {
     ///
     /// If the request doesn't contain this capacity entry, Default value is used.
     validRange: ?root.io.k8s.api.resource.v1beta1.CapacityRequestPolicyRange = null,
-    /// ValidValues defines a set of acceptable quantity values in consuming requests.
+    /// validValues defines a set of acceptable quantity values in consuming requests.
     ///
     /// Must not contain more than 10 entries. Must be sorted in ascending order.
     ///
@@ -215,15 +215,15 @@ pub const CapacityRequestPolicy = struct {
 ///   - If the requested or rounded amount exceeds Max (if set), the request does not satisfy the policy,
 ///     and the device cannot be allocated.
 pub const CapacityRequestPolicyRange = struct {
-    /// Max defines the upper limit for capacity that can be requested.
+    /// max defines the upper limit for capacity that can be requested.
     ///
     /// Max must be less than or equal to the capacity value. Min and requestPolicy.default must be less than or equal to the maximum.
     max: ?root.io.k8s.apimachinery.pkg.api.resource.Quantity = null,
-    /// Min specifies the minimum capacity allowed for a consumption request.
+    /// min specifies the minimum capacity allowed for a consumption request.
     ///
     /// Min must be greater than or equal to zero, and less than or equal to the capacity value. requestPolicy.default must be more than or equal to the minimum.
     min: root.io.k8s.apimachinery.pkg.api.resource.Quantity,
-    /// Step defines the step size between valid capacity amounts within the range.
+    /// step defines the step size between valid capacity amounts within the range.
     ///
     /// Max (if set) and requestPolicy.default must be a multiple of Step. Min + Step must be less than or equal to the capacity value.
     step: ?root.io.k8s.apimachinery.pkg.api.resource.Quantity = null,
@@ -235,7 +235,7 @@ pub const CapacityRequestPolicyRange = struct {
 
 /// CapacityRequirements defines the capacity requirements for a specific device request.
 pub const CapacityRequirements = struct {
-    /// Requests represent individual device resource requests for distinct resources, all of which must be provided by the device.
+    /// requests represent individual device resource requests for distinct resources, all of which must be provided by the device.
     ///
     /// This value is used as an additional filtering condition against the available capacity on the device. This is semantically equivalent to a CEL selector with `device.capacity[<domain>].<name>.compareTo(quantity(<request quantity>)) >= 0`. For example, device.capacity['test-driver.cdi.k8s.io'].counters.compareTo(quantity('2')) >= 0.
     ///
@@ -255,7 +255,7 @@ pub const CapacityRequirements = struct {
 
 /// Counter describes a quantity associated with a device.
 pub const Counter = struct {
-    /// Value defines how much of a certain device counter is available.
+    /// value defines how much of a certain device counter is available.
     value: root.io.k8s.apimachinery.pkg.api.resource.Quantity,
 
     pub fn validate(self: @This()) !void {
@@ -267,11 +267,11 @@ pub const Counter = struct {
 ///
 /// The counters are not allocatable by themselves, but can be referenced by devices. When a device is allocated, the portion of counters it uses will no longer be available for use by other devices.
 pub const CounterSet = struct {
-    /// Counters defines the set of counters for this CounterSet The name of each counter must be unique in that set and must be a DNS label.
+    /// counters defines the set of counters for this CounterSet The name of each counter must be unique in that set and must be a DNS label.
     ///
     /// The maximum number of counters is 32.
     counters: std.json.Value,
-    /// Name defines the name of the counter set. It must be a DNS label.
+    /// name defines the name of the counter set. It must be a DNS label.
     name: []const u8,
 
     pub fn validate(self: @This()) !void {
@@ -281,9 +281,9 @@ pub const CounterSet = struct {
 
 /// Device represents one individual hardware instance that can be selected based on its attributes. Besides the name, exactly one field must be set.
 pub const Device = struct {
-    /// Basic defines one device instance.
+    /// basic defines one device instance.
     basic: ?root.io.k8s.api.resource.v1beta1.BasicDevice = null,
-    /// Name is unique identifier among all devices managed by the driver in the pool. It must be a DNS label.
+    /// name is unique identifier among all devices managed by the driver in the pool. It must be a DNS label.
     name: []const u8,
 
     pub fn validate(self: @This()) !void {
@@ -293,13 +293,13 @@ pub const Device = struct {
 
 /// DeviceAllocationConfiguration gets embedded in an AllocationResult.
 pub const DeviceAllocationConfiguration = struct {
-    /// Opaque provides driver-specific configuration parameters.
+    /// opaque provides driver-specific configuration parameters.
     @"opaque": ?root.io.k8s.api.resource.v1beta1.OpaqueDeviceConfiguration = null,
-    /// Requests lists the names of requests where the configuration applies. If empty, its applies to all requests.
+    /// requests lists the names of requests where the configuration applies. If empty, its applies to all requests.
     ///
     /// References to subrequests must include the name of the main request and may include the subrequest using the format <main request>[/<subrequest>]. If just the main request is given, the configuration applies to all subrequests.
     requests: ?[]const []const u8 = null,
-    /// Source records whether the configuration comes from a class and thus is not something that a normal user would have been able to set or from a claim.
+    /// source records whether the configuration comes from a class and thus is not something that a normal user would have been able to set or from a claim.
     source: []const u8,
 
     pub fn validate(self: @This()) !void {
@@ -309,11 +309,11 @@ pub const DeviceAllocationConfiguration = struct {
 
 /// DeviceAllocationResult is the result of allocating devices.
 pub const DeviceAllocationResult = struct {
-    /// This field is a combination of all the claim and class configuration parameters. Drivers can distinguish between those based on a flag.
+    /// config is a combination of all the claim and class configuration parameters. Drivers can distinguish between those based on a flag.
     ///
     /// This includes configuration parameters for drivers which have no allocated devices in the result because it is up to the drivers which configuration parameters they support. They can silently ignore unknown configuration parameters.
     config: ?[]const root.io.k8s.api.resource.v1beta1.DeviceAllocationConfiguration = null,
-    /// Results lists all allocated devices.
+    /// results lists all allocated devices.
     results: ?[]const root.io.k8s.api.resource.v1beta1.DeviceRequestAllocationResult = null,
 
     pub fn validate(self: @This()) !void {
@@ -324,25 +324,25 @@ pub const DeviceAllocationResult = struct {
 
 /// DeviceAttribute must have exactly one field set.
 pub const DeviceAttribute = struct {
-    /// BoolValue is a true/false value.
+    /// bool is a true/false value.
     bool: ?bool = null,
-    /// BoolValues is a non-empty list of true/false values.
+    /// bools is a non-empty list of true/false values.
     bools: ?[]const bool = null,
-    /// IntValue is a number.
+    /// int is a number.
     int: ?i64 = null,
-    /// IntValues is a non-empty list of numbers.
+    /// ints is a non-empty list of numbers.
     ///
     /// This is an alpha field and requires enabling the DRAListTypeAttributes feature gate.
     ints: ?[]const i64 = null,
-    /// StringValue is a string. Must not be longer than 64 characters.
+    /// string is a string. Must not be longer than 64 characters.
     string: ?[]const u8 = null,
-    /// StringValues is a non-empty list of strings. Each string must not be longer than 64 characters.
+    /// strings is a non-empty list of strings. Each string must not be longer than 64 characters.
     ///
     /// This is an alpha field and requires enabling the DRAListTypeAttributes feature gate.
     strings: ?[]const []const u8 = null,
-    /// VersionValue is a semantic version according to semver.org spec 2.0.0. Must not be longer than 64 characters.
+    /// version is a semantic version according to semver.org spec 2.0.0. Must not be longer than 64 characters.
     version: ?[]const u8 = null,
-    /// VersionValues is a non-empty list of semantic versions according to semver.org spec 2.0.0. Each version string must not be longer than 64 characters.
+    /// versions is a non-empty list of semantic versions according to semver.org spec 2.0.0. Each version string must not be longer than 64 characters.
     ///
     /// This is an alpha field and requires enabling the DRAListTypeAttributes feature gate.
     versions: ?[]const []const u8 = null,
@@ -354,13 +354,13 @@ pub const DeviceAttribute = struct {
 
 /// DeviceCapacity describes a quantity associated with a device.
 pub const DeviceCapacity = struct {
-    /// RequestPolicy defines how this DeviceCapacity must be consumed when the device is allowed to be shared by multiple allocations.
+    /// requestPolicy defines how this DeviceCapacity must be consumed when the device is allowed to be shared by multiple allocations.
     ///
     /// The Device must have allowMultipleAllocations set to true in order to set a requestPolicy.
     ///
     /// If unset, capacity requests are unconstrained: requests can consume any amount of capacity, as long as the total consumed across all allocations does not exceed the device's defined capacity. If request is also unset, default is the full capacity value.
     requestPolicy: ?root.io.k8s.api.resource.v1beta1.CapacityRequestPolicy = null,
-    /// Value defines how much of a certain capacity that device has.
+    /// value defines how much of a certain capacity that device has.
     ///
     /// This field reflects the fixed total capacity and does not change. The consumed amount is tracked separately by scheduler and does not affect this value.
     value: root.io.k8s.apimachinery.pkg.api.resource.Quantity,
@@ -372,11 +372,11 @@ pub const DeviceCapacity = struct {
 
 /// DeviceClaim defines how to request devices with a ResourceClaim.
 pub const DeviceClaim = struct {
-    /// This field holds configuration for multiple potential drivers which could satisfy requests in this claim. It is ignored while allocating the claim.
+    /// config holds configuration for multiple potential drivers which could satisfy requests in this claim. It is ignored while allocating the claim.
     config: ?[]const root.io.k8s.api.resource.v1beta1.DeviceClaimConfiguration = null,
-    /// These constraints must be satisfied by the set of devices that get allocated for the claim.
+    /// constraints must be satisfied by the set of devices that get allocated for the claim.
     constraints: ?[]const root.io.k8s.api.resource.v1beta1.DeviceConstraint = null,
-    /// Requests represent individual requests for distinct devices which must all be satisfied. If empty, nothing needs to be allocated.
+    /// requests represent individual requests for distinct devices which must all be satisfied. If empty, nothing needs to be allocated.
     requests: ?[]const root.io.k8s.api.resource.v1beta1.DeviceRequest = null,
 
     pub fn validate(self: @This()) !void {
@@ -388,9 +388,9 @@ pub const DeviceClaim = struct {
 
 /// DeviceClaimConfiguration is used for configuration parameters in DeviceClaim.
 pub const DeviceClaimConfiguration = struct {
-    /// Opaque provides driver-specific configuration parameters.
+    /// opaque provides driver-specific configuration parameters.
     @"opaque": ?root.io.k8s.api.resource.v1beta1.OpaqueDeviceConfiguration = null,
-    /// Requests lists the names of requests where the configuration applies. If empty, it applies to all requests.
+    /// requests lists the names of requests where the configuration applies. If empty, it applies to all requests.
     ///
     /// References to subrequests must include the name of the main request and may include the subrequest using the format <main request>[/<subrequest>]. If just the main request is given, the configuration applies to all subrequests.
     requests: ?[]const []const u8 = null,
@@ -408,9 +408,9 @@ pub const DeviceClass = struct {
     apiVersion: ?[]const u8 = null,
     /// Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     kind: ?[]const u8 = null,
-    /// Standard object metadata
+    /// metadata is the standard object metadata.
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
-    /// Spec defines what can be allocated and how to configure it.
+    /// spec defines what can be allocated and how to configure it.
     ///
     /// This is mutable. Consumers have to be prepared for classes changing at any time, either because they get updated or replaced. Claim allocations are done once based on whatever was set in classes at the time of allocation.
     ///
@@ -425,7 +425,7 @@ pub const DeviceClass = struct {
 
 /// DeviceClassConfiguration is used in DeviceClass.
 pub const DeviceClassConfiguration = struct {
-    /// Opaque provides driver-specific configuration parameters.
+    /// opaque provides driver-specific configuration parameters.
     @"opaque": ?root.io.k8s.api.resource.v1beta1.OpaqueDeviceConfiguration = null,
 
     pub fn validate(self: @This()) !void {
@@ -452,13 +452,13 @@ pub const DeviceClassList = struct {
 
 /// DeviceClassSpec is used in a [DeviceClass] to define what can be allocated and how to configure it.
 pub const DeviceClassSpec = struct {
-    /// Config defines configuration parameters that apply to each device that is claimed via this class. Some classses may potentially be satisfied by multiple drivers, so each instance of a vendor configuration applies to exactly one driver.
+    /// config defines configuration parameters that apply to each device that is claimed via this class. Some classses may potentially be satisfied by multiple drivers, so each instance of a vendor configuration applies to exactly one driver.
     ///
     /// They are passed to the driver, but are not considered while allocating the claim.
     config: ?[]const root.io.k8s.api.resource.v1beta1.DeviceClassConfiguration = null,
-    /// ExtendedResourceName is the extended resource name for the devices of this class. The devices of this class can be used to satisfy a pod's extended resource requests. It has the same format as the name of a pod's extended resource. It should be unique among all the device classes in a cluster. If two device classes have the same name, then the class created later is picked to satisfy a pod's extended resource requests. If two classes are created at the same time, then the name of the class lexicographically sorted first is picked.
+    /// extendedResourceName is the extended resource name for the devices of this class. The devices of this class can be used to satisfy a pod's extended resource requests. It has the same format as the name of a pod's extended resource. It should be unique among all the device classes in a cluster. If two device classes have the same name, then the class created later is picked to satisfy a pod's extended resource requests. If two classes are created at the same time, then the name of the class lexicographically sorted first is picked.
     extendedResourceName: ?[]const u8 = null,
-    /// Each selector must be satisfied by a device which is claimed via this class.
+    /// selectors must be satisfied by a device which is claimed via this class.
     selectors: ?[]const root.io.k8s.api.resource.v1beta1.DeviceSelector = null,
 
     pub fn validate(self: @This()) !void {
@@ -469,7 +469,7 @@ pub const DeviceClassSpec = struct {
 
 /// DeviceConstraint must have exactly one field set besides Requests.
 pub const DeviceConstraint = struct {
-    /// DistinctAttribute requires that all devices in question have this attribute and that its type and value are unique across those devices.
+    /// distinctAttribute requires that all devices in question have this attribute and that its type and value are unique across those devices.
     ///
     /// When the DRAListTypeAttributes feature gate is enabled, comparison uses set semantics (i.e., element order and duplicates are ignored): list-valued attributes must be pairwise disjoint across devices. Scalar values are treated as singleton sets for backward compatibility.
     ///
@@ -479,7 +479,7 @@ pub const DeviceConstraint = struct {
     ///
     /// This is useful for scenarios where resource requests must be fulfilled by separate physical devices. For example, a container requests two network interfaces that must be allocated from two different physical NICs.
     distinctAttribute: ?[]const u8 = null,
-    /// MatchAttribute requires that all devices in question have this attribute and that its type and value are the same across those devices.
+    /// matchAttribute requires that all devices in question have this attribute and that its type and value are the same across those devices.
     ///
     /// For example, if you specified "dra.example.com/numa" (a hypothetical example!), then only devices in the same NUMA node will be chosen. A device which does not have that attribute will not be chosen. All devices should use a value of the same type for this attribute because that is part of its specification, but if one device doesn't, then it also will not be chosen.
     ///
@@ -487,7 +487,7 @@ pub const DeviceConstraint = struct {
     ///
     /// Must include the domain qualifier.
     matchAttribute: ?[]const u8 = null,
-    /// Requests is a list of the one or more requests in this claim which must co-satisfy this constraint. If a request is fulfilled by multiple devices, then all of the devices must satisfy the constraint. If this is not specified, this constraint applies to all requests in this claim.
+    /// requests is a list of the one or more requests in this claim which must co-satisfy this constraint. If a request is fulfilled by multiple devices, then all of the devices must satisfy the constraint. If this is not specified, this constraint applies to all requests in this claim.
     ///
     /// References to subrequests must include the name of the main request and may include the subrequest using the format <main request>[/<subrequest>]. If just the main request is given, the constraint applies to all subrequests.
     requests: ?[]const []const u8 = null,
@@ -499,7 +499,7 @@ pub const DeviceConstraint = struct {
 
 /// DeviceCounterConsumption defines a set of counters that a device will consume from a CounterSet.
 pub const DeviceCounterConsumption = struct {
-    /// CompatibilityGroups is a list of opaque group names for this counter set consumption.
+    /// compatibilityGroups is a list of opaque group names for this counter set consumption.
     ///
     /// Devices that consume counters from the same counter set may only be allocated at the same time ("co-allocated") if they all share at least one common group: the intersection of the CompatibilityGroups of all co-allocated devices on that counter set must be non-empty. Devices that consume from different counter sets are never compared via this field.
     ///
@@ -509,9 +509,9 @@ pub const DeviceCounterConsumption = struct {
     ///
     /// The maximum number of groups is 2, and the names must be unique.
     compatibilityGroups: ?[]const []const u8 = null,
-    /// CounterSet is the name of the set from which the counters defined will be consumed.
+    /// counterSet is the name of the set from which the counters defined will be consumed.
     counterSet: []const u8,
-    /// Counters defines the counters that will be consumed by the device.
+    /// counters defines the counters that will be consumed by the device.
     ///
     /// The maximum number of counters is 32.
     counters: std.json.Value,
@@ -523,7 +523,7 @@ pub const DeviceCounterConsumption = struct {
 
 /// DeviceDerivedAttribute defines a derived attribute computed via CEL.
 pub const DeviceDerivedAttribute = struct {
-    /// Expression is a CEL expression evaluated against each candidate device. The expression must evaluate to a primitive scalar (string, integer, boolean, or semver) or a list of these scalars ([]string, []int64, []bool, []semver) to act as a virtual grouping key. Any other return type is an error and causes CEL evaluation for the device to fail.
+    /// expression is a CEL expression evaluated against each candidate device. The expression must evaluate to a primitive scalar (string, integer, boolean, or semver) or a list of these scalars ([]string, []int64, []bool, []semver) to act as a virtual grouping key. Any other return type is an error and causes CEL evaluation for the device to fail.
     ///
     /// The expression's input is an object named "device", which carries the same properties as in a CELDeviceSelector.
     ///
@@ -533,7 +533,7 @@ pub const DeviceDerivedAttribute = struct {
     ///
     /// The length of the expression must be smaller or equal to 10 Ki. The cost of evaluating it is also limited based on the estimated number of logical steps; the combined cost of all derived attributes in a claim is capped by a shared CEL cost budget.
     expression: []const u8,
-    /// Name is the identifier for this derived attribute, used in constraints.
+    /// name is the identifier for this derived attribute, used in constraints.
     ///
     /// It must be a DNS subdomain followed by a slash ("/") followed by a C identifier (e.g. "example.com/numaNode" or "derived/numaNode").
     ///
@@ -549,13 +549,13 @@ pub const DeviceDerivedAttribute = struct {
 
 /// DeviceRequest is a request for devices required for a claim. This is typically a request for a single resource like a device, but can also ask for several identical devices.
 pub const DeviceRequest = struct {
-    /// AdminAccess indicates that this is a claim for administrative access to the device(s). Claims with AdminAccess are expected to be used for monitoring or other management services for a device.  They ignore all ordinary claims to the device with respect to access modes and any resource allocations.
+    /// adminAccess indicates that this is a claim for administrative access to the device(s). Claims with AdminAccess are expected to be used for monitoring or other management services for a device.  They ignore all ordinary claims to the device with respect to access modes and any resource allocations.
     ///
     /// This field can only be set when deviceClassName is set and no subrequests are specified in the firstAvailable list.
     ///
     /// This is an alpha field and requires enabling the DRAAdminAccess feature gate. Admin access is disabled if this field is unset or set to false, otherwise it is enabled.
     adminAccess: ?bool = null,
-    /// AllocationMode and its related fields define how devices are allocated to satisfy this request. Supported values are:
+    /// allocationMode and its related fields define how devices are allocated to satisfy this request. Supported values are:
     ///
     /// - ExactCount: This request is for a specific number of devices.
     ///   This is the default. The exact number is provided in the
@@ -572,17 +572,17 @@ pub const DeviceRequest = struct {
     ///
     /// More modes may get added in the future. Clients must refuse to handle requests with unknown modes.
     allocationMode: ?[]const u8 = null,
-    /// Capacity define resource requirements against each capacity.
+    /// capacity define resource requirements against each capacity.
     ///
     /// If this field is unset and the device supports multiple allocations, the default value will be applied to each capacity according to requestPolicy. For the capacity that has no requestPolicy, default is the full capacity value.
     ///
     /// Applies to each device allocation. If Count > 1, the request fails if there aren't enough devices that meet the requirements. If AllocationMode is set to All, the request fails if there are devices that otherwise match the request, and have this capacity, with a value >= the requested amount, but which cannot be allocated to this request.
     capacity: ?root.io.k8s.api.resource.v1beta1.CapacityRequirements = null,
-    /// Count is used only when the count mode is "ExactCount". Must be greater than zero. If AllocationMode is ExactCount and this field is not specified, the default is one.
+    /// count is used only when the count mode is "ExactCount". Must be greater than zero. If AllocationMode is ExactCount and this field is not specified, the default is one.
     ///
     /// This field can only be set when deviceClassName is set and no subrequests are specified in the firstAvailable list.
     count: ?i64 = null,
-    /// DerivedAttributes defines a set of virtual attributes computed via CEL expressions for each candidate device. These virtual attributes can be referenced in `.devices.constraints` to align and match different devices (e.g., co-allocating a GPU and a NIC on the same NUMA node) even if their drivers publish different attributes. Derived attributes are not available via `device.attributes` in the CEL environment when evaluating selector expressions.
+    /// derivedAttributes defines a set of virtual attributes computed via CEL expressions for each candidate device. These virtual attributes can be referenced in `.devices.constraints` to align and match different devices (e.g., co-allocating a GPU and a NIC on the same NUMA node) even if their drivers publish different attributes. Derived attributes are not available via `device.attributes` in the CEL environment when evaluating selector expressions.
     ///
     /// Derived attributes allow you to extract, transform, or normalize topology information (such as extracting a NUMA index from a complex topology string or renaming a vendor-specific attribute) into a common virtual attribute name at scheduling time. The scheduler then evaluates these virtual attributes exactly like static attributes when matching constraints.
     ///
@@ -592,27 +592,27 @@ pub const DeviceRequest = struct {
     ///
     /// This is an alpha field and requires enabling the DRADerivedAttributes feature gate.
     derivedAttributes: ?[]const root.io.k8s.api.resource.v1beta1.DeviceDerivedAttribute = null,
-    /// DeviceClassName references a specific DeviceClass, which can define additional configuration and selectors to be inherited by this request.
+    /// deviceClassName references a specific DeviceClass, which can define additional configuration and selectors to be inherited by this request.
     ///
     /// A class is required if no subrequests are specified in the firstAvailable list and no class can be set if subrequests are specified in the firstAvailable list. Which classes are available depends on the cluster.
     ///
     /// Administrators may use this to restrict which devices may get requested by only installing classes with selectors for permitted devices. If users are free to request anything without restrictions, then administrators can create an empty DeviceClass for users to reference.
     deviceClassName: ?[]const u8 = null,
-    /// FirstAvailable contains subrequests, of which exactly one will be satisfied by the scheduler to satisfy this request. It tries to satisfy them in the order in which they are listed here. So if there are two entries in the list, the scheduler will only check the second one if it determines that the first one cannot be used.
+    /// firstAvailable contains subrequests, of which exactly one will be satisfied by the scheduler to satisfy this request. It tries to satisfy them in the order in which they are listed here. So if there are two entries in the list, the scheduler will only check the second one if it determines that the first one cannot be used.
     ///
     /// This field may only be set in the entries of DeviceClaim.Requests.
     ///
     /// DRA does not yet implement scoring, so the scheduler will select the first set of devices that satisfies all the requests in the claim. And if the requirements can be satisfied on more than one node, other scheduling features will determine which node is chosen. This means that the set of devices allocated to a claim might not be the optimal set available to the cluster. Scoring will be implemented later.
     firstAvailable: ?[]const root.io.k8s.api.resource.v1beta1.DeviceSubRequest = null,
-    /// Name can be used to reference this request in a pod.spec.containers[].resources.claims entry and in a constraint of the claim.
+    /// name can be used to reference this request in a pod.spec.containers[].resources.claims entry and in a constraint of the claim.
     ///
     /// Must be a DNS label and unique among all DeviceRequests in a ResourceClaim.
     name: []const u8,
-    /// Selectors define criteria which must be satisfied by a specific device in order for that device to be considered for this request. All selectors must be satisfied for a device to be considered.
+    /// selectors define criteria which must be satisfied by a specific device in order for that device to be considered for this request. All selectors must be satisfied for a device to be considered.
     ///
     /// This field can only be set when deviceClassName is set and no subrequests are specified in the firstAvailable list.
     selectors: ?[]const root.io.k8s.api.resource.v1beta1.DeviceSelector = null,
-    /// If specified, the request's tolerations.
+    /// tolerations if specified, the request's tolerations.
     ///
     /// Tolerations for NoSchedule are required to allocate a device which has a taint with that effect. The same applies to NoExecute.
     ///
@@ -636,43 +636,43 @@ pub const DeviceRequest = struct {
 
 /// DeviceRequestAllocationResult contains the allocation result for one request.
 pub const DeviceRequestAllocationResult = struct {
-    /// AdminAccess indicates that this device was allocated for administrative access. See the corresponding request field for a definition of mode.
+    /// adminAccess indicates that this device was allocated for administrative access. See the corresponding request field for a definition of mode.
     ///
     /// This is an alpha field and requires enabling the DRAAdminAccess feature gate. Admin access is disabled if this field is unset or set to false, otherwise it is enabled.
     adminAccess: ?bool = null,
-    /// BindingConditions contains a copy of the BindingConditions from the corresponding ResourceSlice at the time of allocation.
+    /// bindingConditions contains a copy of the BindingConditions from the corresponding ResourceSlice at the time of allocation.
     ///
     /// This is a beta field and requires enabling the DRADeviceBindingConditions and DRAResourceClaimDeviceStatus feature gates.
     bindingConditions: ?[]const []const u8 = null,
-    /// BindingFailureConditions contains a copy of the BindingFailureConditions from the corresponding ResourceSlice at the time of allocation.
+    /// bindingFailureConditions contains a copy of the BindingFailureConditions from the corresponding ResourceSlice at the time of allocation.
     ///
     /// This is a beta field and requires enabling the DRADeviceBindingConditions and DRAResourceClaimDeviceStatus feature gates.
     bindingFailureConditions: ?[]const []const u8 = null,
-    /// ConsumedCapacity tracks the amount of capacity consumed per device as part of the claim request. The consumed amount may differ from the requested amount: it is rounded up to the nearest valid value based on the device’s requestPolicy if applicable (i.e., may not be less than the requested amount).
+    /// consumedCapacity tracks the amount of capacity consumed per device as part of the claim request. The consumed amount may differ from the requested amount: it is rounded up to the nearest valid value based on the device’s requestPolicy if applicable (i.e., may not be less than the requested amount).
     ///
     /// The total consumed capacity for each device must not exceed the DeviceCapacity's Value.
     ///
     /// This field is populated only for devices that allow multiple allocations. All capacity entries are included, even if the consumed amount is zero.
     consumedCapacity: ?std.json.Value = null,
-    /// Device references one device instance via its name in the driver's resource pool. It must be a DNS label.
+    /// device references one device instance via its name in the driver's resource pool. It must be a DNS label.
     device: []const u8,
-    /// Driver specifies the name of the DRA driver whose kubelet plugin should be invoked to process the allocation once the claim is needed on a node.
+    /// driver specifies the name of the DRA driver whose kubelet plugin should be invoked to process the allocation once the claim is needed on a node.
     ///
     /// Must be a DNS subdomain and should end with a DNS domain owned by the vendor of the driver. It should use only lower case characters.
     driver: []const u8,
-    /// This name together with the driver name and the device name field identify which device was allocated (`<driver name>/<pool name>/<device name>`).
+    /// pool is the name together with the driver name and the device name field identify which device was allocated (`<driver name>/<pool name>/<device name>`).
     ///
     /// Must not be longer than 253 characters and may contain one or more DNS sub-domains separated by slashes.
     pool: []const u8,
-    /// Request is the name of the request in the claim which caused this device to be allocated. If it references a subrequest in the firstAvailable list on a DeviceRequest, this field must include both the name of the main request and the subrequest using the format <main request>/<subrequest>.
+    /// request is the name of the request in the claim which caused this device to be allocated. If it references a subrequest in the firstAvailable list on a DeviceRequest, this field must include both the name of the main request and the subrequest using the format <main request>/<subrequest>.
     ///
     /// Multiple devices may have been allocated per request.
     request: []const u8,
-    /// ShareID uniquely identifies an individual allocation share of the device, used when the device supports multiple simultaneous allocations. It serves as an additional map key to differentiate concurrent shares of the same device.
+    /// shareID uniquely identifies an individual allocation share of the device, used when the device supports multiple simultaneous allocations. It serves as an additional map key to differentiate concurrent shares of the same device.
     shareID: ?[]const u8 = null,
-    /// SkipNodeOperations lists node-local resource operations (gRPC calls) that will be skipped for this allocated device when determining whether operations are necessary on the node. If all allocated devices for a driver in a claim skip an operation, that gRPC call will be skipped. It is a copy of the ResourceSlice.spec.skipNodeOperations value at the time when the device was allocated.
+    /// skipNodeOperations lists node-local resource operations (gRPC calls) that will be skipped for this allocated device when determining whether operations are necessary on the node. If all allocated devices for a driver in a claim skip an operation, that gRPC call will be skipped. It is a copy of the ResourceSlice.spec.skipNodeOperations value at the time when the device was allocated.
     skipNodeOperations: ?[]const []const u8 = null,
-    /// A copy of all tolerations specified in the request at the time when the device got allocated.
+    /// tolerations is a copy of all tolerations specified in the request at the time when the device got allocated.
     ///
     /// The maximum number of tolerations is 16.
     ///
@@ -686,7 +686,7 @@ pub const DeviceRequestAllocationResult = struct {
 
 /// DeviceSelector must have exactly one field set.
 pub const DeviceSelector = struct {
-    /// CEL contains a CEL expression for selecting a device.
+    /// cel contains a CEL expression for selecting a device.
     cel: ?root.io.k8s.api.resource.v1beta1.CELDeviceSelector = null,
 
     pub fn validate(self: @This()) !void {
@@ -698,7 +698,7 @@ pub const DeviceSelector = struct {
 ///
 /// DeviceSubRequest is similar to Request, but doesn't expose the AdminAccess or FirstAvailable fields, as those can only be set on the top-level request. AdminAccess is not supported for requests with a prioritized list, and recursive FirstAvailable fields are not supported.
 pub const DeviceSubRequest = struct {
-    /// AllocationMode and its related fields define how devices are allocated to satisfy this subrequest. Supported values are:
+    /// allocationMode and its related fields define how devices are allocated to satisfy this subrequest. Supported values are:
     ///
     /// - ExactCount: This request is for a specific number of devices.
     ///   This is the default. The exact number is provided in the
@@ -712,15 +712,15 @@ pub const DeviceSubRequest = struct {
     ///
     /// More modes may get added in the future. Clients must refuse to handle requests with unknown modes.
     allocationMode: ?[]const u8 = null,
-    /// Capacity define resource requirements against each capacity.
+    /// capacity define resource requirements against each capacity.
     ///
     /// If this field is unset and the device supports multiple allocations, the default value will be applied to each capacity according to requestPolicy. For the capacity that has no requestPolicy, default is the full capacity value.
     ///
     /// Applies to each device allocation. If Count > 1, the request fails if there aren't enough devices that meet the requirements. If AllocationMode is set to All, the request fails if there are devices that otherwise match the request, and have this capacity, with a value >= the requested amount, but which cannot be allocated to this request.
     capacity: ?root.io.k8s.api.resource.v1beta1.CapacityRequirements = null,
-    /// Count is used only when the count mode is "ExactCount". Must be greater than zero. If AllocationMode is ExactCount and this field is not specified, the default is one.
+    /// count is used only when the count mode is "ExactCount". Must be greater than zero. If AllocationMode is ExactCount and this field is not specified, the default is one.
     count: ?i64 = null,
-    /// DerivedAttributes defines a set of virtual attributes computed via CEL expressions for each candidate device. These virtual attributes can be referenced in `.devices.constraints` to align and match different devices (e.g., co-allocating a GPU and a NIC on the same NUMA node) even if their drivers publish different attributes. Derived attributes are not available via `device.attributes` in the CEL environment when evaluating selector expressions.
+    /// derivedAttributes defines a set of virtual attributes computed via CEL expressions for each candidate device. These virtual attributes can be referenced in `.devices.constraints` to align and match different devices (e.g., co-allocating a GPU and a NIC on the same NUMA node) even if their drivers publish different attributes. Derived attributes are not available via `device.attributes` in the CEL environment when evaluating selector expressions.
     ///
     /// Derived attributes allow you to extract, transform, or normalize topology information (such as extracting a NUMA index from a complex topology string or renaming a vendor-specific attribute) into a common virtual attribute name at scheduling time. The scheduler then evaluates these virtual attributes exactly like static attributes when matching constraints.
     ///
@@ -730,19 +730,19 @@ pub const DeviceSubRequest = struct {
     ///
     /// This is an alpha field and requires enabling the DRADerivedAttributes feature gate.
     derivedAttributes: ?[]const root.io.k8s.api.resource.v1beta1.DeviceDerivedAttribute = null,
-    /// DeviceClassName references a specific DeviceClass, which can define additional configuration and selectors to be inherited by this subrequest.
+    /// deviceClassName references a specific DeviceClass, which can define additional configuration and selectors to be inherited by this subrequest.
     ///
     /// A class is required. Which classes are available depends on the cluster.
     ///
     /// Administrators may use this to restrict which devices may get requested by only installing classes with selectors for permitted devices. If users are free to request anything without restrictions, then administrators can create an empty DeviceClass for users to reference.
     deviceClassName: []const u8,
-    /// Name can be used to reference this subrequest in the list of constraints or the list of configurations for the claim. References must use the format <main request>/<subrequest>.
+    /// name can be used to reference this subrequest in the list of constraints or the list of configurations for the claim. References must use the format <main request>/<subrequest>.
     ///
     /// Must be a DNS label.
     name: []const u8,
-    /// Selectors define criteria which must be satisfied by a specific device in order for that device to be considered for this subrequest. All selectors must be satisfied for a device to be considered.
+    /// selectors define criteria which must be satisfied by a specific device in order for that device to be considered for this subrequest. All selectors must be satisfied for a device to be considered.
     selectors: ?[]const root.io.k8s.api.resource.v1beta1.DeviceSelector = null,
-    /// If specified, the request's tolerations.
+    /// tolerations if specified, the request's tolerations.
     ///
     /// Tolerations for NoSchedule are required to allocate a device which has a taint with that effect. The same applies to NoExecute.
     ///
@@ -763,17 +763,17 @@ pub const DeviceSubRequest = struct {
 
 /// The device this taint is attached to has the "effect" on any claim which does not tolerate the taint and, through the claim, to pods using the claim.
 pub const DeviceTaint = struct {
-    /// The effect of the taint on claims that do not tolerate the taint and through such claims on the pods using them.
+    /// effect is the effect of the taint on claims that do not tolerate the taint and through such claims on the pods using them.
     ///
     /// Valid effects are None, NoSchedule and NoExecute. PreferNoSchedule as used for nodes is not valid here. More effects may get added in the future. Consumers must treat unknown effects like None.
     effect: []const u8,
-    /// The taint key to be applied to a device. Must be a label name.
+    /// key is the taint key to be applied to a device. Must be a label name.
     key: []const u8,
-    /// TimeAdded represents the time at which the taint was added or (only in a DeviceTaintRule) the effect was modified. Added automatically during create or update if not set.
+    /// timeAdded represents the time at which the taint was added or (only in a DeviceTaintRule) the effect was modified. Added automatically during create or update if not set.
     ///
     /// In addition, in a DeviceTaintRule a value provided during an update gets replaced with the current time if the provided value is the same as the old one and the new effect is different. Changing the key and/or value while keeping the effect unchanged is possible and does not update the time stamp because the eviction which uses it is either already started (NoExecute) or not started yet (NoEffect, NoSchedule).
     timeAdded: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.Time = null,
-    /// The taint value corresponding to the taint key. Must be a label value.
+    /// value is the taint value corresponding to the taint key. Must be a label value.
     value: ?[]const u8 = null,
 
     pub fn validate(self: @This()) !void {
@@ -783,15 +783,15 @@ pub const DeviceTaint = struct {
 
 /// The ResourceClaim this DeviceToleration is attached to tolerates any taint that matches the triple <key,value,effect> using the matching operator <operator>.
 pub const DeviceToleration = struct {
-    /// Effect indicates the taint effect to match. Empty means match all taint effects. When specified, allowed values are NoSchedule and NoExecute.
+    /// effect indicates the taint effect to match. Empty means match all taint effects. When specified, allowed values are NoSchedule and NoExecute.
     effect: ?[]const u8 = null,
-    /// Key is the taint key that the toleration applies to. Empty means match all taint keys. If the key is empty, operator must be Exists; this combination means to match all values and all keys. Must be a label name.
+    /// key is the taint key that the toleration applies to. Empty means match all taint keys. If the key is empty, operator must be Exists; this combination means to match all values and all keys. Must be a label name.
     key: ?[]const u8 = null,
-    /// Operator represents a key's relationship to the value. Valid operators are Exists and Equal. Defaults to Equal. Exists is equivalent to wildcard for value, so that a ResourceClaim can tolerate all taints of a particular category.
+    /// operator represents a key's relationship to the value. Valid operators are Exists and Equal. Defaults to Equal. Exists is equivalent to wildcard for value, so that a ResourceClaim can tolerate all taints of a particular category.
     operator: ?[]const u8 = null,
-    /// TolerationSeconds represents the period of time the toleration (which must be of effect NoExecute, otherwise this field is ignored) tolerates the taint. By default, it is not set, which means tolerate the taint forever (do not evict). Zero and negative values will be treated as 0 (evict immediately) by the system. If larger than zero, the time when the pod needs to be evicted is calculated as <time when taint was adedd> + <toleration seconds>.
+    /// tolerationSeconds represents the period of time the toleration (which must be of effect NoExecute, otherwise this field is ignored) tolerates the taint. By default, it is not set, which means tolerate the taint forever (do not evict). Zero and negative values will be treated as 0 (evict immediately) by the system. If larger than zero, the time when the pod needs to be evicted is calculated as <time when taint was adedd> + <toleration seconds>.
     tolerationSeconds: ?i64 = null,
-    /// Value is the taint value the toleration matches to. If the operator is Exists, the value must be empty, otherwise just a regular string. Must be a label value.
+    /// value is the taint value the toleration matches to. If the operator is Exists, the value must be empty, otherwise just a regular string. Must be a label value.
     value: ?[]const u8 = null,
 
     pub fn validate(self: @This()) !void {
@@ -801,15 +801,15 @@ pub const DeviceToleration = struct {
 
 /// NetworkDeviceData provides network-related details for the allocated device. This information may be filled by drivers or other components to configure or identify the device within a network context.
 pub const NetworkDeviceData = struct {
-    /// HardwareAddress represents the hardware address (e.g. MAC Address) of the device's network interface.
+    /// hardwareAddress represents the hardware address (e.g. MAC Address) of the device's network interface.
     ///
     /// Must not be longer than 128 bytes.
     hardwareAddress: ?[]const u8 = null,
-    /// InterfaceName specifies the name of the network interface associated with the allocated device. This might be the name of a physical or virtual network interface being configured in the pod.
+    /// interfaceName specifies the name of the network interface associated with the allocated device. This might be the name of a physical or virtual network interface being configured in the pod.
     ///
     /// Must not be longer than 256 bytes.
     interfaceName: ?[]const u8 = null,
-    /// IPs lists the network addresses assigned to the device's network interface. This can include both IPv4 and IPv6 addresses. The IPs are in the CIDR notation, which includes both the address and the associated subnet mask. e.g.: "192.0.2.5/24" for IPv4 and "2001:db8::5/64" for IPv6.
+    /// ips lists the network addresses assigned to the device's network interface. This can include both IPv4 and IPv6 addresses. The IPs are in the CIDR notation, which includes both the address and the associated subnet mask. e.g.: "192.0.2.5/24" for IPv4 and "2001:db8::5/64" for IPv6.
     ///
     /// Must not contain more than 16 entries.
     ips: ?[]const []const u8 = null,
@@ -821,11 +821,11 @@ pub const NetworkDeviceData = struct {
 
 /// NodeAllocatableMapping defines how a DRA allocation directly translates into a node allocatable resource quantity. The mapping can be derived from either the count of allocated devices or the specific capacity consumed. These options are mutually exclusive. Kubelet adds this mapped resource quantity from claim to both requests and limits at the pod-level cgroup, and to limits at the container-level cgroup for each container referencing the claim.
 pub const NodeAllocatableMapping = struct {
-    /// CapacityKey references a capacity name defined as a key in the `spec.devices[*].capacity` map. When this field is set, the value associated with this key in the `status.allocation.devices.results[*].consumedCapacity` map (for a specific claim allocation) determines the base quantity for the node allocatable resource. `capacityMultiplier` must also be set and is multiplied with the base quantity. For example, if `spec.devices[*].capacity` has an entry "dra.example.com/memory": "128Gi", and this field is set to "dra.example.com/memory", then for a claim allocation that consumes { "dra.example.com/memory": "4Gi" } the base quantity for the node allocatable resource mapping will be "4Gi". The final node allocatable resource amount is `consumedCapacity[capacityKey]` * `capacityMultiplier`.
+    /// capacityKey references a capacity name defined as a key in the `spec.devices[*].capacity` map. When this field is set, the value associated with this key in the `status.allocation.devices.results[*].consumedCapacity` map (for a specific claim allocation) determines the base quantity for the node allocatable resource. `capacityMultiplier` must also be set and is multiplied with the base quantity. For example, if `spec.devices[*].capacity` has an entry "dra.example.com/memory": "128Gi", and this field is set to "dra.example.com/memory", then for a claim allocation that consumes { "dra.example.com/memory": "4Gi" } the base quantity for the node allocatable resource mapping will be "4Gi". The final node allocatable resource amount is `consumedCapacity[capacityKey]` * `capacityMultiplier`.
     capacityKey: ?[]const u8 = null,
-    /// CapacityMultiplier is used as a multiplier for the allocated capacity consumed. It is only valid if `capacityKey` is set. The final node allocatable resource amount is `consumedCapacity[capacityKey]` * `capacityMultiplier`. For example, if a Device's capacity "dra.example.com/cores" is consumed, and each "core" provides 2 "cpu"s, the mapping would be: {ResourceName: "cpu", capacityKey: "dra.example.com/cores", capacityMultiplier: "2"}. If a claim consumes 8 "dra.example.com/cores", the CPU footprint is 8 * 2 = 16.
+    /// capacityMultiplier is used as a multiplier for the allocated capacity consumed. It is only valid if `capacityKey` is set. The final node allocatable resource amount is `consumedCapacity[capacityKey]` * `capacityMultiplier`. For example, if a Device's capacity "dra.example.com/cores" is consumed, and each "core" provides 2 "cpu"s, the mapping would be: {ResourceName: "cpu", capacityKey: "dra.example.com/cores", capacityMultiplier: "2"}. If a claim consumes 8 "dra.example.com/cores", the CPU footprint is 8 * 2 = 16.
     capacityMultiplier: ?root.io.k8s.apimachinery.pkg.api.resource.Quantity = null,
-    /// DeviceMultiplier is used as a multiplier for the allocated device count in the claim. The final node allocatable resource amount is `deviceCount` * `deviceMultiplier`. For example, a DRA driver representing each cache complex (CCX) as a device would have {ResourceName: "cpu", deviceMultiplier: "8"} in its `nodeAllocatableResources`. If 2 devices (CCX) are allocated to the claim, 2 * 8 = 16 CPUs would be considered as allocated. It is only valid when `capacityKey` and `capacityMultiplier` are not set.
+    /// deviceMultiplier is used as a multiplier for the allocated device count in the claim. The final node allocatable resource amount is `deviceCount` * `deviceMultiplier`. For example, a DRA driver representing each cache complex (CCX) as a device would have {ResourceName: "cpu", deviceMultiplier: "8"} in its `nodeAllocatableResources`. If 2 devices (CCX) are allocated to the claim, 2 * 8 = 16 CPUs would be considered as allocated. It is only valid when `capacityKey` and `capacityMultiplier` are not set.
     deviceMultiplier: ?root.io.k8s.apimachinery.pkg.api.resource.Quantity = null,
 
     pub fn validate(self: @This()) !void {
@@ -835,9 +835,9 @@ pub const NodeAllocatableMapping = struct {
 
 /// NodeAllocatableOverhead defines auxiliary resource overheads incurred when allocating a device. Overheads can be specified as a fixed cost per pod referencing the claim, a variable cost per container reference, or both. Kubelet accounts for this overhead by adding it to both the pod-level and container-level cgroups of referencing containers.
 pub const NodeAllocatableOverhead = struct {
-    /// PerContainer is applied per container reference to the claim. This models overhead scaling linearly with the number of containers actively using the device. When both PerPod and PerContainer are specified, the total overhead allocated for each pod referencing the claim is computed as: Quantity = PerPod + (PerContainer * NumReferences) Kubelet accounts for this overhead in cgroups: - Pod-level cgroup (requests and limits): Kubelet adds PerPod + (PerContainer * NumReferences). - Container-level cgroup (limits only): Kubelet adds PerPod + PerContainer for each referencing container. This allows any single container to access the pod-level overhead, while the parent cgroup caps the total usage to account for PerPod exactly once.
+    /// perContainer is applied per container reference to the claim. This models overhead scaling linearly with the number of containers actively using the device. When both PerPod and PerContainer are specified, the total overhead allocated for each pod referencing the claim is computed as: Quantity = PerPod + (PerContainer * NumReferences) Kubelet accounts for this overhead in cgroups: - Pod-level cgroup (requests and limits): Kubelet adds PerPod + (PerContainer * NumReferences). - Container-level cgroup (limits only): Kubelet adds PerPod + PerContainer for each referencing container. This allows any single container to access the pod-level overhead, while the parent cgroup caps the total usage to account for PerPod exactly once.
     perContainer: ?root.io.k8s.apimachinery.pkg.api.resource.Quantity = null,
-    /// PerPod is overhead applied once per pod referencing the claim on this node. This is a flat overhead incurred for every pod referencing the claim.
+    /// perPod is overhead applied once per pod referencing the claim on this node. This is a flat overhead incurred for every pod referencing the claim.
     perPod: ?root.io.k8s.apimachinery.pkg.api.resource.Quantity = null,
 
     pub fn validate(self: @This()) !void {
@@ -847,9 +847,9 @@ pub const NodeAllocatableOverhead = struct {
 
 /// NodeAllocatableResource defines the translation between the DRA device/capacity units requested to the corresponding quantity of the node allocatable resource. At least one of Mapping or Overhead must be specified. Not specifying either is an invalid configuration.
 pub const NodeAllocatableResource = struct {
-    /// Mapping is used when the device directly models a node allocatable resource like standard CPU or memory (e.g., with a CPU DRA driver). The calculated quantity is accounted for exactly once per claim instance on the node. To prevent node cgroup isolation friction, the scheduler explicitly blocks sharing mapped device claims across multiple pods.
+    /// mapping is used when the device directly models a node allocatable resource like standard CPU or memory (e.g., with a CPU DRA driver). The calculated quantity is accounted for exactly once per claim instance on the node. To prevent node cgroup isolation friction, the scheduler explicitly blocks sharing mapped device claims across multiple pods.
     mapping: ?root.io.k8s.api.resource.v1beta1.NodeAllocatableMapping = null,
-    /// Overhead contains fields for modeling auxiliary overhead incurred on node allocatable resources when allocating devices that are not themselves modeling a node allocatable resource (e.g., host memory overhead for GPUs). Sharing overhead-mapped claims across multiple pods is allowed. The node allocatable overhead is accounted for individually for each pod referencing the claim. Overhead is always subtracted from the node's allocatable capacity for the resource, even when mapping is specified for the same resource. Eg: If a device models memory capacity per socket as a consumable capacity pool via Mapping (with CapacityKey), any overhead specified for the same resource will be subtracted from the node's general allocatable capacity and not from the per-socket capacity pool in Mapping.
+    /// overhead contains fields for modeling auxiliary overhead incurred on node allocatable resources when allocating devices that are not themselves modeling a node allocatable resource (e.g., host memory overhead for GPUs). Sharing overhead-mapped claims across multiple pods is allowed. The node allocatable overhead is accounted for individually for each pod referencing the claim. Overhead is always subtracted from the node's allocatable capacity for the resource, even when mapping is specified for the same resource. Eg: If a device models memory capacity per socket as a consumable capacity pool via Mapping (with CapacityKey), any overhead specified for the same resource will be subtracted from the node's general allocatable capacity and not from the per-socket capacity pool in Mapping.
     overhead: ?root.io.k8s.api.resource.v1beta1.NodeAllocatableOverhead = null,
 
     pub fn validate(self: @This()) !void {
@@ -860,13 +860,13 @@ pub const NodeAllocatableResource = struct {
 
 /// OpaqueDeviceConfiguration contains configuration parameters for a driver in a format defined by the driver vendor.
 pub const OpaqueDeviceConfiguration = struct {
-    /// Driver is used to determine which kubelet plugin needs to be passed these configuration parameters.
+    /// driver is used to determine which kubelet plugin needs to be passed these configuration parameters.
     ///
     /// An admission policy provided by the driver developer could use this to decide whether it needs to validate them.
     ///
     /// Must be a DNS subdomain and should end with a DNS domain owned by the vendor of the driver. It should use only lower case characters.
     driver: []const u8,
-    /// Parameters can contain arbitrary data. It is the responsibility of the driver developer to handle validation and versioning. Typically this includes self-identification and a version ("kind" + "apiVersion" for Kubernetes types), with conversion between different versions.
+    /// parameters can contain arbitrary data. It is the responsibility of the driver developer to handle validation and versioning. Typically this includes self-identification and a version ("kind" + "apiVersion" for Kubernetes types), with conversion between different versions.
     ///
     /// The length of the raw data must be smaller or equal to 10 Ki.
     parameters: root.io.k8s.apimachinery.pkg.runtime.RawExtension,
@@ -884,11 +884,11 @@ pub const ResourceClaim = struct {
     apiVersion: ?[]const u8 = null,
     /// Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     kind: ?[]const u8 = null,
-    /// Standard object metadata
+    /// metadata is the standard object metadata.
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
-    /// Spec describes what is being requested and how to configure it. The spec is immutable.
+    /// spec describes what is being requested and how to configure it. The spec is immutable.
     spec: ?root.io.k8s.api.resource.v1beta1.ResourceClaimSpec = null,
-    /// Status describes whether the claim is ready to use and what has been allocated.
+    /// status describes whether the claim is ready to use and what has been allocated.
     status: ?root.io.k8s.api.resource.v1beta1.ResourceClaimStatus = null,
 
     pub fn validate(self: @This()) !void {
@@ -900,13 +900,13 @@ pub const ResourceClaim = struct {
 
 /// ResourceClaimConsumerReference contains enough information to let you locate the consumer of a ResourceClaim. The user must be a resource in the same namespace as the ResourceClaim.
 pub const ResourceClaimConsumerReference = struct {
-    /// APIGroup is the group for the resource being referenced. It is empty for the core API. This matches the group in the APIVersion that is used when creating the resources.
+    /// apiGroup is the group for the resource being referenced. It is empty for the core API. This matches the group in the APIVersion that is used when creating the resources.
     apiGroup: ?[]const u8 = null,
-    /// Name is the name of resource being referenced.
+    /// name is the name of resource being referenced.
     name: []const u8,
-    /// Resource is the type of resource being referenced, for example "pods".
+    /// resource is the type of resource being referenced, for example "pods".
     resource: []const u8,
-    /// UID identifies exactly one incarnation of the resource.
+    /// uid identifies exactly one incarnation of the resource.
     uid: []const u8,
 
     pub fn validate(self: @This()) !void {
@@ -933,7 +933,7 @@ pub const ResourceClaimList = struct {
 
 /// ResourceClaimSpec defines what is being requested in a ResourceClaim and how to configure it.
 pub const ResourceClaimSpec = struct {
-    /// Devices defines how to request devices.
+    /// devices defines how to request devices.
     devices: ?root.io.k8s.api.resource.v1beta1.DeviceClaim = null,
 
     pub fn validate(self: @This()) !void {
@@ -943,11 +943,11 @@ pub const ResourceClaimSpec = struct {
 
 /// ResourceClaimStatus tracks whether the resource has been allocated and what the result of that was.
 pub const ResourceClaimStatus = struct {
-    /// Allocation is set once the claim has been allocated successfully.
+    /// allocation is set once the claim has been allocated successfully.
     allocation: ?root.io.k8s.api.resource.v1beta1.AllocationResult = null,
-    /// Devices contains the status of each device allocated for this claim, as reported by the driver. This can include driver-specific information. Entries are owned by their respective drivers.
+    /// devices contains the status of each device allocated for this claim, as reported by the driver. This can include driver-specific information. Entries are owned by their respective drivers.
     devices: ?[]const root.io.k8s.api.resource.v1beta1.AllocatedDeviceStatus = null,
-    /// ReservedFor indicates which entities are currently allowed to use the claim. A Pod which references a ResourceClaim which is not reserved for that Pod will not be started. A claim that is in use or might be in use because it has been reserved must not get deallocated.
+    /// reservedFor indicates which entities are currently allowed to use the claim. A Pod which references a ResourceClaim which is not reserved for that Pod will not be started. A claim that is in use or might be in use because it has been reserved must not get deallocated.
     ///
     /// In a cluster with multiple scheduler instances, two pods might get scheduled concurrently by different schedulers. When they reference the same ResourceClaim which already has reached its maximum number of consumers, only one pod can be scheduled.
     ///
@@ -971,9 +971,9 @@ pub const ResourceClaimTemplate = struct {
     apiVersion: ?[]const u8 = null,
     /// Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     kind: ?[]const u8 = null,
-    /// Standard object metadata
+    /// metadata is the standard object metadata.
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
-    /// Describes the ResourceClaim that is to be generated.
+    /// spec describes the ResourceClaim that is to be generated.
     ///
     /// This field is immutable. A ResourceClaim will get created by the control plane for a Pod when needed and then not get updated anymore.
     spec: ?root.io.k8s.api.resource.v1beta1.ResourceClaimTemplateSpec = null,
@@ -1003,9 +1003,9 @@ pub const ResourceClaimTemplateList = struct {
 
 /// ResourceClaimTemplateSpec contains the metadata and fields for a ResourceClaim.
 pub const ResourceClaimTemplateSpec = struct {
-    /// ObjectMeta may contain labels and annotations that will be copied into the ResourceClaim when creating it. No other fields are allowed and will be rejected during validation.
+    /// metadata may contain labels and annotations that will be copied into the ResourceClaim when creating it. No other fields are allowed and will be rejected during validation.
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
-    /// Spec for the ResourceClaim. The entire content is copied unchanged into the ResourceClaim that gets created from this template. The same fields as in a ResourceClaim are also valid here.
+    /// spec for the ResourceClaim. The entire content is copied unchanged into the ResourceClaim that gets created from this template. The same fields as in a ResourceClaim are also valid here.
     spec: ?root.io.k8s.api.resource.v1beta1.ResourceClaimSpec = null,
 
     pub fn validate(self: @This()) !void {
@@ -1016,15 +1016,15 @@ pub const ResourceClaimTemplateSpec = struct {
 
 /// ResourcePool describes the pool that ResourceSlices belong to.
 pub const ResourcePool = struct {
-    /// Generation tracks the change in a pool over time. Whenever a driver changes something about one or more of the resources in a pool, it must change the generation in all ResourceSlices which are part of that pool. Consumers of ResourceSlices should only consider resources from the pool with the highest generation number. The generation may be reset by drivers, which should be fine for consumers, assuming that all ResourceSlices in a pool are updated to match or deleted.
+    /// generation tracks the change in a pool over time. Whenever a driver changes something about one or more of the resources in a pool, it must change the generation in all ResourceSlices which are part of that pool. Consumers of ResourceSlices should only consider resources from the pool with the highest generation number. The generation may be reset by drivers, which should be fine for consumers, assuming that all ResourceSlices in a pool are updated to match or deleted.
     ///
     /// Combined with ResourceSliceCount, this mechanism enables consumers to detect pools which are comprised of multiple ResourceSlices and are in an incomplete state.
     generation: i64,
-    /// Name is used to identify the pool. For node-local devices, this is often the node name, but this is not required. A field selector can be used to list only ResourceSlice objects belonging to a certain pool.
+    /// name is used to identify the pool. For node-local devices, this is often the node name, but this is not required. A field selector can be used to list only ResourceSlice objects belonging to a certain pool.
     ///
     /// It must not be longer than 253 characters and must consist of one or more DNS sub-domains separated by slashes. This field is immutable.
     name: []const u8,
-    /// ResourceSliceCount is the total number of ResourceSlices in the pool at this generation number. Must be greater than zero.
+    /// resourceSliceCount is the total number of ResourceSlices in the pool at this generation number. Must be greater than zero.
     ///
     /// Consumers can use this to check whether they have seen all ResourceSlices belonging to the same pool.
     resourceSliceCount: i64,
@@ -1050,9 +1050,9 @@ pub const ResourceSlice = struct {
     apiVersion: ?[]const u8 = null,
     /// Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     kind: ?[]const u8 = null,
-    /// Standard object metadata
+    /// metadata is the standard object metadata.
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
-    /// Contains the information published by the driver.
+    /// spec contains the information published by the driver.
     ///
     /// Changing the spec automatically increments the metadata.generation number.
     spec: root.io.k8s.api.resource.v1beta1.ResourceSliceSpec,
@@ -1082,43 +1082,43 @@ pub const ResourceSliceList = struct {
 
 /// ResourceSliceSpec contains the information published by the driver in one ResourceSlice.
 pub const ResourceSliceSpec = struct {
-    /// AllNodes indicates that all nodes have access to the resources in the pool.
+    /// allNodes indicates that all nodes have access to the resources in the pool.
     ///
     /// Exactly one of NodeName, NodeSelector, AllNodes, and PerDeviceNodeSelection must be set.
     allNodes: ?bool = null,
-    /// Devices lists some or all of the devices in this pool.
+    /// devices lists some or all of the devices in this pool.
     ///
     /// Must not have more than 128 entries. If any device uses taints or consumes counters the limit is 64.
     ///
     /// Only one of Devices and SharedCounters can be set in a ResourceSlice.
     devices: ?[]const root.io.k8s.api.resource.v1beta1.Device = null,
-    /// Driver identifies the DRA driver providing the capacity information. A field selector can be used to list only ResourceSlice objects with a certain driver name.
+    /// driver identifies the DRA driver providing the capacity information. A field selector can be used to list only ResourceSlice objects with a certain driver name.
     ///
     /// Must be a DNS subdomain and should end with a DNS domain owned by the vendor of the driver. It should use only lower case characters. This field is immutable.
     driver: []const u8,
-    /// NodeName identifies the node which provides the resources in this pool. A field selector can be used to list only ResourceSlice objects belonging to a certain node.
+    /// nodeName identifies the node which provides the resources in this pool. A field selector can be used to list only ResourceSlice objects belonging to a certain node.
     ///
     /// This field can be used to limit access from nodes to ResourceSlices with the same node name. It also indicates to autoscalers that adding new nodes of the same type as some old node might also make new resources available.
     ///
     /// Exactly one of NodeName, NodeSelector, AllNodes, and PerDeviceNodeSelection must be set. This field is immutable.
     nodeName: ?[]const u8 = null,
-    /// NodeSelector defines which nodes have access to the resources in the pool, when that pool is not limited to a single node.
+    /// nodeSelector defines which nodes have access to the resources in the pool, when that pool is not limited to a single node.
     ///
     /// Must use exactly one term.
     ///
     /// Exactly one of NodeName, NodeSelector, AllNodes, and PerDeviceNodeSelection must be set.
     nodeSelector: ?root.io.k8s.api.core.v1.NodeSelector = null,
-    /// PartitionTypeAttribute names a string device attribute (by fully qualified name, e.g. "gpu.example.com/profile") whose value labels each device with its partition type, such as "Full" or "Half" for a MIG-style GPU.
+    /// partitionTypeAttribute names a string device attribute (by fully qualified name, e.g. "gpu.example.com/profile") whose value labels each device with its partition type, such as "Full" or "Half" for a MIG-style GPU.
     ///
     /// When set, every partitionable device in the slice must carry the attribute and devices sharing a value must share the same ConsumesCounters cost.
     partitionTypeAttribute: ?[]const u8 = null,
-    /// PerDeviceNodeSelection defines whether the access from nodes to resources in the pool is set on the ResourceSlice level or on each device. If it is set to true, every device defined the ResourceSlice must specify this individually.
+    /// perDeviceNodeSelection defines whether the access from nodes to resources in the pool is set on the ResourceSlice level or on each device. If it is set to true, every device defined the ResourceSlice must specify this individually.
     ///
     /// Exactly one of NodeName, NodeSelector, AllNodes, and PerDeviceNodeSelection must be set.
     perDeviceNodeSelection: ?bool = null,
-    /// Pool describes the pool that this ResourceSlice belongs to.
+    /// pool describes the pool that this ResourceSlice belongs to.
     pool: root.io.k8s.api.resource.v1beta1.ResourcePool,
-    /// SharedCounters defines a list of counter sets, each of which has a name and a list of counters available.
+    /// sharedCounters defines a list of counter sets, each of which has a name and a list of counters available.
     ///
     /// The names of the counter sets must be unique in the ResourcePool.
     ///
@@ -1126,7 +1126,7 @@ pub const ResourceSliceSpec = struct {
     ///
     /// The maximum number of counter sets is 8.
     sharedCounters: ?[]const root.io.k8s.api.resource.v1beta1.CounterSet = null,
-    /// SkipNodeOperations lists node-local resource operations (gRPC calls) that will be skipped for the devices in this slice when determining whether operations are necessary on the node. If all allocated devices for a driver in a claim skip an operation, that gRPC call will be skipped. Valid values are:
+    /// skipNodeOperations lists node-local resource operations (gRPC calls) that will be skipped for the devices in this slice when determining whether operations are necessary on the node. If all allocated devices for a driver in a claim skip an operation, that gRPC call will be skipped. Valid values are:
     ///
     /// - "NodePrepareResources": NodePrepareResources gRPC calls are skipped. This
     ///   value cannot be specified unless "NodeUnprepareResources" is also listed
