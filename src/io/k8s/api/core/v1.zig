@@ -2908,11 +2908,7 @@ pub const PodSpec = struct {
     priorityClassName: ?[]const u8 = null,
     /// If specified, all readiness gates will be evaluated for pod readiness. A pod is ready when all its containers are ready AND all conditions specified in the readiness gates have status equal to "True" More info: https://git.k8s.io/enhancements/keps/sig-network/580-pod-readiness-gates
     readinessGates: ?[]const root.io.k8s.api.core.v1.PodReadinessGate = null,
-    /// ResourceClaims defines which ResourceClaims must be allocated and reserved before the Pod is allowed to start. The resources will be made available to those containers which consume them by name.
-    /// 
-    /// This is a stable field but requires that the DynamicResourceAllocation feature gate is enabled.
-    /// 
-    /// This field is immutable.
+    /// ResourceClaims defines which ResourceClaims must be allocated and reserved before the Pod is allowed to start. The resources will be made available to those containers which consume them by name. This field is immutable.
     resourceClaims: ?[]const root.io.k8s.api.core.v1.PodResourceClaim = null,
     /// Resources is the total amount of CPU and Memory resources required by all containers in the pod. It supports specifying Requests and Limits for "cpu", "memory" and "hugepages-" resource names only. ResourceClaims are not supported.
     /// 
@@ -3463,8 +3459,6 @@ pub const ResourceQuotaStatus = struct {
 /// ResourceRequirements describes the compute resource requirements.
 pub const ResourceRequirements = struct {
     /// Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container.
-    /// 
-    /// This field depends on the DynamicResourceAllocation feature gate.
     /// 
     /// This field is immutable. It can only be set for containers.
     claims: ?[]const root.io.k8s.api.core.v1.ResourceClaim = null,
