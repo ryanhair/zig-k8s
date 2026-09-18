@@ -2593,7 +2593,9 @@ pub const PodCertificateProjection = struct {
     keyPath: ?[]const u8 = null,
     /// The type of keypair Kubelet will generate for the pod.
     /// 
-    /// Valid values are "RSA3072", "RSA4096", "ECDSAP256", "ECDSAP384", "ECDSAP521", and "ED25519".
+    /// Valid values are "RSA3072", "RSA4096", "ECDSAP256", "ECDSAP384", "ECDSAP521", "ED25519", "MLDSA44", "MLDSA65", and "MLDSA87".
+    /// 
+    /// MLDSA key types are only allowed when the PodCertificateMLDSA feature gate is enabled.
     keyType: []const u8,
     /// maxExpirationSeconds is the maximum lifetime permitted for the certificate.
     /// 
