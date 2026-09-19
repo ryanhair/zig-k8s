@@ -14108,15 +14108,15 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1GetNamespacedPodAttachOptions = struct {
-        /// The container in which to execute the command. Defaults to only container if there is only one container in the pod.
+        /// container is the container in which to execute the command. Defaults to only container if there is only one container in the pod.
         container: ?[]const u8 = null,
-        /// Stderr if true indicates that stderr is to be redirected for the attach call. Defaults to true.
+        /// stderr if true indicates that stderr is to be redirected for the attach call. Defaults to true.
         stderr: ?[]const u8 = null,
-        /// Stdin if true, redirects the standard input stream of the pod for this call. Defaults to false.
+        /// stdin if true, redirects the standard input stream of the pod for this call. Defaults to false.
         stdin: ?[]const u8 = null,
-        /// Stdout if true indicates that stdout is to be redirected for the attach call. Defaults to true.
+        /// stdout if true indicates that stdout is to be redirected for the attach call. Defaults to true.
         stdout: ?[]const u8 = null,
-        /// TTY if true indicates that a tty will be allocated for the attach call. This is passed through the container runtime so the tty is allocated on the worker node by the container runtime. Defaults to false.
+        /// tty if true indicates that a tty will be allocated for the attach call. This is passed through the container runtime so the tty is allocated on the worker node by the container runtime. Defaults to false.
         tty: ?[]const u8 = null,
     };
     /// connect GET requests to attach of Pod
@@ -14291,15 +14291,15 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1PostNamespacedPodAttachOptions = struct {
-        /// The container in which to execute the command. Defaults to only container if there is only one container in the pod.
+        /// container is the container in which to execute the command. Defaults to only container if there is only one container in the pod.
         container: ?[]const u8 = null,
-        /// Stderr if true indicates that stderr is to be redirected for the attach call. Defaults to true.
+        /// stderr if true indicates that stderr is to be redirected for the attach call. Defaults to true.
         stderr: ?[]const u8 = null,
-        /// Stdin if true, redirects the standard input stream of the pod for this call. Defaults to false.
+        /// stdin if true, redirects the standard input stream of the pod for this call. Defaults to false.
         stdin: ?[]const u8 = null,
-        /// Stdout if true indicates that stdout is to be redirected for the attach call. Defaults to true.
+        /// stdout if true indicates that stdout is to be redirected for the attach call. Defaults to true.
         stdout: ?[]const u8 = null,
-        /// TTY if true indicates that a tty will be allocated for the attach call. This is passed through the container runtime so the tty is allocated on the worker node by the container runtime. Defaults to false.
+        /// tty if true indicates that a tty will be allocated for the attach call. This is passed through the container runtime so the tty is allocated on the worker node by the container runtime. Defaults to false.
         tty: ?[]const u8 = null,
     };
     /// connect POST requests to attach of Pod
@@ -15365,17 +15365,17 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1GetNamespacedPodExecOptions = struct {
-        /// Command is the remote command to execute. argv array. Not executed within a shell.
+        /// command is the remote command to execute. argv array. Not executed within a shell.
         command: ?[]const u8 = null,
-        /// Container in which to execute the command. Defaults to only container if there is only one container in the pod.
+        /// container in which to execute the command. Defaults to only container if there is only one container in the pod.
         container: ?[]const u8 = null,
-        /// Redirect the standard error stream of the pod for this call.
+        /// stderr redirects the standard error stream of the pod for this call.
         stderr: ?[]const u8 = null,
-        /// Redirect the standard input stream of the pod for this call. Defaults to false.
+        /// stdin redirects the standard input stream of the pod for this call. Defaults to false.
         stdin: ?[]const u8 = null,
-        /// Redirect the standard output stream of the pod for this call.
+        /// stdout redirects the standard output stream of the pod for this call.
         stdout: ?[]const u8 = null,
-        /// TTY if true indicates that a tty will be allocated for the exec call. Defaults to false.
+        /// tty if true indicates that a tty will be allocated for the exec call. Defaults to false.
         tty: ?[]const u8 = null,
     };
     /// connect GET requests to exec of Pod
@@ -15562,17 +15562,17 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1PostNamespacedPodExecOptions = struct {
-        /// Command is the remote command to execute. argv array. Not executed within a shell.
+        /// command is the remote command to execute. argv array. Not executed within a shell.
         command: ?[]const u8 = null,
-        /// Container in which to execute the command. Defaults to only container if there is only one container in the pod.
+        /// container in which to execute the command. Defaults to only container if there is only one container in the pod.
         container: ?[]const u8 = null,
-        /// Redirect the standard error stream of the pod for this call.
+        /// stderr redirects the standard error stream of the pod for this call.
         stderr: ?[]const u8 = null,
-        /// Redirect the standard input stream of the pod for this call. Defaults to false.
+        /// stdin redirects the standard input stream of the pod for this call. Defaults to false.
         stdin: ?[]const u8 = null,
-        /// Redirect the standard output stream of the pod for this call.
+        /// stdout redirects the standard output stream of the pod for this call.
         stdout: ?[]const u8 = null,
-        /// TTY if true indicates that a tty will be allocated for the exec call. Defaults to false.
+        /// tty if true indicates that a tty will be allocated for the exec call. Defaults to false.
         tty: ?[]const u8 = null,
     };
     /// connect POST requests to exec of Pod
@@ -15759,25 +15759,25 @@ pub const Client = struct {
     };
 
     pub const readCoreV1NamespacedPodLogOptions = struct {
-        /// The container for which to stream logs. Defaults to only container if there is one container in the pod.
+        /// container is the container for which to stream logs. Defaults to only container if there is one container in the pod.
         container: ?[]const u8 = null,
-        /// Follow the log stream of the pod. Defaults to false.
+        /// follow indicates whether to follow the log stream of the pod. Defaults to false.
         follow: ?[]const u8 = null,
         /// insecureSkipTLSVerifyBackend indicates that the apiserver should not confirm the validity of the serving certificate of the backend it is connecting to.  This will make the HTTPS connection between the apiserver and the backend insecure. This means the apiserver cannot verify the log data it is receiving came from the real kubelet.  If the kubelet is configured to verify the apiserver's TLS credentials, it does not mean the connection to the real kubelet is vulnerable to a man in the middle attack (e.g. an attacker could not intercept the actual log data coming from the real kubelet).
         insecureSkipTLSVerifyBackend: ?[]const u8 = null,
-        /// If set, the number of bytes to read from the server before terminating the log output. This may not display a complete final line of logging, and may return slightly more or slightly less than the specified limit.
+        /// limitBytes is the number of bytes to read from the server before terminating the log output. This may not display a complete final line of logging, and may return slightly more or slightly less than the specified limit.
         limitBytes: ?[]const u8 = null,
         /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
         pretty: ?[]const u8 = null,
-        /// Return previous terminated container logs. Defaults to false.
+        /// previous indicates whether to return previous terminated container logs. Defaults to false.
         previous: ?[]const u8 = null,
-        /// A relative time in seconds before the current time from which to show logs. If this value precedes the time a pod was started, only logs since the pod start will be returned. If this value is in the future, no logs will be returned. Only one of sinceSeconds or sinceTime may be specified.
+        /// sinceSeconds is a relative time in seconds before the current time from which to show logs. If this value precedes the time a pod was started, only logs since the pod start will be returned. If this value is in the future, no logs will be returned. Only one of sinceSeconds or sinceTime may be specified.
         sinceSeconds: ?[]const u8 = null,
-        /// Specify which container log stream to return to the client. Acceptable values are "All", "Stdout" and "Stderr". If not specified, "All" is used, and both stdout and stderr are returned interleaved. Note that when "TailLines" is specified, "Stream" can only be set to nil or "All".
+        /// stream specifies which container log stream to return to the client. Acceptable values are "All", "Stdout" and "Stderr". If not specified, "All" is used, and both stdout and stderr are returned interleaved. Note that when "TailLines" is specified, "Stream" can only be set to nil or "All".
         stream: ?[]const u8 = null,
-        /// If set, the number of lines from the end of the logs to show. If not specified, logs are shown from the creation of the container or sinceSeconds or sinceTime. Note that when "TailLines" is specified, "Stream" can only be set to nil or "All".
+        /// tailLines is the number of lines from the end of the logs to show. If not specified, logs are shown from the creation of the container or sinceSeconds or sinceTime. Note that when "TailLines" is specified, "Stream" can only be set to nil or "All".
         tailLines: ?[]const u8 = null,
-        /// If true, add an RFC3339 or RFC3339Nano timestamp at the beginning of every line of log output. Defaults to false.
+        /// timestamps indicates whether to add an RFC3339 or RFC3339Nano timestamp at the beginning of every line of log output. Defaults to false.
         timestamps: ?[]const u8 = null,
     };
     /// read log of the specified Pod
@@ -16012,7 +16012,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1GetNamespacedPodPortforwardOptions = struct {
-        /// List of ports to forward Required when using WebSockets
+        /// ports is the list of ports to forward Required when using WebSockets
         ports: ?[]const u8 = null,
     };
     /// connect GET requests to portforward of Pod
@@ -16139,7 +16139,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1PostNamespacedPodPortforwardOptions = struct {
-        /// List of ports to forward Required when using WebSockets
+        /// ports is the list of ports to forward Required when using WebSockets
         ports: ?[]const u8 = null,
     };
     /// connect POST requests to portforward of Pod
@@ -16266,7 +16266,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1GetNamespacedPodProxyOptions = struct {
-        /// Path is the URL path to use for the current proxy request to pod.
+        /// path is the URL path to use for the current proxy request to pod.
         path: ?[]const u8 = null,
     };
     /// connect GET requests to proxy of Pod
@@ -16393,7 +16393,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1PostNamespacedPodProxyOptions = struct {
-        /// Path is the URL path to use for the current proxy request to pod.
+        /// path is the URL path to use for the current proxy request to pod.
         path: ?[]const u8 = null,
     };
     /// connect POST requests to proxy of Pod
@@ -16520,7 +16520,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1PutNamespacedPodProxyOptions = struct {
-        /// Path is the URL path to use for the current proxy request to pod.
+        /// path is the URL path to use for the current proxy request to pod.
         path: ?[]const u8 = null,
     };
     /// connect PUT requests to proxy of Pod
@@ -16647,7 +16647,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1DeleteNamespacedPodProxyOptions = struct {
-        /// Path is the URL path to use for the current proxy request to pod.
+        /// path is the URL path to use for the current proxy request to pod.
         path: ?[]const u8 = null,
     };
     /// connect DELETE requests to proxy of Pod
@@ -16774,7 +16774,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1PatchNamespacedPodProxyOptions = struct {
-        /// Path is the URL path to use for the current proxy request to pod.
+        /// path is the URL path to use for the current proxy request to pod.
         path: ?[]const u8 = null,
     };
     /// connect PATCH requests to proxy of Pod
@@ -16901,7 +16901,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1OptionsNamespacedPodProxyOptions = struct {
-        /// Path is the URL path to use for the current proxy request to pod.
+        /// path is the URL path to use for the current proxy request to pod.
         path: ?[]const u8 = null,
     };
     /// connect OPTIONS requests to proxy of Pod
@@ -17028,7 +17028,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1HeadNamespacedPodProxyOptions = struct {
-        /// Path is the URL path to use for the current proxy request to pod.
+        /// path is the URL path to use for the current proxy request to pod.
         path: ?[]const u8 = null,
     };
     /// connect HEAD requests to proxy of Pod
@@ -17155,7 +17155,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1GetNamespacedPodProxyWithPathOptions = struct {
-        /// Path is the URL path to use for the current proxy request to pod.
+        /// path is the URL path to use for the current proxy request to pod.
         pathQuery: ?[]const u8 = null,
     };
     /// connect GET requests to proxy of Pod
@@ -17283,7 +17283,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1PostNamespacedPodProxyWithPathOptions = struct {
-        /// Path is the URL path to use for the current proxy request to pod.
+        /// path is the URL path to use for the current proxy request to pod.
         pathQuery: ?[]const u8 = null,
     };
     /// connect POST requests to proxy of Pod
@@ -17411,7 +17411,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1PutNamespacedPodProxyWithPathOptions = struct {
-        /// Path is the URL path to use for the current proxy request to pod.
+        /// path is the URL path to use for the current proxy request to pod.
         pathQuery: ?[]const u8 = null,
     };
     /// connect PUT requests to proxy of Pod
@@ -17539,7 +17539,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1DeleteNamespacedPodProxyWithPathOptions = struct {
-        /// Path is the URL path to use for the current proxy request to pod.
+        /// path is the URL path to use for the current proxy request to pod.
         pathQuery: ?[]const u8 = null,
     };
     /// connect DELETE requests to proxy of Pod
@@ -17667,7 +17667,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1PatchNamespacedPodProxyWithPathOptions = struct {
-        /// Path is the URL path to use for the current proxy request to pod.
+        /// path is the URL path to use for the current proxy request to pod.
         pathQuery: ?[]const u8 = null,
     };
     /// connect PATCH requests to proxy of Pod
@@ -17795,7 +17795,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1OptionsNamespacedPodProxyWithPathOptions = struct {
-        /// Path is the URL path to use for the current proxy request to pod.
+        /// path is the URL path to use for the current proxy request to pod.
         pathQuery: ?[]const u8 = null,
     };
     /// connect OPTIONS requests to proxy of Pod
@@ -17923,7 +17923,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1HeadNamespacedPodProxyWithPathOptions = struct {
-        /// Path is the URL path to use for the current proxy request to pod.
+        /// path is the URL path to use for the current proxy request to pod.
         pathQuery: ?[]const u8 = null,
     };
     /// connect HEAD requests to proxy of Pod
@@ -31041,7 +31041,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1GetNamespacedServiceProxyOptions = struct {
-        /// Path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q=user:kimchy. Path is _search?q=user:kimchy.
+        /// path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q=user:kimchy. Path is _search?q=user:kimchy.
         path: ?[]const u8 = null,
     };
     /// connect GET requests to proxy of Service
@@ -31168,7 +31168,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1PostNamespacedServiceProxyOptions = struct {
-        /// Path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q=user:kimchy. Path is _search?q=user:kimchy.
+        /// path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q=user:kimchy. Path is _search?q=user:kimchy.
         path: ?[]const u8 = null,
     };
     /// connect POST requests to proxy of Service
@@ -31295,7 +31295,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1PutNamespacedServiceProxyOptions = struct {
-        /// Path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q=user:kimchy. Path is _search?q=user:kimchy.
+        /// path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q=user:kimchy. Path is _search?q=user:kimchy.
         path: ?[]const u8 = null,
     };
     /// connect PUT requests to proxy of Service
@@ -31422,7 +31422,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1DeleteNamespacedServiceProxyOptions = struct {
-        /// Path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q=user:kimchy. Path is _search?q=user:kimchy.
+        /// path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q=user:kimchy. Path is _search?q=user:kimchy.
         path: ?[]const u8 = null,
     };
     /// connect DELETE requests to proxy of Service
@@ -31549,7 +31549,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1PatchNamespacedServiceProxyOptions = struct {
-        /// Path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q=user:kimchy. Path is _search?q=user:kimchy.
+        /// path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q=user:kimchy. Path is _search?q=user:kimchy.
         path: ?[]const u8 = null,
     };
     /// connect PATCH requests to proxy of Service
@@ -31676,7 +31676,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1OptionsNamespacedServiceProxyOptions = struct {
-        /// Path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q=user:kimchy. Path is _search?q=user:kimchy.
+        /// path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q=user:kimchy. Path is _search?q=user:kimchy.
         path: ?[]const u8 = null,
     };
     /// connect OPTIONS requests to proxy of Service
@@ -31803,7 +31803,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1HeadNamespacedServiceProxyOptions = struct {
-        /// Path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q=user:kimchy. Path is _search?q=user:kimchy.
+        /// path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q=user:kimchy. Path is _search?q=user:kimchy.
         path: ?[]const u8 = null,
     };
     /// connect HEAD requests to proxy of Service
@@ -31930,7 +31930,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1GetNamespacedServiceProxyWithPathOptions = struct {
-        /// Path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q=user:kimchy. Path is _search?q=user:kimchy.
+        /// path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q=user:kimchy. Path is _search?q=user:kimchy.
         pathQuery: ?[]const u8 = null,
     };
     /// connect GET requests to proxy of Service
@@ -32058,7 +32058,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1PostNamespacedServiceProxyWithPathOptions = struct {
-        /// Path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q=user:kimchy. Path is _search?q=user:kimchy.
+        /// path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q=user:kimchy. Path is _search?q=user:kimchy.
         pathQuery: ?[]const u8 = null,
     };
     /// connect POST requests to proxy of Service
@@ -32186,7 +32186,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1PutNamespacedServiceProxyWithPathOptions = struct {
-        /// Path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q=user:kimchy. Path is _search?q=user:kimchy.
+        /// path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q=user:kimchy. Path is _search?q=user:kimchy.
         pathQuery: ?[]const u8 = null,
     };
     /// connect PUT requests to proxy of Service
@@ -32314,7 +32314,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1DeleteNamespacedServiceProxyWithPathOptions = struct {
-        /// Path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q=user:kimchy. Path is _search?q=user:kimchy.
+        /// path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q=user:kimchy. Path is _search?q=user:kimchy.
         pathQuery: ?[]const u8 = null,
     };
     /// connect DELETE requests to proxy of Service
@@ -32442,7 +32442,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1PatchNamespacedServiceProxyWithPathOptions = struct {
-        /// Path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q=user:kimchy. Path is _search?q=user:kimchy.
+        /// path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q=user:kimchy. Path is _search?q=user:kimchy.
         pathQuery: ?[]const u8 = null,
     };
     /// connect PATCH requests to proxy of Service
@@ -32570,7 +32570,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1OptionsNamespacedServiceProxyWithPathOptions = struct {
-        /// Path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q=user:kimchy. Path is _search?q=user:kimchy.
+        /// path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q=user:kimchy. Path is _search?q=user:kimchy.
         pathQuery: ?[]const u8 = null,
     };
     /// connect OPTIONS requests to proxy of Service
@@ -32698,7 +32698,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1HeadNamespacedServiceProxyWithPathOptions = struct {
-        /// Path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q=user:kimchy. Path is _search?q=user:kimchy.
+        /// path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q=user:kimchy. Path is _search?q=user:kimchy.
         pathQuery: ?[]const u8 = null,
     };
     /// connect HEAD requests to proxy of Service
@@ -36444,7 +36444,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1GetNodeProxyOptions = struct {
-        /// Path is the URL path to use for the current proxy request to node.
+        /// path is the URL path to use for the current proxy request to node.
         path: ?[]const u8 = null,
     };
     /// connect GET requests to proxy of Node
@@ -36569,7 +36569,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1PostNodeProxyOptions = struct {
-        /// Path is the URL path to use for the current proxy request to node.
+        /// path is the URL path to use for the current proxy request to node.
         path: ?[]const u8 = null,
     };
     /// connect POST requests to proxy of Node
@@ -36694,7 +36694,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1PutNodeProxyOptions = struct {
-        /// Path is the URL path to use for the current proxy request to node.
+        /// path is the URL path to use for the current proxy request to node.
         path: ?[]const u8 = null,
     };
     /// connect PUT requests to proxy of Node
@@ -36819,7 +36819,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1DeleteNodeProxyOptions = struct {
-        /// Path is the URL path to use for the current proxy request to node.
+        /// path is the URL path to use for the current proxy request to node.
         path: ?[]const u8 = null,
     };
     /// connect DELETE requests to proxy of Node
@@ -36944,7 +36944,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1PatchNodeProxyOptions = struct {
-        /// Path is the URL path to use for the current proxy request to node.
+        /// path is the URL path to use for the current proxy request to node.
         path: ?[]const u8 = null,
     };
     /// connect PATCH requests to proxy of Node
@@ -37069,7 +37069,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1OptionsNodeProxyOptions = struct {
-        /// Path is the URL path to use for the current proxy request to node.
+        /// path is the URL path to use for the current proxy request to node.
         path: ?[]const u8 = null,
     };
     /// connect OPTIONS requests to proxy of Node
@@ -37194,7 +37194,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1HeadNodeProxyOptions = struct {
-        /// Path is the URL path to use for the current proxy request to node.
+        /// path is the URL path to use for the current proxy request to node.
         path: ?[]const u8 = null,
     };
     /// connect HEAD requests to proxy of Node
@@ -37319,7 +37319,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1GetNodeProxyWithPathOptions = struct {
-        /// Path is the URL path to use for the current proxy request to node.
+        /// path is the URL path to use for the current proxy request to node.
         pathQuery: ?[]const u8 = null,
     };
     /// connect GET requests to proxy of Node
@@ -37445,7 +37445,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1PostNodeProxyWithPathOptions = struct {
-        /// Path is the URL path to use for the current proxy request to node.
+        /// path is the URL path to use for the current proxy request to node.
         pathQuery: ?[]const u8 = null,
     };
     /// connect POST requests to proxy of Node
@@ -37571,7 +37571,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1PutNodeProxyWithPathOptions = struct {
-        /// Path is the URL path to use for the current proxy request to node.
+        /// path is the URL path to use for the current proxy request to node.
         pathQuery: ?[]const u8 = null,
     };
     /// connect PUT requests to proxy of Node
@@ -37697,7 +37697,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1DeleteNodeProxyWithPathOptions = struct {
-        /// Path is the URL path to use for the current proxy request to node.
+        /// path is the URL path to use for the current proxy request to node.
         pathQuery: ?[]const u8 = null,
     };
     /// connect DELETE requests to proxy of Node
@@ -37823,7 +37823,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1PatchNodeProxyWithPathOptions = struct {
-        /// Path is the URL path to use for the current proxy request to node.
+        /// path is the URL path to use for the current proxy request to node.
         pathQuery: ?[]const u8 = null,
     };
     /// connect PATCH requests to proxy of Node
@@ -37949,7 +37949,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1OptionsNodeProxyWithPathOptions = struct {
-        /// Path is the URL path to use for the current proxy request to node.
+        /// path is the URL path to use for the current proxy request to node.
         pathQuery: ?[]const u8 = null,
     };
     /// connect OPTIONS requests to proxy of Node
@@ -38075,7 +38075,7 @@ pub const Client = struct {
     };
 
     pub const connectCoreV1HeadNodeProxyWithPathOptions = struct {
-        /// Path is the URL path to use for the current proxy request to node.
+        /// path is the URL path to use for the current proxy request to node.
         pathQuery: ?[]const u8 = null,
     };
     /// connect HEAD requests to proxy of Node
