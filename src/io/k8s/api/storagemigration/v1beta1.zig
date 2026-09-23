@@ -9,11 +9,11 @@ pub const StorageVersionMigration = struct {
     apiVersion: ?[]const u8 = null,
     /// Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
     kind: ?[]const u8 = null,
-    /// Standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
+    /// metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
-    /// Specification of the migration.
+    /// spec is the specification of the migration.
     spec: root.io.k8s.api.storagemigration.v1beta1.StorageVersionMigrationSpec,
-    /// Status of the migration.
+    /// status is the status of the migration.
     status: ?root.io.k8s.api.storagemigration.v1beta1.StorageVersionMigrationStatus = null,
 
     pub fn validate(self: @This()) !void {
@@ -42,7 +42,7 @@ pub const StorageVersionMigrationList = struct {
 
 /// Spec of the storage version migration.
 pub const StorageVersionMigrationSpec = struct {
-    /// The resource that is being migrated. The migrator sends requests to the endpoint serving the resource. Immutable.
+    /// resource is the resource that is being migrated. The migrator sends requests to the endpoint serving the resource. Immutable.
     resource: root.io.k8s.apimachinery.pkg.apis.meta.v1.GroupResource,
 
     pub fn validate(self: @This()) !void {
@@ -52,9 +52,9 @@ pub const StorageVersionMigrationSpec = struct {
 
 /// Status of the storage version migration.
 pub const StorageVersionMigrationStatus = struct {
-    /// The latest available observations of the migration's current state.
+    /// conditions is the latest available observations of the migration's current state.
     conditions: ?[]const root.io.k8s.apimachinery.pkg.apis.meta.v1.Condition = null,
-    /// ResourceVersion to compare with the GC cache for performing the migration. This is the current resource version of given group, version and resource when kube-controller-manager first observes this StorageVersionMigration resource.
+    /// resourceVersion is the resource version to compare with the GC cache for performing the migration. This is the current resource version of given group, version and resource when kube-controller-manager first observes this StorageVersionMigration resource.
     resourceVersion: ?[]const u8 = null,
 
     pub fn validate(self: @This()) !void {
