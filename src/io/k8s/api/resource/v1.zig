@@ -169,6 +169,8 @@ pub const CapacityRequirements = struct {
     ///
     /// This value is used as an additional filtering condition against the available capacity on the device. This is semantically equivalent to a CEL selector with `device.capacity[<domain>].<name>.compareTo(quantity(<request quantity>)) >= 0`. For example, device.capacity['test-driver.cdi.k8s.io'].counters.compareTo(quantity('2')) >= 0.
     ///
+    /// The domain prefix can be omitted, in which case it defaults to the driver of the device under evaluation. For example, "bandwidth: 1Gi" is equivalent to "<driver>/bandwidth: 1Gi" for a device published by driver "<driver>", regardless of which other, differently-domained "bandwidth" capacities that device might also have. To request one of those, the domain must be given explicitly, for example "example.com/bandwidth". Requesting the same driver capacity with and without the driver name as domain, for example "bandwidth: 1Gi" and "<driver>/bandwidth: 2Gi", is ambiguous and causes scheduling to fail with an error. For the sake of consistency there's no exception for such a conflict where the value is the same - that is still an error.
+    ///
     /// When a requestPolicy is defined, the requested amount is adjusted upward to the nearest valid value based on the policy. If the requested amount cannot be adjusted to a valid value—because it exceeds what the requestPolicy allows— the device is considered ineligible for allocation.
     ///
     /// For any capacity that is not explicitly requested: - If no requestPolicy is set, the default consumed capacity is equal to the full device capacity
@@ -576,7 +578,7 @@ pub const DeviceRequestAllocationResult = struct {
     ///
     /// The total consumed capacity for each device must not exceed the DeviceCapacity's Value.
     ///
-    /// This field is populated only for devices that allow multiple allocations. All capacity entries are included, even if the consumed amount is zero.
+    /// This field is populated only for devices that allow multiple allocations. All capacity entries are included, even if the consumed amount is zero. The domain prefix in the capacity name may be omitted if it is the same as the driver name.
     consumedCapacity: ?std.json.Value = null,
     /// device references one device instance via its name in the driver's resource pool. It must be a DNS label.
     device: []const u8,
@@ -898,7 +900,11 @@ pub const NetworkDeviceData = struct {
 
 /// NodeAllocatableMapping defines how a DRA allocation directly translates into a node allocatable resource quantity. The mapping can be derived from either the count of allocated devices (via deviceMultiplier) or the specific capacity consumed (via capacityKey and capacityMultiplier). These options are mutually exclusive. Kubelet adds this mapped resource quantity from claim to both requests and limits at the pod-level cgroup, and to limits at the container-level cgroup for each container referencing the claim.
 pub const NodeAllocatableMapping = struct {
-    /// capacityKey references a capacity name defined as a key in the `spec.devices[*].capacity` map. When this field is set, the value associated with this key in the `status.allocation.devices.results[*].consumedCapacity` map (for a specific claim allocation) determines the base quantity for the node allocatable resource. `capacityMultiplier` must also be set and is multiplied with the base quantity. For example, if `spec.devices[*].capacity` has an entry "dra.example.com/memory": "128Gi", and this field is set to "dra.example.com/memory", then for a claim allocation that consumes { "dra.example.com/memory": "4Gi" } the base quantity for the node allocatable resource mapping will be "4Gi". The final node allocatable resource amount is `consumedCapacity[capacityKey]` * `capacityMultiplier`.
+    /// capacityKey references a capacity name defined as a key in the `spec.devices[*].capacity` map. When this field is set, the value associated with this key in the `status.allocation.devices.results[*].consumedCapacity` map (for a specific claim allocation) determines the base quantity for the node allocatable resource. `capacityMultiplier` must also be set and is multiplied with the base quantity.
+    ///
+    /// For example, if `spec.devices[*].capacity` has an entry "dra.example.com/memory": "128Gi", and this field is set to "dra.example.com/memory", then for a claim allocation that consumes { "dra.example.com/memory": "4Gi" } the base quantity for the node allocatable resource mapping will be "4Gi". The final node allocatable resource amount is `consumedCapacity[capacityKey]` * `capacityMultiplier`.
+    ///
+    /// In this example, "dra.example.com/memory" is a fictional standardized capacity name. For driver-specific capacities the driver name can be omitted. As defined for consumedCapacity, the capacity consumption may be recorded there with or without the driver name.
     capacityKey: ?[]const u8 = null,
     /// capacityMultiplier is used as a multiplier for the allocated capacity consumed. It is only valid if `capacityKey` is set. The final node allocatable resource amount is `consumedCapacity[capacityKey]` * `capacityMultiplier`. For example, if a Device's capacity "dra.example.com/cores" is consumed, and each "core" provides 2 "cpu"s, the mapping would be: {ResourceName: "cpu", capacityKey: "dra.example.com/cores", capacityMultiplier: "2"}. If a claim consumes 8 "dra.example.com/cores", the CPU footprint is 8 * 2 = 16.
     capacityMultiplier: ?root.io.k8s.apimachinery.pkg.api.resource.Quantity = null,
