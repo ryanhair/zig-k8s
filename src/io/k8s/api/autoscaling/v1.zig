@@ -75,9 +75,9 @@ pub const HorizontalPodAutoscalerStatus = struct {
     /// currentCPUUtilizationPercentage is the current average CPU utilization over all pods, represented as a percentage of requested CPU, e.g. 70 means that an average pod is using now 70% of its requested CPU.
     currentCPUUtilizationPercentage: ?i64 = null,
     /// currentReplicas is the current number of replicas of pods managed by this autoscaler.
-    currentReplicas: i64,
+    currentReplicas: ?i64 = null,
     /// desiredReplicas is the  desired number of replicas of pods managed by this autoscaler.
-    desiredReplicas: i64,
+    desiredReplicas: ?i64 = null,
     /// lastScaleTime is the last time the HorizontalPodAutoscaler scaled the number of pods; used by the autoscaler to control how often the number of pods is changed.
     lastScaleTime: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.Time = null,
     /// observedGeneration is the most recent generation observed by this autoscaler.

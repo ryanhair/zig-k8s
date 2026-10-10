@@ -20,14 +20,14 @@ pub const ContainerResourceMetricSource = struct {
 /// ContainerResourceMetricStatus indicates the current value of a resource metric known to Kubernetes, as specified in requests and limits, describing a single container in each pod in the current scale target (e.g. CPU or memory).  Such metrics are built in to Kubernetes, and have special scaling options on top of those available to normal per-pod metrics using the "pods" source.
 pub const ContainerResourceMetricStatus = struct {
     /// container is the name of the container in the pods of the scaling target
-    container: []const u8,
+    container: ?[]const u8 = null,
     /// current contains the current value for the given metric
-    current: root.io.k8s.api.autoscaling.v2.MetricValueStatus,
+    current: ?root.io.k8s.api.autoscaling.v2.MetricValueStatus = null,
     /// name is the name of the resource in question.
-    name: []const u8,
+    name: ?[]const u8 = null,
 
     pub fn validate(self: @This()) !void {
-        try self.current.validate();
+        if (self.current) |v| try v.validate();
     }
 };
 
@@ -61,13 +61,13 @@ pub const ExternalMetricSource = struct {
 /// ExternalMetricStatus indicates the current value of a global metric not associated with any Kubernetes object.
 pub const ExternalMetricStatus = struct {
     /// current contains the current value for the given metric
-    current: root.io.k8s.api.autoscaling.v2.MetricValueStatus,
+    current: ?root.io.k8s.api.autoscaling.v2.MetricValueStatus = null,
     /// metric identifies the target metric by name and selector
-    metric: root.io.k8s.api.autoscaling.v2.MetricIdentifier,
+    metric: ?root.io.k8s.api.autoscaling.v2.MetricIdentifier = null,
 
     pub fn validate(self: @This()) !void {
-        try self.current.validate();
-        try self.metric.validate();
+        if (self.current) |v| try v.validate();
+        if (self.metric) |v| try v.validate();
     }
 };
 
@@ -153,10 +153,10 @@ pub const HorizontalPodAutoscalerCondition = struct {
     observedGeneration: ?i64 = null,
     /// reason is the reason for the condition's last transition.
     reason: ?[]const u8 = null,
-    /// status is the status of the condition (True, False, Unknown)
-    status: []const u8,
+    /// status is the status of the condition, should be one of True, False, Unknown
+    status: ?[]const u8 = null,
     /// type describes the current condition
-    type: []const u8,
+    type: ?[]const u8 = null,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -209,7 +209,7 @@ pub const HorizontalPodAutoscalerStatus = struct {
     /// currentReplicas is current number of replicas of pods managed by this autoscaler, as last seen by the autoscaler.
     currentReplicas: ?i64 = null,
     /// desiredReplicas is the desired number of replicas of pods managed by this autoscaler, as last calculated by the autoscaler.
-    desiredReplicas: i64,
+    desiredReplicas: ?i64 = null,
     /// lastScaleTime is the last time the HorizontalPodAutoscaler scaled the number of pods, used by the autoscaler to control how often the number of pods is changed.
     lastScaleTime: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.Time = null,
     /// observedGeneration is the most recent generation observed by this autoscaler.
@@ -270,7 +270,7 @@ pub const MetricStatus = struct {
     /// resource refers to a resource metric (such as those specified in requests and limits) known to Kubernetes describing each pod in the current scale target (e.g. CPU or memory). Such metrics are built in to Kubernetes, and have special scaling options on top of those available to normal per-pod metrics using the "pods" source.
     resource: ?root.io.k8s.api.autoscaling.v2.ResourceMetricStatus = null,
     /// type is the type of metric source.  It will be one of "ContainerResource", "External", "Object", "Pods" or "Resource", each corresponds to a matching field in the object.
-    type: []const u8,
+    type: ?[]const u8 = null,
 
     pub fn validate(self: @This()) !void {
         if (self.containerResource) |v| try v.validate();
@@ -330,16 +330,16 @@ pub const ObjectMetricSource = struct {
 /// ObjectMetricStatus indicates the current value of a metric describing a kubernetes object (for example, hits-per-second on an Ingress object).
 pub const ObjectMetricStatus = struct {
     /// current contains the current value for the given metric
-    current: root.io.k8s.api.autoscaling.v2.MetricValueStatus,
+    current: ?root.io.k8s.api.autoscaling.v2.MetricValueStatus = null,
     /// describedObject specifies the descriptions of a object,such as kind,name apiVersion
-    describedObject: root.io.k8s.api.autoscaling.v2.CrossVersionObjectReference,
+    describedObject: ?root.io.k8s.api.autoscaling.v2.CrossVersionObjectReference = null,
     /// metric identifies the target metric by name and selector
-    metric: root.io.k8s.api.autoscaling.v2.MetricIdentifier,
+    metric: ?root.io.k8s.api.autoscaling.v2.MetricIdentifier = null,
 
     pub fn validate(self: @This()) !void {
-        try self.current.validate();
-        try self.describedObject.validate();
-        try self.metric.validate();
+        if (self.current) |v| try v.validate();
+        if (self.describedObject) |v| try v.validate();
+        if (self.metric) |v| try v.validate();
     }
 };
 
@@ -359,13 +359,13 @@ pub const PodsMetricSource = struct {
 /// PodsMetricStatus indicates the current value of a metric describing each pod in the current scale target (for example, transactions-processed-per-second).
 pub const PodsMetricStatus = struct {
     /// current contains the current value for the given metric
-    current: root.io.k8s.api.autoscaling.v2.MetricValueStatus,
+    current: ?root.io.k8s.api.autoscaling.v2.MetricValueStatus = null,
     /// metric identifies the target metric by name and selector
-    metric: root.io.k8s.api.autoscaling.v2.MetricIdentifier,
+    metric: ?root.io.k8s.api.autoscaling.v2.MetricIdentifier = null,
 
     pub fn validate(self: @This()) !void {
-        try self.current.validate();
-        try self.metric.validate();
+        if (self.current) |v| try v.validate();
+        if (self.metric) |v| try v.validate();
     }
 };
 
@@ -384,11 +384,11 @@ pub const ResourceMetricSource = struct {
 /// ResourceMetricStatus indicates the current value of a resource metric known to Kubernetes, as specified in requests and limits, describing each pod in the current scale target (e.g. CPU or memory).  Such metrics are built in to Kubernetes, and have special scaling options on top of those available to normal per-pod metrics using the "pods" source.
 pub const ResourceMetricStatus = struct {
     /// current contains the current value for the given metric
-    current: root.io.k8s.api.autoscaling.v2.MetricValueStatus,
+    current: ?root.io.k8s.api.autoscaling.v2.MetricValueStatus = null,
     /// name is the name of the resource in question.
-    name: []const u8,
+    name: ?[]const u8 = null,
 
     pub fn validate(self: @This()) !void {
-        try self.current.validate();
+        if (self.current) |v| try v.validate();
     }
 };
