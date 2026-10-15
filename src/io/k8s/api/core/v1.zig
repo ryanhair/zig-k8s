@@ -312,7 +312,7 @@ pub const ComponentCondition = struct {
     }
 };
 
-/// ComponentStatus (and ComponentStatusList) holds the cluster validation info. Deprecated: This API is deprecated in v1.19+
+/// ComponentStatus (and ComponentStatusList) holds the cluster validation info.
 pub const ComponentStatus = struct {
     /// APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
     apiVersion: ?[]const u8 = null,
@@ -329,7 +329,7 @@ pub const ComponentStatus = struct {
     }
 };
 
-/// Status of all the conditions for the component as a list of ComponentStatus objects. Deprecated: This API is deprecated in v1.19+
+/// Status of all the conditions for the component as a list of ComponentStatus objects.
 pub const ComponentStatusList = struct {
     /// APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
     apiVersion: ?[]const u8 = null,
@@ -800,7 +800,7 @@ pub const EmptyDirVolumeSource = struct {
     }
 };
 
-/// EndpointAddress is a tuple that describes single IP address. Deprecated: This API is deprecated in v1.33+.
+/// EndpointAddress is a tuple that describes single IP address.
 pub const EndpointAddress = struct {
     /// The Hostname of this endpoint
     hostname: ?[]const u8 = null,
@@ -816,7 +816,7 @@ pub const EndpointAddress = struct {
     }
 };
 
-/// EndpointPort is a tuple that describes a single port. Deprecated: This API is deprecated in v1.33+.
+/// EndpointPort is a tuple that describes a single port.
 pub const EndpointPort = struct {
     /// The application protocol for this port. This is used as a hint for implementations to offer richer behavior for protocols that they understand. This field follows standard Kubernetes label syntax. Valid values are either:
     /// 
@@ -852,8 +852,6 @@ pub const EndpointPort = struct {
 /// 
 /// 	a: [ 10.10.1.1:8675, 10.10.2.2:8675 ],
 /// 	b: [ 10.10.1.1:309, 10.10.2.2:309 ]
-/// 
-/// Deprecated: This API is deprecated in v1.33+.
 pub const EndpointSubset = struct {
     /// IP addresses which offer the related ports that are marked as ready. These endpoints should be considered safe for load balancers and clients to utilize.
     addresses: ?[]const root.io.k8s.api.core.v1.EndpointAddress = null,
@@ -884,8 +882,6 @@ pub const EndpointSubset = struct {
 /// 	]
 /// 
 /// Endpoints is a legacy API and does not contain information about all Service features. Use discoveryv1.EndpointSlice for complete information about Service endpoints.
-/// 
-/// Deprecated: This API is deprecated in v1.33+. Use discoveryv1.EndpointSlice.
 pub const Endpoints = struct {
     /// APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
     apiVersion: ?[]const u8 = null,
@@ -902,7 +898,7 @@ pub const Endpoints = struct {
     }
 };
 
-/// EndpointsList is a list of endpoints. Deprecated: This API is deprecated in v1.33+.
+/// EndpointsList is a list of endpoints.
 pub const EndpointsList = struct {
     /// APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
     apiVersion: ?[]const u8 = null,
@@ -1297,7 +1293,7 @@ pub const GRPCAction = struct {
 
 /// Represents a volume that is populated with the contents of a git repository. Git repo volumes do not support ownership management. Git repo volumes support SELinux relabeling.
 /// 
-/// DEPRECATED: GitRepo is deprecated. To provision a container with a git repo, mount an EmptyDir into an InitContainer that clones the repo using git, then mount the EmptyDir into the Pod's container.
+/// Deprecated: GitRepo is deprecated. To provision a container with a git repo, mount an EmptyDir into an InitContainer that clones the repo using git, then mount the EmptyDir into the Pod's container.
 pub const GitRepoVolumeSource = struct {
     /// directory is the target directory name. Must not contain or start with '..'.  If '.' is supplied, the volume directory will be the git repository.  Otherwise, if specified, the volume will contain the git repository in the subdirectory with the given name.
     directory: ?[]const u8 = null,
@@ -2389,17 +2385,27 @@ pub const PersistentVolumeList = struct {
 pub const PersistentVolumeSpec = struct {
     /// accessModes contains all ways the volume can be mounted. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access-modes
     accessModes: ?[]const []const u8 = null,
-    /// awsElasticBlockStore represents an AWS Disk resource that is attached to a kubelet's host machine and then exposed to the pod. Deprecated: AWSElasticBlockStore is deprecated. All operations for the in-tree awsElasticBlockStore type are redirected to the ebs.csi.aws.com CSI driver. More info: https://kubernetes.io/docs/concepts/storage/volumes#awselasticblockstore
+    /// awsElasticBlockStore represents an AWS Disk resource that is attached to a kubelet's host machine and then exposed to the pod.
+    /// 
+    /// Deprecated: AWSElasticBlockStore is deprecated. All operations for the in-tree awsElasticBlockStore type are redirected to the ebs.csi.aws.com CSI driver. More info: https://kubernetes.io/docs/concepts/storage/volumes#awselasticblockstore
     awsElasticBlockStore: ?root.io.k8s.api.core.v1.AWSElasticBlockStoreVolumeSource = null,
-    /// azureDisk represents an Azure Data Disk mount on the host and bind mount to the pod. Deprecated: AzureDisk is deprecated. All operations for the in-tree azureDisk type are redirected to the disk.csi.azure.com CSI driver.
+    /// azureDisk represents an Azure Data Disk mount on the host and bind mount to the pod.
+    /// 
+    /// Deprecated: AzureDisk is deprecated. All operations for the in-tree azureDisk type are redirected to the disk.csi.azure.com CSI driver.
     azureDisk: ?root.io.k8s.api.core.v1.AzureDiskVolumeSource = null,
-    /// azureFile represents an Azure File Service mount on the host and bind mount to the pod. Deprecated: AzureFile is deprecated. All operations for the in-tree azureFile type are redirected to the file.csi.azure.com CSI driver.
+    /// azureFile represents an Azure File Service mount on the host and bind mount to the pod.
+    /// 
+    /// Deprecated: AzureFile is deprecated. All operations for the in-tree azureFile type are redirected to the file.csi.azure.com CSI driver.
     azureFile: ?root.io.k8s.api.core.v1.AzureFilePersistentVolumeSource = null,
     /// capacity is the description of the persistent volume's resources and capacity. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#capacity
     capacity: ?std.json.Value = null,
-    /// cephfs represents a Ceph FS mount on the host that shares a pod's lifetime. Deprecated: CephFS is deprecated and the in-tree cephfs type is no longer supported.
+    /// cephfs represents a Ceph FS mount on the host that shares a pod's lifetime.
+    /// 
+    /// Deprecated: CephFS is deprecated and the in-tree cephfs type is no longer supported.
     cephfs: ?root.io.k8s.api.core.v1.CephFSPersistentVolumeSource = null,
-    /// cinder represents a cinder volume attached and mounted on kubelets host machine. Deprecated: Cinder is deprecated. All operations for the in-tree cinder type are redirected to the cinder.csi.openstack.org CSI driver. More info: https://examples.k8s.io/mysql-cinder-pd/README.md
+    /// cinder represents a cinder volume attached and mounted on kubelets host machine.
+    /// 
+    /// Deprecated: Cinder is deprecated. All operations for the in-tree cinder type are redirected to the cinder.csi.openstack.org CSI driver. More info: https://examples.k8s.io/mysql-cinder-pd/README.md
     cinder: ?root.io.k8s.api.core.v1.CinderPersistentVolumeSource = null,
     /// claimRef is part of a bi-directional binding between PersistentVolume and PersistentVolumeClaim. Expected to be non-nil when bound. claim.VolumeName is the authoritative bind between PV and PVC. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#binding
     claimRef: ?root.io.k8s.api.core.v1.ObjectReference = null,
@@ -2407,13 +2413,21 @@ pub const PersistentVolumeSpec = struct {
     csi: ?root.io.k8s.api.core.v1.CSIPersistentVolumeSource = null,
     /// fc represents a Fibre Channel resource that is attached to a kubelet's host machine and then exposed to the pod.
     fc: ?root.io.k8s.api.core.v1.FCVolumeSource = null,
-    /// flexVolume represents a generic volume resource that is provisioned/attached using an exec based plugin. Deprecated: FlexVolume is deprecated. Consider using a CSIDriver instead.
+    /// flexVolume represents a generic volume resource that is provisioned/attached using an exec based plugin.
+    /// 
+    /// Deprecated: FlexVolume is deprecated. Consider using a CSIDriver instead.
     flexVolume: ?root.io.k8s.api.core.v1.FlexPersistentVolumeSource = null,
-    /// flocker represents a Flocker volume attached to a kubelet's host machine and exposed to the pod for its usage. This depends on the Flocker control service being running. Deprecated: Flocker is deprecated and the in-tree flocker type is no longer supported.
+    /// flocker represents a Flocker volume attached to a kubelet's host machine and exposed to the pod for its usage. This depends on the Flocker control service being running.
+    /// 
+    /// Deprecated: Flocker is deprecated and the in-tree flocker type is no longer supported.
     flocker: ?root.io.k8s.api.core.v1.FlockerVolumeSource = null,
-    /// gcePersistentDisk represents a GCE Disk resource that is attached to a kubelet's host machine and then exposed to the pod. Provisioned by an admin. Deprecated: GCEPersistentDisk is deprecated. All operations for the in-tree gcePersistentDisk type are redirected to the pd.csi.storage.gke.io CSI driver. More info: https://kubernetes.io/docs/concepts/storage/volumes#gcepersistentdisk
+    /// gcePersistentDisk represents a GCE Disk resource that is attached to a kubelet's host machine and then exposed to the pod. Provisioned by an admin.
+    /// 
+    /// Deprecated: GCEPersistentDisk is deprecated. All operations for the in-tree gcePersistentDisk type are redirected to the pd.csi.storage.gke.io CSI driver. More info: https://kubernetes.io/docs/concepts/storage/volumes#gcepersistentdisk
     gcePersistentDisk: ?root.io.k8s.api.core.v1.GCEPersistentDiskVolumeSource = null,
-    /// glusterfs represents a Glusterfs volume that is attached to a host and exposed to the pod. Provisioned by an admin. Deprecated: Glusterfs is deprecated and the in-tree glusterfs type is no longer supported. More info: https://examples.k8s.io/volumes/glusterfs/README.md
+    /// glusterfs represents a Glusterfs volume that is attached to a host and exposed to the pod. Provisioned by an admin.
+    /// 
+    /// Deprecated: Glusterfs is deprecated and the in-tree glusterfs type is no longer supported. More info: https://examples.k8s.io/volumes/glusterfs/README.md
     glusterfs: ?root.io.k8s.api.core.v1.GlusterfsPersistentVolumeSource = null,
     /// hostPath represents a directory on the host. Provisioned by a developer or tester. This is useful for single-node development and testing only! On-host storage is not supported in any way and WILL NOT WORK in a multi-node cluster. More info: https://kubernetes.io/docs/concepts/storage/volumes#hostpath
     hostPath: ?root.io.k8s.api.core.v1.HostPathVolumeSource = null,
@@ -2429,25 +2443,39 @@ pub const PersistentVolumeSpec = struct {
     nodeAffinity: ?root.io.k8s.api.core.v1.VolumeNodeAffinity = null,
     /// persistentVolumeReclaimPolicy defines what happens to a persistent volume when released from its claim. Valid options are Retain (default for manually created PersistentVolumes), Delete (default for dynamically provisioned PersistentVolumes), and Recycle (deprecated). Recycle must be supported by the volume plugin underlying this PersistentVolume. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#reclaiming
     persistentVolumeReclaimPolicy: ?[]const u8 = null,
-    /// photonPersistentDisk represents a PhotonController persistent disk attached and mounted on kubelets host machine. Deprecated: PhotonPersistentDisk is deprecated and the in-tree photonPersistentDisk type is no longer supported.
+    /// photonPersistentDisk represents a PhotonController persistent disk attached and mounted on kubelets host machine.
+    /// 
+    /// Deprecated: PhotonPersistentDisk is deprecated and the in-tree photonPersistentDisk type is no longer supported.
     photonPersistentDisk: ?root.io.k8s.api.core.v1.PhotonPersistentDiskVolumeSource = null,
-    /// portworxVolume represents a portworx volume attached and mounted on kubelets host machine. Deprecated: PortworxVolume is deprecated. All operations for the in-tree portworxVolume type are redirected to the pxd.portworx.com CSI driver.
+    /// portworxVolume represents a portworx volume attached and mounted on kubelets host machine.
+    /// 
+    /// Deprecated: PortworxVolume is deprecated. All operations for the in-tree portworxVolume type are redirected to the pxd.portworx.com CSI driver.
     portworxVolume: ?root.io.k8s.api.core.v1.PortworxVolumeSource = null,
-    /// quobyte represents a Quobyte mount on the host that shares a pod's lifetime. Deprecated: Quobyte is deprecated and the in-tree quobyte type is no longer supported.
+    /// quobyte represents a Quobyte mount on the host that shares a pod's lifetime.
+    /// 
+    /// Deprecated: Quobyte is deprecated and the in-tree quobyte type is no longer supported.
     quobyte: ?root.io.k8s.api.core.v1.QuobyteVolumeSource = null,
-    /// rbd represents a Rados Block Device mount on the host that shares a pod's lifetime. Deprecated: RBD is deprecated and the in-tree rbd type is no longer supported. More info: https://examples.k8s.io/volumes/rbd/README.md
+    /// rbd represents a Rados Block Device mount on the host that shares a pod's lifetime.
+    /// 
+    /// Deprecated: RBD is deprecated and the in-tree rbd type is no longer supported. More info: https://examples.k8s.io/volumes/rbd/README.md
     rbd: ?root.io.k8s.api.core.v1.RBDPersistentVolumeSource = null,
-    /// scaleIO represents a ScaleIO persistent volume attached and mounted on Kubernetes nodes. Deprecated: ScaleIO is deprecated and the in-tree scaleIO type is no longer supported.
+    /// scaleIO represents a ScaleIO persistent volume attached and mounted on Kubernetes nodes.
+    /// 
+    /// Deprecated: ScaleIO is deprecated and the in-tree scaleIO type is no longer supported.
     scaleIO: ?root.io.k8s.api.core.v1.ScaleIOPersistentVolumeSource = null,
     /// storageClassName is the name of StorageClass to which this persistent volume belongs. Empty value means that this volume does not belong to any StorageClass.
     storageClassName: ?[]const u8 = null,
-    /// storageos represents a StorageOS volume that is attached to the kubelet's host machine and mounted into the pod. Deprecated: StorageOS is deprecated and the in-tree storageos type is no longer supported. More info: https://examples.k8s.io/volumes/storageos/README.md
+    /// storageos represents a StorageOS volume that is attached to the kubelet's host machine and mounted into the pod.
+    /// 
+    /// Deprecated: StorageOS is deprecated and the in-tree storageos type is no longer supported. More info: https://examples.k8s.io/volumes/storageos/README.md
     storageos: ?root.io.k8s.api.core.v1.StorageOSPersistentVolumeSource = null,
     /// volumeAttributesClassName is the name of VolumeAttributesClass to which this persistent volume belongs. Empty value is not allowed. When this field is not set, it indicates that this volume does not belong to any VolumeAttributesClass. This field is mutable and can be changed by the CSI driver after a volume has been updated successfully to a new class. For an unbound PersistentVolume, the volumeAttributesClassName will be matched with unbound PersistentVolumeClaims during the binding process.
     volumeAttributesClassName: ?[]const u8 = null,
     /// volumeMode defines if a volume is intended to be used with a formatted filesystem or to remain in raw block state. Value of Filesystem is implied when not included in spec.
     volumeMode: ?[]const u8 = null,
-    /// vsphereVolume represents a vSphere volume attached and mounted on kubelets host machine. Deprecated: VsphereVolume is deprecated. All operations for the in-tree vsphereVolume type are redirected to the csi.vsphere.vmware.com CSI driver.
+    /// vsphereVolume represents a vSphere volume attached and mounted on kubelets host machine.
+    /// 
+    /// Deprecated: VsphereVolume is deprecated. All operations for the in-tree vsphereVolume type are redirected to the csi.vsphere.vmware.com CSI driver.
     vsphereVolume: ?root.io.k8s.api.core.v1.VsphereVirtualDiskVolumeSource = null,
 
     pub fn validate(self: @This()) !void {
@@ -2932,7 +2960,9 @@ pub const PodSpec = struct {
     schedulingGroup: ?root.io.k8s.api.core.v1.PodSchedulingGroup = null,
     /// securityContext holds pod-level security attributes and common container settings. Optional: Defaults to empty.  See type description for default values of each field.
     securityContext: ?root.io.k8s.api.core.v1.PodSecurityContext = null,
-    /// serviceAccount is a deprecated alias for ServiceAccountName. Deprecated: Use serviceAccountName instead.
+    /// serviceAccount is a deprecated alias for ServiceAccountName.
+    /// 
+    /// Deprecated: Use serviceAccountName instead.
     serviceAccount: ?[]const u8 = null,
     /// serviceAccountName is the name of the ServiceAccount to use to run this pod. More info: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
     serviceAccountName: ?[]const u8 = null,
@@ -3013,7 +3043,9 @@ pub const PodStatus = struct {
     qosClass: ?[]const u8 = null,
     /// A brief CamelCase message indicating details about why the pod is in this state. e.g. 'Evicted'
     reason: ?[]const u8 = null,
-    /// Status of resources resize desired for pod's containers. It is empty if no resources resize is pending. Any changes to container resources will automatically set this to "Proposed" Deprecated: Resize status is moved to two pod conditions PodResizePending and PodResizeInProgress. PodResizePending will track states where the spec has been resized, but the Kubelet has not yet allocated the resources. PodResizeInProgress will track in-progress resizes, and should be present whenever allocated resources != acknowledged resources.
+    /// Status of resources resize desired for pod's containers. It is empty if no resources resize is pending. Any changes to container resources will automatically set this to "Proposed"
+    /// 
+    /// Deprecated: Resize status is moved to two pod conditions PodResizePending and PodResizeInProgress. PodResizePending will track states where the spec has been resized, but the Kubelet has not yet allocated the resources. PodResizeInProgress will track in-progress resizes, and should be present whenever allocated resources != acknowledged resources.
     resize: ?[]const u8 = null,
     /// Status of resource claims.
     resourceClaimStatuses: ?[]const root.io.k8s.api.core.v1.PodResourceClaimStatus = null,
@@ -3896,7 +3928,9 @@ pub const ServiceSpec = struct {
     ipFamilyPolicy: ?[]const u8 = null,
     /// loadBalancerClass is the class of the load balancer implementation this Service belongs to. If specified, the value of this field must be a label-style identifier, with an optional prefix, e.g. "internal-vip" or "example.com/internal-vip". Unprefixed names are reserved for end-users. This field can only be set when the Service type is 'LoadBalancer'. If not set, the default load balancer implementation is used, today this is typically done through the cloud provider integration, but should apply for any default implementation. If set, it is assumed that a load balancer implementation is watching for Services with a matching class. Any default load balancer implementation (e.g. cloud providers) should ignore Services that set this field. This field can only be set when creating or updating a Service to type 'LoadBalancer'. Once set, it can not be changed. This field will be wiped when a service is updated to a non 'LoadBalancer' type.
     loadBalancerClass: ?[]const u8 = null,
-    /// loadBalancerIP only applies to Service Type: LoadBalancer. This feature depends on whether the underlying cloud-provider supports specifying the loadBalancerIP when a load balancer is created. This field will be ignored if the cloud-provider does not support the feature. Deprecated: This field was under-specified and its meaning varies across implementations. Using it is non-portable and it may not support dual-stack. Users are encouraged to use implementation-specific annotations when available.
+    /// loadBalancerIP only applies to Service Type: LoadBalancer. This feature depends on whether the underlying cloud-provider supports specifying the loadBalancerIP when a load balancer is created. This field will be ignored if the cloud-provider does not support the feature.
+    /// 
+    /// Deprecated: This field was under-specified and its meaning varies across implementations. Using it is non-portable and it may not support dual-stack. Users are encouraged to use implementation-specific annotations when available.
     loadBalancerIP: ?[]const u8 = null,
     /// loadBalancerSourceRanges If specified and supported by the platform, this will restrict traffic through the cloud-provider load-balancer will be restricted to the specified client IPs. This field will be ignored if the cloud-provider does not support the feature." More info: https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/
     loadBalancerSourceRanges: ?[]const []const u8 = null,
@@ -4137,15 +4171,25 @@ pub const TypedObjectReference = struct {
 
 /// Volume represents a named volume in a pod that may be accessed by any container in the pod.
 pub const Volume = struct {
-    /// awsElasticBlockStore represents an AWS Disk resource that is attached to a kubelet's host machine and then exposed to the pod. Deprecated: AWSElasticBlockStore is deprecated. All operations for the in-tree awsElasticBlockStore type are redirected to the ebs.csi.aws.com CSI driver. More info: https://kubernetes.io/docs/concepts/storage/volumes#awselasticblockstore
+    /// awsElasticBlockStore represents an AWS Disk resource that is attached to a kubelet's host machine and then exposed to the pod.
+    /// 
+    /// Deprecated: AWSElasticBlockStore is deprecated. All operations for the in-tree awsElasticBlockStore type are redirected to the ebs.csi.aws.com CSI driver. More info: https://kubernetes.io/docs/concepts/storage/volumes#awselasticblockstore
     awsElasticBlockStore: ?root.io.k8s.api.core.v1.AWSElasticBlockStoreVolumeSource = null,
-    /// azureDisk represents an Azure Data Disk mount on the host and bind mount to the pod. Deprecated: AzureDisk is deprecated. All operations for the in-tree azureDisk type are redirected to the disk.csi.azure.com CSI driver.
+    /// azureDisk represents an Azure Data Disk mount on the host and bind mount to the pod.
+    /// 
+    /// Deprecated: AzureDisk is deprecated. All operations for the in-tree azureDisk type are redirected to the disk.csi.azure.com CSI driver.
     azureDisk: ?root.io.k8s.api.core.v1.AzureDiskVolumeSource = null,
-    /// azureFile represents an Azure File Service mount on the host and bind mount to the pod. Deprecated: AzureFile is deprecated. All operations for the in-tree azureFile type are redirected to the file.csi.azure.com CSI driver.
+    /// azureFile represents an Azure File Service mount on the host and bind mount to the pod.
+    /// 
+    /// Deprecated: AzureFile is deprecated. All operations for the in-tree azureFile type are redirected to the file.csi.azure.com CSI driver.
     azureFile: ?root.io.k8s.api.core.v1.AzureFileVolumeSource = null,
-    /// cephfs represents a Ceph FS mount on the host that shares a pod's lifetime. Deprecated: CephFS is deprecated and the in-tree cephfs type is no longer supported.
+    /// cephfs represents a Ceph FS mount on the host that shares a pod's lifetime.
+    /// 
+    /// Deprecated: CephFS is deprecated and the in-tree cephfs type is no longer supported.
     cephfs: ?root.io.k8s.api.core.v1.CephFSVolumeSource = null,
-    /// cinder represents a cinder volume attached and mounted on kubelets host machine. Deprecated: Cinder is deprecated. All operations for the in-tree cinder type are redirected to the cinder.csi.openstack.org CSI driver. More info: https://examples.k8s.io/mysql-cinder-pd/README.md
+    /// cinder represents a cinder volume attached and mounted on kubelets host machine.
+    /// 
+    /// Deprecated: Cinder is deprecated. All operations for the in-tree cinder type are redirected to the cinder.csi.openstack.org CSI driver. More info: https://examples.k8s.io/mysql-cinder-pd/README.md
     cinder: ?root.io.k8s.api.core.v1.CinderVolumeSource = null,
     /// configMap represents a configMap that should populate this volume
     configMap: ?root.io.k8s.api.core.v1.ConfigMapVolumeSource = null,
@@ -4172,15 +4216,25 @@ pub const Volume = struct {
     ephemeral: ?root.io.k8s.api.core.v1.EphemeralVolumeSource = null,
     /// fc represents a Fibre Channel resource that is attached to a kubelet's host machine and then exposed to the pod.
     fc: ?root.io.k8s.api.core.v1.FCVolumeSource = null,
-    /// flexVolume represents a generic volume resource that is provisioned/attached using an exec based plugin. Deprecated: FlexVolume is deprecated. Consider using a CSIDriver instead.
+    /// flexVolume represents a generic volume resource that is provisioned/attached using an exec based plugin.
+    /// 
+    /// Deprecated: FlexVolume is deprecated. Consider using a CSIDriver instead.
     flexVolume: ?root.io.k8s.api.core.v1.FlexVolumeSource = null,
-    /// flocker represents a Flocker volume attached to a kubelet's host machine. This depends on the Flocker control service being running. Deprecated: Flocker is deprecated and the in-tree flocker type is no longer supported.
+    /// flocker represents a Flocker volume attached to a kubelet's host machine. This depends on the Flocker control service being running.
+    /// 
+    /// Deprecated: Flocker is deprecated and the in-tree flocker type is no longer supported.
     flocker: ?root.io.k8s.api.core.v1.FlockerVolumeSource = null,
-    /// gcePersistentDisk represents a GCE Disk resource that is attached to a kubelet's host machine and then exposed to the pod. Deprecated: GCEPersistentDisk is deprecated. All operations for the in-tree gcePersistentDisk type are redirected to the pd.csi.storage.gke.io CSI driver. More info: https://kubernetes.io/docs/concepts/storage/volumes#gcepersistentdisk
+    /// gcePersistentDisk represents a GCE Disk resource that is attached to a kubelet's host machine and then exposed to the pod.
+    /// 
+    /// Deprecated: GCEPersistentDisk is deprecated. All operations for the in-tree gcePersistentDisk type are redirected to the pd.csi.storage.gke.io CSI driver. More info: https://kubernetes.io/docs/concepts/storage/volumes#gcepersistentdisk
     gcePersistentDisk: ?root.io.k8s.api.core.v1.GCEPersistentDiskVolumeSource = null,
-    /// gitRepo represents a git repository at a particular revision. Deprecated: GitRepo is deprecated. To provision a container with a git repo, mount an EmptyDir into an InitContainer that clones the repo using git, then mount the EmptyDir into the Pod's container.
+    /// gitRepo represents a git repository at a particular revision.
+    /// 
+    /// Deprecated: GitRepo is deprecated. To provision a container with a git repo, mount an EmptyDir into an InitContainer that clones the repo using git, then mount the EmptyDir into the Pod's container.
     gitRepo: ?root.io.k8s.api.core.v1.GitRepoVolumeSource = null,
-    /// glusterfs represents a Glusterfs mount on the host that shares a pod's lifetime. Deprecated: Glusterfs is deprecated and the in-tree glusterfs type is no longer supported.
+    /// glusterfs represents a Glusterfs mount on the host that shares a pod's lifetime.
+    /// 
+    /// Deprecated: Glusterfs is deprecated and the in-tree glusterfs type is no longer supported.
     glusterfs: ?root.io.k8s.api.core.v1.GlusterfsVolumeSource = null,
     /// hostPath represents a pre-existing file or directory on the host machine that is directly exposed to the container. This is generally used for system agents or other privileged things that are allowed to see the host machine. Most containers will NOT need this. More info: https://kubernetes.io/docs/concepts/storage/volumes#hostpath
     hostPath: ?root.io.k8s.api.core.v1.HostPathVolumeSource = null,
@@ -4198,23 +4252,37 @@ pub const Volume = struct {
     nfs: ?root.io.k8s.api.core.v1.NFSVolumeSource = null,
     /// persistentVolumeClaim represents a reference to a PersistentVolumeClaim in the same namespace. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#persistentvolumeclaims
     persistentVolumeClaim: ?root.io.k8s.api.core.v1.PersistentVolumeClaimVolumeSource = null,
-    /// photonPersistentDisk represents a PhotonController persistent disk attached and mounted on kubelets host machine. Deprecated: PhotonPersistentDisk is deprecated and the in-tree photonPersistentDisk type is no longer supported.
+    /// photonPersistentDisk represents a PhotonController persistent disk attached and mounted on kubelets host machine.
+    /// 
+    /// Deprecated: PhotonPersistentDisk is deprecated and the in-tree photonPersistentDisk type is no longer supported.
     photonPersistentDisk: ?root.io.k8s.api.core.v1.PhotonPersistentDiskVolumeSource = null,
-    /// portworxVolume represents a portworx volume attached and mounted on kubelets host machine. Deprecated: PortworxVolume is deprecated. All operations for the in-tree portworxVolume type are redirected to the pxd.portworx.com CSI driver.
+    /// portworxVolume represents a portworx volume attached and mounted on kubelets host machine.
+    /// 
+    /// Deprecated: PortworxVolume is deprecated. All operations for the in-tree portworxVolume type are redirected to the pxd.portworx.com CSI driver.
     portworxVolume: ?root.io.k8s.api.core.v1.PortworxVolumeSource = null,
     /// projected items for all in one resources secrets, configmaps, and downward API
     projected: ?root.io.k8s.api.core.v1.ProjectedVolumeSource = null,
-    /// quobyte represents a Quobyte mount on the host that shares a pod's lifetime. Deprecated: Quobyte is deprecated and the in-tree quobyte type is no longer supported.
+    /// quobyte represents a Quobyte mount on the host that shares a pod's lifetime.
+    /// 
+    /// Deprecated: Quobyte is deprecated and the in-tree quobyte type is no longer supported.
     quobyte: ?root.io.k8s.api.core.v1.QuobyteVolumeSource = null,
-    /// rbd represents a Rados Block Device mount on the host that shares a pod's lifetime. Deprecated: RBD is deprecated and the in-tree rbd type is no longer supported.
+    /// rbd represents a Rados Block Device mount on the host that shares a pod's lifetime.
+    /// 
+    /// Deprecated: RBD is deprecated and the in-tree rbd type is no longer supported.
     rbd: ?root.io.k8s.api.core.v1.RBDVolumeSource = null,
-    /// scaleIO represents a ScaleIO persistent volume attached and mounted on Kubernetes nodes. Deprecated: ScaleIO is deprecated and the in-tree scaleIO type is no longer supported.
+    /// scaleIO represents a ScaleIO persistent volume attached and mounted on Kubernetes nodes.
+    /// 
+    /// Deprecated: ScaleIO is deprecated and the in-tree scaleIO type is no longer supported.
     scaleIO: ?root.io.k8s.api.core.v1.ScaleIOVolumeSource = null,
     /// secret represents a secret that should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
     secret: ?root.io.k8s.api.core.v1.SecretVolumeSource = null,
-    /// storageos represents a StorageOS volume attached and mounted on Kubernetes nodes. Deprecated: StorageOS is deprecated and the in-tree storageos type is no longer supported.
+    /// storageos represents a StorageOS volume attached and mounted on Kubernetes nodes.
+    /// 
+    /// Deprecated: StorageOS is deprecated and the in-tree storageos type is no longer supported.
     storageos: ?root.io.k8s.api.core.v1.StorageOSVolumeSource = null,
-    /// vsphereVolume represents a vSphere volume attached and mounted on kubelets host machine. Deprecated: VsphereVolume is deprecated. All operations for the in-tree vsphereVolume type are redirected to the csi.vsphere.vmware.com CSI driver.
+    /// vsphereVolume represents a vSphere volume attached and mounted on kubelets host machine.
+    /// 
+    /// Deprecated: VsphereVolume is deprecated. All operations for the in-tree vsphereVolume type are redirected to the csi.vsphere.vmware.com CSI driver.
     vsphereVolume: ?root.io.k8s.api.core.v1.VsphereVirtualDiskVolumeSource = null,
 
     pub fn validate(self: @This()) !void {
