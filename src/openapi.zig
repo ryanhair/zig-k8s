@@ -654,7 +654,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -1150,7 +1150,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -1522,7 +1522,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -1894,7 +1894,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -2266,7 +2266,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -2638,7 +2638,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -3390,7 +3390,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -3965,7 +3965,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -5102,7 +5102,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -5677,7 +5677,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -6814,7 +6814,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -7389,7 +7389,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -8526,7 +8526,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -9101,7 +9101,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -10238,7 +10238,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -10813,7 +10813,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -12455,7 +12455,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -13030,7 +13030,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -19120,7 +19120,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -19695,7 +19695,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -20832,7 +20832,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -21407,7 +21407,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -23554,7 +23554,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -24129,7 +24129,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -25771,7 +25771,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -26346,7 +26346,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -27483,7 +27483,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -28058,7 +28058,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -29388,7 +29388,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -29963,7 +29963,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -34807,7 +34807,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -35376,7 +35376,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -38759,7 +38759,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -39131,7 +39131,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -39700,7 +39700,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -41326,7 +41326,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -41698,7 +41698,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -42070,7 +42070,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -42442,7 +42442,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -42814,7 +42814,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -43186,7 +43186,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -43558,7 +43558,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -43930,7 +43930,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -44248,7 +44248,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -44566,7 +44566,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -44884,7 +44884,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -45202,7 +45202,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -45520,7 +45520,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -45840,7 +45840,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -46161,7 +46161,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -46481,7 +46481,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -46802,7 +46802,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -47122,7 +47122,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -47443,7 +47443,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -47763,7 +47763,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -48084,7 +48084,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -48404,7 +48404,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -48725,7 +48725,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -49045,7 +49045,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -49366,7 +49366,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -49686,7 +49686,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -50007,7 +50007,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -50327,7 +50327,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -50648,7 +50648,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -50968,7 +50968,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -51289,7 +51289,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -51609,7 +51609,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -51930,7 +51930,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -52250,7 +52250,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -52571,7 +52571,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -52891,7 +52891,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -53212,7 +53212,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -53531,7 +53531,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -53849,7 +53849,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -54168,7 +54168,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -54486,7 +54486,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -54804,7 +54804,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -55123,7 +55123,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -55441,7 +55441,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -55759,7 +55759,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -56077,7 +56077,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -56395,7 +56395,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -56713,7 +56713,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -57031,7 +57031,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -57664,7 +57664,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -58233,7 +58233,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -59360,7 +59360,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -59929,7 +59929,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -61056,7 +61056,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -61625,7 +61625,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -62752,7 +62752,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -63321,7 +63321,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -64947,7 +64947,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -65516,7 +65516,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -66643,7 +66643,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -67212,7 +67212,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -68339,7 +68339,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -68657,7 +68657,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -68976,7 +68976,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -69294,7 +69294,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -69613,7 +69613,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -69931,7 +69931,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -70250,7 +70250,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -70568,7 +70568,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -70887,7 +70887,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -71205,7 +71205,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -71524,7 +71524,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -71842,7 +71842,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -72266,7 +72266,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -72835,7 +72835,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -73962,7 +73962,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -74531,7 +74531,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -75658,7 +75658,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -75976,7 +75976,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -76295,7 +76295,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -76613,7 +76613,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -77037,7 +77037,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -77606,7 +77606,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -78733,7 +78733,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -79302,7 +79302,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -80429,7 +80429,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -80747,7 +80747,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -81066,7 +81066,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -81384,7 +81384,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -81913,7 +81913,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -82482,7 +82482,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -84108,7 +84108,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -84426,7 +84426,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -84955,7 +84955,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -85524,7 +85524,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -87150,7 +87150,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -87468,7 +87468,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -87997,7 +87997,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -88369,7 +88369,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -88741,7 +88741,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -89113,7 +89113,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -89688,7 +89688,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -90825,7 +90825,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -91400,7 +91400,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -93042,7 +93042,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -93617,7 +93617,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -95764,7 +95764,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -96339,7 +96339,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -98486,7 +98486,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -99061,7 +99061,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -101208,7 +101208,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -101580,7 +101580,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -101952,7 +101952,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -102270,7 +102270,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -102588,7 +102588,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -102906,7 +102906,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -103226,7 +103226,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -103547,7 +103547,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -103867,7 +103867,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -104188,7 +104188,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -104508,7 +104508,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -104829,7 +104829,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -105149,7 +105149,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -105470,7 +105470,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -105790,7 +105790,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -106111,7 +106111,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -106429,7 +106429,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -108513,7 +108513,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -108885,7 +108885,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -109460,7 +109460,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -111102,7 +111102,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -111420,7 +111420,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -111740,7 +111740,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -112166,7 +112166,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -112538,7 +112538,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -113113,7 +113113,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -114755,7 +114755,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -115073,7 +115073,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -115393,7 +115393,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -115924,7 +115924,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -116296,7 +116296,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -116668,7 +116668,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -117243,7 +117243,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -118885,7 +118885,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -119460,7 +119460,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -121102,7 +121102,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -121420,7 +121420,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -121738,7 +121738,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -122058,7 +122058,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -122379,7 +122379,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -122699,7 +122699,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -123230,7 +123230,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -123799,7 +123799,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -125924,7 +125924,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -126493,7 +126493,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -127620,7 +127620,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -128195,7 +128195,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -129837,7 +129837,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -130209,7 +130209,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -130527,7 +130527,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -130846,7 +130846,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -131164,7 +131164,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -131483,7 +131483,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -131803,7 +131803,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -132124,7 +132124,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -132547,7 +132547,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -133116,7 +133116,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -134243,7 +134243,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -134818,7 +134818,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -136460,7 +136460,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -136832,7 +136832,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -137150,7 +137150,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -137469,7 +137469,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -137789,7 +137789,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -138110,7 +138110,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -138638,7 +138638,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -139010,7 +139010,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -139585,7 +139585,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -140722,7 +140722,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -141040,7 +141040,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -141360,7 +141360,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -141786,7 +141786,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -142158,7 +142158,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -142733,7 +142733,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -143870,7 +143870,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -144188,7 +144188,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -144508,7 +144508,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -144934,7 +144934,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -145306,7 +145306,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -145881,7 +145881,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -147018,7 +147018,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -147336,7 +147336,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -147656,7 +147656,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -148187,7 +148187,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -148559,7 +148559,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -149134,7 +149134,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -150271,7 +150271,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -150589,7 +150589,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -150909,7 +150909,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -151440,7 +151440,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -151812,7 +151812,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -152387,7 +152387,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -153524,7 +153524,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -153842,7 +153842,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -154162,7 +154162,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -154693,7 +154693,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -155262,7 +155262,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -156888,7 +156888,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -157457,7 +157457,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -159083,7 +159083,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -159401,7 +159401,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -159720,7 +159720,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -160038,7 +160038,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -160567,7 +160567,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -161136,7 +161136,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -162762,7 +162762,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -163080,7 +163080,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -163609,7 +163609,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -163981,7 +163981,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -164353,7 +164353,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -164928,7 +164928,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -166570,7 +166570,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -167145,7 +167145,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -168787,7 +168787,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -169105,7 +169105,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -169423,7 +169423,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -169743,7 +169743,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -170064,7 +170064,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -170384,7 +170384,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -170915,7 +170915,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -171484,7 +171484,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -172611,7 +172611,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -172983,7 +172983,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -173552,7 +173552,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -174679,7 +174679,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -175254,7 +175254,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -176896,7 +176896,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -177471,7 +177471,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -178608,7 +178608,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -178980,7 +178980,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -179549,7 +179549,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -181175,7 +181175,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -181493,7 +181493,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -181812,7 +181812,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -182130,7 +182130,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -182448,7 +182448,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -182767,7 +182767,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -183087,7 +183087,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -183408,7 +183408,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -183728,7 +183728,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -184049,7 +184049,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -184367,7 +184367,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -184685,7 +184685,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -185214,7 +185214,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -185783,7 +185783,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -186910,7 +186910,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -187228,7 +187228,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -187757,7 +187757,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -188332,7 +188332,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -189974,7 +189974,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -190346,7 +190346,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -190666,7 +190666,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -190987,7 +190987,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -191515,7 +191515,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -192084,7 +192084,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -193211,7 +193211,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -193780,7 +193780,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -194907,7 +194907,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -195482,7 +195482,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -196619,7 +196619,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -197194,7 +197194,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -198331,7 +198331,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -198703,7 +198703,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -199075,7 +199075,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -199393,7 +199393,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -199712,7 +199712,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -200030,7 +200030,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -200349,7 +200349,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -200669,7 +200669,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -200990,7 +200990,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -201310,7 +201310,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -201631,7 +201631,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -201949,7 +201949,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -202477,7 +202477,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -203046,7 +203046,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -204173,7 +204173,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -204742,7 +204742,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -206368,7 +206368,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -206943,7 +206943,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -208585,7 +208585,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -209160,7 +209160,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -210297,7 +210297,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -210669,7 +210669,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -211041,7 +211041,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -211610,7 +211610,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -212737,7 +212737,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -213055,7 +213055,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -213374,7 +213374,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -213692,7 +213692,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -214011,7 +214011,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -214331,7 +214331,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -214652,7 +214652,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -214972,7 +214972,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -215293,7 +215293,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -215611,7 +215611,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -215929,7 +215929,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -216247,7 +216247,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -216671,7 +216671,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -217240,7 +217240,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -218866,7 +218866,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -219435,7 +219435,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -221061,7 +221061,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -221379,7 +221379,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -221698,7 +221698,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -222016,7 +222016,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -222440,7 +222440,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -223009,7 +223009,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -224136,7 +224136,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -224705,7 +224705,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -226331,7 +226331,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -226906,7 +226906,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -228548,7 +228548,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -229123,7 +229123,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -230260,7 +230260,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -230632,7 +230632,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -231004,7 +231004,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -231573,7 +231573,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -232700,7 +232700,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -233018,7 +233018,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -233337,7 +233337,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -233655,7 +233655,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -233974,7 +233974,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -234294,7 +234294,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -234615,7 +234615,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -234935,7 +234935,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -235256,7 +235256,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -235574,7 +235574,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -235892,7 +235892,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -236210,7 +236210,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -236739,7 +236739,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -237308,7 +237308,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -238435,7 +238435,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -238753,7 +238753,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -239177,7 +239177,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -239549,7 +239549,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -240124,7 +240124,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -241766,7 +241766,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -242341,7 +242341,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -243983,7 +243983,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -244558,7 +244558,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -245695,7 +245695,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -246067,7 +246067,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -246385,7 +246385,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -246705,7 +246705,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -247026,7 +247026,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -247346,7 +247346,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -247667,7 +247667,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -247987,7 +247987,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -248308,7 +248308,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -248626,7 +248626,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -248944,7 +248944,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -249421,7 +249421,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -249996,7 +249996,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -251638,7 +251638,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -252213,7 +252213,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -253350,7 +253350,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -253722,7 +253722,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -254042,7 +254042,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -254363,7 +254363,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -254683,7 +254683,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -255004,7 +255004,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -255322,7 +255322,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -255640,7 +255640,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -256222,7 +256222,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -256791,7 +256791,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -257918,7 +257918,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -258487,7 +258487,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -260113,7 +260113,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -260485,7 +260485,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -261060,7 +261060,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -262197,7 +262197,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -262766,7 +262766,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -263893,7 +263893,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -264462,7 +264462,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -266088,7 +266088,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -266657,7 +266657,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -267784,7 +267784,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -268102,7 +268102,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -268421,7 +268421,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -268739,7 +268739,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -269058,7 +269058,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -269376,7 +269376,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -269696,7 +269696,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -270017,7 +270017,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -270335,7 +270335,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -270654,7 +270654,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -270972,7 +270972,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -271291,7 +271291,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -271609,7 +271609,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -272138,7 +272138,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -272707,7 +272707,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -274333,7 +274333,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -274651,7 +274651,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -275075,7 +275075,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -275644,7 +275644,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -277270,7 +277270,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,
@@ -277588,7 +277588,7 @@ pub const Client = struct {
         ///     shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000')
         ///     shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000')
         ///
-        /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+        /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
         shardSelector: ?[]const u8 = null,
         /// Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.
         timeoutSeconds: ?[]const u8 = null,

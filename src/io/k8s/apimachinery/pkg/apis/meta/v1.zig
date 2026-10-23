@@ -228,7 +228,7 @@ pub const ListMeta = struct {
     selfLink: ?[]const u8 = null,
     /// shardInfo is set when the list is a filtered subset of the full collection, as selected by a shard selector on the request. It echoes back the selector so clients can verify which shard they received and merge sharded responses. Clients should not cache sharded list responses as a full representation of the collection.
     ///
-    /// This is an alpha field and requires enabling the ShardedListAndWatch feature gate.
+    /// This is a beta field and is enabled by default via the ShardedListAndWatch feature gate.
     shardInfo: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ShardInfo = null,
 
     pub fn validate(self: @This()) !void {
