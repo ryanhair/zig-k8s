@@ -2944,7 +2944,11 @@ pub const PodSpec = struct {
     /// 
     /// This field enables fine-grained control over resource allocation for the entire pod, allowing resource sharing among containers in a pod.
     /// 
-    /// This is an alpha field and requires enabling the PodLevelResources feature gate.
+    /// If a limit is not specified at the pod level, the pod is limited by the aggregate of its container limits: - For cpu and memory, the aggregate is used only if every init and regular container
+    ///   specifies a limit; otherwise the pod is not limited for that resource.
+    /// - For hugepages, the container limits are summed and unspecified values are treated as 0.
+    /// 
+    /// More details: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
     resources: ?root.io.k8s.api.core.v1.ResourceRequirements = null,
     /// restartPolicy is the restart policy for all containers within the pod. One of Always, OnFailure, Never. In some contexts, only a subset of those values may be permitted. Default to Always. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#restart-policy
     restartPolicy: ?[]const u8 = null,
@@ -3496,7 +3500,9 @@ pub const ResourceRequirements = struct {
     /// 
     /// This field is immutable. It can only be set for containers.
     claims: ?[]const root.io.k8s.api.core.v1.ResourceClaim = null,
-    /// limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+    /// limits describes the maximum amount of compute resources allowed. For kubelet cgroup enforcement: - cpu and memory: a limit of 0 is treated the same as an unspecified limit. If
+    ///   neither the container nor the pod specifies a limit, the resource is not limited.
+    /// - hugepages: an unspecified limit is treated the same as a limit of 0. More details: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
     limits: ?std.json.Value = null,
     /// requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
     requests: ?std.json.Value = null,
