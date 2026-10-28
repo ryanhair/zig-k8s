@@ -323,9 +323,9 @@ pub const StorageHealthCondition = struct {
     accessMode: ?[]const u8 = null,
     /// lastTransitionTime is when this condition first appeared at its current state.
     lastTransitionTime: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.Time = null,
-    /// message is a human-readable description. Maximum permitted length of a message is 1024 characters.
+    /// message is a human-readable description. Maximum permitted length of a message is 1024 bytes.
     message: ?[]const u8 = null,
-    /// reason is a brief CamelCase machine-parseable reason. Maximum permitted length of a reason is 256 characters.
+    /// reason is a brief CamelCase machine-parseable reason. Maximum permitted length of a reason is 256 bytes.
     reason: []const u8,
     /// status is the health status category. One of "StorageUnreachable", "StorageDegraded".
     status: []const u8,

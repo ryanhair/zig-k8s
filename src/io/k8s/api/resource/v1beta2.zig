@@ -178,6 +178,8 @@ pub const CapacityRequirements = struct {
     /// - If a requestPolicy is set, the default consumed capacity is determined according to that policy.
     ///
     /// If the device allows multiple allocation, the aggregated amount across all requests must not exceed the capacity value. The consumed capacity, which may be adjusted based on the requestPolicy if defined, is recorded in the resource claim’s status.devices[*].consumedCapacity field.
+    ///
+    /// Requests may have at most 32 entries. The values must not be negative.
     requests: ?std.json.Value = null,
 
     pub fn validate(self: @This()) !void {
@@ -579,6 +581,8 @@ pub const DeviceRequestAllocationResult = struct {
     /// The total consumed capacity for each device must not exceed the DeviceCapacity's Value.
     ///
     /// This field is populated only for devices that allow multiple allocations. All capacity entries are included, even if the consumed amount is zero. The domain prefix in the capacity name may be omitted if it is the same as the driver name.
+    ///
+    /// ConsumedCapacity may have at most 32 entries. The values must not be negative.
     consumedCapacity: ?std.json.Value = null,
     /// device references one device instance via its name in the driver's resource pool. It must be a DNS label.
     device: []const u8,
