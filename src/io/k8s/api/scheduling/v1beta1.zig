@@ -55,6 +55,43 @@ pub const CompositeGangSchedulingPolicy = struct {
     }
 };
 
+/// CompositePodGroup represents a runtime instance of pod groups grouped together. CompositePodGroups are created by workload controllers (LWS, JobSet, etc...) from Workload.compositePodGroupTemplates. CompositePodGroup API enablement is toggled by the CompositePodGroup feature gate.
+pub const CompositePodGroup = struct {
+    /// APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+    apiVersion: ?[]const u8 = null,
+    /// Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+    kind: ?[]const u8 = null,
+    /// metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
+    metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
+    /// spec defines the desired state of the CompositePodGroup.
+    spec: root.io.k8s.api.scheduling.v1beta1.CompositePodGroupSpec,
+    /// status represents the current observed state of the CompositePodGroup.
+    status: ?root.io.k8s.api.scheduling.v1beta1.CompositePodGroupStatus = null,
+
+    pub fn validate(self: @This()) !void {
+        if (self.metadata) |v| try v.validate();
+        try self.spec.validate();
+        if (self.status) |v| try v.validate();
+    }
+};
+
+/// CompositePodGroupList contains a list of CompositePodGroup resources.
+pub const CompositePodGroupList = struct {
+    /// APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+    apiVersion: ?[]const u8 = null,
+    /// Items is the list of CompositePodGroups.
+    items: []const root.io.k8s.api.scheduling.v1beta1.CompositePodGroup,
+    /// Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+    kind: ?[]const u8 = null,
+    /// Standard list metadata.
+    metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ListMeta = null,
+
+    pub fn validate(self: @This()) !void {
+        for (self.items) |item| try item.validate();
+        if (self.metadata) |v| try v.validate();
+    }
+};
+
 /// CompositePodGroupSchedulingConstraints defines scheduling constraints (e.g. topology) for a CompositePodGroup.
 pub const CompositePodGroupSchedulingConstraints = struct {
     /// topology defines the topology constraints for the composite pod group. Currently only a single topology constraint can be specified. This may change in the future.
@@ -74,6 +111,61 @@ pub const CompositePodGroupSchedulingPolicy = struct {
 
     pub fn validate(self: @This()) !void {
         if (self.gang) |v| try v.validate();
+    }
+};
+
+/// CompositePodGroupSpec defines the desired state of CompositePodGroup.
+pub const CompositePodGroupSpec = struct {
+    /// disruptionMode defines the mode in which a given CompositePodGroup can be disrupted. Controllers are expected to fill this field by copying it from a CompositePodGroupTemplate. One of Single, All. Defaults to Single if unset. This field is immutable.
+    disruptionMode: ?root.io.k8s.api.scheduling.v1beta1.CompositeDisruptionMode = null,
+    /// parentCompositePodGroupName contains the name of the parent composite pod group within the same namespace as this composite pod group. It must be a DNS name. If it's nil, then this composite pod group is a root of a workload's hierarchy. This field is immutable.
+    parentCompositePodGroupName: ?[]const u8 = null,
+    /// preemptionPolicy is the Policy for preempting pods/podgroups with lower priority. One of Never, PreemptLowerPriority. Defaults to PreemptLowerPriority if unset. When Priority Admission Controller is enabled, it populates this field from PriorityClassName, and defaults to PreemptLowerPriority if value is unset in PriorityClass. This field is immutable. This field is available only when the PodGroupPreemptionPolicy feature gate is enabled.
+    preemptionPolicy: ?[]const u8 = null,
+    /// priority is the value of priority of this composite pod group. Various system components use this field to find the priority of the composite pod group. When Priority Admission Controller is enabled, it prevents users from setting this field. The admission controller populates this field from PriorityClassName. The higher the value, the higher the priority. This field is immutable.
+    priority: ?i64 = null,
+    /// priorityClassName defines the priority that should be considered when scheduling this CompositePodGroup. Controllers are expected to fill this field by copying it from a CompositePodGroupTemplate. If left unspecified, it is validated and resolved similarly to the PriorityClassName field in Pods (i.e. if no priority class is specified, admission control can set this to the global default priority class if it exists. Otherwise, the composite pod group's priority will be zero). This field is immutable.
+    priorityClassName: ?[]const u8 = null,
+    /// schedulingConstraints defines optional scheduling constraints (e.g. topology) for this CompositePodGroup. Controllers are expected to fill this field by copying it from a CompositePodGroupTemplate. This field is immutable.
+    schedulingConstraints: ?root.io.k8s.api.scheduling.v1beta1.CompositePodGroupSchedulingConstraints = null,
+    /// schedulingPolicy defines the scheduling policy for this instance of the CompositePodGroup. Controllers are expected to fill this field by copying it from a CompositePodGroupTemplate.
+    schedulingPolicy: root.io.k8s.api.scheduling.v1beta1.CompositePodGroupSchedulingPolicy,
+    /// workloadRef references an optional CompositePodGroup template within the Workload object that was used to create the CompositePodGroup. This field is required. This field is immutable.
+    workloadRef: root.io.k8s.api.scheduling.v1beta1.WorkloadReference,
+
+    pub fn validate(self: @This()) !void {
+        if (self.disruptionMode) |v| try v.validate();
+        if (self.schedulingConstraints) |v| try v.validate();
+        try self.schedulingPolicy.validate();
+        try self.workloadRef.validate();
+    }
+};
+
+/// CompositePodGroupStatus represents information about the status of a composite pod group.
+pub const CompositePodGroupStatus = struct {
+    /// conditions represent the latest observations of the CompositePodGroup's state.
+    ///
+    /// Known condition types: - "CompositePodGroupInitiallyScheduled": Indicates whether the overall scheduling requirement
+    ///   for the subtree under this CompositePodGroup has been satisfied. Once this condition
+    ///   transitions to True, it serves as a terminal state and will never revert to False,
+    ///   even if pods are subsequently deleted and group constraints are no longer met.
+    /// - "DisruptionTarget": Indicates whether the CompositePodGroup is about to be terminated
+    ///   due to disruption such as preemption.
+    ///
+    /// Known reasons for the CompositePodGroupInitiallyScheduled condition: - "Scheduled": All required child groups and pods under this CompositePodGroup have been successfully scheduled. - "Unschedulable": The CompositePodGroup's subtree could not be placed, for example due to unmet
+    ///   minGroupCount, placement constraints, or insufficient capacity for its child groups.
+    /// - "SchedulerError": The CompositePodGroup cannot be scheduled due to some internal error
+    ///   that occurred during scheduling.
+    /// - "CompositePodGroupError": The CompositePodGroup cannot be scheduled due to an invalid group layout
+    ///   detected during runtime validation. The `message` field details the specific layout violation (such as
+    ///   a detected cycle, exceeding the maximum depth of 4, or referencing multiple distinct Workloads).
+    ///
+    /// Known reasons for the DisruptionTarget condition: - "PreemptionByScheduler": The CompositePodGroup was preempted by the scheduler to make room for
+    ///   higher-priority CompositePodGroups, PodGroups or Pods.
+    conditions: ?[]const root.io.k8s.apimachinery.pkg.apis.meta.v1.Condition = null,
+
+    pub fn validate(self: @This()) !void {
+        if (self.conditions) |arr| for (arr) |item| try item.validate();
     }
 };
 
