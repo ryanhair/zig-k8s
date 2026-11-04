@@ -140,13 +140,13 @@ pub const JobList = struct {
 /// JobSchedulingConfiguration composes the reusable workload-aware scheduling building blocks.
 pub const JobSchedulingConfiguration = struct {
     /// disruptionMode defines the mode in which the Job's pods can be disrupted. One of Single, All. This field is immutable after creation: it may not be added or removed, and the selected mode may not be changed.
-    disruptionMode: ?root.io.k8s.api.scheduling.v1alpha3.WorkloadPodGroupDisruptionMode = null,
+    disruptionMode: ?root.io.k8s.api.scheduling.v1.WorkloadPodGroupDisruptionMode = null,
     /// resourceClaims defines which ResourceClaims may be shared among Pods in the Job. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate. At most 4 claims may be set, matching the limit on the resulting PodGroup. This list is immutable after creation: entries may neither be added, removed, nor modified.
-    resourceClaims: ?[]const root.io.k8s.api.scheduling.v1alpha3.WorkloadPodGroupResourceClaim = null,
+    resourceClaims: ?[]const root.io.k8s.api.scheduling.v1.WorkloadPodGroupResourceClaim = null,
     /// schedulingConstraints defines scheduling constraints (e.g. topology) for the Job's pods. This field is immutable after creation.
-    schedulingConstraints: ?root.io.k8s.api.scheduling.v1alpha3.WorkloadPodGroupSchedulingConstraints = null,
+    schedulingConstraints: ?root.io.k8s.api.scheduling.v1.WorkloadPodGroupSchedulingConstraints = null,
     /// schedulingPolicy defines the scheduling policy for this Job. Exactly one of Basic or Gang must be set. This field is immutable after creation: the policy may not be added or removed. The policy variant (basic/gang) is frozen by hand-written validation; only schedulingPolicy.gang.minCount may be changed.
-    schedulingPolicy: ?root.io.k8s.api.scheduling.v1alpha3.WorkloadPodGroupSchedulingPolicy = null,
+    schedulingPolicy: ?root.io.k8s.api.scheduling.v1.WorkloadPodGroupSchedulingPolicy = null,
 
     pub fn validate(self: @This()) !void {
         if (self.disruptionMode) |v| try v.validate();

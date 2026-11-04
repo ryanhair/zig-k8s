@@ -181,9 +181,9 @@ pub const CompositePodGroupTemplate = struct {
     podGroupTemplates: ?[]const root.io.k8s.api.scheduling.v1alpha3.PodGroupTemplate = null,
     /// preemptionPolicy is the Policy for preempting pods/podgroups with lower priority. One of Never, PreemptLowerPriority. This field is immutable. This field is available only when the PodGroupPreemptionPolicy feature gate is enabled.
     preemptionPolicy: ?[]const u8 = null,
-    /// priority is the value of priority of composite pod groups created from this template. Various system components use this field to find the priority of the composite pod group. When Priority Admission Controller is enabled, it prevents users from setting this field. The admission controller populates this field from PriorityClassName. The higher the value, the higher the priority. This field is immutable.
+    /// priority is the value of priority of composite pod groups created from this template. Various system components use this field to find the priority of the composite pod group. The higher the value, the higher the priority. This field is immutable.
     priority: ?i64 = null,
-    /// priorityClassName indicates the priority that should be considered when scheduling a composite pod group created from this template. If no priority class is specified, admission control can set this to the global default priority class if it exists. Otherwise, composite pod groups created from this template will have the priority set to zero. This field is immutable.
+    /// priorityClassName indicates the priority that should be considered when scheduling a composite pod group created from this template. This field is immutable.
     priorityClassName: ?[]const u8 = null,
     /// schedulingConstraints defines optional scheduling constraints (e.g. topology) for this CompositePodGroupTemplate. This field is immutable.
     schedulingConstraints: ?root.io.k8s.api.scheduling.v1alpha3.CompositePodGroupSchedulingConstraints = null,
@@ -328,7 +328,7 @@ pub const PodGroupSpec = struct {
     preemptionPolicy: ?[]const u8 = null,
     /// priority is the value of priority of this pod group. Various system components use this field to find the priority of the pod group. When Priority Admission Controller is enabled, it prevents users from setting this field. The admission controller populates this field from PriorityClassName. The higher the value, the higher the priority. This field is immutable.
     priority: ?i64 = null,
-    /// priorityClassName defines the priority that should be considered when scheduling this pod group. Controllers are expected to fill this field by copying it from a PodGroupTemplate. Otherwise, it is validated and resolved similarly to the PriorityClassName on PodGroupTemplate (i.e. if no priority class is specified, admission control can set this to the global default priority class if it exists. Otherwise, the pod group's priority will be zero). This field is immutable.
+    /// priorityClassName defines the priority that should be considered when scheduling this pod group. Controllers are expected to fill this field by copying it from a PodGroupTemplate. Otherwise, it is validated and resolved similarly to the PriorityClassName in Pods (i.e. if no priority class is specified, admission control can set this to the global default priority class if it exists. Otherwise, the pod group's priority will be zero). This field is immutable.
     priorityClassName: ?[]const u8 = null,
     /// resourceClaims defines which ResourceClaims may be shared among Pods in the group. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate.
     ///
@@ -481,85 +481,6 @@ pub const WorkloadList = struct {
     pub fn validate(self: @This()) !void {
         for (self.items) |item| try item.validate();
         if (self.metadata) |v| try v.validate();
-    }
-};
-
-/// WorkloadPodGroupAllDisruptionMode indicates that all pods in the group must be disrupted together.
-pub const WorkloadPodGroupAllDisruptionMode = struct {
-    pub fn validate(self: @This()) !void {
-        _ = self;
-    }
-};
-
-/// WorkloadPodGroupBasicSchedulingPolicy indicates standard Kubernetes scheduling behavior.
-pub const WorkloadPodGroupBasicSchedulingPolicy = struct {
-    pub fn validate(self: @This()) !void {
-        _ = self;
-    }
-};
-
-/// WorkloadPodGroupDisruptionMode defines how individual pods within a group can be disrupted. Exactly one mode must be set.
-pub const WorkloadPodGroupDisruptionMode = struct {
-    /// all specifies that all pods in the group must be disrupted together.
-    all: ?root.io.k8s.api.scheduling.v1alpha3.WorkloadPodGroupAllDisruptionMode = null,
-    /// single specifies that pods can be disrupted independently from each other.
-    single: ?root.io.k8s.api.scheduling.v1alpha3.WorkloadPodGroupSingleDisruptionMode = null,
-
-    pub fn validate(self: @This()) !void {
-        _ = self;
-    }
-};
-
-/// WorkloadPodGroupGangSchedulingPolicy defines the parameters for gang (all-or-nothing) scheduling.
-pub const WorkloadPodGroupGangSchedulingPolicy = struct {
-    /// minCount is the minimum number of pods that must be scheduled at the same time for the scheduler to admit the entire group. This field is optional. If it is not specified, the controller should inject a context-specific sane default (e.g., parallelism for a Job). If set, it must be a positive integer.
-    minCount: ?i64 = null,
-
-    pub fn validate(self: @This()) !void {
-        _ = self;
-    }
-};
-
-/// WorkloadPodGroupResourceClaim references a dynamic resource claim that is shared across pods in the group.
-pub const WorkloadPodGroupResourceClaim = struct {
-    /// name uniquely identifies this resource claim inside the group. This field is required. It must be a DNS_LABEL.
-    name: []const u8,
-    /// resourceClaimName is the name of a ResourceClaim object in the same namespace. This field is optional. If it is not specified, no resource claim is used. If set, it must be a DNS subdomain.
-    resourceClaimName: ?[]const u8 = null,
-    /// resourceClaimTemplateName is the name of a ResourceClaimTemplate object in the same namespace. This field is optional. If it is not specified, no resource claim template is used. If set, it must be a DNS subdomain.
-    resourceClaimTemplateName: ?[]const u8 = null,
-
-    pub fn validate(self: @This()) !void {
-        _ = self;
-    }
-};
-
-/// WorkloadPodGroupSchedulingConstraints defines leaf-level scheduling constraints, such as topology.
-pub const WorkloadPodGroupSchedulingConstraints = struct {
-    /// topology specifies desired topological placements for all pods within the pod group. If unset, no topology placement is requested.
-    topology: ?[]const root.io.k8s.api.scheduling.v1alpha3.TopologyConstraint = null,
-
-    pub fn validate(self: @This()) !void {
-        if (self.topology) |arr| for (arr) |item| try item.validate();
-    }
-};
-
-/// WorkloadPodGroupSchedulingPolicy defines the scheduling policy for a group of pods managed by a workload controller. Exactly one policy must be set.
-pub const WorkloadPodGroupSchedulingPolicy = struct {
-    /// basic specifies that standard, pod-by-pod Kubernetes scheduling behavior should be used.
-    basic: ?root.io.k8s.api.scheduling.v1alpha3.WorkloadPodGroupBasicSchedulingPolicy = null,
-    /// gang specifies all-or-nothing scheduling semantics.
-    gang: ?root.io.k8s.api.scheduling.v1alpha3.WorkloadPodGroupGangSchedulingPolicy = null,
-
-    pub fn validate(self: @This()) !void {
-        if (self.gang) |v| try v.validate();
-    }
-};
-
-/// WorkloadPodGroupSingleDisruptionMode indicates that individual pods can be disrupted independently.
-pub const WorkloadPodGroupSingleDisruptionMode = struct {
-    pub fn validate(self: @This()) !void {
-        _ = self;
     }
 };
 
