@@ -191,7 +191,9 @@ pub const JobSpec = struct {
     ///
     /// When using podFailurePolicy, Failed is the the only allowed value. TerminatingOrFailed and Failed are allowed values when podFailurePolicy is not in use.
     podReplacementPolicy: ?[]const u8 = null,
-    /// scheduling defines the Workload-aware Scheduling configuration for this Job. When set, it specifies the scheduling policy (basic or gang), topology constraints, disruption mode, and shared resource claims. When omitted, the Job defaults to the basic scheduling policy, which behaves as standard pod-by-pod scheduling. This field is alpha-level and requires the WorkloadWithJob feature gate. This field is immutable, including whether it is set at all, only policy.gang.minCount may be changed after creation.
+    /// scheduling defines the Workload-aware Scheduling configuration for this Job. When set, it specifies the scheduling policy (basic or gang), topology constraints, disruption mode, and shared resource claims. When omitted, the Job defaults to the basic scheduling policy, which behaves as standard pod-by-pod scheduling. This field is gated by the WorkloadWithJob feature gate.
+    ///
+    /// This field is immutable, including whether it is set at all, only policy.gang.minCount may be changed after creation.
     scheduling: ?root.io.k8s.api.batch.v1.JobSchedulingConfiguration = null,
     /// selector is a label query over pods that should match the pod count. Normally, the system sets this field for you. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors
     selector: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelector = null,

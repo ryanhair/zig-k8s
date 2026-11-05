@@ -39,8 +39,6 @@ pub const AllocatedDeviceStatus = struct {
 /// AllocationResult contains attributes of an allocated resource.
 pub const AllocationResult = struct {
     /// allocationTimestamp stores the time when the resources were allocated. This field is not guaranteed to be set, in which case that time is unknown.
-    ///
-    /// This is a beta field and requires enabling the DRADeviceBindingConditions and DRAResourceClaimDeviceStatus feature gate.
     allocationTimestamp: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.Time = null,
     /// devices is the result of allocating devices.
     devices: ?root.io.k8s.api.resource.v1beta2.DeviceAllocationResult = null,
@@ -232,20 +230,14 @@ pub const Device = struct {
     /// The maximum number of binding conditions is 4.
     ///
     /// The conditions must be a valid condition type string.
-    ///
-    /// This is a beta field and requires enabling the DRADeviceBindingConditions and DRAResourceClaimDeviceStatus feature gates.
     bindingConditions: ?[]const []const u8 = null,
     /// bindingFailureConditions defines the conditions for binding failure. They may be set in the per-device status conditions. If any is set to "True", a binding failure occurred.
     ///
     /// The maximum number of binding failure conditions is 4.
     ///
     /// The conditions must be a valid condition type string.
-    ///
-    /// This is a beta field and requires enabling the DRADeviceBindingConditions and DRAResourceClaimDeviceStatus feature gates.
     bindingFailureConditions: ?[]const []const u8 = null,
     /// bindsToNode indicates if the usage of an allocation involving this device has to be limited to exactly the node that was chosen when allocating the claim. If set to true, the scheduler will set the ResourceClaim.Status.Allocation.NodeSelector to match the node where the allocation was made.
-    ///
-    /// This is a beta field and requires enabling the DRADeviceBindingConditions and DRAResourceClaimDeviceStatus feature gates.
     bindsToNode: ?bool = null,
     /// capacity defines the set of capacities for this device. The name of each capacity must be unique in that set.
     ///
@@ -569,12 +561,8 @@ pub const DeviceRequestAllocationResult = struct {
     /// This is an alpha field and requires enabling the DRAAdminAccess feature gate. Admin access is disabled if this field is unset or set to false, otherwise it is enabled.
     adminAccess: ?bool = null,
     /// bindingConditions contains a copy of the BindingConditions from the corresponding ResourceSlice at the time of allocation.
-    ///
-    /// This is a beta field and requires enabling the DRADeviceBindingConditions and DRAResourceClaimDeviceStatus feature gates.
     bindingConditions: ?[]const []const u8 = null,
     /// bindingFailureConditions contains a copy of the BindingFailureConditions from the corresponding ResourceSlice at the time of allocation.
-    ///
-    /// This is a beta field and requires enabling the DRADeviceBindingConditions and DRAResourceClaimDeviceStatus feature gates.
     bindingFailureConditions: ?[]const []const u8 = null,
     /// consumedCapacity tracks the amount of capacity consumed per device as part of the claim request. The consumed amount may differ from the requested amount: it is rounded up to the nearest valid value based on the device’s requestPolicy if applicable (i.e., may not be less than the requested amount).
     ///

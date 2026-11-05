@@ -288,7 +288,7 @@ pub const ClusterTrustBundleProjection = struct {
     path: []const u8,
     /// signerName selects all ClusterTrustBundles that match this signer name. Mutually-exclusive with name.  The contents of all selected ClusterTrustBundles will be unified and deduplicated.
     signerName: ?[]const u8 = null,
-    /// user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.
+    /// user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Beta) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.
     user: ?i64 = null,
 
     pub fn validate(self: @This()) !void {
@@ -451,7 +451,7 @@ pub const ConfigMapProjection = struct {
 pub const ConfigMapVolumeSource = struct {
     /// defaultMode is optional: mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Defaults to 0644. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set.
     defaultMode: ?i64 = null,
-    /// defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.
+    /// defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Beta) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.
     defaultUser: ?i64 = null,
     /// items if unspecified, each key-value pair in the Data field of the referenced ConfigMap will be projected into the volume as a file whose name is the key and content is the value. If specified, the listed keys will be projected into the specified paths, and unlisted keys will not be present. If a key is specified which is not present in the ConfigMap, the volume setup will error unless it is marked optional. Paths must be relative and may not contain the '..' path or start with '..'.
     items: ?[]const root.io.k8s.api.core.v1.KeyToPath = null,
@@ -763,7 +763,7 @@ pub const DownwardAPIVolumeFile = struct {
     path: []const u8,
     /// resourceFieldRef selects a resource of the container: only resources limits and requests (limits.cpu, limits.memory, requests.cpu and requests.memory) are currently supported.
     resourceFieldRef: ?root.io.k8s.api.core.v1.ResourceFieldSelector = null,
-    /// user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.
+    /// user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Beta) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.
     user: ?i64 = null,
 
     pub fn validate(self: @This()) !void {
@@ -776,7 +776,7 @@ pub const DownwardAPIVolumeFile = struct {
 pub const DownwardAPIVolumeSource = struct {
     /// defaultMode is mode bits to use on created files by default. Must be a Optional: mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Defaults to 0644. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set.
     defaultMode: ?i64 = null,
-    /// defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.
+    /// defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Beta) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.
     defaultUser: ?i64 = null,
     /// items is a list of downward API volume file
     items: ?[]const root.io.k8s.api.core.v1.DownwardAPIVolumeFile = null,
@@ -1493,7 +1493,7 @@ pub const KeyToPath = struct {
     mode: ?i64 = null,
     /// path is the relative path of the file to map the key to. May not be an absolute path. May not contain the path element '..'. May not start with the string '..'.
     path: []const u8,
-    /// user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.
+    /// user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Beta) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.
     user: ?i64 = null,
 
     pub fn validate(self: @This()) !void {
@@ -2635,7 +2635,7 @@ pub const PodCertificateProjection = struct {
     maxExpirationSeconds: ?i64 = null,
     /// signerName is the name of the signer. Kubelet's generated CSRs will be addressed to this signer.
     signerName: []const u8,
-    /// user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.
+    /// user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Beta) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.
     user: ?i64 = null,
     /// userAnnotations allow pod authors to pass additional information to the signer implementation.  Kubernetes does not restrict or validate this metadata in any way.
     /// 
@@ -3214,7 +3214,7 @@ pub const Probe = struct {
 pub const ProjectedVolumeSource = struct {
     /// defaultMode are the mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set.
     defaultMode: ?i64 = null,
-    /// defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.
+    /// defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Beta) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.
     defaultUser: ?i64 = null,
     /// sources is the list of volume projections. Each entry in this list handles one source.
     sources: ?[]const root.io.k8s.api.core.v1.VolumeProjection = null,
@@ -3624,13 +3624,15 @@ pub const ScopedResourceSelectorRequirement = struct {
 pub const SeccompProfile = struct {
     /// localhostProfile indicates a profile defined in a file on the node should be used. The profile must be preconfigured on the node to work. Must be a descending path, relative to the kubelet's configured seccomp profile location. Must be set if type is "Localhost". Must NOT be set for any other type.
     localhostProfile: ?[]const u8 = null,
+    /// oci specifies a seccomp profile stored as an artifact in an OCI registry. The container runtime merges the profile with a base profile, so the effective profile permits an operation only if both permit it. Must be set if type is "OCI". Must NOT be set for any other type. This is an alpha field and requires enabling the SecurityProfileOCI feature gate.
+    oci: ?root.io.k8s.api.core.v1.SecurityProfileOCI = null,
     /// type indicates which kind of seccomp profile will be applied. Valid options are:
     /// 
-    /// Localhost - a profile defined in a file on the node should be used. RuntimeDefault - the container runtime default profile should be used. Unconfined - no profile should be applied.
+    /// Localhost - a profile defined in a file on the node should be used. RuntimeDefault - the container runtime default profile should be used. Unconfined - no profile should be applied. OCI - a profile pulled from an OCI registry should be used, merged with a base profile (see oci.baseProfile). Privileged containers cannot use it, whether it is set on the container or inherited from the pod. This is an alpha value and requires enabling the SecurityProfileOCI feature gate.
     @"type": []const u8,
 
     pub fn validate(self: @This()) !void {
-        _ = self;
+        if (self.oci) |v| try v.validate();
     }
 };
 
@@ -3735,7 +3737,7 @@ pub const SecretReference = struct {
 pub const SecretVolumeSource = struct {
     /// defaultMode is Optional: mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Defaults to 0644. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set.
     defaultMode: ?i64 = null,
-    /// defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.
+    /// defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Beta) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.
     defaultUser: ?i64 = null,
     /// items If unspecified, each key-value pair in the Data field of the referenced Secret will be projected into the volume as a file whose name is the key and content is the value. If specified, the listed keys will be projected into the specified paths, and unlisted keys will not be present. If a key is specified which is not present in the Secret, the volume setup will error unless it is marked optional. Paths must be relative and may not contain the '..' path or start with '..'.
     items: ?[]const root.io.k8s.api.core.v1.KeyToPath = null,
@@ -3782,6 +3784,32 @@ pub const SecurityContext = struct {
         if (self.seLinuxOptions) |v| try v.validate();
         if (self.seccompProfile) |v| try v.validate();
         if (self.windowsOptions) |v| try v.validate();
+    }
+};
+
+/// SecurityProfileOCI references a security profile stored as an artifact in an OCI registry, with an optional base profile.
+pub const SecurityProfileOCI = struct {
+    /// baseProfile optionally specifies the base profile that the container runtime merges with the OCI profile. The effective profile permits an operation only if both permit it. When omitted, the container runtime default profile is the base; a Localhost base profile takes its place.
+    baseProfile: ?root.io.k8s.api.core.v1.SecurityProfileOCIBase = null,
+    /// ref is the OCI reference of the profile. It must be a digest-pinned reference in canonical form, registry/repository@<algorithm>:<digest>, with the registry spelled out (for example docker.io/library/profile, not profile or docker.io/profile). Tags are rejected. The digest algorithm must be sha256, sha384, or sha512. The maximum length is 1024 characters. Pull secrets are assembled in the same way as for the container image by looking up node credentials, service account image pull secrets, and pod spec image pull secrets.
+    ref: []const u8,
+
+    pub fn validate(self: @This()) !void {
+        if (self.baseProfile) |v| try v.validate();
+    }
+};
+
+/// SecurityProfileOCIBase specifies the base profile of an OCI security profile.
+pub const SecurityProfileOCIBase = struct {
+    /// localhostProfile indicates a base profile defined in a file on the node should be used. The profile must be preconfigured on the node to work. Must be a non-empty descending path, relative to the kubelet's configured seccomp profile location, of at most 4096 characters. Must be set if type is "Localhost". Must NOT be set for any other type.
+    localhostProfile: ?[]const u8 = null,
+    /// type indicates which kind of base profile will be applied. Valid options are:
+    /// 
+    /// Localhost - a profile defined in a file on the node should be used. RuntimeDefault - the container runtime default profile should be used.
+    @"type": []const u8,
+
+    pub fn validate(self: @This()) !void {
+        _ = self;
     }
 };
 
@@ -3852,7 +3880,7 @@ pub const ServiceAccountTokenProjection = struct {
     expirationSeconds: ?i64 = null,
     /// path is the path relative to the mount point of the file to project the token into.
     path: []const u8,
-    /// user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.
+    /// user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Beta) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.
     user: ?i64 = null,
 
     pub fn validate(self: @This()) !void {
