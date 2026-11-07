@@ -2325,7 +2325,7 @@ pub const PersistentVolumeClaimStatus = struct {
     conditions: ?[]const root.io.k8s.api.core.v1.PersistentVolumeClaimCondition = null,
     /// currentVolumeAttributesClassName is the current name of the VolumeAttributesClass the PVC is using. When unset, there is no VolumeAttributeClass applied to this PersistentVolumeClaim
     currentVolumeAttributesClassName: ?[]const u8 = null,
-    /// healthStatus contains the latest controller-reported health information for the volume bound to this claim.
+    /// healthStatus contains the latest controller-reported health information for the volume bound to this claim. This is an alpha field and requires enabling the CSIVolumeHealth feature gate.
     healthStatus: ?root.io.k8s.api.core.v1.VolumeHealthStatus = null,
     /// ModifyVolumeStatus represents the status object of ControllerModifyVolume operation. When this is unset, there is no ModifyVolume operation being attempted.
     modifyVolumeStatus: ?root.io.k8s.api.core.v1.ModifyVolumeStatus = null,
@@ -3057,8 +3057,8 @@ pub const PodStatus = struct {
     resources: ?root.io.k8s.api.core.v1.ResourceRequirements = null,
     /// RFC 3339 date and time at which the object was acknowledged by the Kubelet. This is before the Kubelet pulled the container image(s) for the pod.
     startTime: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.Time = null,
-    /// volumeHealth contains node-reported health for each volume the pod is using. Populated by the kubelet on the pod's node.
-    volumeHealth: ?[]const root.io.k8s.api.core.v1.PodVolumeHealth = null,
+    /// VolumeStatuses contains the status of individual volumes used by this pod. This is an alpha field and requires enabling the CSIVolumeHealth feature gate.
+    volumeStatuses: ?[]const root.io.k8s.api.core.v1.PodVolumeStatus = null,
 
     pub fn validate(self: @This()) !void {
         if (self.conditions) |arr| for (arr) |item| try item.validate();
@@ -3071,7 +3071,7 @@ pub const PodStatus = struct {
         if (self.podIPs) |arr| for (arr) |item| try item.validate();
         if (self.resourceClaimStatuses) |arr| for (arr) |item| try item.validate();
         if (self.resources) |v| try v.validate();
-        if (self.volumeHealth) |arr| for (arr) |item| try item.validate();
+        if (self.volumeStatuses) |arr| for (arr) |item| try item.validate();
     }
 };
 
@@ -3122,17 +3122,15 @@ pub const PodTemplateSpec = struct {
     }
 };
 
-/// PodVolumeHealth contains health information for a volume used by a pod, reported by the CSI node plugin via the kubelet.
-pub const PodVolumeHealth = struct {
-    /// healthConditions is the set of adverse conditions reported by the CSI node plugin for this volume on this node. At most 16 conditions may be reported.
-    healthConditions: ?[]const root.io.k8s.api.core.v1.VolumeHealthCondition = null,
-    /// lastTransitionTime is when the current set of conditions first appeared.
-    lastTransitionTime: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.Time = null,
+/// PodVolumeStatus represents the status of an individual volume used by a pod.
+pub const PodVolumeStatus = struct {
+    /// healthStatus contains health reported by the CSI node plugin for this volume on the pod's node. Populated by the kubelet. This is an alpha field and requires enabling the CSIVolumeHealth feature gate.
+    healthStatus: ?root.io.k8s.api.core.v1.VolumeHealthStatus = null,
     /// name matches an entry in pod.spec.volumes.
     name: []const u8,
 
     pub fn validate(self: @This()) !void {
-        if (self.healthConditions) |arr| for (arr) |item| try item.validate();
+        if (self.healthStatus) |v| try v.validate();
     }
 };
 
@@ -4365,13 +4363,19 @@ pub const VolumeDevice = struct {
     }
 };
 
-/// VolumeHealthCondition represents an adverse health condition reported for a volume.
+/// VolumeHealthCondition represents a health condition reported for a volume. Both pod and PVC reuse this type to report volume health in their status fields.
 pub const VolumeHealthCondition = struct {
     /// message is a human-readable description. Maximum permitted length of a message is 1024 bytes.
     message: ?[]const u8 = null,
     /// reason is a brief CamelCase machine-parseable reason. Together with status it forms the unique identity of a condition entry. Maximum permitted length of a reason is 256 bytes.
     reason: []const u8,
-    /// status is the machine-parseable health category. Possible values: - "Inaccessible": the volume cannot be accessed. - "DataLoss": data loss has been detected on the volume. - "Degraded": the volume is functioning with reduced capability.
+    /// status is the machine-parseable health category. Possible values are: - "Unknown": the driver reported an unknown health status, or a status Kubernetes does not recognize. The volume must not be considered healthy. - "Inaccessible": the volume cannot be accessed. - "DataLoss": data loss has been detected on the volume. - "Degraded": the volume is functioning with reduced capability. - "Healthy": the volume is healthy.
+    /// 
+    /// This field allows additional enum values to be added to VolumeHealthStatusType via CSI spec change. A future version of a CSI driver may emit health conditions that Kubernetes components are not aware of.
+    /// 
+    /// A writer which does not know how to handle incoming new VolumeHealthStatusType may classify the status as unknown.
+    /// 
+    /// A reader which does not know how to handle new VolumeHealthStatusType MUST only use it for health reporting purposes.
     status: []const u8,
 
     pub fn validate(self: @This()) !void {
@@ -4379,11 +4383,11 @@ pub const VolumeHealthCondition = struct {
     }
 };
 
-/// VolumeHealthStatus contains health information for a volume reported by the CSI controller plugin.
+/// VolumeHealthStatus contains health information for a volume reported by a CSI controller or node plugin.
 pub const VolumeHealthStatus = struct {
-    /// healthConditions is the set of adverse conditions reported by the CSI controller plugin. An empty list means no adverse condition. At most 16 conditions may be reported.
+    /// healthConditions is the set of health conditions reported by a CSI plugin. At most 16 conditions may be reported. An empty list means the CSI driver either does not support volume health or has not reported it yet. If the driver supports volume health and the volume is healthy, a Healthy condition is reported.
     healthConditions: ?[]const root.io.k8s.api.core.v1.VolumeHealthCondition = null,
-    /// lastTransitionTime is when the current set of conditions first appeared.
+    /// lastTransitionTime is when the current set of (status, reason) pairs first appeared. lastTransitionTime remains unchanged when only message associated with healthConditions change.
     lastTransitionTime: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.Time = null,
 
     pub fn validate(self: @This()) !void {

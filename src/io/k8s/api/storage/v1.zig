@@ -193,7 +193,7 @@ pub const CSINodeSpec = struct {
 
 /// CSINodeStatus contains health and status information for storage on a node.
 pub const CSINodeStatus = struct {
-    /// storageHealth contains backend health reports for CSI drivers registered on the node.
+    /// storageHealth contains backend health reports for CSI drivers registered on the node. This is an alpha field and requires enabling the CSIVolumeHealth feature gate.
     storageHealth: ?[]const root.io.k8s.api.storage.v1.StorageHealth = null,
 
     pub fn validate(self: @This()) !void {
@@ -307,7 +307,7 @@ pub const StorageClassList = struct {
 
 /// StorageHealth contains storage backend health reported by a CSI driver on a node.
 pub const StorageHealth = struct {
-    /// healthConditions are the adverse storage backend conditions reported by the CSI driver. At most 16 conditions may be reported.
+    /// healthConditions are the storage backend conditions reported by the CSI driver. At most 16 conditions may be reported. An empty list means the CSI driver either does not support storage health or has not reported it yet. If the driver supports storage health and its storage backend is healthy, the kubelet reports a StorageHealthy condition.
     healthConditions: ?[]const root.io.k8s.api.storage.v1.StorageHealthCondition = null,
     /// name is the CSI driver name, matching CSINodeDriver.name.
     name: []const u8,
@@ -317,17 +317,19 @@ pub const StorageHealth = struct {
     }
 };
 
-/// StorageHealthCondition represents an adverse health condition reported by a CSI driver for its storage backend on a node.
+/// StorageHealthCondition represents a health condition reported by a CSI driver for its storage backend on a node.
 pub const StorageHealthCondition = struct {
     /// accessMode is the access mode affected. Nil means all access modes are affected.
     accessMode: ?[]const u8 = null,
-    /// lastTransitionTime is when this condition first appeared at its current state.
+    /// lastTransitionTime is when this condition first appeared at its current state. lastTransitionTime remains unchanged when only the message changes.
     lastTransitionTime: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.Time = null,
     /// message is a human-readable description. Maximum permitted length of a message is 1024 bytes.
     message: ?[]const u8 = null,
     /// reason is a brief CamelCase machine-parseable reason. Maximum permitted length of a reason is 256 bytes.
     reason: []const u8,
-    /// status is the health status category. One of "StorageUnreachable", "StorageDegraded".
+    /// status is the health status category. Possible values are: - "StorageHealthUnknown": the driver reported an unknown health status, or a status Kubernetes does not recognize; the backend must not be considered healthy. - "StorageUnreachable": the storage backend is unreachable. - "StorageDegraded": the storage backend is functioning with reduced capability. - "StorageHealthy": the storage backend is healthy as seen from this node.
+    ///
+    /// Additional values may be introduced as the CSI specification evolves. Writers that do not recognize a status may classify it as StorageHealthUnknown. Readers that do not recognize a status must use it only for health reporting and observability.
     status: []const u8,
     /// volumeMode is the volume mode affected. Nil means both are affected.
     volumeMode: ?[]const u8 = null,
