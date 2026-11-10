@@ -115,7 +115,7 @@ pub const AzureFileVolumeSource = struct {
     }
 };
 
-/// Binding ties one object to another; for example, a pod is bound to a node by a scheduler.
+/// Binding assigns a pod to a node.
 pub const Binding = struct {
     /// APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
     apiVersion: ?[]const u8 = null,
@@ -123,7 +123,7 @@ pub const Binding = struct {
     kind: ?[]const u8 = null,
     /// metadata is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
     metadata: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta = null,
-    /// target is the target object that you want to bind to the standard object.
+    /// target is the node that you want to bind the pod to.
     target: root.io.k8s.api.core.v1.ObjectReference,
 
     pub fn validate(self: @This()) !void {
