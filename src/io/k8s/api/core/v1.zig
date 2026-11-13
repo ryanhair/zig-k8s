@@ -1948,7 +1948,7 @@ pub const NodeList = struct {
 
 /// NodePodPreemptionPolicy defines the node-level policies governing preemption for pods on this node.
 pub const NodePodPreemptionPolicy = struct {
-    /// disableResizePreemption lists the owners (e.g., autoscalers, operators, administrators) that have requested to disable scheduler and Kubelet preemption for in-place pod resize on this node. If this list is non-empty, resize-induced preemption is disabled on this node. This is an alpha field and requires enabling the InPlacePodVerticalScalingSchedulerPreemption feature gate.
+    /// disableResizePreemption lists the owners (e.g., autoscalers, operators, administrators) that have requested to disable scheduler and Kubelet preemption for in-place pod resize on this node. If this list is non-empty, resize-induced preemption is disabled on this node. This is a beta field and requires the InPlacePodVerticalScalingSchedulerPreemption feature gate to be enabled (enabled by default).
     disableResizePreemption: ?[]const []const u8 = null,
 
     pub fn validate(self: @This()) !void {
@@ -2027,7 +2027,7 @@ pub const NodeSpec = struct {
     podCIDR: ?[]const u8 = null,
     /// podCIDRs represents the IP ranges assigned to the node for usage by Pods on that node. If this field is specified, the 0th entry must match the podCIDR field. It may contain at most 1 value for each of IPv4 and IPv6.
     podCIDRs: ?[]const []const u8 = null,
-    /// podPreemptionPolicy controls the node-level preemption behaviors for pods on this node. This is an alpha field and requires enabling the InPlacePodVerticalScalingSchedulerPreemption feature gate.
+    /// podPreemptionPolicy controls the node-level preemption behaviors for pods on this node. This is a beta field and requires the InPlacePodVerticalScalingSchedulerPreemption feature gate to be enabled (enabled by default).
     podPreemptionPolicy: ?root.io.k8s.api.core.v1.NodePodPreemptionPolicy = null,
     /// providerID is the ID of the node assigned by the cloud provider in the format: <ProviderName>://<ProviderSpecificNodeID>
     providerID: ?[]const u8 = null,

@@ -440,6 +440,14 @@ pub const DeviceClassSpec = struct {
     ///
     /// They are passed to the driver, but are not considered while allocating the claim.
     config: ?[]const root.io.k8s.api.resource.v1beta2.DeviceClassConfiguration = null,
+    /// extendedResourceCapacityRequests defines the fixed capacity amounts that the scheduler requests on every ResourceClaim it synthesizes to satisfy the extended resource of this class.
+    ///
+    /// The value is copied, unmodified, onto the capacity of each device request synthesized for this class, so it has the same semantics as DeviceRequest.capacity: it applies to each device allocation. A pod requesting more than one device through the extended resource gets that capacity once per device, not once per pod.
+    ///
+    /// The devices selected by this class must advertise the referenced capacities. Otherwise the extended resource requests cannot be satisfied, the same way as with a selector that matches no devices.
+    ///
+    /// This is an alpha field and requires enabling the DRAExtendedResourceCapacity feature gate, which depends on DRAConsumableCapacity.
+    extendedResourceCapacityRequests: ?root.io.k8s.api.resource.v1beta2.CapacityRequirements = null,
     /// extendedResourceName is the extended resource name for the devices of this class. The devices of this class can be used to satisfy a pod's extended resource requests. It has the same format as the name of a pod's extended resource. It should be unique among all the device classes in a cluster. If two device classes have the same name, then the class created later is picked to satisfy a pod's extended resource requests. If two classes are created at the same time, then the name of the class lexicographically sorted first is picked.
     extendedResourceName: ?[]const u8 = null,
     /// selectors must be satisfied by a device which is claimed via this class.
@@ -447,6 +455,7 @@ pub const DeviceClassSpec = struct {
 
     pub fn validate(self: @This()) !void {
         if (self.config) |arr| for (arr) |item| try item.validate();
+        if (self.extendedResourceCapacityRequests) |v| try v.validate();
         if (self.selectors) |arr| for (arr) |item| try item.validate();
     }
 };
