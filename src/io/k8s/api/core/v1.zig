@@ -234,6 +234,16 @@ pub const CephFSVolumeSource = struct {
     }
 };
 
+/// CgroupOptions defines options for cgroup filesystem access.
+pub const CgroupOptions = struct {
+    /// mountMode controls how the cgroup filesystem is mounted in the container. Valid values are "ReadOnly" and "ReadWrite". If not specified, the container runtime's default mount mode is used. The kubelet refuses to create a container with an unrecognized value. "ReadOnly" cannot be set when the container's privileged field is true. "ReadWrite" cannot be set when spec.hostNetwork is true and spec.hostUsers is false.
+    mountMode: ?[]const u8 = null,
+
+    pub fn validate(self: @This()) !void {
+        _ = self;
+    }
+};
+
 /// Represents a cinder volume resource in Openstack. A Cinder volume must exist before mounting to a container. The volume must also be in the same region as the kubelet. Cinder volumes support ownership management and SELinux relabeling.
 pub const CinderPersistentVolumeSource = struct {
     /// fsType Filesystem type to mount. Must be a filesystem type supported by the host operating system. Examples: "ext4", "xfs", "ntfs". Implicitly inferred to be "ext4" if unspecified. More info: https://examples.k8s.io/mysql-cinder-pd/README.md
@@ -2926,7 +2936,7 @@ pub const PodSpec = struct {
     /// 
     /// If the OS field is set to linux, the following fields must be unset: -securityContext.windowsOptions
     /// 
-    /// If the OS field is set to windows, following fields must be unset: - spec.hostPID - spec.hostIPC - spec.hostUsers - spec.resources - spec.securityContext.appArmorProfile - spec.securityContext.seLinuxOptions - spec.securityContext.seccompProfile - spec.securityContext.fsGroup - spec.securityContext.fsGroupChangePolicy - spec.securityContext.sysctls - spec.shareProcessNamespace - spec.securityContext.runAsUser - spec.securityContext.runAsGroup - spec.securityContext.supplementalGroups - spec.securityContext.supplementalGroupsPolicy - spec.containers[*].securityContext.appArmorProfile - spec.containers[*].securityContext.seLinuxOptions - spec.containers[*].securityContext.seccompProfile - spec.containers[*].securityContext.capabilities - spec.containers[*].securityContext.readOnlyRootFilesystem - spec.containers[*].securityContext.privileged - spec.containers[*].securityContext.allowPrivilegeEscalation - spec.containers[*].securityContext.procMount - spec.containers[*].securityContext.runAsUser - spec.containers[*].securityContext.runAsGroup
+    /// If the OS field is set to windows, following fields must be unset: - spec.hostPID - spec.hostIPC - spec.hostUsers - spec.resources - spec.securityContext.appArmorProfile - spec.securityContext.seLinuxOptions - spec.securityContext.seccompProfile - spec.securityContext.fsGroup - spec.securityContext.fsGroupChangePolicy - spec.securityContext.sysctls - spec.shareProcessNamespace - spec.securityContext.runAsUser - spec.securityContext.runAsGroup - spec.securityContext.supplementalGroups - spec.securityContext.supplementalGroupsPolicy - spec.containers[*].securityContext.appArmorProfile - spec.containers[*].securityContext.seLinuxOptions - spec.containers[*].securityContext.seccompProfile - spec.containers[*].securityContext.capabilities - spec.containers[*].securityContext.readOnlyRootFilesystem - spec.containers[*].securityContext.privileged - spec.containers[*].securityContext.allowPrivilegeEscalation - spec.containers[*].securityContext.procMount - spec.containers[*].securityContext.runAsUser - spec.containers[*].securityContext.runAsGroup - spec.containers[*].securityContext.cgroupOptions
     os: ?root.io.k8s.api.core.v1.PodOS = null,
     /// overhead represents the resource overhead associated with running a pod for a given RuntimeClass. This field will be autopopulated at admission time by the RuntimeClass admission controller. If the RuntimeClass admission controller is enabled, overhead must not be set in Pod create requests. The RuntimeClass admission controller will reject Pod create requests which have the overhead already set. If RuntimeClass is configured and selected in the PodSpec, Overhead will be set to the value defined in the corresponding RuntimeClass, otherwise it will remain unset and treated as zero. More info: https://git.k8s.io/enhancements/keps/sig-node/688-pod-overhead/README.md
     overhead: ?std.json.Value = null,
@@ -3757,6 +3767,8 @@ pub const SecurityContext = struct {
     appArmorProfile: ?root.io.k8s.api.core.v1.AppArmorProfile = null,
     /// capabilities is the capabilities to add/drop when running containers. Defaults to the default set of capabilities granted by the container runtime. Note that this field cannot be set when spec.os.name is windows.
     capabilities: ?root.io.k8s.api.core.v1.Capabilities = null,
+    /// cgroupOptions holds the cgroup options for this container. If mountMode is specified, the scheduler only places the pod on a node whose status.declaredFeatures includes CgroupOptions. (Alpha) This field requires the CgroupOptions feature gate to be enabled. This field cannot be set for ephemeral containers or when spec.os.name is windows.
+    cgroupOptions: ?root.io.k8s.api.core.v1.CgroupOptions = null,
     /// privileged indicates whether to run container in privileged mode. Processes in privileged containers are essentially equivalent to root on the host. Defaults to false. Note that this field cannot be set when spec.os.name is windows.
     privileged: ?bool = null,
     /// procMount denotes the type of proc mount to use for the containers. The default value is Default which uses the container runtime defaults for readonly paths and masked paths. Note that this field cannot be set when spec.os.name is windows.
@@ -3779,6 +3791,7 @@ pub const SecurityContext = struct {
     pub fn validate(self: @This()) !void {
         if (self.appArmorProfile) |v| try v.validate();
         if (self.capabilities) |v| try v.validate();
+        if (self.cgroupOptions) |v| try v.validate();
         if (self.seLinuxOptions) |v| try v.validate();
         if (self.seccompProfile) |v| try v.validate();
         if (self.windowsOptions) |v| try v.validate();

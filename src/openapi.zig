@@ -14646,6 +14646,511 @@ pub const Client = struct {
         }
     }
 
+    pub const ReadCoreV1NamespacedPodDynamicResponse200 = struct {
+        body: root.io.k8s.api.core.v1.Pod,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ReadCoreV1NamespacedPodDynamicResponse401 = struct {
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ReadCoreV1NamespacedPodDynamicResponseDefault = struct {
+        body: std.json.Value,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ReadCoreV1NamespacedPodDynamicResponse = union(enum) {
+        ok: ReadCoreV1NamespacedPodDynamicResponse200,
+        unauthorized: ReadCoreV1NamespacedPodDynamicResponse401,
+        default_response: ReadCoreV1NamespacedPodDynamicResponseDefault,
+    };
+
+    pub const readCoreV1NamespacedPodDynamicOptions = struct {
+        /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
+        pretty: ?[]const u8 = null,
+    };
+    /// read dynamic of the specified Pod
+    pub fn readCoreV1NamespacedPodDynamic(self: *Client, name: []const u8, namespace: []const u8, options: readCoreV1NamespacedPodDynamicOptions) !ReadCoreV1NamespacedPodDynamicResponse {
+        var url_buf: [1024]u8 = undefined;
+        var url_fbs = std.io.fixedBufferStream(&url_buf);
+        const url_w = url_fbs.writer();
+        try url_w.print("{s}", .{self.base_url});
+        try url_w.print("/api/v1/namespaces/", .{});
+        try urlEncode(url_w, namespace);
+        try url_w.print("/pods/", .{});
+        try urlEncode(url_w, name);
+        try url_w.print("/dynamic", .{});
+        var first_query = true;
+        _ = &first_query;
+        if (options.pretty) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("pretty=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        const url = url_fbs.getWritten();
+        var extra_headers = std.ArrayListUnmanaged(std.http.Header){};
+        defer extra_headers.deinit(self.allocator);
+        var body_list = std.ArrayListUnmanaged(u8){};
+        defer body_list.deinit(self.allocator);
+
+        // Serialize body if present
+        var req_body_writer = std.io.Writer.Allocating.init(self.allocator);
+        defer req_body_writer.deinit();
+
+        var write_buf: [4096]u8 = undefined;
+        const ResponseContext = struct {
+            writer: std.io.Writer,
+            list: *std.ArrayListUnmanaged(u8),
+            allocator: std.mem.Allocator,
+            fn drain(w: *std.io.Writer, chunks: []const []const u8, len: usize) error{WriteFailed}!usize {
+                _ = len;
+                const ctx: *@This() = @fieldParentPtr("writer", w);
+
+                // Flush existing buffer
+                if (w.end > 0) {
+                    const buffered = w.buffer[0..w.end];
+                    ctx.list.appendSlice(ctx.allocator, buffered) catch return error.WriteFailed;
+                    w.end = 0;
+                }
+
+                var total_written: usize = 0;
+                for (chunks) |chunk| {
+                    if (chunk.len > 0) {
+                        ctx.list.appendSlice(ctx.allocator, chunk) catch return error.WriteFailed;
+                        total_written += chunk.len;
+                    }
+                }
+                return total_written;
+            }
+        };
+        const vtable = std.io.Writer.VTable{ .drain = ResponseContext.drain };
+        var ctx = ResponseContext{
+            .writer = std.io.Writer{ .vtable = &vtable, .buffer = &write_buf, .end = 0 },
+            .list = &body_list,
+            .allocator = self.allocator,
+        };
+
+        const fetch_res = try self.client.fetch(.{
+            .location = .{ .uri = try std.Uri.parse(url) },
+            .method = .GET, // Use format specifier for method
+            .extra_headers = extra_headers.items,
+            .payload = if (!std.mem.eql(u8, "GET", "DELETE") and req_body_writer.writer.end > 0) req_body_writer.writer.buffer[0..req_body_writer.writer.end] else null,
+            .response_writer = &ctx.writer,
+        });
+
+        // Flush any remaining data in the writer buffer
+        try ctx.writer.vtable.flush(&ctx.writer);
+
+        // Headers are not available from client.fetch, so we return empty headers for now.
+        // This is a workaround for Zig 0.15.2 std.http.Client limitations/bugs.
+        const headers = try self.allocator.alloc(std.http.Header, 0);
+        var arena = std.heap.ArenaAllocator.init(self.allocator);
+        errdefer arena.deinit();
+
+        const response = struct { head: struct { status: std.http.Status } }{ .head = .{ .status = fetch_res.status } };
+        switch (response.head.status) {
+            .ok => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.core.v1.Pod, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .unauthorized => {
+                return .{ .unauthorized = .{ .headers = headers, .arena = arena } };
+            },
+            else => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(std.json.Value, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .default_response = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+        }
+    }
+
+    pub const ReplaceCoreV1NamespacedPodDynamicResponse200 = struct {
+        body: root.io.k8s.api.core.v1.Pod,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ReplaceCoreV1NamespacedPodDynamicResponse201 = struct {
+        body: root.io.k8s.api.core.v1.Pod,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ReplaceCoreV1NamespacedPodDynamicResponse401 = struct {
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ReplaceCoreV1NamespacedPodDynamicResponseDefault = struct {
+        body: std.json.Value,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const ReplaceCoreV1NamespacedPodDynamicResponse = union(enum) {
+        ok: ReplaceCoreV1NamespacedPodDynamicResponse200,
+        created: ReplaceCoreV1NamespacedPodDynamicResponse201,
+        unauthorized: ReplaceCoreV1NamespacedPodDynamicResponse401,
+        default_response: ReplaceCoreV1NamespacedPodDynamicResponseDefault,
+    };
+
+    pub const replaceCoreV1NamespacedPodDynamicOptions = struct {
+        /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
+        pretty: ?[]const u8 = null,
+        /// When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
+        dryRun: ?[]const u8 = null,
+        /// fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint.
+        fieldManager: ?[]const u8 = null,
+        /// fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.
+        fieldValidation: ?[]const u8 = null,
+    };
+    /// replace dynamic of the specified Pod
+    pub fn replaceCoreV1NamespacedPodDynamic(self: *Client, name: []const u8, namespace: []const u8, body: root.io.k8s.api.core.v1.Pod, options: replaceCoreV1NamespacedPodDynamicOptions) !ReplaceCoreV1NamespacedPodDynamicResponse {
+        var url_buf: [1024]u8 = undefined;
+        var url_fbs = std.io.fixedBufferStream(&url_buf);
+        const url_w = url_fbs.writer();
+        try url_w.print("{s}", .{self.base_url});
+        try url_w.print("/api/v1/namespaces/", .{});
+        try urlEncode(url_w, namespace);
+        try url_w.print("/pods/", .{});
+        try urlEncode(url_w, name);
+        try url_w.print("/dynamic", .{});
+        var first_query = true;
+        _ = &first_query;
+        if (options.pretty) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("pretty=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.dryRun) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("dryRun=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.fieldManager) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("fieldManager=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.fieldValidation) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("fieldValidation=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        const url = url_fbs.getWritten();
+        var extra_headers = std.ArrayListUnmanaged(std.http.Header){};
+        defer extra_headers.deinit(self.allocator);
+        var body_list = std.ArrayListUnmanaged(u8){};
+        defer body_list.deinit(self.allocator);
+
+        // Serialize body if present
+        var req_body_writer = std.io.Writer.Allocating.init(self.allocator);
+        defer req_body_writer.deinit();
+        if (@hasDecl(@TypeOf(body), "validate")) try body.validate();
+        try std.json.Stringify.value(body, .{}, &req_body_writer.writer);
+
+        var write_buf: [4096]u8 = undefined;
+        const ResponseContext = struct {
+            writer: std.io.Writer,
+            list: *std.ArrayListUnmanaged(u8),
+            allocator: std.mem.Allocator,
+            fn drain(w: *std.io.Writer, chunks: []const []const u8, len: usize) error{WriteFailed}!usize {
+                _ = len;
+                const ctx: *@This() = @fieldParentPtr("writer", w);
+
+                // Flush existing buffer
+                if (w.end > 0) {
+                    const buffered = w.buffer[0..w.end];
+                    ctx.list.appendSlice(ctx.allocator, buffered) catch return error.WriteFailed;
+                    w.end = 0;
+                }
+
+                var total_written: usize = 0;
+                for (chunks) |chunk| {
+                    if (chunk.len > 0) {
+                        ctx.list.appendSlice(ctx.allocator, chunk) catch return error.WriteFailed;
+                        total_written += chunk.len;
+                    }
+                }
+                return total_written;
+            }
+        };
+        const vtable = std.io.Writer.VTable{ .drain = ResponseContext.drain };
+        var ctx = ResponseContext{
+            .writer = std.io.Writer{ .vtable = &vtable, .buffer = &write_buf, .end = 0 },
+            .list = &body_list,
+            .allocator = self.allocator,
+        };
+
+        const fetch_res = try self.client.fetch(.{
+            .location = .{ .uri = try std.Uri.parse(url) },
+            .method = .PUT, // Use format specifier for method
+            .extra_headers = extra_headers.items,
+            .payload = if (!std.mem.eql(u8, "PUT", "DELETE") and req_body_writer.writer.end > 0) req_body_writer.writer.buffer[0..req_body_writer.writer.end] else null,
+            .response_writer = &ctx.writer,
+        });
+
+        // Flush any remaining data in the writer buffer
+        try ctx.writer.vtable.flush(&ctx.writer);
+
+        // Headers are not available from client.fetch, so we return empty headers for now.
+        // This is a workaround for Zig 0.15.2 std.http.Client limitations/bugs.
+        const headers = try self.allocator.alloc(std.http.Header, 0);
+        var arena = std.heap.ArenaAllocator.init(self.allocator);
+        errdefer arena.deinit();
+
+        const response = struct { head: struct { status: std.http.Status } }{ .head = .{ .status = fetch_res.status } };
+        switch (response.head.status) {
+            .ok => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.core.v1.Pod, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .created => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.core.v1.Pod, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .created = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .unauthorized => {
+                return .{ .unauthorized = .{ .headers = headers, .arena = arena } };
+            },
+            else => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(std.json.Value, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .default_response = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+        }
+    }
+
+    pub const PatchCoreV1NamespacedPodDynamicResponse200 = struct {
+        body: root.io.k8s.api.core.v1.Pod,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const PatchCoreV1NamespacedPodDynamicResponse201 = struct {
+        body: root.io.k8s.api.core.v1.Pod,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const PatchCoreV1NamespacedPodDynamicResponse401 = struct {
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const PatchCoreV1NamespacedPodDynamicResponseDefault = struct {
+        body: std.json.Value,
+        headers: []const std.http.Header,
+        arena: std.heap.ArenaAllocator,
+    };
+    pub const PatchCoreV1NamespacedPodDynamicResponse = union(enum) {
+        ok: PatchCoreV1NamespacedPodDynamicResponse200,
+        created: PatchCoreV1NamespacedPodDynamicResponse201,
+        unauthorized: PatchCoreV1NamespacedPodDynamicResponse401,
+        default_response: PatchCoreV1NamespacedPodDynamicResponseDefault,
+    };
+
+    pub const patchCoreV1NamespacedPodDynamicOptions = struct {
+        /// If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget).
+        pretty: ?[]const u8 = null,
+        /// When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed
+        dryRun: ?[]const u8 = null,
+        /// fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch).
+        fieldManager: ?[]const u8 = null,
+        /// fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered.
+        fieldValidation: ?[]const u8 = null,
+        /// Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests.
+        force: ?[]const u8 = null,
+    };
+    /// partially update dynamic of the specified Pod
+    pub fn patchCoreV1NamespacedPodDynamic(self: *Client, name: []const u8, namespace: []const u8, body: root.io.k8s.apimachinery.pkg.apis.meta.v1.Patch, options: patchCoreV1NamespacedPodDynamicOptions) !PatchCoreV1NamespacedPodDynamicResponse {
+        var url_buf: [1024]u8 = undefined;
+        var url_fbs = std.io.fixedBufferStream(&url_buf);
+        const url_w = url_fbs.writer();
+        try url_w.print("{s}", .{self.base_url});
+        try url_w.print("/api/v1/namespaces/", .{});
+        try urlEncode(url_w, namespace);
+        try url_w.print("/pods/", .{});
+        try urlEncode(url_w, name);
+        try url_w.print("/dynamic", .{});
+        var first_query = true;
+        _ = &first_query;
+        if (options.pretty) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("pretty=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.dryRun) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("dryRun=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.fieldManager) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("fieldManager=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.fieldValidation) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("fieldValidation=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        if (options.force) |val| {
+            if (val.len > 0) {
+                if (first_query) {
+                    try url_w.writeByte('?');
+                    first_query = false;
+                } else {
+                    try url_w.writeByte('&');
+                }
+                try url_w.print("force=", .{});
+                try urlEncode(url_w, val);
+            }
+        }
+        const url = url_fbs.getWritten();
+        var extra_headers = std.ArrayListUnmanaged(std.http.Header){};
+        defer extra_headers.deinit(self.allocator);
+        var body_list = std.ArrayListUnmanaged(u8){};
+        defer body_list.deinit(self.allocator);
+
+        // Serialize body if present
+        var req_body_writer = std.io.Writer.Allocating.init(self.allocator);
+        defer req_body_writer.deinit();
+        if (@hasDecl(@TypeOf(body), "validate")) try body.validate();
+        try std.json.Stringify.value(body, .{}, &req_body_writer.writer);
+
+        var write_buf: [4096]u8 = undefined;
+        const ResponseContext = struct {
+            writer: std.io.Writer,
+            list: *std.ArrayListUnmanaged(u8),
+            allocator: std.mem.Allocator,
+            fn drain(w: *std.io.Writer, chunks: []const []const u8, len: usize) error{WriteFailed}!usize {
+                _ = len;
+                const ctx: *@This() = @fieldParentPtr("writer", w);
+
+                // Flush existing buffer
+                if (w.end > 0) {
+                    const buffered = w.buffer[0..w.end];
+                    ctx.list.appendSlice(ctx.allocator, buffered) catch return error.WriteFailed;
+                    w.end = 0;
+                }
+
+                var total_written: usize = 0;
+                for (chunks) |chunk| {
+                    if (chunk.len > 0) {
+                        ctx.list.appendSlice(ctx.allocator, chunk) catch return error.WriteFailed;
+                        total_written += chunk.len;
+                    }
+                }
+                return total_written;
+            }
+        };
+        const vtable = std.io.Writer.VTable{ .drain = ResponseContext.drain };
+        var ctx = ResponseContext{
+            .writer = std.io.Writer{ .vtable = &vtable, .buffer = &write_buf, .end = 0 },
+            .list = &body_list,
+            .allocator = self.allocator,
+        };
+
+        const fetch_res = try self.client.fetch(.{
+            .location = .{ .uri = try std.Uri.parse(url) },
+            .method = .PATCH, // Use format specifier for method
+            .extra_headers = extra_headers.items,
+            .payload = if (!std.mem.eql(u8, "PATCH", "DELETE") and req_body_writer.writer.end > 0) req_body_writer.writer.buffer[0..req_body_writer.writer.end] else null,
+            .response_writer = &ctx.writer,
+        });
+
+        // Flush any remaining data in the writer buffer
+        try ctx.writer.vtable.flush(&ctx.writer);
+
+        // Headers are not available from client.fetch, so we return empty headers for now.
+        // This is a workaround for Zig 0.15.2 std.http.Client limitations/bugs.
+        const headers = try self.allocator.alloc(std.http.Header, 0);
+        var arena = std.heap.ArenaAllocator.init(self.allocator);
+        errdefer arena.deinit();
+
+        const response = struct { head: struct { status: std.http.Status } }{ .head = .{ .status = fetch_res.status } };
+        switch (response.head.status) {
+            .ok => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.core.v1.Pod, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .ok = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .created => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(root.io.k8s.api.core.v1.Pod, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .created = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+            .unauthorized => {
+                return .{ .unauthorized = .{ .headers = headers, .arena = arena } };
+            },
+            else => {
+                const body_resp = try arena.allocator().dupe(u8, body_list.items);
+                const parsed = try std.json.parseFromSliceLeaky(std.json.Value, arena.allocator(), body_resp, .{ .ignore_unknown_fields = true });
+                return .{ .default_response = .{ .body = parsed, .headers = headers, .arena = arena } };
+            },
+        }
+    }
+
     pub const ReadCoreV1NamespacedPodEphemeralcontainersResponse200 = struct {
         body: root.io.k8s.api.core.v1.Pod,
         headers: []const std.http.Header,
