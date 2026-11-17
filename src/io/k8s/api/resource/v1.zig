@@ -102,7 +102,9 @@ pub const CELDeviceSelector = struct {
     }
 };
 
-/// CapacityRequestPolicy defines how requests consume device capacity.
+/// CapacityRequestPolicy defines how requests consume device capacity and how devices consume counters.
+///
+/// It is used by DeviceCapacity.RequestPolicy and Counter.ConsumptionPolicy. For counter consumption, capacity means the available counter value, and a request means the device's required counter amount. Both use the same default selection, rounding and range arithmetic, including the DRAFractionalCapacityRange feature gate and the rules described by CapacityRequestPolicyRange.
 ///
 /// Must not set more than one ValidRequestValues.
 pub const CapacityRequestPolicy = struct {
@@ -163,9 +165,11 @@ pub const CapacityRequestPolicyRange = struct {
 
 /// CapacityRequirements defines the capacity requirements for a specific device request.
 pub const CapacityRequirements = struct {
-    /// requests represent individual device resource requests for distinct resources, all of which must be provided by the device.
+    /// requests represent individual device capacity requests for distinct resources. Each requested name must be defined as a device capacity and/or a shared capacity (referenced by a device through consumesCounters).
     ///
-    /// This value is used as an additional filtering condition against the available capacity on the device. This is semantically equivalent to a CEL selector with `device.capacity[<domain>].<name>.compareTo(quantity(<request quantity>)) >= 0`. For example, device.capacity['test-driver.cdi.k8s.io'].counters.compareTo(quantity('2')) >= 0.
+    /// For a per-device capacity, this value is used as an additional filtering condition against the available capacity on the device. This is semantically equivalent to a CEL selector with `device.capacity[<domain>].<name>.compareTo(quantity(<request quantity>)) >= 0`. For example, device.capacity['test-driver.cdi.k8s.io'].counters.compareTo(quantity('2')) >= 0.
+    ///
+    /// With DRASharedConsumableCapacity enabled, a requested capacity may be provided as a shared capacity instead of a per-device capacity. If it is defined as both, the request must be satisfied by both independently.
     ///
     /// The domain prefix can be omitted, in which case it defaults to the driver of the device under evaluation. For example, "bandwidth: 1Gi" is equivalent to "<driver>/bandwidth: 1Gi" for a device published by driver "<driver>", regardless of which other, differently-domained "bandwidth" capacities that device might also have. To request one of those, the domain must be given explicitly, for example "example.com/bandwidth". Requesting the same driver capacity with and without the driver name as domain, for example "bandwidth: 1Gi" and "<driver>/bandwidth: 2Gi", is ambiguous and causes scheduling to fail with an error. For the sake of consistency there's no exception for such a conflict where the value is the same - that is still an error.
     ///
@@ -185,13 +189,35 @@ pub const CapacityRequirements = struct {
     }
 };
 
-/// Counter describes a quantity associated with a device.
+/// Counter describes a quantity that is available in a counter set.
 pub const Counter = struct {
+    /// consumptionPolicy defines how devices consume this counter. The consumed amount is rounded up according to the policy and must satisfy its limits.
+    ///
+    /// If unset, devices can consume any amount up to the available counter value. If and only if the required amount is unspecified, then the policy default is used (if set) or the full counter value (if not set).
+    ///
+    /// Fixed consumption of already allocated devices is resolved using the current policy and counted even if it violates the policy's limits.
+    consumptionPolicy: ?root.io.k8s.api.resource.v1.CapacityRequestPolicy = null,
     /// value defines how much of a certain device counter is available.
     value: root.io.k8s.apimachinery.pkg.api.resource.Quantity,
 
     pub fn validate(self: @This()) !void {
-        _ = self;
+        if (self.consumptionPolicy) |v| try v.validate();
+    }
+};
+
+/// CounterRequirement describes how much of a counter a device consumes.
+pub const CounterRequirement = struct {
+    /// value defines the statically consumed amount.
+    ///
+    /// Exactly one of value or valueFrom must be specified.
+    value: ?root.io.k8s.apimachinery.pkg.api.resource.Quantity = null,
+    /// valueFrom looks up the requested capacity value in a ResourceClaim via the capacity name. That value is then consumed from the counter instead of using a static value defined by the driver.
+    ///
+    /// Exactly one of value or valueFrom must be specified.
+    valueFrom: ?root.io.k8s.api.resource.v1.CounterValueFrom = null,
+
+    pub fn validate(self: @This()) !void {
+        if (self.valueFrom) |v| try v.validate();
     }
 };
 
@@ -205,6 +231,32 @@ pub const CounterSet = struct {
     counters: std.json.Value,
     /// name defines the name of the counter set. It must be a DNS label.
     name: []const u8,
+
+    pub fn validate(self: @This()) !void {
+        _ = self;
+    }
+};
+
+/// CounterSetConsumption records one allocation's resolved valueFrom consumption from one counter set. The containing DeviceRequestAllocationResult identifies the allocated device and its pool.
+///
+/// For example, two allocations sharing a device may consume 2Gi and 3Gi from a "memory" counter. Each result records only its own amount; together they consume 5Gi. Releasing the first allocation leaves 3Gi charged. If the device also consumes one fixed "slots" counter, that charge is accounted for separately from current ResourceSlices. With unchanged slice definitions, the fixed charge remains until the last non-admin allocation is released.
+pub const CounterSetConsumption = struct {
+    /// counterSet identifies a counter set in the pool named by the containing allocation result.
+    counterSet: []const u8,
+    /// counters records this allocation's resolved quantity for each counter in the set. The map contains at most 32 counters; each quantity must be non-negative.
+    counters: std.json.Value,
+
+    pub fn validate(self: @This()) !void {
+        _ = self;
+    }
+};
+
+/// CounterValueFrom looks up the requested capacity value in a ResourceClaim via the capacity name.
+pub const CounterValueFrom = struct {
+    /// capacityName is the name of a capacity that can be requested in a ResourceClaim. The counter value then defines a capacity that is shared between devices, in contrast to the per-device capacity defined in the device's capacity map. Typically a capacity is either shared or per-device, but it is also valid to use the same capacity name in both places. Requests then need to be satisfied by both.
+    ///
+    /// If this name has no domain prefix, the driver name from the ResourceSlice is used as the domain when matching against capacity requests.
+    capacityName: []const u8,
 
     pub fn validate(self: @This()) !void {
         _ = self;
@@ -313,24 +365,26 @@ pub const DeviceAttribute = struct {
     /// bool is a true/false value.
     bool: ?bool = null,
     /// bools is a non-empty list of true/false values.
+    ///
+    /// This is a beta field and requires enabling the DRAListTypeAttributes feature gate (enabled by default).
     bools: ?[]const bool = null,
     /// int is a number.
     int: ?i64 = null,
     /// ints is a non-empty list of numbers.
     ///
-    /// This is an alpha field and requires enabling the DRAListTypeAttributes feature gate.
+    /// This is a beta field and requires enabling the DRAListTypeAttributes feature gate (enabled by default).
     ints: ?[]const i64 = null,
     /// string is a string. Must not be longer than 64 characters.
     string: ?[]const u8 = null,
     /// strings is a non-empty list of strings. Each string must not be longer than 64 characters.
     ///
-    /// This is an alpha field and requires enabling the DRAListTypeAttributes feature gate.
+    /// This is a beta field and requires enabling the DRAListTypeAttributes feature gate (enabled by default).
     strings: ?[]const []const u8 = null,
     /// version is a semantic version according to semver.org spec 2.0.0. Must not be longer than 64 characters.
     version: ?[]const u8 = null,
     /// versions is a non-empty list of semantic versions according to semver.org spec 2.0.0. Each version string must not be longer than 64 characters.
     ///
-    /// This is an alpha field and requires enabling the DRAListTypeAttributes feature gate.
+    /// This is a beta field and requires enabling the DRAListTypeAttributes feature gate (enabled by default).
     versions: ?[]const []const u8 = null,
 
     pub fn validate(self: @This()) !void {
@@ -440,22 +494,18 @@ pub const DeviceClassSpec = struct {
     ///
     /// They are passed to the driver, but are not considered while allocating the claim.
     config: ?[]const root.io.k8s.api.resource.v1.DeviceClassConfiguration = null,
-    /// extendedResourceCapacityRequests defines the fixed capacity amounts that the scheduler requests on every ResourceClaim it synthesizes to satisfy the extended resource of this class.
-    ///
-    /// The value is copied, unmodified, onto the capacity of each device request synthesized for this class, so it has the same semantics as DeviceRequest.capacity: it applies to each device allocation. A pod requesting more than one device through the extended resource gets that capacity once per device, not once per pod.
-    ///
-    /// The devices selected by this class must advertise the referenced capacities. Otherwise the extended resource requests cannot be satisfied, the same way as with a selector that matches no devices.
-    ///
-    /// This is an alpha field and requires enabling the DRAExtendedResourceCapacity feature gate, which depends on DRAConsumableCapacity.
-    extendedResourceCapacityRequests: ?root.io.k8s.api.resource.v1.CapacityRequirements = null,
     /// extendedResourceName is the extended resource name for the devices of this class. The devices of this class can be used to satisfy a pod's extended resource requests. It has the same format as the name of a pod's extended resource. It should be unique among all the device classes in a cluster. If two device classes have the same name, then the class created later is picked to satisfy a pod's extended resource requests. If two classes are created at the same time, then the name of the class lexicographically sorted first is picked.
     extendedResourceName: ?[]const u8 = null,
+    /// extendedResourceRequest defines how the scheduler populates the device request of each ResourceClaim it synthesizes to satisfy the extended resource of this class.
+    ///
+    /// This is an alpha field and requires enabling the DRAExtendedResourceCapacity feature gate, which depends on DRAConsumableCapacity.
+    extendedResourceRequest: ?root.io.k8s.api.resource.v1.ExtendedResourceRequest = null,
     /// selectors is the list of device selectors. Each selector must be satisfied by a device which is claimed via this class.
     selectors: ?[]const root.io.k8s.api.resource.v1.DeviceSelector = null,
 
     pub fn validate(self: @This()) !void {
         if (self.config) |arr| for (arr) |item| try item.validate();
-        if (self.extendedResourceCapacityRequests) |v| try v.validate();
+        if (self.extendedResourceRequest) |v| try v.validate();
         if (self.selectors) |arr| for (arr) |item| try item.validate();
     }
 };
@@ -581,6 +631,22 @@ pub const DeviceRequestAllocationResult = struct {
     ///
     /// ConsumedCapacity may have at most 32 entries. The values must not be negative.
     consumedCapacity: ?std.json.Value = null,
+    /// consumedCounters records resolved valueFrom consumption for the single device identified by this allocation result, grouped by counter set in that device's pool. Each result records only its own request-dependent amounts. The scheduler sums these amounts across non-admin allocation results, including multiple shares of the same device. Releasing one allocation releases its recorded amounts without changing those of other allocations.
+    ///
+    /// Quantities are resolved at allocation time from the matching claim capacity requests, including consumptionPolicy rounding. They may therefore be greater than the requested amounts. If the claim omits a mapped capacity request, consumption uses the shared counter's policy default, or its full value when no default is defined. All resolved valueFrom counters are included, even when their quantity is zero.
+    ///
+    /// The recorded amounts and counter set references remain authoritative if ResourceSlice mappings, defaults, or policies change. A mapping change does not move an existing allocation's consumption to a different counter set. DRA drivers can use these amounts without access to ResourceSlices.
+    ///
+    /// Fixed counter consumption is not recorded here. The scheduler determines fixed consumption from current ResourceSlices, including consumptionPolicy rounding, and counts it once per (driver, pool, device) with at least one non-admin allocation. If the device definition is missing, its fixed consumption is not counted. Current fixed consumption is added to the recorded request-dependent consumption; changing a counter from valueFrom to value does not replace the recorded amounts.
+    ///
+    /// Current counter values still define the total budget. Reducing a counter below its recorded consumption prevents further counter consumption; existing allocation results are not changed. Recorded amounts are still counted if the allocated device is no longer present in current ResourceSlices. Amounts that refer to a missing counter set or counter are ignored.
+    ///
+    /// ResourceSlice updates do not resize or revoke existing allocations. Drivers must ensure that updates remain compatible with existing allocations, or arrange for affected allocations to be released first.
+    ///
+    /// This field is populated only for non-admin allocations when DRASharedConsumableCapacity is enabled. An absent field means that no request-dependent consumption was recorded, including for allocations made before the feature was enabled. If this field is absent, the scheduler counts this allocation's request-dependent counter consumption as zero. It does not reconstruct that consumption from the device's current valueFrom mappings.
+    ///
+    /// The list contains at most 2 counter sets (the maximum a device may consume in a ResourceSlice), keyed by counter set name. Its order has no correspondence to the order of counter sets or devices in ResourceSlices.
+    consumedCounters: ?[]const root.io.k8s.api.resource.v1.CounterSetConsumption = null,
     /// device references one device instance via its name in the driver's resource pool. It must be a DNS label.
     device: []const u8,
     /// driver specifies the name of the DRA driver whose kubelet plugin should be invoked to process the allocation once the claim is needed on a node.
@@ -607,6 +673,7 @@ pub const DeviceRequestAllocationResult = struct {
     tolerations: ?[]const root.io.k8s.api.resource.v1.DeviceToleration = null,
 
     pub fn validate(self: @This()) !void {
+        if (self.consumedCounters) |arr| for (arr) |item| try item.validate();
         if (self.tolerations) |arr| for (arr) |item| try item.validate();
     }
 };
@@ -882,6 +949,20 @@ pub const ExactDeviceRequest = struct {
         if (self.derivedAttributes) |arr| for (arr) |item| try item.validate();
         if (self.selectors) |arr| for (arr) |item| try item.validate();
         if (self.tolerations) |arr| for (arr) |item| try item.validate();
+    }
+};
+
+/// ExtendedResourceRequest defines fields which the scheduler copies onto the device request it synthesizes for an extended resource.
+pub const ExtendedResourceRequest = struct {
+    /// capacity defines the fixed capacity amounts that the scheduler requests on every ResourceClaim it synthesizes to satisfy the extended resource of this class.
+    ///
+    /// The value is copied, unmodified, onto the capacity of each device request synthesized for this class, so it has the same semantics as DeviceRequest.capacity: it applies to each device allocation. A pod requesting more than one device through the extended resource gets that capacity once per device, not once per pod.
+    ///
+    /// The devices selected by this class must advertise the referenced capacities. Otherwise the extended resource requests cannot be satisfied, the same way as with a selector that matches no devices.
+    capacity: ?root.io.k8s.api.resource.v1.CapacityRequirements = null,
+
+    pub fn validate(self: @This()) !void {
+        if (self.capacity) |v| try v.validate();
     }
 };
 

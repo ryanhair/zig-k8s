@@ -2912,7 +2912,7 @@ pub const PodSpec = struct {
     hostAliases: ?[]const root.io.k8s.api.core.v1.HostAlias = null,
     /// hostIPC uses the host's ipc namespace. Optional: Default to false.
     hostIPC: ?bool = null,
-    /// hostNetwork indicates that the pod should use the host's network namespace. When using hostNetwork you should specify ports so the scheduler is aware. When `hostNetwork` is true, specified `hostPort` fields in port definitions must match `containerPort`, and unspecified `hostPort` fields in port definitions are defaulted to match `containerPort`. Default to false.
+    /// hostNetwork indicates that the pod should use the host's network namespace. When using hostNetwork you should specify ports so the scheduler is aware. When `hostNetwork` is true, specified `hostPort` fields in port definitions must match `containerPort`, and unspecified `hostPort` fields in port definitions are defaulted to match `containerPort`. Default to false. When true, podNetwork may not be set: the pod has no network namespace of its own.
     hostNetwork: ?bool = null,
     /// hostPID uses the host's pid namespace. Optional: Default to false.
     hostPID: ?bool = null,
@@ -2940,6 +2940,8 @@ pub const PodSpec = struct {
     os: ?root.io.k8s.api.core.v1.PodOS = null,
     /// overhead represents the resource overhead associated with running a pod for a given RuntimeClass. This field will be autopopulated at admission time by the RuntimeClass admission controller. If the RuntimeClass admission controller is enabled, overhead must not be set in Pod create requests. The RuntimeClass admission controller will reject Pod create requests which have the overhead already set. If RuntimeClass is configured and selected in the PodSpec, Overhead will be set to the value defined in the corresponding RuntimeClass, otherwise it will remain unset and treated as zero. More info: https://git.k8s.io/enhancements/keps/sig-node/688-pod-overhead/README.md
     overhead: ?std.json.Value = null,
+    /// podNetwork selects whether a non-hostNetwork pod is attached to the pod network. "Default" attaches the pod to the pod network. "Isolated" gives the pod an isolated network namespace with only the loopback interface configured, not attached to the pod network. This field must be unset if hostNetwork is true. For non-hostNetwork pods, this behaves as if it was set to "Default" if it is not set. If a pod is "Isolated", hostPort and network-based probes and lifecycle handlers are not allowed. This field is immutable on Pods.
+    podNetwork: ?[]const u8 = null,
     /// preemptionPolicy is the Policy for preempting pods with lower priority. One of Never, PreemptLowerPriority. When Priority Admission Controller is enabled, it prevents users from setting this field. The admission controller populates this field from PriorityClassName. Defaults to PreemptLowerPriority if unset.
     preemptionPolicy: ?[]const u8 = null,
     /// priority specifies the priority value. Various system components use this field to find the priority of the pod. When Priority Admission Controller is enabled, it prevents users from setting this field. The admission controller populates this field from PriorityClassName. The higher the value, the higher the priority.

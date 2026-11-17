@@ -210,6 +210,25 @@ pub const DeploymentList = struct {
     }
 };
 
+/// DeploymentSchedulingConfiguration composes the reusable scheduling building blocks from scheduling.k8s.io for use on a Deployment.
+pub const DeploymentSchedulingConfiguration = struct {
+    /// disruptionMode defines the mode in which the Deployment's pods can be disrupted. One of Single or All. If omitted, standard per-pod disruption behavior is used. The All mode requires a gang schedulingPolicy. disruptionMode affects scheduler preemption only. It does not affect eviction or PodDisruptionBudgets.
+    disruptionMode: ?root.io.k8s.api.scheduling.v1.WorkloadPodGroupDisruptionMode = null,
+    /// resourceClaims defines which ResourceClaims may be shared among Pods in the Deployment. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate. At most 4 claims may be set, matching the limit on the resulting PodGroup.
+    resourceClaims: ?[]const root.io.k8s.api.scheduling.v1.WorkloadPodGroupResourceClaim = null,
+    /// schedulingConstraints defines optional scheduling constraints (e.g. topology) for the Deployment's pods.
+    schedulingConstraints: ?root.io.k8s.api.scheduling.v1.WorkloadPodGroupSchedulingConstraints = null,
+    /// schedulingPolicy defines the scheduling policy for this Deployment. If spec.scheduling.schedulingPolicy is omitted, the Basic policy is used. Otherwise, exactly one of Basic or Gang must be set. For Gang, minCount may be omitted to derive it from replicas.
+    schedulingPolicy: ?root.io.k8s.api.scheduling.v1.WorkloadPodGroupSchedulingPolicy = null,
+
+    pub fn validate(self: @This()) !void {
+        if (self.disruptionMode) |v| try v.validate();
+        if (self.resourceClaims) |arr| for (arr) |item| try item.validate();
+        if (self.schedulingConstraints) |v| try v.validate();
+        if (self.schedulingPolicy) |v| try v.validate();
+    }
+};
+
 /// DeploymentSpec is the specification of the desired behavior of the Deployment.
 pub const DeploymentSpec = struct {
     /// minReadySeconds is the minimum number of seconds for which a newly created pod should be ready without any of its container crashing, for it to be considered available. Defaults to 0 (pod will be considered available as soon as it is ready).
@@ -222,6 +241,10 @@ pub const DeploymentSpec = struct {
     replicas: ?i64 = null,
     /// revisionHistoryLimit is the maximum number of old ReplicaSets to retain to allow rollback. This is a pointer to distinguish between explicit zero and not specified. Defaults to 10.
     revisionHistoryLimit: ?i64 = null,
+    /// scheduling defines the Workload-aware Scheduling configuration for this Deployment. When set, it specifies the scheduling policy (basic or gang), topology constraints, disruption mode, and shared resource claims. When spec.scheduling is omitted, no Workload or PodGroup is created and the Deployment uses standard pod-by-pod scheduling. This field is gated by the WorkloadWithDeployment feature gate. Once set, this field is immutable except for schedulingPolicy.gang.minCount.
+    ///
+    /// - The scheduling field can only be set when the Deployment is created. - A gang schedulingPolicy requires strategy.type Recreate. - When schedulingPolicy.gang.minCount is set, replicas must be 0 or at least minCount. - template.spec.schedulingGroup must be unset.
+    scheduling: ?root.io.k8s.api.apps.v1.DeploymentSchedulingConfiguration = null,
     /// selector is a label selector for pods. Existing ReplicaSets whose pods are selected by this will be the ones affected by this deployment. It must match the pod template's labels.
     selector: root.io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelector,
     /// strategy to use to replace existing Deployment pods with new ones.
@@ -230,6 +253,7 @@ pub const DeploymentSpec = struct {
     template: root.io.k8s.api.core.v1.PodTemplateSpec,
 
     pub fn validate(self: @This()) !void {
+        if (self.scheduling) |v| try v.validate();
         try self.selector.validate();
         if (self.strategy) |v| try v.validate();
         try self.template.validate();
