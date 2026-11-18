@@ -1183,6 +1183,52 @@ pub const ExecAction = struct {
     }
 };
 
+/// ExtraNodeAllocatableResource describes node allocatable resources that are added to the resources of a pod or of one of its containers.
+/// 
+/// A list that is not empty must satisfy:
+///   - It has exactly one pod entry (empty containerName).
+///   - Each container entry names an init or regular container.
+///   - No two entries have the same containerName.
+///   - In each entry, requests must not exceed limits for the resources that have both.
+///   - The sum of the requests of the regular and sidecar container entries must not exceed the
+///     pod entry's requests.
+///   - The limits of each regular and sidecar container entry must not exceed the pod entry's limits
+///     for the resources that the pod entry limits.
+/// 
+/// Non-restartable init container entries are not checked against the pod entry, because the spec of the containers that run after them may already cover them.
+/// 
+/// For DRA, the scheduler fills the entries from the `nodeAllocatableResources` of the devices allocated to the pod's claims:
+///   - Each container entry, summed over the devices that the container uses:
+///     `overhead.perContainer` in requests, and `mapping` + `overhead.perPod` +
+///     `overhead.perContainer` in limits.
+///   - The pod entry: `mapping` + `overhead.perPod`, summed over all devices, plus what the
+///     container entries' requests add to the peak of the spec requests and limits.
+/// 
+/// A container can use all the resources of its devices, while the pod entry caps the extra resources that the containers use together.
+pub const ExtraNodeAllocatableResource = struct {
+    /// containerName is the name of the init or regular container that these resources are added to. An empty name marks the pod entry, whose requests and limits apply to the entire pod.
+    containerName: []const u8,
+    /// limits are added to the limits of the pod or container, as described in containerName. The kubelet applies them as follows: - Pod cgroup: the limits of the pod entry are added to the aggregate of the containers' spec
+    ///   limits when they are set, unless the pod level resources (`spec.resources`) set the resource.
+    ///   That value is then used as is and must already include the extra resources.
+    /// - Container cgroup: the limits of the container entry are added to the container's spec limits.
+    ///   For cpu and memory only when the container spec sets a limit; for hugepages also when it does
+    ///   not, unless the pod level resources (`spec.resources`) set a hugepages limit.
+    /// - Ephemeral-storage is not enforced through cgroups. The limits are added to the container's
+    ///   and the pod's limits that kubelet eviction uses, when the spec sets one.
+    limits: std.json.Value,
+    /// requests are added to the requests of the pod or container, as described in containerName. A resource that is missing from requests counts as zero; it is not defaulted from limits. The kubelet applies them as follows: - Pod cgroup: the requests of the pod entry are added to the aggregate of the containers'
+    ///   spec requests, unless the pod level resources (`spec.resources`) set the resource. That value
+    ///   is then used as is and must already include the extra resources.
+    /// - Container cgroup: the requests of the container entry are added to the container's spec
+    ///   requests.
+    requests: ?std.json.Value = null,
+
+    pub fn validate(self: @This()) !void {
+        _ = self;
+    }
+};
+
 /// Represents a Fibre Channel volume. Fibre Channel volumes can only be mounted as read/write once. Fibre Channel volumes support ownership management and SELinux relabeling.
 pub const FCVolumeSource = struct {
     /// fsType is the filesystem type to mount. Must be a filesystem type supported by the host operating system. Ex. "ext4", "xfs", "ntfs". Implicitly inferred to be "ext4" if unspecified.
@@ -1825,49 +1871,6 @@ pub const NodeAffinity = struct {
     pub fn validate(self: @This()) !void {
         if (self.preferredDuringSchedulingIgnoredDuringExecution) |arr| for (arr) |item| try item.validate();
         if (self.requiredDuringSchedulingIgnoredDuringExecution) |v| try v.validate();
-    }
-};
-
-/// NodeAllocatableMappedResources describes mapped node allocatable resource allocations.
-pub const NodeAllocatableMappedResources = struct {
-    /// name is the name of the resource (e.g., cpu, memory).
-    name: []const u8,
-    /// quantity is the total node allocatable resource capacity allocated for the claim. This claim's allocated devices is shared by all the containers referencing the claim. Kubelet adds this value to both requests and limits at the pod-level cgroup, and to limits at the container-level cgroup for each container referencing the claim.
-    quantity: root.io.k8s.apimachinery.pkg.api.resource.Quantity,
-
-    pub fn validate(self: @This()) !void {
-        _ = self;
-    }
-};
-
-/// NodeAllocatableOverheadResources describes auxiliary overhead resource allocations.
-pub const NodeAllocatableOverheadResources = struct {
-    /// name is the name of the resource (e.g., cpu, memory).
-    name: []const u8,
-    /// perContainer is the variable overhead quantity applied for each container referencing the claim. The container references are recorded in `nodeAllocatableResourceClaimStatuses.containers`. The total overhead quantity allocated for the claim is computed as: Quantity = PerPod + (PerContainer * NumReferences) Kubelet accounts for this overhead in cgroups: - Pod-level cgroup (requests and limits): Kubelet adds PerPod + (PerContainer * NumReferences). - Container-level cgroup (limits only): Kubelet adds PerPod + PerContainer for each referencing container. This allows any single container to access the pod-level overhead, while the parent cgroup caps the total usage to account for PerPod exactly once. At least one of PerPod or PerContainer must be specified. Specifying neither is an invalid configuration. PerContainer overhead of a claim referenced by a non-restartable init container is counted towards the pod's peak resource calculation (see Pod `spec.initContainers`), not for the pod's entire duration.
-    perContainer: ?root.io.k8s.apimachinery.pkg.api.resource.Quantity = null,
-    /// perPod is the flat overhead quantity allocated per pod. Adding to each container limit allows individual containers to utilize the overhead, while the parent pod-level cgroup limit caps the total usage at the pod boundary where the overhead is accounted for exactly once. At least one of PerPod or PerContainer must be specified. Specifying neither is an invalid configuration.
-    perPod: ?root.io.k8s.apimachinery.pkg.api.resource.Quantity = null,
-
-    pub fn validate(self: @This()) !void {
-        _ = self;
-    }
-};
-
-/// NodeAllocatableResourceClaimStatus describes the status of node allocatable resources allocated via DRA.
-pub const NodeAllocatableResourceClaimStatus = struct {
-    /// containers lists the names of all containers in this pod that reference the claim.
-    containers: ?[]const []const u8 = null,
-    /// mapping contains allocations through devices mapped in the device spec's `nodeAllocatableResources[...].mapping` field. This is used by kubelet for pod level and container-level cgroup enforcement.
-    mapping: ?[]const root.io.k8s.api.core.v1.NodeAllocatableMappedResources = null,
-    /// overhead contains allocations through devices mapped in the device spec's `nodeAllocatableResources[...].overhead` field. This is used by kubelet for pod level and container-level cgroup enforcement.
-    overhead: ?[]const root.io.k8s.api.core.v1.NodeAllocatableOverheadResources = null,
-    /// resourceClaimName is the resource claim referenced by the pod that resulted in this node allocatable resource allocation.
-    resourceClaimName: []const u8,
-
-    pub fn validate(self: @This()) !void {
-        if (self.mapping) |arr| for (arr) |item| try item.validate();
-        if (self.overhead) |arr| for (arr) |item| try item.validate();
     }
 };
 
@@ -3031,6 +3034,10 @@ pub const PodStatus = struct {
     ephemeralContainerStatuses: ?[]const root.io.k8s.api.core.v1.ContainerStatus = null,
     /// Status of extended resource claim backed by DRA.
     extendedResourceClaimStatus: ?root.io.k8s.api.core.v1.PodExtendedResourceClaimStatus = null,
+    /// extraNodeAllocatableResources lists node allocatable resources that the pod and its containers use in addition to their spec, for example for the devices allocated to the pod's DRA claims. The scheduler sets them before it binds the pod. Allowed are the resources that v1.Node reports in `status.allocatable` that are not extended resources (see https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#extended-resources), such as "cpu", "memory", "ephemeral-storage", and "hugepages-<size>".
+    /// 
+    /// The list has one pod entry, with an empty containerName, and at most one entry for each init or regular container. The pod's total footprint is its spec plus the pod entry, so the pod entry must cover what the container entries add to the peak of the spec, across the init, sidecar, and regular containers. For resources that the pod level resources (`spec.resources`) set, that value is the footprint and must already include the extra resources.
+    extraNodeAllocatableResources: ?[]const root.io.k8s.api.core.v1.ExtraNodeAllocatableResource = null,
     /// hostIP holds the IP address of the host to which the pod is assigned. Empty if the pod has not started yet. A pod can be assigned to a node that has a problem in kubelet which in turns mean that HostIP will not be updated even if there is a node is assigned to pod
     hostIP: ?[]const u8 = null,
     /// hostIPs holds the IP addresses allocated to the host. If this field is specified, the first entry must match the hostIP field. This list is empty if the pod has not started yet. A pod can be assigned to a node that has a problem in kubelet which in turns means that HostIPs will not be updated even if there is a node is assigned to this pod.
@@ -3039,8 +3046,6 @@ pub const PodStatus = struct {
     initContainerStatuses: ?[]const root.io.k8s.api.core.v1.ContainerStatus = null,
     /// A human readable message indicating details about why the pod is in this condition.
     message: ?[]const u8 = null,
-    /// NodeAllocatableResourceClaimStatuses contains the status of node-allocatable resources that were allocated for this pod through DRA claims. This includes resources currently reported in v1.Node `status.allocatable` that are not extended resources (see https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#extended-resources). Examples include "cpu", "memory", "ephemeral-storage", and hugepages.
-    nodeAllocatableResourceClaimStatuses: ?[]const root.io.k8s.api.core.v1.NodeAllocatableResourceClaimStatus = null,
     /// nominatedNodeName is set only when this pod preempts other pods on the node, but it cannot be scheduled right away as preemption victims receive their graceful termination periods. This field does not guarantee that the pod will be scheduled on this node. Scheduler may decide to place the pod elsewhere if other nodes become available sooner. Scheduler may also decide to give the resources on this node to a higher priority pod that is created after preemption. As a result, this field may be different than PodSpec.nodeName when the pod is scheduled.
     nominatedNodeName: ?[]const u8 = null,
     /// If set, this represents the .metadata.generation that the pod status was set based upon. The PodObservedGenerationTracking feature gate must be enabled to use this field.
@@ -3077,9 +3082,9 @@ pub const PodStatus = struct {
         if (self.containerStatuses) |arr| for (arr) |item| try item.validate();
         if (self.ephemeralContainerStatuses) |arr| for (arr) |item| try item.validate();
         if (self.extendedResourceClaimStatus) |v| try v.validate();
+        if (self.extraNodeAllocatableResources) |arr| for (arr) |item| try item.validate();
         if (self.hostIPs) |arr| for (arr) |item| try item.validate();
         if (self.initContainerStatuses) |arr| for (arr) |item| try item.validate();
-        if (self.nodeAllocatableResourceClaimStatuses) |arr| for (arr) |item| try item.validate();
         if (self.podIPs) |arr| for (arr) |item| try item.validate();
         if (self.resourceClaimStatuses) |arr| for (arr) |item| try item.validate();
         if (self.resources) |v| try v.validate();
