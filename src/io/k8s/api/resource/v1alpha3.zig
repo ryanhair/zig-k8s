@@ -165,7 +165,7 @@ pub const PoolStatus = struct {
     }
 };
 
-/// ResourcePoolStatusRequest triggers a one-time calculation of resource pool status based on the provided filters. Once status is set, the request is considered complete and will not be reprocessed. Users should delete and recreate requests to get updated information.
+/// ResourcePoolStatusRequest triggers a one-time calculation of resource pool status based on the provided filters. Once status has a Complete or Failed condition, the request will not be reprocessed. Users should delete and recreate requests to get updated information.
 pub const ResourcePoolStatusRequest = struct {
     /// APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
     apiVersion: ?[]const u8 = null,
@@ -175,7 +175,7 @@ pub const ResourcePoolStatusRequest = struct {
     metadata: root.io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta,
     /// spec defines the filters for which pools to include in the status. The spec is immutable once created.
     spec: root.io.k8s.api.resource.v1alpha3.ResourcePoolStatusRequestSpec,
-    /// status is populated by the controller with the calculated pool status. When status is non-nil, the request is considered complete and the entire object becomes immutable.
+    /// status is populated by the controller with the calculated pool status. While pools are still being published, the controller may first set a status with only a WaitingForPools condition. Once status has a Complete or Failed condition, the entire object becomes immutable.
     status: ?root.io.k8s.api.resource.v1alpha3.ResourcePoolStatusRequestStatus = null,
 
     pub fn validate(self: @This()) !void {
@@ -226,9 +226,9 @@ pub const ResourcePoolStatusRequestSpec = struct {
 
 /// ResourcePoolStatusRequestStatus contains the calculated pool status information.
 pub const ResourcePoolStatusRequestStatus = struct {
-    /// conditions provide information about the state of the request. A condition with type=Complete or type=Failed will always be set when the status is populated.
+    /// conditions provide information about the state of the request. The final status always has a condition with type=Complete or type=Failed. Before that, a status with only WaitingForPools=True may be set; its poolCount is 0 and pools is empty.
     ///
-    /// Known condition types: - "Complete": True when the request has been processed successfully - "Failed": True when the request could not be processed
+    /// Known condition types: - "Complete": True when the request has been processed successfully - "Failed": True when the request could not be processed - "WaitingForPools": True while the controller waits for incomplete pools
     conditions: ?[]const root.io.k8s.apimachinery.pkg.apis.meta.v1.Condition = null,
     /// poolCount is the total number of pools that matched the filter criteria, regardless of truncation. This helps users understand how many pools exist even when the response is truncated. A value of 0 means no pools matched the filter criteria.
     poolCount: i64,
@@ -261,9 +261,9 @@ pub const ShareableCapacityStatus = struct {
 pub const ShareableSummaryStatus = struct {
     /// capacity reports aggregate total, consumed, and available amounts per shareable capacity key across the pool.
     capacity: ?[]const root.io.k8s.api.resource.v1alpha3.ShareableCapacityStatus = null,
-    /// fullyAvailableDevices is the number of shareable devices with no capacity consumed.
+    /// fullyAvailableDevices is the number of shareable devices with no allocation other than for admin access.
     fullyAvailableDevices: i64,
-    /// partiallyAvailableDevices is the number of shareable devices with some but not all capacity consumed.
+    /// partiallyAvailableDevices is the number of shareable devices with at least one allocation other than for admin access, regardless of remaining capacity.
     partiallyAvailableDevices: i64,
 
     pub fn validate(self: @This()) !void {
