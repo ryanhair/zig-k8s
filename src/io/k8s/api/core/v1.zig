@@ -485,6 +485,8 @@ pub const Container = struct {
     env: ?[]const root.io.k8s.api.core.v1.EnvVar = null,
     /// envFrom is the list of sources to populate environment variables in the container. The keys defined within a source may consist of any printable ASCII characters except '='. When a key exists in multiple sources, the value associated with the last source will take precedence. Values defined by an Env with a duplicate key will take precedence. Cannot be updated.
     envFrom: ?[]const root.io.k8s.api.core.v1.EnvFromSource = null,
+    /// hostCgroupNamespace specifies whether the container uses the host's cgroup namespace. If true, the container shares the cgroup namespace with the host, so cgroups other than the container's own cgroup are visible to the container. If false, a new cgroup namespace rooted at the container's own cgroup is created for the container. If unset, the container runtime selects the behavior. Must not be set to true when the pod uses user namespaces (spec.hostUsers is false). Must not be set to true with securityContext.cgroupOptions.mountMode set to ReadWrite, unless securityContext.privileged is true. Must not be set when spec.os.name is windows. The runtime handler must support cgroup namespaces, otherwise the container will fail to start. Cannot be updated.
+    hostCgroupNamespace: ?bool = null,
     /// image is the container image name. More info: https://kubernetes.io/docs/concepts/containers/images This field is optional to allow higher level config management to default or override container images in workload controllers like Deployments and StatefulSets.
     image: ?[]const u8 = null,
     /// imagePullPolicy is the image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. Cannot be updated. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
@@ -988,6 +990,8 @@ pub const EphemeralContainer = struct {
     env: ?[]const root.io.k8s.api.core.v1.EnvVar = null,
     /// envFrom is the list of sources to populate environment variables in the container. The keys defined within a source may consist of any printable ASCII characters except '='. When a key exists in multiple sources, the value associated with the last source will take precedence. Values defined by an Env with a duplicate key will take precedence. Cannot be updated.
     envFrom: ?[]const root.io.k8s.api.core.v1.EnvFromSource = null,
+    /// hostCgroupNamespace is not allowed for ephemeral containers.
+    hostCgroupNamespace: ?bool = null,
     /// image is the container image name. More info: https://kubernetes.io/docs/concepts/containers/images
     image: ?[]const u8 = null,
     /// imagePullPolicy is the image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. Cannot be updated. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
@@ -1983,6 +1987,8 @@ pub const NodeRuntimeHandler = struct {
 
 /// NodeRuntimeHandlerFeatures is a set of features implemented by the runtime handler.
 pub const NodeRuntimeHandlerFeatures = struct {
+    /// cgroupNamespaces is set to true if the runtime handler supports specifying whether to use the host cgroup namespace for privileged and non-privileged containers.
+    cgroupNamespaces: ?bool = null,
     /// recursiveReadOnlyMounts is set to true if the runtime handler supports RecursiveReadOnlyMounts.
     recursiveReadOnlyMounts: ?bool = null,
     /// userNamespaces is set to true if the runtime handler supports UserNamespaces, including for volumes.
@@ -3024,7 +3030,7 @@ pub const PodSpec = struct {
 
 /// PodStatus represents information about the status of a pod. Status may trail the actual state of a system, especially if the node that hosts the pod cannot contact the control plane.
 pub const PodStatus = struct {
-    /// AllocatedResources is the total requests allocated for this pod by the node. If pod-level requests are not set, this will be the total requests aggregated across containers in the pod.
+    /// AllocatedResources is the total requests allocated for this pod by the node, including pod.spec.overhead. If pod-level requests are not set, this will be the total requests aggregated across containers in the pod, plus pod.spec.overhead if specified.
     allocatedResources: ?std.json.Value = null,
     /// Current service state of pod. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#pod-conditions
     conditions: ?[]const root.io.k8s.api.core.v1.PodCondition = null,
@@ -3070,7 +3076,7 @@ pub const PodStatus = struct {
     resize: ?[]const u8 = null,
     /// Status of resource claims.
     resourceClaimStatuses: ?[]const root.io.k8s.api.core.v1.PodResourceClaimStatus = null,
-    /// Resources represents the compute resource requests and limits that have been applied at the pod level if pod-level requests or limits are set in PodSpec.Resources
+    /// Resources represents the compute resource requests and limits that have been applied at the pod level if pod-level requests or limits are set in PodSpec.Resources, plus pod.spec.overhead if specified (for limits, only added to non-zero limits; kubelets prior to v1.38 may omit overhead from memory and hugepages requests when set in PodSpec.Resources).
     resources: ?root.io.k8s.api.core.v1.ResourceRequirements = null,
     /// RFC 3339 date and time at which the object was acknowledged by the Kubelet. This is before the Kubelet pulled the container image(s) for the pod.
     startTime: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.Time = null,
