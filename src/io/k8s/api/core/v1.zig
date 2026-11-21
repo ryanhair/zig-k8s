@@ -3080,7 +3080,7 @@ pub const PodStatus = struct {
     resources: ?root.io.k8s.api.core.v1.ResourceRequirements = null,
     /// RFC 3339 date and time at which the object was acknowledged by the Kubelet. This is before the Kubelet pulled the container image(s) for the pod.
     startTime: ?root.io.k8s.apimachinery.pkg.apis.meta.v1.Time = null,
-    /// VolumeStatuses contains the status of individual volumes used by this pod. This is an alpha field and requires enabling the CSIVolumeHealth feature gate.
+    /// VolumeStatuses contains the status of individual volumes used by this pod. This is an alpha field and requires enabling the CSIVolumeHealth or DynamicNodeLocalEphemeralVolumes feature gate.
     volumeStatuses: ?[]const root.io.k8s.api.core.v1.PodVolumeStatus = null,
 
     pub fn validate(self: @This()) !void {
@@ -3149,7 +3149,9 @@ pub const PodTemplateSpec = struct {
 pub const PodVolumeStatus = struct {
     /// healthStatus contains health reported by the CSI node plugin for this volume on the pod's node. Populated by the kubelet. This is an alpha field and requires enabling the CSIVolumeHealth feature gate.
     healthStatus: ?root.io.k8s.api.core.v1.VolumeHealthStatus = null,
-    /// name matches an entry in pod.spec.volumes.
+    /// hostPhase represents the host-level preparation phase of the volume: Pending, HostMounted, Unmounting. Currently populated only for node-local ephemeral volume types supported for dynamic updates (configMap, secret, projected, emptyDir, and image). This is an alpha field and requires enabling the DynamicNodeLocalEphemeralVolumes feature gate.
+    hostPhase: ?[]const u8 = null,
+    /// name matches an entry in pod.spec.volumes, or the name of a dynamically removed volume that is still unmounting on the node.
     name: []const u8,
 
     pub fn validate(self: @This()) !void {
